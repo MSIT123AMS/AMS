@@ -24,5 +24,6 @@ namespace AMS.Models
         public int ReviewStatusID { get; set; }
         public Nullable<System.DateTime> ReviewTime { get; set; }
         public byte[] Attachment { get; set; }
+        public byte[] Picture { get; internal set; }
     }
 }
