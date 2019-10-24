@@ -17,7 +17,7 @@ namespace AMS.Controllers
         // GET: Review
         public ActionResult Index()
         {
-            return View(db.LeaveRequests.ToList());
+            return View(db.LeaveRequests);
         }
 
         // GET: Review/Details/5
@@ -40,7 +40,22 @@ namespace AMS.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult Edit2(string[] Checkboxxx)
+        {
 
+            foreach (var item in Checkboxxx)
+            {
+                if (item != "false")
+                {
+                    LeaveRequests leaveRequests = db.LeaveRequests.Find(item);
+                    leaveRequests.ReviewStatusID = 2;
+                    db.SaveChanges();
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
         // POST: Review/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
