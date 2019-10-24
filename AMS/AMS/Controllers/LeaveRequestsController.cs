@@ -125,7 +125,7 @@ namespace AMS.Controllers
         }
         public FileResult ShowPhoto(int id)
         {
-            byte[] content = db.LeaveRequests.Find(id).Picture;
+            byte[] content = db.LeaveRequests.Find(id).Attachment;
             return File(content, "image/jpeg");
         }
     }
