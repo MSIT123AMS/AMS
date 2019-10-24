@@ -17,8 +17,70 @@ namespace AMS.Controllers
         // GET: Employees
         public ActionResult Index()
         {
-            return View(db.Employees.ToList());
+            //var query = db.Employees.AsEnumerable().Join(db.Departments,e=>e.DepartmentID,d=>d.DepartmentID, (e, d) =>new EmployeesViewModel
+            //{
+            //    EmployeeID=e.EmployeeID,
+            //    EmployeeName = e.EmployeeName,
+            //    DepartmentName= d.DepartmentName,
+            //    JobTitle = e.JobTitle,
+            //    Manager = d.Manager,
+            //    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+            //    JobStaus = e.JobStaus
+            //});
+
+
+            //return View(query);
+            Entities dc = new Entities();
+            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+            return View();
         }
+
+        public ActionResult Listemp(string id,int id2)
+        {
+            Entities dc = new Entities();
+
+            IEnumerable<EmployeesViewModel> c = null;
+            if (id != "")
+            {
+                c = dc.Employees.Where(emp => emp.EmployeeID == id && emp.DepartmentID == id2).AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+                {
+                    EmployeeID = e.EmployeeID,
+                    EmployeeName = e.EmployeeName,
+                    DepartmentName = d.DepartmentName,
+                    JobTitle = e.JobTitle,
+                    Manager = d.Manager,
+                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                    JobStaus = e.JobStaus
+                });
+            }
+            else
+            {
+                 c = dc.Employees.Where(emp => emp.DepartmentID == id2).AsEnumerable().Join(db.Departments,e => e.DepartmentID,d => d.DepartmentID, (e, d) => new EmployeesViewModel
+                 {
+                     EmployeeID = e.EmployeeID,
+                     EmployeeName = e.EmployeeName,
+                     DepartmentName = d.DepartmentName,
+                     JobTitle = e.JobTitle,
+                     Manager = d.Manager,
+                     Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                     JobStaus = e.JobStaus
+                 }); ;
+            }
+
+
+            if (c != null)
+            {
+                return PartialView("_ListempPartial", c);
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+
+
+        }
+
 
         // GET: Employees/Details/5
         public ActionResult Details(string id)

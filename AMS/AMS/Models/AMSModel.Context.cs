@@ -35,5 +35,7 @@ namespace AMS.Models
         public virtual DbSet<ReviewStatus> ReviewStatus { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<WorkingDaySchedule> WorkingDaySchedule { get; set; }
+
+        public System.Data.Entity.DbSet<AMS.Controllers.EmployeesViewModel> EmployeesViewModels { get; set; }
     }
 }
