@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -50,6 +51,17 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Request.Files["LeaveFile"].ContentLength != 0)
+                {
+                    byte[] data = null;
+                    using (BinaryReader br=new BinaryReader(
+                        Request.Files["LeaveFile"].InputStream))
+                    {
+                        data = br.ReadBytes(Request.Files["LeaveFile"].ContentLength);
+                    }
+                    leaveRequests.Attachment = data;
+                }
+
                 db.LeaveRequests.Add(leaveRequests);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,6 +94,31 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (Request.Files["LeaveFile"].ContentLength != 0)
+                {
+                    byte[] data = null;
+                    using (BinaryReader br = new BinaryReader(
+                        Request.Files["LeaveFile"].InputStream))
+                    {
+                        data = br.ReadBytes(Request.Files["LeaveFile"].ContentLength);
+                    }
+                    leaveRequests.Attachment = data;
+                }
+                else
+                {
+                    LeaveRequests L = db.LeaveRequests.Find(leaveRequests.LeaveRequestID);
+                    L.EmployeeID = leaveRequests.EmployeeID;
+                    L.RequestTime = leaveRequests.RequestTime;
+                    L.StartTime = leaveRequests.StartTime;
+                    L.EndTime = leaveRequests.StartTime;
+                    L.LeaveType = leaveRequests.LeaveType;
+                    L.LeaveReason = leaveRequests.LeaveReason;
+                    L.LeaveRequestID = leaveRequests.LeaveRequestID;
+                    L.RequestTime = leaveRequests.RequestTime;
+                    leaveRequests = L;
+                }
+
+
                 db.Entry(leaveRequests).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -123,9 +160,9 @@ namespace AMS.Controllers
             }
             base.Dispose(disposing);
         }
-        public FileResult ShowPhoto(int id)
+        public FileResult ShowPhoto(string id)
         {
-            byte[] content = db.LeaveRequests.Find(id).Picture;
+            byte[] content = db.LeaveRequests.Find(id).Attachment;
             return File(content, "image/jpeg");
         }
     }
