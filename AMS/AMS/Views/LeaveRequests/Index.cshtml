@@ -36,7 +36,7 @@
             @Html.DisplayNameFor(model => model.ReviewTime)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Attachment)
+            @Html.DisplayNameFor(Model => Model.Attachment)
         </th>
         <th></th>
     </tr>
@@ -73,7 +73,7 @@
             @Html.DisplayFor(modelItem => item.ReviewTime)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Attachment)
+            @Html.Partial("_ShowPhotoPartial",item)
         </td>
 
     </tr>
