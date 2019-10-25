@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AMS.Metadata;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace AMS.Metadata
+namespace AMS.Models
 {
     [MetadataType(typeof(LeaveRequestesMatadata))]
     public partial class LeaveRequests

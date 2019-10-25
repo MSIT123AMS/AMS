@@ -1,0 +1,106 @@
+﻿@model IEnumerable<AMS.Models.LeaveRequests>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+@using (Html.BeginForm("Edit2", "Review"))
+{
+    <table class="table">
+        <tr>
+            <td>
+                <input type="datetime-local" name="txtDateTime" />
+                @Html.CheckBox("CheckBox", false, new { id = "CheckAll" })
+            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveReason)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewStatusID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewTime)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.CheckBox("Checkboxxx", false, new { id = "Checkboxxx",value=item.LeaveRequestID })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveReason)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewStatusID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewTime)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.LeaveRequestID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.LeaveRequestID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.LeaveRequestID })
+                    </td>*@
+            </tr>
+        }
+
+
+    </table>
+
+  <button type="submit" class="btn btn-danger">送出</button>
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#CheckAll").click(function () {
+                if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                    $("input[name='Checkboxxx']").each(function () {
+                        $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                    })
+                } else {
+                    $("input[name='Checkboxxx']").each(function () {
+                        $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                    })
+                }
+            })
+        })
+    </script>
+}

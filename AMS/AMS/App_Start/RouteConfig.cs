@@ -17,7 +17,15 @@ namespace AMS
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+
             );
+
+        
+            routes.MapRoute(
+              name: "Default1",
+              url: "{controller}/{action}/{id}/{id2}",
+              defaults: new { controller = "Employees", action = "Listemp", id = UrlParameter.Optional, id2 = UrlParameter.Optional }
+          );
         }
     }
 }
