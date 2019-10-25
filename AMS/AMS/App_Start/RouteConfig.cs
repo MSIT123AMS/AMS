@@ -24,7 +24,7 @@ namespace AMS
             routes.MapRoute(
               name: "Default1",
               url: "{controller}/{action}/{id}/{id2}",
-              defaults: new { controller = "Employees", action = "List", id = UrlParameter.Optional, id2 = UrlParameter.Optional }
+              defaults: new { controller = "Employees", action = "Listemp", id = UrlParameter.Optional, id2 = UrlParameter.Optional }
           );
         }
     }

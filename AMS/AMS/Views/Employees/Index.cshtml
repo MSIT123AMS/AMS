@@ -10,66 +10,29 @@
         $(document).ready(function () {
             $('#basic-datatables').DataTable({
             });
-
-            $('#multi-filter-select').DataTable({
-                "pageLength": 5,
-                initComplete: function () {
-                    this.api().columns().every(function () {
-                        var column = this;
-                        var select = $('<select class="form-control"><option value=""></option></select>')
-                            .appendTo($(column.footer()).empty())
-                            .on('change', function () {
-                                var val = $.fn.dataTable.util.escapeRegex(
-                                    $(this).val()
-                                );
-
-                                column
-                                    .search(val ? '^' + val + '$' : '', true, false)
-                                    .draw();
-                            });
-
-                        column.data().unique().sort().each(function (d, j) {
-                            select.append('<option value="' + d + '">' + d + '</option>')
-                        });
-                    });
-                }
-            });
-
-            // Add Row
-            $('#add-row').DataTable({
-                "pageLength": 5,
-            });
-
-            var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
-
-            $('#addRowButton').click(function () {
-                $('#add-row').dataTable().fnAddData([
-                    $("#addName").val(),
-                    $("#addPosition").val(),
-                    $("#addOffice").val(),
-                    action
-                ]);
-                $('#addRowModal').modal('hide');
-
-            });
         });
 
 
         $("#Employees").bind("change", function () {
-         UpdateOrders();
+            UpdateOrders();
+           
         });
         $("#Department").bind("change", function () {
             UpdateOrders1();
+           
         });
 
 
         function UpdateOrders() {
             $.ajax({
+                
                 type: "GET",
-                url: "@Url.Action("Orders", "Customers")/" + Customers.value,
+                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + Employees.value + "/" + Department.value,
                 @*url:@Url.RouteUrl("Default1", new { controller = "Employees", action = "List", id = 1, id2 = 1 })*@
                 }).done(function (result) {
-                    $("#Orders").html(result);
+                    $("#Employeestable").html(result);
+                    $('#basic-datatables').DataTable({
+                    });
                 }).fail(function (e) { alert(e.responseText) });
         }
 
@@ -77,11 +40,14 @@
         function UpdateOrders1() {
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("Orders", "Customers")/" + Customers.value,
-                @Html.RouteLink()
+                @*url: "@Url.Action("Orders", "Customers")/" + Customers.value,*@
+                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + "null/" + Department.value,
+                @*@Html.RouteLink( )*@
                 @*url:@Url.RouteUrl("Default1", new { controller = "Employees", action = "List", id = "", id2 =  })*@
                 }).done(function (result) {
-                    $("#Orders").html(result);
+                    $("#Employeestable").html(result);
+                    $('#basic-datatables').DataTable({
+                    });
                 }).fail(function (e) { alert(e.responseText) });
         }
 
@@ -102,70 +68,73 @@
             <div class="card">
                 <div class="card-header row form-group">
                     <label class="col-sm-1 control-label">部門:</label>
-                    @Html.DropDownList("Department", null, "----請選擇----", new { @class = "col-sm-2 form-control" })
+                    @Html.DropDownList("Department", null, "-請選擇-", new { @class = "col-sm-2 form-control" })
                     <label class="col-sm-1 control-label">員工:</label>
-                    @Html.DropDownList("Employees", null, "----請選擇----", new { @class = "col-sm-2 form-control" })
+                    @Html.DropDownList("Employees", null, "-請選擇-", new { @class = "col-sm-2 form-control" })
 
                     @Html.ActionLink("新增員工", "Create", null, new { @class = "col-sm-1 btn btn-outline-primary" })
 
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive" id="Employees">
+                    <div class="table-responsive" id="Employeestable">
+
+                       @Html.Partial("_ListempPartial", Model);
+
                         @*<table id="basic-datatables" class="display table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
-                                        <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
-                                        <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
-                                        <th>@Html.DisplayNameFor(model => model.Manager)</th>
-                                        <th>@Html.DisplayNameFor(model => model.Hireday)</th>
-                                        <th>@Html.DisplayNameFor(model => model.JobStaus)</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                        <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
-                                        <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
-                                        <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
-                                        <th>@Html.DisplayNameFor(model => model.Manager)</th>
-                                        <th>@Html.DisplayNameFor(model => model.Hireday)</th>
-                                        <th>@Html.DisplayNameFor(model => model.JobStaus)</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tfoot>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.EmployeeName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.DepartmentName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.JobTitle)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Manager)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Hireday)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.JobStaus)
-                                            </td>
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
+                    <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
+                    <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
+                    <th>@Html.DisplayNameFor(model => model.Manager)</th>
+                    <th>@Html.DisplayNameFor(model => model.Hireday)</th>
+                    <th>@Html.DisplayNameFor(model => model.JobStaus)</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
+                    <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
+                    <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
+                    <th>@Html.DisplayNameFor(model => model.Manager)</th>
+                    <th>@Html.DisplayNameFor(model => model.Hireday)</th>
+                    <th>@Html.DisplayNameFor(model => model.JobStaus)</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmployeeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DepartmentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Manager)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Hireday)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobStaus)
+                        </td>
 
-                                            <td>
-                                                @Html.ActionLink("編輯", "Edit", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })
-                                                @Html.ActionLink("明細", "Details", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })
+                        <td>
+                            @Html.ActionLink("編輯", "Edit", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })
+                            @Html.ActionLink("明細", "Details", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })
 
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>*@
                     </div>
                 </div>
             </div>

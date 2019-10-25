@@ -17,33 +17,48 @@ namespace AMS.Controllers
         // GET: Employees
         public ActionResult Index()
         {
-            //var query = db.Employees.AsEnumerable().Join(db.Departments,e=>e.DepartmentID,d=>d.DepartmentID, (e, d) =>new EmployeesViewModel
-            //{
-            //    EmployeeID=e.EmployeeID,
-            //    EmployeeName = e.EmployeeName,
-            //    DepartmentName= d.DepartmentName,
-            //    JobTitle = e.JobTitle,
-            //    Manager = d.Manager,
-            //    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-            //    JobStaus = e.JobStaus
-            //});
+            var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+            {
+                EmployeeID = e.EmployeeID,
+                EmployeeName = e.EmployeeName,
+                DepartmentName = d.DepartmentName,
+                JobTitle = e.JobTitle,
+                Manager = d.Manager,
+                Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                JobStaus = e.JobStaus
+            });
 
-
-            //return View(query);
             Entities dc = new Entities();
             ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
             ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
-            return View();
+            return View(query);
+            
+            //return View();
         }
 
-        public ActionResult Listemp(string id,int id2)
+
+        public ActionResult Listemp(string id,int? id2)
         {
             Entities dc = new Entities();
 
-            IEnumerable<EmployeesViewModel> c = null;
-            if (id != "")
+            IEnumerable<EmployeesViewModel> c ;
+            if (id == "null" && id2 != null)
             {
-                c = dc.Employees.Where(emp => emp.EmployeeID == id && emp.DepartmentID == id2).AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+                c = dc.Employees.Where(emp => emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+                {
+                    EmployeeID = e.EmployeeID,
+                    EmployeeName = e.EmployeeName,
+                    DepartmentName = d.DepartmentName,
+                    JobTitle = e.JobTitle,
+                    Manager = d.Manager,
+                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                    JobStaus = e.JobStaus
+                });
+
+            }
+            else if (id2 == null && id != "null")
+            {
+                c = dc.Employees.Where(emp => emp.EmployeeID == id).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
                 {
                     EmployeeID = e.EmployeeID,
                     EmployeeName = e.EmployeeName,
@@ -56,16 +71,18 @@ namespace AMS.Controllers
             }
             else
             {
-                 c = dc.Employees.Where(emp => emp.DepartmentID == id2).AsEnumerable().Join(db.Departments,e => e.DepartmentID,d => d.DepartmentID, (e, d) => new EmployeesViewModel
-                 {
-                     EmployeeID = e.EmployeeID,
-                     EmployeeName = e.EmployeeName,
-                     DepartmentName = d.DepartmentName,
-                     JobTitle = e.JobTitle,
-                     Manager = d.Manager,
-                     Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                     JobStaus = e.JobStaus
-                 }); ;
+
+
+                c = dc.Employees.Where(emp => emp.EmployeeID == id && emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+                {
+                    EmployeeID = e.EmployeeID,
+                    EmployeeName = e.EmployeeName,
+                    DepartmentName = d.DepartmentName,
+                    JobTitle = e.JobTitle,
+                    Manager = d.Manager,
+                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                    JobStaus = e.JobStaus
+                });
             }
 
 
