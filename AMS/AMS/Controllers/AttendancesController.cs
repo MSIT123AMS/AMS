@@ -17,7 +17,7 @@ namespace AMS.Controllers
         // GET: Attendances
         public ActionResult Index()
         {
-            return View(db.Attendances.ToList());
+            return View();
         }
 
         // GET: Attendances/Details/5
