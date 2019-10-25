@@ -19,6 +19,7 @@ namespace AMS.Controllers
         {
             var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
             {
+                
                 EmployeeID = e.EmployeeID,
                 EmployeeName = e.EmployeeName,
                 DepartmentName = d.DepartmentName,
