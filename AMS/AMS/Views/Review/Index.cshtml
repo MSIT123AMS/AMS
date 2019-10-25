@@ -8,14 +8,14 @@
 
 <p>
     @*@Html.ActionLink("Create New", "Create")*@
+    <input id="Checkbox1" type="checkbox" class="btn-danger"/>
 </p>
 @using (Html.BeginForm("Edit2", "Review"))
 {
     <table class="table">
         <tr>
             <td>
-                <input type="datetime-local" name="txtDateTime" />
-                @Html.CheckBox("CheckBox", false, new { id = "CheckAll" })
+                @Html.CheckBox("CheckBox", false, new { @class = "custom-control-input",id = "CheckAll" })
             </td>
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeID)
