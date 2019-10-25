@@ -254,6 +254,7 @@
     <Compile Include="Models\ReviewStatus.cs">
       <DependentUpon>AMSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReviewViewModels.cs" />
     <Compile Include="Models\Users.cs">
       <DependentUpon>AMSModel.tt</DependentUpon>
     </Compile>
