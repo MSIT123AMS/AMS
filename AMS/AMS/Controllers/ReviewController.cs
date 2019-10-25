@@ -17,6 +17,7 @@ namespace AMS.Controllers
         // GET: Review
         public ActionResult Index()
         {
+
             return View(db.LeaveRequests);
         }
 
