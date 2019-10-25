@@ -1,0 +1,3 @@
+﻿@model SelectList
+@Html.DropDownList("Employees1", Model, "-請選擇-", new { @class = "form-control", onchange = "doSubmit($(this).parents('form'));" })
+

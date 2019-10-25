@@ -37,6 +37,27 @@ namespace AMS.Controllers
             //return View();
         }
 
+        
+
+        public ActionResult GetDdlandListemp(int Department)
+        {
+            Entities dc = new Entities();
+
+            var query = dc.Employees.Where(emp => emp.DepartmentID == Department).Select(emp => emp.EmployeeID);
+            var sl = new SelectList(query);
+            return PartialView("_GetDdlandListempPartial", sl);
+            //if (query != null)
+            //{
+                
+            //}
+            //else
+            //{
+            //    return HttpNotFound();
+            //}
+
+
+        }
+
 
         public ActionResult Listemp(string id,int? id2)
         {
