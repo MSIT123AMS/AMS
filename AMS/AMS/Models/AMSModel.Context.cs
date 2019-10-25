@@ -35,5 +35,9 @@ namespace AMS.Models
         public virtual DbSet<ReviewStatus> ReviewStatus { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<WorkingDaySchedule> WorkingDaySchedule { get; set; }
+
+        public System.Data.Entity.DbSet<AMS.Models.OverTimeViewModel> OverTimeViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<AMS.Models.OverTimeCreateViewModel> OverTimeCreateViewModels { get; set; }
     }
 }
