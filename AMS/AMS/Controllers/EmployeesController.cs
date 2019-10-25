@@ -27,10 +27,9 @@ namespace AMS.Controllers
                 Hireday = e.Hireday.ToString("yyyy/MM/dd"),
                 JobStaus = e.JobStaus
             });
-            List<SelectListItem> Item = new List<SelectListItem>();
+
             Entities dc = new Entities();
-            Item = new SelectList(dc.Employees, "EmployeeID", "EmployeeName").ToList();
-            ViewBag.EmployeeItem = Item;
+            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
             ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
             return View(query);
             
@@ -76,12 +75,7 @@ namespace AMS.Controllers
                     Hireday = e.Hireday.ToString("yyyy/MM/dd"),
                     JobStaus = e.JobStaus
                 });
-                List<SelectListItem> Item = new List<SelectListItem>();
-                Item = new SelectList(c, "EmployeeID", "EmployeeName").ToList();
-                ViewBag.EmployeeItem = Item;
 
-
-                //ViewBag.EmployeeItem = new SelectList(c, "EmployeeID", "EmployeeName");
             }
             else if (id2 == null && id != "null")
             {
@@ -95,7 +89,6 @@ namespace AMS.Controllers
                     Hireday = e.Hireday.ToString("yyyy/MM/dd"),
                     JobStaus = e.JobStaus
                 });
-
             }
             else
             {
@@ -111,7 +104,6 @@ namespace AMS.Controllers
                     Hireday = e.Hireday.ToString("yyyy/MM/dd"),
                     JobStaus = e.JobStaus
                 });
-
             }
 
 
