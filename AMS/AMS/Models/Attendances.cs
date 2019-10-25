@@ -14,11 +14,11 @@ namespace AMS.Models
     
     public partial class Attendances
     {
-        public string EmployeeID { get; set; }
+        public string LineID { get; set; }
         public System.DateTime Date { get; set; }
-        public Nullable<System.DateTime> OnDuty { get; set; }
-        public string location { get; set; }
-        public string station { get; set; }
-        public string OffDuty { get; set; }
+        public Nullable<System.DateTime> Onduty { get; set; }
+        public Nullable<System.DateTime> Offduty { get; set; }
+        public string Station { get; set; }
+        public string Localtion { get; set; }
     }
 }

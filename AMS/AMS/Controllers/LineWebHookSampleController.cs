@@ -14,14 +14,13 @@ namespace WebApplication5.Controllers
     {
         const string channelAccessToken = @"wJvLiDuDsJpYsgTqSPXQwu35UoXbtmVPXn8Q1/oWN8REU5mbLG0qBffnpgSlNWH3yncYUa3OAgyWoe8gPb8F1nFveUGakkBJ2UHqUKSXElkHhypyGWz7Ndhojww+2P0+ikiFbIIkz6nhMQwetqG1gwdB04t89/1O/w1cDnyilFU=
 ";
-        const string AdminUserId = "Uf4247e1d90dc9ebe3518605bae30392d";
+         string AdminUserId ;
 
         [Route("api/LineWebHookSample")]
         [HttpPost]
         public IHttpActionResult POST()
         {
-            try
-            {
+            
                 //設定ChannelAccessToken(或抓取Web.Config)
                 this.ChannelAccessToken = channelAccessToken;
                 //取得Line Event(範例，只取第一個)
@@ -31,10 +30,13 @@ namespace WebApplication5.Controllers
                 //回覆訊息
                 if (LineEvent.type == "message")
                 {
-                    //if (LineEvent.message.type == "text") //收到文字
-                    //    this.ReplyMessage(LineEvent.replyToken, "你說了:" + LineEvent.message.text);
-                    //if (LineEvent.message.type == "sticker") //收到貼圖
-                    //    this.ReplyMessage(LineEvent.replyToken, 1, 2);
+                    this.AdminUserId = this.ReceivedMessage.events.FirstOrDefault().source.userId;//取得用戶資訊
+                    //string EmpId = "MSIT1230015";//測試用用戶
+                    string st1 = "10:00";//設定最晚打卡的上班時間   
+                    DateTime dt1 = Convert.ToDateTime(st1);
+                    DateTime todate = DateTime.Now.Date;//今天的日期
+                    Entities d = new Entities();
+                    Attendances a = new Attendances();
                     if (LineEvent.message.type == "text")
                     {
                         if (LineEvent.message.text == "打卡")
@@ -44,58 +46,85 @@ namespace WebApplication5.Controllers
                             actions.Add(new MessageAction() { label = "上班", text = "上班" });
                             actions.Add(new MessageAction() { label = "下班", text = "下班" });
 
-
-
-
                             var ButtonTempalteMsg = new isRock.LineBot.ConfirmTemplate()
                             {
-
                                 text = "打卡",
                                 altText = "請在手機上檢視",
                                 actions = actions
                             };
                             bot.PushMessage(AdminUserId, ButtonTempalteMsg);
-
-
+                            
                         }
-                        if (LineEvent.message.text == "上班" || LineEvent.message.text == "下班")
+                        
+                        
+                        switch (LineEvent.message.text)
                         {
-                            this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.ToString()}");
+                            
+                            case "上班":
+                                if(DateTime.Now < dt1)
+                                {
+                                    a.LineID=AdminUserId;
+                                    a.Date = todate;
+                                    a.Onduty = DateTime.Now;
+                                    d.Attendances.Add(a);
+                                try
+                                {
+                                    d.SaveChanges();
+                                    this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.ToString()}");
+                                }
+                                catch
+                                {
+                                    var query = d.Attendances.Where(p => p.LineID==AdminUserId && p.Date == todate && p.Onduty != null).First();
+                                    this.ReplyMessage(LineEvent.replyToken, "已經在" + $"{query.Onduty}打過卡了");
+                                }
 
-                            Entities d = new Entities();
 
-
-                            Attendances a = new Attendances
-                            {
-                                EmployeeID = "MSIT1230001",
-                                Date = DateTime.Now.Date
-                            };
-                            if (LineEvent.message.text == "上班")
-                            {
-                                a.OnDuty = DateTime.Now;
+                                return Ok();
                             }
                             else
                             {
-                                a.OffDuty = DateTime.Now.ToString();
+                                this.ReplyMessage(LineEvent.replyToken, "已超過可打卡的時間");
+                                }
+                                break;
+                            case "下班":
+                            try
+                            {
+                                var query = d.Attendances.Where( p => p.LineID == AdminUserId && p.Date == todate && p.Onduty != null).First();
+                                query.Offduty = DateTime.Now;
+
+                                this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.ToString()}");
+
+                                d.SaveChanges();
+
                             }
 
-                            d.Attendances.Add(a);
-                            d.SaveChanges();
-                        }
+                            catch
+                            {
+                                this.ReplyMessage(LineEvent.replyToken, "小幫手提醒您,今天上班未打卡,請申請補打卡!");
+                            }
+
+                            break;
+
                     }
 
 
+
+
+
                 }
+
+
+            }
                 //response OK
                 return Ok();
-            }
-            catch (Exception ex)
-            {
-                //如果發生錯誤，傳訊息給Admin
-                this.PushMessage(AdminUserId, "發生錯誤:\n" + ex.Message);
-                //response OK
-                return Ok();
-            }
+            
+            //catch (Exception ex)
+            //{
+            //    //如果發生錯誤，傳訊息給Admin
+            //    this.PushMessage(AdminUserId, "發生錯誤:\n" + ex.Message);
+            //    //response OK
+            //    return Ok();
+            //}
         }
     }
 }
