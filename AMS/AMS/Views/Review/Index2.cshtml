@@ -1,0 +1,83 @@
+﻿@model IEnumerable<AMS.Models.ReviewViewModels>
+
+@{
+    ViewBag.Title = "Index2";
+}
+
+<h2>Index2</h2>
+
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<table class="table">
+
+    @*@Html.DropDownList()*@
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeaveType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequestTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LeaveReason)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.ReviewStatusID)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.ReviewStatus)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmployeeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmployeeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LeaveType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LeaveReason)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.ReviewStatusID)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.ReviewStatus)
+        </td>
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.LeaveRequestID }) |*@
+            @Html.ActionLink("Details", "Details", new { id = item.LeaveRequestID }) |
+            @*@Html.ActionLink("Delete", "Delete", new { id=item.LeaveRequestID })*@
+        </td>
+    </tr>
+}
+
+</table>

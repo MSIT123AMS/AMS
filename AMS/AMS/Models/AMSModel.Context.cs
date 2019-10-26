@@ -41,5 +41,7 @@ namespace AMS.Models
         public System.Data.Entity.DbSet<AMS.Models.OverTimeCreateViewModel> OverTimeCreateViewModels { get; set; }
 
         public System.Data.Entity.DbSet<AMS.Controllers.EmployeesViewModel> EmployeesViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<AMS.Models.ReviewViewModels> ReviewViewModels { get; set; }
     }
 }
