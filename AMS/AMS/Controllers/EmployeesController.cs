@@ -38,21 +38,20 @@ namespace AMS.Controllers
 
         
 
-        public ActionResult GetDdlandListemp(int Department)
+        public ActionResult GetDdlandListemp(int? id)
         {
             Entities dc = new Entities();
 
-            var query = dc.Employees.Where(emp => emp.DepartmentID == Department).Select(emp => emp.EmployeeID);
-            var sl = new SelectList(query);
-            return PartialView("_GetDdlandListempPartial", sl);
-            //if (query != null)
-            //{
-                
-            //}
-            //else
-            //{
-            //    return HttpNotFound();
-            //}
+            var query = dc.Employees.Where(emp => emp.DepartmentID == id);       
+            ViewBag.Employees = new SelectList(query, "EmployeeID", "EmployeeName");
+            if (query != null)
+            {
+                return PartialView("_GetDdlandListempPartial", new SelectList(query, "EmployeeID", "EmployeeName"));
+            }
+            else
+            {
+                return HttpNotFound();
+            }
 
 
         }
@@ -75,7 +74,8 @@ namespace AMS.Controllers
                     Hireday = e.Hireday.ToString("yyyy/MM/dd"),
                     JobStaus = e.JobStaus
                 });
-
+                var query = dc.Employees.Where(emp => emp.DepartmentID == id2);
+                ViewBag.Employees = new SelectList(query, "EmployeeID", "EmployeeName");
             }
             else if (id2 == null && id != "null")
             {
@@ -138,7 +138,7 @@ namespace AMS.Controllers
         // GET: Employees/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView("_CreatePartial");
         }
 
         // POST: Employees/Create
