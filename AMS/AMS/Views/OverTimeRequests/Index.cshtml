@@ -1,0 +1,75 @@
+﻿@model IEnumerable<AMS.Models.OverTimeRequest>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmployeeID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RequestTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverTimePay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OverTimeReason)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReviewStatusID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReviewTime)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmployeeID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RequestTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverTimePay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OverTimeReason)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReviewStatusID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReviewTime)
+        </td>
+        <td>
+
+            @Html.ActionLink("Details", "Details", new { id=item.OverTimeRequestID }) 
+            
+        </td>
+    </tr>
+}
+
+</table>
