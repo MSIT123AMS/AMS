@@ -18,15 +18,15 @@
         </EntityType>
         <EntityType Name="Attendances">
           <Key>
-            <PropertyRef Name="LineID" />
+            <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="Date" />
           </Key>
-          <Property Name="LineID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmployeeID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Onduty" Type="datetime" />
-          <Property Name="Offduty" Type="datetime" />
-          <Property Name="Station" Type="nvarchar" MaxLength="50" />
-          <Property Name="Localtion" Type="nvarchar" MaxLength="50" />
+          <Property Name="OnDuty" Type="datetime" />
+          <Property Name="location" Type="nvarchar" MaxLength="50" />
+          <Property Name="station" Type="nvarchar" MaxLength="10" />
+          <Property Name="OffDuty" Type="datetime" />
         </EntityType>
         <EntityType Name="ClockInApply">
           <Key>
@@ -271,15 +271,15 @@
         </EntityContainer>
         <EntityType Name="Attendances">
           <Key>
-            <PropertyRef Name="LineID" />
+            <PropertyRef Name="EmployeeID" />
             <PropertyRef Name="Date" />
           </Key>
-          <Property Name="LineID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Onduty" Type="DateTime" Precision="3" />
-          <Property Name="Offduty" Type="DateTime" Precision="3" />
-          <Property Name="Station" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Localtion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="OnDuty" Type="DateTime" Precision="3" />
+          <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="station" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="OffDuty" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -410,12 +410,12 @@
           <EntitySetMapping Name="Attendances">
             <EntityTypeMapping TypeName="Model.Attendances">
               <MappingFragment StoreEntitySet="Attendances">
-                <ScalarProperty Name="Localtion" ColumnName="Localtion" />
-                <ScalarProperty Name="Station" ColumnName="Station" />
-                <ScalarProperty Name="Offduty" ColumnName="Offduty" />
-                <ScalarProperty Name="Onduty" ColumnName="Onduty" />
+                <ScalarProperty Name="OffDuty" ColumnName="OffDuty" />
+                <ScalarProperty Name="station" ColumnName="station" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="OnDuty" ColumnName="OnDuty" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

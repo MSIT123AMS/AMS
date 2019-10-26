@@ -7,6 +7,8 @@
     <link rel="icon" href="~/assets/img/icon.ico" type="image/x-icon" />
 
     <!-- Fonts and icons -->
+
+
     <script src="~/assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
         WebFont.load({
@@ -24,6 +26,8 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="~/assets/css/demo.css">
+    @RenderSection("styles", required: false)
+    @*@RenderSection("css", required: false)*@
 </head>
 <body>
     <div class="wrapper">
@@ -382,7 +386,7 @@
                             <div class="collapse" id="sidebarLayouts">
                                 <ul class="nav nav-collapse">
                                     <li>
-                                        <a href="sidebar-style-1.html">
+                                        <a href=@Url.Action("Index","LeaveRequests")>
                                             <span class="sub-item">請假申請單</span>
                                         </a>
                                     </li>
@@ -501,7 +505,7 @@
                         </ul>
                     </nav>
                     <div class="copyright ml-auto">
-                        Copyright &copy; 2019.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+                        Copyright &copy; 2019.Company name All rights reserved.
                     </div>
                 </div>
             </footer>
@@ -605,7 +609,7 @@
     <script src="~/assets/js/plugin/datatables/datatables.min.js"></script>
 
     <!-- Bootstrap Notify -->
-    <script src="~/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    @*<script src="~/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>*@
 
     <!-- jQuery Vector Maps -->
     <script src="~/assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
@@ -718,5 +722,6 @@
 
 
     @RenderSection("scripts", required: false)
+    @*@RenderSection("scripts1", required: false)*@
 </body>
 </html>
