@@ -9,18 +9,26 @@
 
 @section scripts{
     <script>
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("Index2","Review")/" + Customer.value
-        }).done((result) => {
-            $("Container").html(result);
-
-
-        }).fail((e) => {
-            $("Container").html(e);
-
-
-
+        $("#Customers").bind("change", function () {
+            UpdateOrders();
         });
+
+        function UpdateOrders() {
+
+            $.ajax({
+                type: "Get",
+                url: "@Url.Action("Index2","Review")/" + Customers.value
+                //url:"/Review/Index2/2"
+            }).done((result) => {
+                $("#Container").html(result);
+
+
+            }).fail((e) => {
+                $("#Container").html(e);
+
+
+
+            });
+        }
     </script>
 }
