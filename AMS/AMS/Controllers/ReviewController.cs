@@ -38,7 +38,8 @@ namespace AMS.Controllers
             var q1=from l in db.LeaveRequests
             join e in db.Employees on l.EmployeeID equals e.EmployeeID
             join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
-             select new ReviewViewModels
+           
+                   select new ReviewViewModels
             {
                 EmployeeID = l.EmployeeID,
                 EmployeeName = e.EmployeeName,
@@ -54,24 +55,16 @@ namespace AMS.Controllers
             };
 
 
-
-            //ViewBag.ReviewStatus = new SelectList(db.ReviewStatus);
-            //var q = db.LeaveRequests.AsEnumerable().Join(db.Employees, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new ReviewViewModels
-            //{
-            //    EmployeeID = d.EmployeeID,
-            //    EmployeeName = d.EmployeeName,
-            //    LeaveType = e.LeaveType,
-            //    StartTime = e.StartTime,
-            //    EndTime = e.EndTime,
-            //    RequestTime = e.RequestTime,
-            //    LeaveReason = e.LeaveReason,
-            //    ReviewStatusID = e.ReviewStatusID,
-            //    LeaveRequestID = e.LeaveRequestID
-
-            //});
-
             return View(q1);
         }
+
+
+        public ActionResult Index3(string id)
+        {
+            LeaveRequests r = db.LeaveRequests.Find(id);
+            return PartialView("_LeavePartial", r);
+        }
+
 
         public ActionResult Ajax()
         {
