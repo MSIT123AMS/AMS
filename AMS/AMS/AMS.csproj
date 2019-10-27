@@ -211,6 +211,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OverTimeRequestsController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Models\SerchLeaveViewModel.cs" />
     <Compile Include="Controllers\TestLUISController.cs" />
     <Compile Include="Controllers\TestQnAController.cs" />
     <Compile Include="default.aspx.cs">
@@ -892,6 +893,8 @@
     <Content Include="Views\Review\Details.cshtml" />
     <Content Include="Views\Review\Edit.cshtml" />
     <Content Include="Views\Review\Index.cshtml" />
+    <Content Include="Views\Employees\_SerchLeaveListPartial.cshtml" />
+    <Content Include="Views\Employees\SerchLeave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
