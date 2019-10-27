@@ -15,17 +15,17 @@ namespace AMS.Models
         [ DataType(DataType.Date)]
         [DisplayFormat(DataFormatString ="{0:yyyy/MM/dd}",ApplyFormatInEditMode =true)]
         [Display(Name ="申請日期")]
-        public DateTime? RequestTime { get; set; }
+        public DateTime RequestTime { get; set; }
 
         [DataType(DataType.DateTime)]
         [Display(Name = "開始時間")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}", ApplyFormatInEditMode = true)]
-        public DateTime? StartTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/ddTHH:mm}", ApplyFormatInEditMode = true)]
+        public DateTime StartTime { get; set; }
 
         [DataType(DataType.DateTime)]
         [Display(Name = "結束時間")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}", ApplyFormatInEditMode = true)]
-        public DateTime? EndTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/ddTHH:mm}", ApplyFormatInEditMode = true)]
+        public DateTime EndTime { get; set; }
 
         [Display(Name = "請假補休")]
         public string PayorOFF { get; set; }
@@ -65,10 +65,10 @@ namespace AMS.Models
         public DateTime EndTime { get; set; }
 
         [Display(Name = "請假補休")]
-        public string PayorOFF { get; set; }
+        public string OverTimePay { get; set; }
 
         [Display(Name = "申請理由")]
-        public string Reason { get; set; }
+        public string OverTimeReason { get; set; }
 
 
     }
