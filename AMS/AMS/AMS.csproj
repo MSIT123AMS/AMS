@@ -55,6 +55,10 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OverTimeClassLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\OverTimeClassLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
     </Reference>
@@ -196,6 +200,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\OverTimeRequestsController.cs" />
+    <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Models\EmployeesViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaveRequestsController.cs" />
@@ -251,9 +257,11 @@
     <Compile Include="Models\OverTimeRequest.cs">
       <DependentUpon>AMSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OverTimeViewModel.cs" />
     <Compile Include="Models\ReviewStatus.cs">
       <DependentUpon>AMSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ReviewViewModels.cs" />
     <Compile Include="Models\Users.cs">
       <DependentUpon>AMSModel.tt</DependentUpon>
     </Compile>
@@ -645,11 +653,14 @@
     <Content Include="assets\js\plugin\webfont\webfont.min.js" />
     <Content Include="assets\js\setting-demo.js" />
     <Content Include="assets\js\setting-demo2.js" />
+    <Content Include="bin\OverTimeClassLibrary.dll" />
+    <Content Include="bin\OverTimeClassLibrary.pdb" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\style.css" />
     <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -665,6 +676,8 @@
       <DependentUpon>AMSModel.edmx</DependentUpon>
       <LastGenOutput>AMSModel.cs</LastGenOutput>
     </Content>
+    <Content Include="OverTimeClassLibrary.dll" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <EntityDeploy Include="Models\AMSModel.edmx">
@@ -710,6 +723,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-2.10.3.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -757,6 +771,14 @@
     <Content Include="Views\Employees\Edit.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
     <Content Include="Views\Employees\_ListempPartial.cshtml" />
+    <Content Include="Views\OverTimeRequests\Create.cshtml" />
+    <Content Include="Views\OverTimeRequests\Details.cshtml" />
+    <Content Include="Views\OverTimeRequests\Index.cshtml" />
+    <Content Include="Views\Review\Create.cshtml" />
+    <Content Include="Views\Review\Delete.cshtml" />
+    <Content Include="Views\Review\Details.cshtml" />
+    <Content Include="Views\Review\Edit.cshtml" />
+    <Content Include="Views\Review\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -774,7 +796,9 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

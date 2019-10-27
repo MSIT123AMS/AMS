@@ -74,7 +74,7 @@ namespace AMS.Controllers
                 new PayOff{ text="補休",value=false}
 
             };
-            ViewBag.list = new SelectList(dropdownlist, "value", "text");
+            ViewBag.OverTimePay = new SelectList(dropdownlist, "value", "text");
             return View();
         }
 
@@ -87,7 +87,7 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                overTimeRequest.OverTimeRequestID = db.OverTimeRequest.Count().ToString();
+                overTimeRequest.OverTimeRequestID = "99";
                 overTimeRequest.EmployeeID = "MSIT0001";
                 overTimeRequest.RequestTime = DateTime.Now;
                 overTimeRequest.ReviewStatusID = 1;

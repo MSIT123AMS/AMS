@@ -20,10 +20,12 @@
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/assets/css/atlantis.min.css">
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="~/assets/css/demo.css">
+    @RenderSection("styles", required: false)
 </head>
 <body>
     <div class="wrapper">
@@ -350,7 +352,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="components/panels.html">
+                                        <a href=@Url.Action("index","OverTimeRequests")>
                                             <span class="sub-item">個人加班明細查詢</span>
                                         </a>
                                     </li>
@@ -387,7 +389,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="" )>
+                                        <a href=@Url.Action("Create","OverTimeRequests")>
 
                                             <span class="sub-item">
                                                 申請加班補休
@@ -486,7 +488,7 @@
                         </ul>
                     </nav>
                     <div class="copyright ml-auto">
-                        Copyright &copy; 2019.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+                        Copyright &copy; 2019.Company name All rights reserved.
                     </div>
                 </div>
             </footer>
@@ -589,8 +591,7 @@
     <!-- Datatables -->
     <script src="~/assets/js/plugin/datatables/datatables.min.js"></script>
 
-    <!-- Bootstrap Notify -->
-    <script src="~/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+
 
     <!-- jQuery Vector Maps -->
     <script src="~/assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
@@ -703,5 +704,6 @@
 
 
     @RenderSection("scripts", required: false)
+    
 </body>
 </html>
