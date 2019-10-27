@@ -17,8 +17,8 @@
 
             $.ajax({
                 type: "Get",
-                @*url: "@Url.Action("Index3","Review")/" + Customers.value*@
-                url:"/Review/Index3/1"
+                url: "@Url.Action("Index2","Review")/" + Customers.value
+                //url:"/Review/Index2/2"
             }).done((result) => {
                 $("#Container").html(result);
 
