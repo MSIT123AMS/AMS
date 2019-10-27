@@ -14,15 +14,15 @@
                     <div class="card-header row form-group">
                         <label class=" control-label" style="font-size:20px;margin-left:20px">查詢起始時間</label>
                         <div class="col-sm-2">
-                            <input name="time1" id="time1" class="form-control" type="datetime-local" />
+                            <input name="time1" id="time1" class="form-control" type="date" />
 
                         </div>
                         <label class=" control-label" style="font-size:20px;margin-left:20px">到</label>
                         <div id="ddlemp" class="col-sm-2">
-                            <input name="time2" id="time2" class="form-control" type="datetime-local" />
+                            <input name="time2" id="time2" class="form-control" type="date" />
                         </div>
                         <div class="col-sm-2">
-                            <input id="Button1" type="submit" value="新增員工" class="btn btn-outline-primary" />
+                            <input id="Button1" type="submit" value="查詢" class="btn btn-outline-primary" />
 
                         </div>
                     </div>
@@ -59,20 +59,25 @@
             $('#basic-datatables').DataTable({
             });
             $("#basic-datatables_filter").hide();
-            d = new Date();
-            $("#time1").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2) + "T" + d.getHours() + ":" + d.getMinutes());
-            $("#time2").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2) + "T" + d.getHours() + ":" + d.getMinutes());
+            d = new Date();          
+            $("#time1").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
+            $("#time2").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
+    
+            
           
            
         });
         $("#time1").bind("change", function () {
             if ($("#time1").val() > $("#time2").val()) {
-                time1change();
+                timechange();
                 $("#time1").val($("#time2").val()) ;
             }
            
         });
-        function time1change() {
+
+
+
+        function timechange() {
             swal("起始時間不可大於最後時間!", "", {
                 icon: "info",
                 buttons: {
@@ -85,98 +90,12 @@
 
         $("#time2").bind("change", function () {
             if ($("#time2").val() < $("#time1").val()) {
-                time1change2();
+                timechange();
                 $("#time2").val($("#time1").val());
             }
 
         });
-        function time1change2() {
-            swal("最後時間不可小於起始時間!", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
-
-        $("#Department").bind("change", function () {
-            UpdateEmployeesByDepartment();
-            Updateddl();
-        });
-        $("#Button").bind("click", function () {
-            createmp();
-        });
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#imgPreview').attr('src', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        function createmp() {
-            $.ajax({
-
-                type: "GET",
-                url: "@Url.Action("Create", "Employees")",
-            }).done(function (result) {
-
-                $("#mmmmmm").html(result);
-
-
-                $("#empFile").bind("change", function () {
-                    readURL(this);
-
-                });
-
-                }).fail(function (e) { alert(e.responseText) });
-        }
-
-
-        function Updateddl() {
-            $.ajax({
-
-                type: "GET",
-                url: "@Url.Action("GetDdlandListemp", "Employees")/" + Department.value,
-            }).done(function (result) {
-
-                $("#ddlemp").html(result);
-                $("#Employees").bind("change", function () {
-                    UpdateEmployeesByEmployee();
-
-                });
-                }).fail(function (e) { alert(e.responseText) });
-        }
-
-        function UpdateEmployeesByEmployee() {
-            $.ajax({
-
-                type: "GET",
-                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + Employees.value + "/" + Department.value,
-                }).done(function (result) {
-                    $("#Employeestable").html(result);
-                    $('#basic-datatables').DataTable({
-                    });
-                    $("#basic-datatables_filter").hide();
-                }).fail(function (e) { alert(e.responseText) });
-        }
-
-
-        function UpdateEmployeesByDepartment() {
-            $.ajax({
-                type: "GET",
-                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + "null/" + Department.value,
-                }).done(function (result) {
-                    $("#Employeestable").html(result);
-                    $('#basic-datatables').DataTable({
-                    });
-                    $("#basic-datatables_filter").hide();
-                }).fail(function (e) { alert(e.responseText) });
-        }
+      
 
 
     </script>
