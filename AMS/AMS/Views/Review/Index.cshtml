@@ -1,107 +1,189 @@
-﻿@model IEnumerable<AMS.Models.LeaveRequests>
+﻿@*@model IEnumerable<AMS.Controllers.EmployeesViewModel>*@
+@model IEnumerable<AMS.Models.ReviewViewModels>
 
 @{
     ViewBag.Title = "Index";
 }
+@*@Html.DropDownList("Customers", null, "-- 請選擇 --", new { @class = "col-sm-11 form-control" })*@
+@*<div id="Container"></div>*@
 
-<h2>Index</h2>
 
-<p>
-    @*@Html.ActionLink("Create New", "Create")*@
-</p>
-@using (Html.BeginForm("Edit2", "Review"))
+<label class=" control-label" style="font-size:35px;margin:10px">員工管理</label>
+
+<div class="page-inner">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" id="mmmmmm">
+                <div class="card-header row form-group">
+                    @*<label class=" control-label" style="font-size:20px;margin-left:20px">部門:</label>*@
+                    <div class="col-sm-2">
+                        @*@Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })*@
+                        @Html.DropDownList(
+                            "url",
+                            new SelectList(new[]
+                            {
+                                new SelectListItem { Text = "未審核", Value = Url.Action("Index", "Review",new{ id="1"}) },
+                                new SelectListItem { Text = "以審核", Value = Url.Action("Index", "Review",new{ id="2"}) },
+                                //new SelectListItem { Text = "公假", Value = Url.Action("Index", "Review",new{ id="3"}) },
+                            }, "Value", "Text"),
+                            "-- Pick an URL ---",
+                            new { id = "urlddl" }
+                        )
+
+
+
+                    </div>
+                    @*<label class=" control-label" style="font-size:20px;margin-left:20px">員工:</label>
+                        <div id="ddlemp" class="col-sm-2">
+                            @Html.DropDownList("Employees", null, "-請選擇-", new { @class = " form-control" })
+                        </div>
+                        <div class="col-sm-2">
+                            <input id="Button1" type="button" value="新增員工" class="btn btn-outline-primary" />
+                        </div>*@
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive" id="Employeestable">
+                        @Html.Partial("_LeavePartial", Model);
+                        @*<div id="Content"></div>*@
+                        @*<p id="Content"></p>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
 {
-<table class="table">
-    <tr>
-        <td>
-            @Html.CheckBox("CheckBox", false, new { id = "CheckAll" })
-        </td>
-        <th>
-            @Html.DisplayNameFor(model => model.EmployeeID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequestTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LeaveType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.LeaveReason)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReviewStatusID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ReviewTime)
-        </th>
-        <th></th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-
-
-        <tr>
-            <td>
-                @Html.CheckBox("Checkboxxx", false, new { id = "Checkboxxx", value = item.LeaveRequestID })
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequestTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveReason)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReviewStatusID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReviewTime)
-            </td>
-            @*<td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.LeaveRequestID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.LeaveRequestID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.LeaveRequestID })
-                </td>*@
-        </tr>
-    }
-
-
-</table>
-
-  <button type="submit" class="btn btn-danger">送出</button>
-}
-@section scripts{
     <script>
+
+
+
         $(document).ready(function () {
-            $("#CheckAll").click(function () {
-                if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
-                    $("input[name='Checkboxxx']").each(function () {
-                        $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
-                    })
-                } else {
-                    $("input[name='Checkboxxx']").each(function () {
-                        $(this).prop("checked", false);//把所有的核方框的property都取消勾選
-                    })
-                }
-            })
-        })
+            $("#urlddl").change(function () {
+                    var url = $(this).val();
+                    if (url != null && url != '') {
+                        window.location.href = url;
+                    }
+            });
+
+
+            $('#basic-datatables').DataTable({});
+            $("#basic-datatables_filter").hide();
+        });
+
+        //$(document).ready(function () {
+        //    $("#Customers").bind("change", function () {
+        //        UpdateOrders();
+        //    });
+
+        //        $('#basic-datatables').DataTable({});
+        //        $("#basic-datatables_filter").hide();
+        // });
+        function UpdateOrders() {
+
+
+
+
+            @*$.ajax({
+                type: "Get",
+                url: "@Url.Action("Ajax","Review")/" + Customers.value
+                //url:"/Review/Index2/2"
+            }).done((result) => {
+                $("#Employeestable").html(result);
+
+
+            }).fail((e) => {
+                $("#Employeestable").html(e);
+
+            });*@
+        }
+
+        $("#Employees").bind("change", function () {
+            UpdateEmployeesByEmployee();
+        });
+
+
+        $("#Department").bind("change", function () {
+            UpdateEmployeesByDepartment();
+            Updateddl();
+        });
+        $("#Button1").bind("click", function () {
+            createmp();
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function createmp() {
+            $.ajax({
+
+                type: "GET",
+                url: "@Url.Action("Create", "Employees")",
+            }).done(function (result) {
+
+                $("#mmmmmm").html(result);
+
+
+                $("#empFile").bind("change", function () {
+                    readURL(this);
+
+                });
+
+                }).fail(function (e) { alert(e.responseText) });
+        }
+
+
+        function Updateddl() {
+            $.ajax({
+
+                type: "GET",
+                url: "@Url.Action("GetDdlandListemp", "Employees")/" + Department.value,
+            }).done(function (result) {
+
+                $("#ddlemp").html(result);
+                $("#Employees").bind("change", function () {
+                    UpdateEmployeesByEmployee();
+
+                });
+                }).fail(function (e) { alert(e.responseText) });
+        }
+
+        function UpdateEmployeesByEmployee() {
+            $.ajax({
+
+                type: "GET",
+                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + Employees.value + "/" + Department.value,
+                }).done(function (result) {
+                    $("#Employeestable").html(result);
+                    $('#basic-datatables').DataTable({
+                    });
+                    $("#basic-datatables_filter").hide();
+                }).fail(function (e) { alert(e.responseText) });
+        }
+
+
+        function UpdateEmployeesByDepartment() {
+            $.ajax({
+                type: "GET",
+                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + "null/" + Department.value,
+                }).done(function (result) {
+                    $("#Employeestable").html(result);
+                    $('#basic-datatables').DataTable({
+                    });
+                    $("#basic-datatables_filter").hide();
+                }).fail(function (e) { alert(e.responseText) });
+        }
+
+
     </script>
+
+
 }

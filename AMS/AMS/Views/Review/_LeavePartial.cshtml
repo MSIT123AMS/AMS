@@ -1,17 +1,8 @@
 ﻿@model IEnumerable<AMS.Models.ReviewViewModels>
 
-@{
-    ViewBag.Title = "Index2";
-}
-
-<h2>Index2</h2>
-
-<p>
-    @*@Html.ActionLink("Create New", "Create")*@
-</p>
 <table id="basic-datatables" class="display table table-striped table-hover">
 
-    <thead>
+    <thead class="bg-primary text-light">
         <tr>
             @*<th>
                     @Html.DisplayNameFor(model => model.EmployeeID)
@@ -46,7 +37,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="table-light">
                 @*<td>
                         @Html.DisplayFor(modelItem => item.EmployeeID)
                     </td>*@

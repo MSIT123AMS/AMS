@@ -15,7 +15,7 @@ namespace AMS.Controllers
         private Entities db = new Entities();
 
         // GET: Review
-        public ActionResult Index()
+        public ActionResult Index5()
         {
             var q = db.LeaveRequests.AsEnumerable().Join(db.Employees, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new ReviewViewModels
             {
@@ -58,11 +58,11 @@ namespace AMS.Controllers
         }
 
 
-        public ActionResult Index3(string id)
-        {
-            LeaveRequests r = db.LeaveRequests.Find(id);
-            return PartialView("_LeavePartial", r);
-        }
+        //public ActionResult Index3(string id)
+        //{
+        //    LeaveRequests r = db.LeaveRequests.Find(id);
+        //    return PartialView("_LeavePartial", r);
+        //}
         public ActionResult Index22(string id="2")
         {
             int i = int.Parse(id);
@@ -87,9 +87,11 @@ namespace AMS.Controllers
             return View(q1);
         }
 
-        public ActionResult Index2(string id = "2")
+        public ActionResult Index(string id = "1")
         {
             int i = int.Parse(id);
+            //Entities db = new Entities();
+            ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
             var q1 = from l in db.LeaveRequests
                      join e in db.Employees on l.EmployeeID equals e.EmployeeID
                      join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
@@ -108,14 +110,35 @@ namespace AMS.Controllers
                          LeaveRequestID = l.LeaveRequestID
 
                      };
-            return PartialView("_LeavePartial", q1);
+            return View(q1);
+            //return PartialView("_LeavePartial", q1);
         }
 
-        public ActionResult Ajax()
+        public ActionResult Ajax(string id = "1")
         {
-            Entities db = new Entities();
+            int i = int.Parse(id);
+            //Entities db = new Entities();
             ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
-            return View();
+            var q1 = from l in db.LeaveRequests
+                     join e in db.Employees on l.EmployeeID equals e.EmployeeID
+                     join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
+                     where l.ReviewStatusID == i
+                     select new ReviewViewModels
+                     {
+                         EmployeeID = l.EmployeeID,
+                         EmployeeName = e.EmployeeName,
+                         LeaveType = l.LeaveType,
+                         StartTime = l.StartTime,
+                         EndTime = l.EndTime,
+                         RequestTime = l.RequestTime,
+                         LeaveReason = l.LeaveReason,
+                         ReviewStatus = r.ReviewStatus1,
+                         ReviewStatusID = l.ReviewStatusID,
+                         LeaveRequestID = l.LeaveRequestID
+
+                     };
+    
+            return PartialView("_LeavePartial", q1);
 
         }
         // GET: Review/Details/5
