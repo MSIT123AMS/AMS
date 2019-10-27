@@ -19,6 +19,7 @@ namespace AMS.Controllers
         {
             var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
             {
+                
                 EmployeeID = e.EmployeeID,
                 EmployeeName = e.EmployeeName,
                 DepartmentName = d.DepartmentName,
@@ -34,6 +35,26 @@ namespace AMS.Controllers
             return View(query);
             
             //return View();
+        }
+
+        
+
+        public ActionResult GetDdlandListemp(int? id)
+        {
+            Entities dc = new Entities();
+
+            var query = dc.Employees.Where(emp => emp.DepartmentID == id);       
+            ViewBag.Employees = new SelectList(query, "EmployeeID", "EmployeeName");
+            if (query != null)
+            {
+                return PartialView("_GetDdlandListempPartial", new SelectList(query, "EmployeeID", "EmployeeName"));
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+
+
         }
 
 
@@ -54,7 +75,8 @@ namespace AMS.Controllers
                     Hireday = e.Hireday.ToString("yyyy/MM/dd"),
                     JobStaus = e.JobStaus
                 });
-
+                var query = dc.Employees.Where(emp => emp.DepartmentID == id2);
+                ViewBag.Employees = new SelectList(query, "EmployeeID", "EmployeeName");
             }
             else if (id2 == null && id != "null")
             {
@@ -114,10 +136,22 @@ namespace AMS.Controllers
             return View(employees);
         }
 
+        public class Gender
+        {
+            public String text { get; set; }
+            public bool value { get; set; }
+        }
         // GET: Employees/Create
         public ActionResult Create()
         {
-            return View();
+            var dropdownlist = new List<Gender>
+            {
+                new Gender{ text="男生",value=true},
+                new Gender{ text="女生",value=false}
+
+            };
+            ViewBag.list = new SelectList(dropdownlist, "value", "text");
+            return PartialView("_CreatePartial");
         }
 
         // POST: Employees/Create

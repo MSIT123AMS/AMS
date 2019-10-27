@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using AMS.Models;
 
 namespace AMS.Controllers
@@ -37,8 +38,25 @@ namespace AMS.Controllers
         }
 
         // GET: LeaveRequests/Create
+
+        public class LeaveCombobox
+        {
+            public string comtext { get; set; }
+
+        }
         public ActionResult Create()
         {
+            ViewBag.dropdownlist = new SelectList(new List<LeaveCombobox> {
+                new LeaveCombobox {comtext="事假"},
+                new LeaveCombobox {comtext="病假"},
+                new LeaveCombobox {comtext="公假"},
+                new LeaveCombobox {comtext="喪假"},
+                new LeaveCombobox {comtext="產假"},
+                new LeaveCombobox {comtext="陪產假"},
+                new LeaveCombobox {comtext="生理假"},
+                new LeaveCombobox {comtext="補休假"},
+                new LeaveCombobox {comtext="家庭照顧假"},
+            }, "comtext", "comtext");
             return View();
         }
 
@@ -54,7 +72,7 @@ namespace AMS.Controllers
                 if (Request.Files["LeaveFile"].ContentLength != 0)
                 {
                     byte[] data = null;
-                    using (BinaryReader br=new BinaryReader(
+                    using (BinaryReader br = new BinaryReader(
                         Request.Files["LeaveFile"].InputStream))
                     {
                         data = br.ReadBytes(Request.Files["LeaveFile"].ContentLength);
@@ -165,5 +183,9 @@ namespace AMS.Controllers
             byte[] content = db.LeaveRequests.Find(id).Attachment;
             return File(content, "image/jpeg");
         }
+
+
+
+       
     }
 }
