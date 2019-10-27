@@ -33,12 +33,14 @@ namespace AMS.Controllers
             return View(db.LeaveRequests);
         }
 
-        public ActionResult Index2()
+        public ActionResult Index22()
         {
             var q1=from l in db.LeaveRequests
             join e in db.Employees on l.EmployeeID equals e.EmployeeID
             join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
-             select new ReviewViewModels
+
+           
+                   select new ReviewViewModels
             {
                 EmployeeID = l.EmployeeID,
                 EmployeeName = e.EmployeeName,
@@ -52,25 +54,61 @@ namespace AMS.Controllers
                 LeaveRequestID = l.LeaveRequestID
 
             };
-
-
-
-            //ViewBag.ReviewStatus = new SelectList(db.ReviewStatus);
-            //var q = db.LeaveRequests.AsEnumerable().Join(db.Employees, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new ReviewViewModels
-            //{
-            //    EmployeeID = d.EmployeeID,
-            //    EmployeeName = d.EmployeeName,
-            //    LeaveType = e.LeaveType,
-            //    StartTime = e.StartTime,
-            //    EndTime = e.EndTime,
-            //    RequestTime = e.RequestTime,
-            //    LeaveReason = e.LeaveReason,
-            //    ReviewStatusID = e.ReviewStatusID,
-            //    LeaveRequestID = e.LeaveRequestID
-
-            //});
-
             return View(q1);
+        }
+
+
+        public ActionResult Index3(string id)
+        {
+            LeaveRequests r = db.LeaveRequests.Find(id);
+            return PartialView("_LeavePartial", r);
+        }
+        public ActionResult Index22(string id="2")
+        {
+            int i = int.Parse(id);
+            var q1 = from l in db.LeaveRequests
+                     join e in db.Employees on l.EmployeeID equals e.EmployeeID
+                     join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
+                     where l.ReviewStatusID == i
+                     select new ReviewViewModels
+                     {
+                         EmployeeID = l.EmployeeID,
+                         EmployeeName = e.EmployeeName,
+                         LeaveType = l.LeaveType,
+                         StartTime = l.StartTime,
+                         EndTime = l.EndTime,
+                         RequestTime = l.RequestTime,
+                         LeaveReason = l.LeaveReason,
+                         ReviewStatus = r.ReviewStatus1,
+                         ReviewStatusID = l.ReviewStatusID,
+                         LeaveRequestID = l.LeaveRequestID
+
+                     };
+            return View(q1);
+        }
+
+        public ActionResult Index2(string id = "2")
+        {
+            int i = int.Parse(id);
+            var q1 = from l in db.LeaveRequests
+                     join e in db.Employees on l.EmployeeID equals e.EmployeeID
+                     join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
+                     where l.ReviewStatusID == i
+                     select new ReviewViewModels
+                     {
+                         EmployeeID = l.EmployeeID,
+                         EmployeeName = e.EmployeeName,
+                         LeaveType = l.LeaveType,
+                         StartTime = l.StartTime,
+                         EndTime = l.EndTime,
+                         RequestTime = l.RequestTime,
+                         LeaveReason = l.LeaveReason,
+                         ReviewStatus = r.ReviewStatus1,
+                         ReviewStatusID = l.ReviewStatusID,
+                         LeaveRequestID = l.LeaveRequestID
+
+                     };
+            return PartialView("_LeavePartial", q1);
         }
 
         public ActionResult Ajax()
