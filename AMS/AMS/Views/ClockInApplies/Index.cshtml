@@ -1,0 +1,60 @@
+﻿@model AMS.Models.ClockInApply
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section css{
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+}
+
+<h3 id="linked-pickers">Linked Pickers 4.13.28</h3>
+<div class="container">
+    <div class='col-md-5'>
+        <div class="form-group">
+            <label>Date To:</label>
+            <div class='input-group date' id='datetimepicker6' style="width:300px">
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class='col-md-5'>
+        <div class="form-group">
+            <label>Date From:</label>
+            <div class='input-group date' id='datetimepicker7' style="width:300px">
+                <input type='text' class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/moment-2.10.3.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker6').datetimepicker({
+                format: 'll'
+
+            });
+            $('#datetimepicker7').datetimepicker({
+                format: 'll'
+            });
+            $("#datetimepicker6").on("dp.change", function (e) {
+                $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+            });
+            $("#datetimepicker7").on("dp.change", function (e) {
+                $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+            });
+        });
+    </script>
+
+}

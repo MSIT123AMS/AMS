@@ -7,6 +7,8 @@
     <link rel="icon" href="~/assets/img/icon.ico" type="image/x-icon" />
 
     <!-- Fonts and icons -->
+
+
     <script src="~/assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
         WebFont.load({
@@ -24,15 +26,19 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="~/assets/css/demo.css">
+    @RenderSection("styles", required: false)
+    @*@RenderSection("css", required: false)*@
 </head>
 <body>
     <div class="wrapper">
         <div class="main-header">
             <!-- Logo Header -->
-            <div class="logo-header" data-background-color="blue">
+            <div class="logo-header" data-background-color="white">
 
                 <a href="index.html" class="logo">
-                    <img src="~/assets/img/logo.svg" alt="navbar brand" class="navbar-brand">
+                    
+                   
+                    <img src=@Url.Content("~/Img/logo.png") alt="navbar brand" class="navbar-brand"  width="150" height="50">
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
@@ -322,7 +328,6 @@
                             <span class="sidebar-mini-icon">
                                 <i class="fa fa-ellipsis-h"></i>
                             </span>
-                            <h4 class="text-section">Components</h4>
                         </li>
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#base">
@@ -382,7 +387,7 @@
                             <div class="collapse" id="sidebarLayouts">
                                 <ul class="nav nav-collapse">
                                     <li>
-                                        <a href="sidebar-style-1.html">
+                                        <a href=@Url.Action("Index","LeaveRequests")>
                                             <span class="sub-item">請假申請單</span>
                                         </a>
                                     </li>
@@ -404,7 +409,22 @@
                                 </ul>
                             </div>
                         </li>
-
+                        <li class="nav-item">
+                            <a data-toggle="collapse" href="#sidebarLayout2">
+                                <i class="fas fa-th-list"></i>
+                                <p>主管區</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse" id="sidebarLayout2">
+                                <ul class="nav nav-collapse">
+                                    <li>
+                                        <a href=@Url.Action("Index","Review")>
+                                            <span class="sub-item">審核</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                         <li class="nav-item">
                             <a data-toggle="collapse" href="#sidebarLayouts1">
                                 <i class="fas fa-users"></i>
@@ -486,7 +506,7 @@
                         </ul>
                     </nav>
                     <div class="copyright ml-auto">
-                        Copyright &copy; 2019.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a>
+                        Copyright &copy; 2019.Company name All rights reserved.
                     </div>
                 </div>
             </footer>
@@ -590,7 +610,7 @@
     <script src="~/assets/js/plugin/datatables/datatables.min.js"></script>
 
     <!-- Bootstrap Notify -->
-    <script src="~/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>
+    @*<script src="~/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>*@
 
     <!-- jQuery Vector Maps -->
     <script src="~/assets/js/plugin/jqvmap/jquery.vmap.min.js"></script>
@@ -703,5 +723,6 @@
 
 
     @RenderSection("scripts", required: false)
+    @*@RenderSection("scripts1", required: false)*@
 </body>
 </html>

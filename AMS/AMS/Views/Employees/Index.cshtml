@@ -3,6 +3,44 @@
 @{
     ViewBag.Title = "Index";
 }
+
+<label class=" control-label" style="font-size:35px;margin:10px">員工管理</label>
+
+<div class="page-inner" >
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" id="mmmmmm">
+                <div class="card-header row form-group">
+                    <label class=" control-label" style="font-size:20px;margin-left:20px">部門:</label>
+                    <div class="col-sm-2">
+                        @Html.DropDownList("Department", null, "-請選擇-", new { @class = " form-control" })
+                    </div>
+                    <label class=" control-label" style="font-size:20px;margin-left:20px">員工:</label>
+                    <div id="ddlemp" class="col-sm-2">
+                        @Html.DropDownList("Employees", null, "-請選擇-", new { @class = " form-control" })
+                    </div>
+                    <div class="col-sm-2">
+                        <input id="Button1" type="button" value="新增員工"  class = "btn btn-outline-primary"/>
+                        @*@Html.ActionLink("新增員工", "Create", null, new { @class = "btn btn-outline-primary" })*@
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive" id="Employeestable">
+                        @Html.Partial("_ListempPartial", Model);
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles
+{
+<style>
+    th {
+     
+    }
+</style>
+}
 @section scripts
 {
 
@@ -10,134 +48,92 @@
         $(document).ready(function () {
             $('#basic-datatables').DataTable({
             });
+            $("#basic-datatables_filter").hide();
         });
-
-
         $("#Employees").bind("change", function () {
-            UpdateOrders();
-           
+            UpdateEmployeesByEmployee();
         });
+
+        
         $("#Department").bind("change", function () {
-            UpdateOrders1();
-           
+            UpdateEmployeesByDepartment();
+            Updateddl();
         });
+        $("#Button1").bind("click", function () {
+            createmp();
+        });
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
 
-
-        function UpdateOrders() {
+        function createmp() {
             $.ajax({
-                
+
                 type: "GET",
-                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + Employees.value + "/" + Department.value,
-                @*url:@Url.RouteUrl("Default1", new { controller = "Employees", action = "List", id = 1, id2 = 1 })*@
-                }).done(function (result) {
-                    $("#Employeestable").html(result);
-                    $('#basic-datatables').DataTable({
-                    });
+                url: "@Url.Action("Create", "Employees")",
+            }).done(function (result) {
+
+                $("#mmmmmm").html(result);
+
+
+                $("#empFile").bind("change", function () {
+                    readURL(this);
+
+                });
+
                 }).fail(function (e) { alert(e.responseText) });
         }
 
 
-        function UpdateOrders1() {
+        function Updateddl() {
             $.ajax({
+
                 type: "GET",
-                @*url: "@Url.Action("Orders", "Customers")/" + Customers.value,*@
-                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + "null/" + Department.value,
-                @*@Html.RouteLink( )*@
-                @*url:@Url.RouteUrl("Default1", new { controller = "Employees", action = "List", id = "", id2 =  })*@
+                url: "@Url.Action("GetDdlandListemp", "Employees")/" + Department.value,
+            }).done(function (result) {
+
+                $("#ddlemp").html(result);
+                $("#Employees").bind("change", function () {
+                    UpdateEmployeesByEmployee();
+
+                });
+                }).fail(function (e) { alert(e.responseText) });
+        }
+
+        function UpdateEmployeesByEmployee() {
+            $.ajax({
+
+                type: "GET",
+                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + Employees.value + "/" + Department.value,
                 }).done(function (result) {
                     $("#Employeestable").html(result);
                     $('#basic-datatables').DataTable({
                     });
+                    $("#basic-datatables_filter").hide();
+                }).fail(function (e) { alert(e.responseText) });
+        }
+
+
+        function UpdateEmployeesByDepartment() {
+            $.ajax({
+                type: "GET",
+                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + "null/" + Department.value,
+                }).done(function (result) {
+                    $("#Employeestable").html(result);
+                    $('#basic-datatables').DataTable({
+                    });
+                    $("#basic-datatables_filter").hide();
                 }).fail(function (e) { alert(e.responseText) });
         }
 
 
     </script>
 
+
 }
-<h2>Index</h2>
-
-
-
-
-<div class="page-inner">
-
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header row form-group">
-                    <label class="col-sm-1 control-label">部門:</label>
-                    @Html.DropDownList("Department", null, "-請選擇-", new { @class = "col-sm-2 form-control" })
-                    <label class="col-sm-1 control-label">員工:</label>
-                    @Html.DropDownList("Employees", null, "-請選擇-", new { @class = "col-sm-2 form-control" })
-
-                    @Html.ActionLink("新增員工", "Create", null, new { @class = "col-sm-1 btn btn-outline-primary" })
-
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive" id="Employeestable">
-
-                       @Html.Partial("_ListempPartial", Model);
-
-                        @*<table id="basic-datatables" class="display table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
-                    <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
-                    <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
-                    <th>@Html.DisplayNameFor(model => model.Manager)</th>
-                    <th>@Html.DisplayNameFor(model => model.Hireday)</th>
-                    <th>@Html.DisplayNameFor(model => model.JobStaus)</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
-                    <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
-                    <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
-                    <th>@Html.DisplayNameFor(model => model.Manager)</th>
-                    <th>@Html.DisplayNameFor(model => model.Hireday)</th>
-                    <th>@Html.DisplayNameFor(model => model.JobStaus)</th>
-                    <th>Action</th>
-                </tr>
-            </tfoot>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EmployeeName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DepartmentName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.JobTitle)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Manager)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Hireday)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.JobStaus)
-                        </td>
-
-                        <td>
-                            @Html.ActionLink("編輯", "Edit", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })
-                            @Html.ActionLink("明細", "Details", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })
-
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>*@
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

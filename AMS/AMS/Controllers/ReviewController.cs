@@ -17,9 +17,69 @@ namespace AMS.Controllers
         // GET: Review
         public ActionResult Index()
         {
+            var q = db.LeaveRequests.AsEnumerable().Join(db.Employees, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new ReviewViewModels
+            {
+                EmployeeID = d.EmployeeID,
+                EmployeeName = d.EmployeeName,
+                LeaveType = e.LeaveType,
+                StartTime = e.StartTime,
+                EndTime=e.EndTime,
+                RequestTime = e.RequestTime,
+                LeaveReason = e.LeaveReason,
+                ReviewStatusID = e.ReviewStatusID
+
+            });
+
             return View(db.LeaveRequests);
         }
 
+        public ActionResult Index2()
+        {
+            var q1=from l in db.LeaveRequests
+            join e in db.Employees on l.EmployeeID equals e.EmployeeID
+            join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
+             select new ReviewViewModels
+            {
+                EmployeeID = l.EmployeeID,
+                EmployeeName = e.EmployeeName,
+                LeaveType = l.LeaveType,
+                StartTime = l.StartTime,
+                EndTime = l.EndTime,
+                RequestTime = l.RequestTime,
+                LeaveReason = l.LeaveReason,
+                ReviewStatus = r.ReviewStatus1,
+                ReviewStatusID = l.ReviewStatusID,
+                LeaveRequestID = l.LeaveRequestID
+
+            };
+
+
+
+            //ViewBag.ReviewStatus = new SelectList(db.ReviewStatus);
+            //var q = db.LeaveRequests.AsEnumerable().Join(db.Employees, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new ReviewViewModels
+            //{
+            //    EmployeeID = d.EmployeeID,
+            //    EmployeeName = d.EmployeeName,
+            //    LeaveType = e.LeaveType,
+            //    StartTime = e.StartTime,
+            //    EndTime = e.EndTime,
+            //    RequestTime = e.RequestTime,
+            //    LeaveReason = e.LeaveReason,
+            //    ReviewStatusID = e.ReviewStatusID,
+            //    LeaveRequestID = e.LeaveRequestID
+
+            //});
+
+            return View(q1);
+        }
+
+        public ActionResult Ajax()
+        {
+            Entities db = new Entities();
+            ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
+            return View();
+
+        }
         // GET: Review/Details/5
         public ActionResult Details(string id)
         {
@@ -55,6 +115,12 @@ namespace AMS.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+
+        public ActionResult Edit3(string[] Checkboxxx)
+        {
+            return View();
         }
         // POST: Review/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
