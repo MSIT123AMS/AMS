@@ -136,9 +136,21 @@ namespace AMS.Controllers
             return View(employees);
         }
 
+        public class Gender
+        {
+            public String text { get; set; }
+            public bool value { get; set; }
+        }
         // GET: Employees/Create
         public ActionResult Create()
         {
+            var dropdownlist = new List<Gender>
+            {
+                new Gender{ text="男生",value=true},
+                new Gender{ text="女生",value=false}
+
+            };
+            ViewBag.list = new SelectList(dropdownlist, "value", "text");
             return PartialView("_CreatePartial");
         }
 
