@@ -17,8 +17,8 @@
                 <div class="card-header row form-group">
                     @*<label class=" control-label" style="font-size:20px;margin-left:20px">部門:</label>*@
                     <div class="col-sm-2">
-                        @*@Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })*@
-                        @Html.DropDownList(
+                        @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })
+                        @*@Html.DropDownList(
                             "url",
                             new SelectList(new[]
                             {
@@ -28,7 +28,7 @@
                             }, "Value", "Text"),
                             "-- Pick an URL ---",
                             new { id = "urlddl" }
-                        )
+                        )*@
 
 
 
@@ -60,32 +60,31 @@
 
 
 
-        $(document).ready(function () {
-            $("#urlddl").change(function () {
-                    var url = $(this).val();
-                    if (url != null && url != '') {
-                        window.location.href = url;
-                    }
-            });
 
 
-            $('#basic-datatables').DataTable({});
-            $("#basic-datatables_filter").hide();
-        });
 
         //$(document).ready(function () {
-        //    $("#Customers").bind("change", function () {
-        //        UpdateOrders();
+        //    $("#urlddl").change(function () {
+        //            var url = $(this).val();
+        //            if (url != null && url != '') {
+        //                window.location.href = url;
+        //            }
         //    });
 
-        //        $('#basic-datatables').DataTable({});
-        //        $("#basic-datatables_filter").hide();
-        // });
+
+        //    $('#basic-datatables').DataTable({});
+        //    $("#basic-datatables_filter").hide();
+        //});
+
+        $(document).ready(function () {
+            $("#Customers").bind("change", function () {
+                UpdateEmployeesByDepartment();
+            });
+
+                $('#basic-datatables').DataTable({});
+                $("#basic-datatables_filter").hide();
+         });
         function UpdateOrders() {
-
-
-
-
             @*$.ajax({
                 type: "Get",
                 url: "@Url.Action("Ajax","Review")/" + Customers.value
@@ -173,8 +172,9 @@
         function UpdateEmployeesByDepartment() {
             $.ajax({
                 type: "GET",
-                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + "null/" + Department.value,
-                }).done(function (result) {
+                @*url: "@Url.RouteUrl("Default", new { controller = "Review", action = "Ajax" })/" + "null/" + Customers.value,*@
+               url: " @Url.Action("Ajax","Review")/" + Customers.value
+               }).done(function (result) {
                     $("#Employeestable").html(result);
                     $('#basic-datatables').DataTable({
                     });
