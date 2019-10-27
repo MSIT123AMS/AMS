@@ -25,10 +25,12 @@ namespace AMS.Controllers
         // GET: LeaveRequests/Details/5
         public ActionResult Details(string id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             LeaveRequests leaveRequests = db.LeaveRequests.Find(id);
             if (leaveRequests == null)
             {
@@ -70,6 +72,11 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                //新增先給這幾項直(登入還沒做)
+                leaveRequests.LeaveRequestID = db.LeaveRequests.Count().ToString();
+                leaveRequests.EmployeeID = "MSIT0001";
+                leaveRequests.RequestTime = DateTime.Now;
+                leaveRequests.ReviewStatusID = 1;
                 if (Request.Files["LeaveFile"].ContentLength != 0)
                 {
                     byte[] data = null;
@@ -82,14 +89,7 @@ namespace AMS.Controllers
                 }
 
                 db.LeaveRequests.Add(leaveRequests);
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch(Exception ex)
-                {
-                    throw;
-                }
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
