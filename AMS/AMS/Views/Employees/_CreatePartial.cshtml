@@ -65,7 +65,7 @@
                     @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
                     <div class="col-md-4">
                         <div class="checkbox">
-                            @Html.DropDownList("list", null, "---請選擇---", new { @class = "form-control" })
+                            @Html.DropDownList("gender", null, "---請選擇---", new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -148,7 +148,7 @@
 
             <div class="row">
 
-                <div class="form-group col-md-12 row ">
+                <div class="form-group col-md-12  row ">
                     @Html.LabelFor(model => model.Deputy, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
                     <div class="col-md-4">
                         @Html.EditorFor(model => model.Deputy, new { htmlAttributes = new { @class = "form-control" } })
@@ -174,26 +174,33 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
-                </div>
-            </div>
+           
         </div>
 
         <div class="col-md-3">
           
-            @*<img id="imgPreview2" src="@Url.Content("~/Img/upload.png")" style="width:360px;height:300px;margin:auto;margin-top:30px" />*@
+            <img id="imgPreview" src="@Url.Content("~/Img/upload.png")" style="width:360px;height:300px;margin:auto;margin-top:30px" />
             <div class="form-group col-md-12 row">
                 @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-4 text-right" })
                 <div class="col-md-8">
 
                     @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
 
-                    <img id="imgPreview" src="@Url.Content("~/Img/upload.png")" style="width:180px;height:120px" />
+
                     <input type="file" name="empFile" id="empFile" accept="image/*" />
 
                 </div>
+                <br /><br /><br /> <br /><br /><br /><br /> <br /><br /><br /><br /> <br /><br /><br /><br /> <br />
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-5 col-md-10">
+                        <input type="submit" value="新增" class="btn btn-primary" />
+                    </div>
+                </div>
+
+
+
 
             </div>
         </div>
