@@ -24,5 +24,7 @@ namespace AMS.Controllers
         public DateTime? EndTime { get; set; }
         [Display(Name = "審核狀態")]
         public string Review { get; set; }
+        [Display(Name = "假別")]
+        public string LeaveType { get; internal set; }
     }
 }

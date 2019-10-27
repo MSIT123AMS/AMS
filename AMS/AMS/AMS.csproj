@@ -211,6 +211,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OverTimeRequestsController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Models\SerchAttendancesViewModel.cs" />
     <Compile Include="Models\SerchLeaveViewModel.cs" />
     <Compile Include="Controllers\TestLUISController.cs" />
     <Compile Include="Controllers\TestQnAController.cs" />
@@ -896,6 +897,10 @@
     <Content Include="Views\Employees\_SerchLeaveListPartial.cshtml" />
     <Content Include="Views\Employees\SerchLeave.cshtml" />
     <Content Include="Views\OverTimeRequests\_OverTimeIndexPartialView.cshtml" />
+    <Content Include="Views\Employees\SerchOverTime.cshtml" />
+    <Content Include="Views\Employees\_SerchOverTimePartial.cshtml" />
+    <Content Include="Views\Employees\SerchAttendances.cshtml" />
+    <Content Include="Views\Employees\_SerchAttendancesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
