@@ -6,13 +6,14 @@
 
 <h2>Index</h2>
 
-
-<script>
-    $(document).ready(function () {
-        $('#basic-datatables').DataTable({
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#basic-datatables').DataTable({
+            });
         });
-    });
-</script>
+    </script>
 }
 <p>
     @Html.ActionLink("新增", "Create", "Create", new { @class = "btn btn-outline-primary" })
@@ -54,41 +55,41 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
+            <tr>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RequestTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveReason)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReviewStatusID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReviewTime)
-            </td>
-            <td>
-                @Html.Partial("_ShowPhotoPartial", item)
-            </td>
-            <td>
-                @Html.ActionLink("編輯", "Edit", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })|
-                @Html.ActionLink("明細", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })
-                @*@Html.ActionLink("Delete", "Delete", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })*@
-            </td>
-        </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveReason)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewStatusID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewTime)
+                </td>
+                <td>
+                    @Html.Partial("_ShowPhotoPartial", item)
+                </td>
+                <td>
+                    @Html.ActionLink("編輯", "Edit", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })|
+                    @Html.ActionLink("明細", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })
+                    @*@Html.ActionLink("Delete", "Delete", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })*@
+                </td>
+            </tr>
         }
     </tbody>
 </table>
