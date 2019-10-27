@@ -8,11 +8,6 @@
 
 
 
-
-    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
-
-
-
 }
 
 
@@ -77,16 +72,7 @@
 }
 
 
-<label for="">選擇日期：</label>
 
-<div class="input-group date" id='date1'>
-
-    <input type="text" class="form-control" />
-
-    <span class="input-group-addon">
-        <i class="glyphicon glyphicon-calendar"></i>
-    </span>
-</div>
 
 
 
@@ -97,23 +83,7 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment-with-locales.min.js"></script>
-    <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
-
-    <script>
-
-        $('#date1').datetimepicker({
-
-            format: 'YYYY-MM-DD hh:mm:ss',
-            locale: moment.locale('zh-cn')
-        });
-    </script>
-
+  
 
 
 }

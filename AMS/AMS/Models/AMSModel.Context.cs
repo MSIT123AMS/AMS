@@ -37,5 +37,7 @@ namespace AMS.Models
         public virtual DbSet<Attendances> Attendances { get; set; }
 
         public System.Data.Entity.DbSet<AMS.Controllers.EmployeesCreateViewModel> EmployeesCreateViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<AMS.Models.OverTimeViewModel> OverTimeViewModels { get; set; }
     }
 }

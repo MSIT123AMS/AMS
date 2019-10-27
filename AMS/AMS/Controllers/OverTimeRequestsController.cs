@@ -19,7 +19,30 @@ namespace AMS.Controllers
         // GET: OverTimeRequests
         public ActionResult Index()
         {
-            return View(db.OverTimeRequest.ToList());
+
+
+            var overTimeRequest = (from ot in db.OverTimeRequest.AsEnumerable()
+                                   join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                                   join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                                   join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                                   select new OverTimeViewModel
+                                   {
+                                       RequestID = ot.OverTimeRequestID,
+                                       EmployeeName = emp.EmployeeName,
+                                       RequestTime = ot.RequestTime,
+                                       StartTime = ot.StartTime,
+                                       EndTime = ot.EndTime,
+                                       PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
+                                       OTDateType = date.WorkingDay,
+                                       SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                                       Reason = ot.OverTimeReason,
+                                       Review = rev.ReviewStatus1,
+                                       ReviewTime = ot.ReviewTime
+                                   });
+
+
+
+            return View(overTimeRequest);
         }
 
         // GET: OverTimeRequests/Details/5
@@ -87,8 +110,8 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                overTimeRequest.OverTimeRequestID = "99";
-                overTimeRequest.EmployeeID = "MSIT0001";
+                overTimeRequest.OverTimeRequestID = "999";
+                overTimeRequest.EmployeeID = "MSIT1230001";
                 overTimeRequest.RequestTime = DateTime.Now;
                 overTimeRequest.ReviewStatusID = 1;
                 
