@@ -13,13 +13,13 @@ namespace AMS.Metadata
         [Display(Name = "員工編號")]
         public string EmployeeID { get; set; }
         [DataType(DataType.DateTime),Display(Name = "申請時間")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddThh:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> RequestTime { get; set; }
         [DataType(DataType.DateTime), Display(Name = "請假開始時間")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddThh:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> StartTime { get; set; }
         [DataType(DataType.DateTime), Display(Name = "請假結束時間")]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-ddThh:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
         public Nullable<System.DateTime> EndTime { get; set; }
         [Display(Name = "假別")]
         public string LeaveType { get; set; }
