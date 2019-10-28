@@ -203,7 +203,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\AttendancesSearchController.cs" />
-    <Compile Include="Controllers\ClockInAppliesController.cs" />
+    <Compile Include="Controllers\ClockInApplyController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaveRequestsController.cs" />
@@ -928,6 +928,12 @@
     <Content Include="Views\Review\Index2.cshtml" />
     <Content Include="Views\Review\Indexxx.cshtml" />
     <Content Include="Views\Review\_LeavePartial.cshtml" />
+    <Content Include="Views\ClockInApply\Create.cshtml" />
+    <Content Include="Views\ClockInApply\Delete.cshtml" />
+    <Content Include="Views\ClockInApply\Details.cshtml" />
+    <Content Include="Views\ClockInApply\Edit.cshtml" />
+    <Content Include="Views\ClockInApply\Index.cshtml" />
+    <Content Include="Views\LeaveRequests\_LeaveIndexPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
