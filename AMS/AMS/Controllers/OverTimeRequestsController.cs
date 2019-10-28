@@ -19,12 +19,13 @@ namespace AMS.Controllers
         // GET: OverTimeRequests
         public ActionResult Index()
         {
-
+            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
 
             var overTimeRequest = (from ot in db.OverTimeRequest.AsEnumerable()
                                    join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
                                    join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
                                    join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                                   where ot.EmployeeID==User
                                    select new OverTimeViewModel
                                    {
                                        RequestID = ot.OverTimeRequestID,
@@ -48,13 +49,14 @@ namespace AMS.Controllers
         
         public ActionResult Overtimetable (string id, string id2)
         {
+            string User = Convert.ToString(Session["UserName"]);
             DateTime Starttime = Convert.ToDateTime(id.Substring(0,4)+"/"+id.Substring(4,2)+"/"+id.Substring(6,2)+" 00:00:00");
             DateTime Endtime = Convert.ToDateTime(id2.Substring(0, 4) + "/" + id2.Substring(4, 2) + "/" + id2.Substring(6, 2)+" 23:59:59");
             var Query =  (from ot in db.OverTimeRequest.AsEnumerable()
                            join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
                            join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
                            join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
-                           where ot.StartTime >= Starttime && ot.EndTime<= Endtime
+                           where ot.StartTime >= Starttime && ot.EndTime<= Endtime&& ot.EmployeeID == User
                           select new OverTimeViewModel
                            {
                                RequestID = ot.OverTimeRequestID,
@@ -150,10 +152,11 @@ namespace AMS.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "StartTime,EndTime,OverTimePay,OverTimeReason")] OverTimeRequest overTimeRequest)
         {
+            string User = Convert.ToString(Session["UserName"]);
             if (ModelState.IsValid)
             {
                 overTimeRequest.OverTimeRequestID = "999";
-                overTimeRequest.EmployeeID = "MSIT1230001";
+                overTimeRequest.EmployeeID = User;
                 overTimeRequest.RequestTime = DateTime.Now;
                 overTimeRequest.ReviewStatusID = 1;
                 

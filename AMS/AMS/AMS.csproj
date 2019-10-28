@@ -211,6 +211,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OverTimeRequestsController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Models\LeaveIndexViewModel.cs" />
     <Compile Include="Models\SerchAttendancesViewModel.cs" />
     <Compile Include="Models\SerchLeaveViewModel.cs" />
     <Compile Include="Controllers\TestLUISController.cs" />
@@ -921,6 +922,12 @@
     <Content Include="Views\Employees\SerchAttendances.cshtml" />
     <Content Include="Views\Employees\_SerchAttendancesPartial.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\LeaveRequests\_ShowPhotoPartialDetails.cshtml" />
+    <Content Include="Views\LeaveRequests\LeaveIndexView.cshtml" />
+    <Content Include="Views\Review\Ajax.cshtml" />
+    <Content Include="Views\Review\Index2.cshtml" />
+    <Content Include="Views\Review\Indexxx.cshtml" />
+    <Content Include="Views\Review\_LeavePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
