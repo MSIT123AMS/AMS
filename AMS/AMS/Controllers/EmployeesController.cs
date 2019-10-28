@@ -231,6 +231,7 @@ namespace AMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Employees employees = db.Employees.Find(id);
+
             if (employees == null)
             {
                 return HttpNotFound();
@@ -261,11 +262,11 @@ namespace AMS.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education")] Employees employees)
+        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName")] EmployeesCreateViewModel employees)
         {
             if (ModelState.IsValid)
             {
-                db.Employees.Add(employees);
+                //db.Employees.Add(employees);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
