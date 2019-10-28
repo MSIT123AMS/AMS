@@ -286,12 +286,17 @@
     <Content Include="App_Data\AMSDatabase_log.ldf">
       <DependentUpon>AMSDatabase.mdf</DependentUpon>
     </Content>
+    <Content Include="assets\css\animate.css" />
     <Content Include="assets\css\atlantis.css" />
     <Content Include="assets\css\atlantis.min.css" />
+    <Content Include="assets\css\bootsnav.css" />
     <Content Include="assets\css\bootstrap.min.css" />
     <Content Include="assets\css\demo.css" />
+    <Content Include="assets\css\font-awesome.min.css" />
     <Content Include="assets\css\fonts.css" />
     <Content Include="assets\css\fonts.min.css" />
+    <Content Include="assets\css\responsive.css" />
+    <Content Include="assets\css\style.css" />
     <Content Include="assets\fonts\flaticon\flaticon.css" />
     <Content Include="assets\fonts\flaticon\flaticon.html" />
     <Content Include="assets\fonts\flaticon\Flaticon.svg" />
@@ -618,10 +623,17 @@
     <Content Include="assets\js\atlantis.js" />
     <Content Include="assets\js\atlantis.min.js" />
     <Content Include="assets\js\atlantis2.js" />
+    <Content Include="assets\js\bootsnav.js" />
+    <Content Include="assets\js\bootstrap.min.js" />
     <Content Include="assets\js\core\bootstrap.min.js" />
     <Content Include="assets\js\core\jquery.3.2.1.min.js" />
     <Content Include="assets\js\core\popper.min.js" />
+    <Content Include="assets\js\custom.js" />
     <Content Include="assets\js\demo.js" />
+    <Content Include="assets\js\jquery.easing.min.js" />
+    <Content Include="assets\js\jquery.js" />
+    <Content Include="assets\js\jquery.sticky.js" />
+    <Content Include="assets\js\modernizr.min.js" />
     <Content Include="assets\js\plugin\bootstrap-notify\bootstrap-notify.min.js" />
     <Content Include="assets\js\plugin\chart-circle\circles.min.js" />
     <Content Include="assets\js\plugin\chart.js\chart.min.js" />

@@ -2,7 +2,7 @@
 
 @if (Model.Attachment != null)
 {
-    <img  src='@Url.Action("ShowPhoto","LeaveRequests",new { id=Model.LeaveRequestID})' style="width:180px;height:120px"/>
+    <img  src='@Url.Action("ShowPhoto","LeaveRequests",new { id=Model.LeaveRequestID})' style="width:180px;height:120px;max-width:100%"/>
 }
 else
 {
