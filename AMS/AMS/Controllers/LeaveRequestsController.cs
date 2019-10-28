@@ -23,6 +23,61 @@ namespace AMS.Controllers
         }
 
         // GET: LeaveRequests/Details/5
+
+        public ActionResult LeaveIndexView()
+        {
+            var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
+                                    join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
+                                    join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
+                                    select new LeaveIndexViewModel
+                                    {
+                                        LeaveRequestID = lt.LeaveRequestID,
+                                        EmployeeName = emp.EmployeeName,
+                                        LeaveType = lt.LeaveType,
+                                        RequestTime = lt.RequestTime,
+                                        StartTime = lt.StartTime,
+                                        EndTime = lt.EndTime,
+                                        LeaveReason = lt.LeaveReason,
+                                        Review = rev.ReviewStatus1,
+                                        ReviewTime = lt.ReviewTime,
+                                        Attachment = lt.Attachment
+                                    });
+    
+                return View(LeaveTimeRequest);
+
+        }
+        public ActionResult Leavetable(string id, string id2)
+        {
+            DateTime startime = Convert.ToDateTime(id.Substring(0, 4) + "/" + id.Substring(4, 2) + "/" + id.Substring(6, 2) + " 00:00:00");
+            DateTime endtime = Convert.ToDateTime(id2.Substring(0, 4) + "/" + id2.Substring(4, 2) + "/" + id2.Substring(6, 2) + " 23:59:59");
+
+            var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
+                                    join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
+                                    join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
+                                    where lt.StartTime >= startime && lt.EndTime <= endtime
+                                    select new LeaveIndexViewModel
+                                    {
+                                        LeaveRequestID = lt.LeaveRequestID,
+                                        EmployeeName = emp.EmployeeName,
+                                        LeaveType = lt.LeaveType,
+                                        RequestTime = lt.RequestTime,
+                                        StartTime = lt.StartTime,
+                                        EndTime = lt.EndTime,
+                                        LeaveReason = lt.LeaveReason,
+                                        Review = rev.ReviewStatus1,
+                                        ReviewTime = lt.ReviewTime,
+                                        Attachment = lt.Attachment
+                                    });
+            if (LeaveTimeRequest != null)
+            {
+                return PartialView("_LeaveIndexPartialView", LeaveTimeRequest);
+
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+        }
         public ActionResult Details(string id)
         {
 
@@ -74,7 +129,7 @@ namespace AMS.Controllers
             {
                 //新增先給這幾項直(登入還沒做)
                 leaveRequests.LeaveRequestID = db.LeaveRequests.Count().ToString();
-                leaveRequests.EmployeeID = "MSIT0001";
+                leaveRequests.EmployeeID = "MSIT1230001";
                 leaveRequests.RequestTime = DateTime.Now;
                 leaveRequests.ReviewStatusID = 1;
                 if (Request.Files["LeaveFile"].ContentLength != 0)
@@ -90,7 +145,7 @@ namespace AMS.Controllers
 
                 db.LeaveRequests.Add(leaveRequests);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("LeaveIndexView");
             }
 
             return View(leaveRequests);
@@ -193,7 +248,5 @@ namespace AMS.Controllers
         }
 
 
-
-       
     }
 }

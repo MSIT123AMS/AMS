@@ -1,76 +1,80 @@
-﻿@model IEnumerable<AMS.Models.ReviewViewModels>
+﻿@model IEnumerable<AMS.Models.LeaveReviewViewModels>
+@using (Html.BeginForm("Edit2", "Review"))
+{
+    <button type="submit" class="btn btn-danger">核准</button>
+    <table id="basic-datatables" class="display table table-striped table-hover">
 
-<table id="basic-datatables" class="display table table-striped table-hover">
-
-    <thead class="bg-primary text-light">
-        <tr>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.EmployeeID)
-                </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LeaveType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LeaveReason)
-            </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.ReviewStatusID)
-                </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.ReviewStatus)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr class="table-light">
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.EmployeeID)
-                    </td>*@
+        <thead class="bg-primary text-light">
+            <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                    @Html.CheckBox("CheckBox", false, new { id = "CheckAll" })
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LeaveType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LeaveReason)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.ReviewStatusID)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReviewStatus)
-                </td>
-                <td>
-                    @*@Html.ActionLink("Edit", "Edit", new { id=item.LeaveRequestID }) |*@
-                    @Html.ActionLink("Details", "Details", new { id = item.LeaveRequestID }) |
-                    @*@Html.ActionLink("Delete", "Delete", new { id=item.LeaveRequestID })*@
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.EmployeeName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LeaveType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RequestTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LeaveReason)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.ReviewStatusID)
+                    </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.ReviewStatus)
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="table-light">
+                    <td>
+                        @Html.CheckBox("Checkboxxx", false, new { id = "Checkboxxx", value = item.LeaveRequestID })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmployeeName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LeaveType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RequestTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LeaveReason)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.ReviewStatusID)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReviewStatus)
+                    </td>
+                    <td>
+                        @*@Html.ActionLink("Edit", "Edit", new { id=item.LeaveRequestID }) |*@
+                        @Html.ActionLink("Details", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })
+                        @*@Html.ActionLink("Delete", "Delete", new { id=item.LeaveRequestID })*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

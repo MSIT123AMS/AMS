@@ -3,61 +3,166 @@
 @{
     ViewBag.Title = "登入";
 }
-
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>使用本機帳戶登入。</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="登入" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("註冊為新使用者", "Register")
-                </p>
-                @* 請在啟用密碼重設功能的帳戶確認之後啟用此項目
-                    <p>
-                        @Html.ActionLink("忘記密碼?", "ForgotPassword")
-                    </p>*@
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@{
+    Layout = null;
 }
+
+<!doctype html>
+<html lang="en">
+
+<head>
+   
+    <!-- meta data -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!--font-family-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;subset=devanagari,latin-ext" rel="stylesheet">
+
+    <!-- title of site -->
+    <title>Sign in</title>
+
+    <!-- For favicon png -->
+    <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png" />
+
+    <!--font-awesome.min.css-->
+    <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
+
+    <!--animate.css-->
+    <link rel="stylesheet" href="~/assets/css/animate.css">
+
+    <!--bootstrap.min.css-->
+    <link rel="stylesheet" href="~/assets/css/bootstrap1.min.css">
+
+    <!-- bootsnav -->
+    <link rel="stylesheet" href="~/assets/css/bootsnav.css">
+
+    <!--style.css-->
+    <link rel="stylesheet" href="~/assets/css/style.css">
+
+    <!--responsive.css-->
+    <link rel="stylesheet" href="~/assets/css/responsive.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+
+            background-image: url('../../assets/img/背景.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+    <!-- signin end -->
+    <section id="loginForm" ">
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="container">
+
+                <div class="sign-content popup-in-content" style="margin-bottom:100px;margin-top:100px;width:60%;height:60%">
+                    <div class="popup-in-txt">
+                        <h2>登入</h2>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="signin-form">
+                                    <form action="signin.html">
+                                        <div class="form-group">
+                                            <label for="signin_form">員工編號</label>
+                                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "signin_form ", @placeholder = "請輸入員工編號" })
+                                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                        </div><!--/.form-group -->
+                                        <div class="form-group">
+                                            <label for="signin_form">password</label>
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "signin_form", @placeholder = "請輸入密碼" })
+
+                                        </div><!--/.form-group -->
+                                    </form><!--/form -->
+                                </div><!--/.signin-form -->
+                            </div><!--/.col -->
+                        </div><!--/.row -->
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="signin-password">
+                                    <div class="awesome-checkbox-list">
+                                        <ul class="unstyled centered">
+
+                                            <li>
+                                                <input class="styled-checkbox" id="styled-checkbox-2" type="checkbox" value="value2">
+                                                <label for="styled-checkbox-2">remember password</label>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">Forgot email or password ?</a>
+                                            </li>
+
+                                        </ul>
+                                    </div><!--/.awesome-checkbox-list -->
+                                </div><!--/.signin-password -->
+                            </div><!--/.col -->
+                        </div><!--/.row -->
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="signin-footer">
+
+                                    <input type="submit" value="登入" class="btn signin_btn">
+
+
+                                    <p>
+                                        Don’t have an Account ?
+                                        <a href="signup.html">register</a>
+                                    </p>
+                                </div><!--/.signin-footer -->
+                            </div><!--/.col-->
+                        </div><!--/.row -->
+                    </div><!-- .popup-in-txt -->
+                </div><!--/.sign-content -->
+            </div><!--/.container -->
+        }
+    </section><!--/.signin -->
+    <!-- signin end -->
+    <!--footer copyright start -->
+    <footer class="footer-copyright">
+        <div id="scroll-Top">
+            <i class="fa fa-angle-double-up return-to-top" id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+        </div><!--/.scroll-Top-->
+
+    </footer><!--/.hm-footer-copyright-->
+    <!--footer copyright  end -->
+    <!-- Include all js compiled plugins (below), or include individual files as needed -->
+    <!--modernizr.min.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+    <!--bootstrap.min.js-->
+
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <!-- bootsnav js -->
+    <script src="~/assets/js/bootsnav.js"></script>
+
+    <!-- jquery.sticky.js -->
+    <script src="~/assets/js/jquery.sticky.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
+    <!--Custom JS-->
+    <script src="~/assets/js/custom.js"></script>
+    <script src="~/assets/js/jquery.js"></script>
+</body>
+
+</html>

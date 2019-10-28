@@ -211,6 +211,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OverTimeRequestsController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Models\LeaveIndexViewModel.cs" />
     <Compile Include="Models\SerchAttendancesViewModel.cs" />
     <Compile Include="Models\SerchLeaveViewModel.cs" />
     <Compile Include="Controllers\TestLUISController.cs" />
@@ -286,12 +287,22 @@
     <Content Include="App_Data\AMSDatabase_log.ldf">
       <DependentUpon>AMSDatabase.mdf</DependentUpon>
     </Content>
+    <Content Include="App_Data\aspnet-AMS-20191021054536.mdf" />
+    <Content Include="App_Data\aspnet-AMS-20191021054536_log.ldf">
+      <DependentUpon>aspnet-AMS-20191021054536.mdf</DependentUpon>
+    </Content>
+    <Content Include="assets\css\animate.css" />
     <Content Include="assets\css\atlantis.css" />
     <Content Include="assets\css\atlantis.min.css" />
+    <Content Include="assets\css\bootsnav.css" />
     <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\bootstrap1.min.css" />
     <Content Include="assets\css\demo.css" />
+    <Content Include="assets\css\font-awesome.min.css" />
     <Content Include="assets\css\fonts.css" />
     <Content Include="assets\css\fonts.min.css" />
+    <Content Include="assets\css\responsive.css" />
+    <Content Include="assets\css\style.css" />
     <Content Include="assets\fonts\flaticon\flaticon.css" />
     <Content Include="assets\fonts\flaticon\flaticon.html" />
     <Content Include="assets\fonts\flaticon\Flaticon.svg" />
@@ -615,13 +626,21 @@
     <Content Include="assets\img\sauro.jpg" />
     <Content Include="assets\img\talha.jpg" />
     <Content Include="assets\img\visa.svg" />
+    <Content Include="assets\img\背景.jpg" />
     <Content Include="assets\js\atlantis.js" />
     <Content Include="assets\js\atlantis.min.js" />
     <Content Include="assets\js\atlantis2.js" />
+    <Content Include="assets\js\bootsnav.js" />
+    <Content Include="assets\js\bootstrap.min.js" />
     <Content Include="assets\js\core\bootstrap.min.js" />
     <Content Include="assets\js\core\jquery.3.2.1.min.js" />
     <Content Include="assets\js\core\popper.min.js" />
+    <Content Include="assets\js\custom.js" />
     <Content Include="assets\js\demo.js" />
+    <Content Include="assets\js\jquery.easing.min.js" />
+    <Content Include="assets\js\jquery.js" />
+    <Content Include="assets\js\jquery.sticky.js" />
+    <Content Include="assets\js\modernizr.min.js" />
     <Content Include="assets\js\plugin\bootstrap-notify\bootstrap-notify.min.js" />
     <Content Include="assets\js\plugin\chart-circle\circles.min.js" />
     <Content Include="assets\js\plugin\chart.js\chart.min.js" />
@@ -672,6 +691,7 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\style1.css" />
     <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -819,6 +839,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -829,6 +850,7 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <None Include="Views\Account\index.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -851,7 +873,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login1.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -885,9 +907,7 @@
     <Content Include="Views\Employees\_GetDdlandListempPartial.cshtml" />
     <Content Include="Views\Employees\_ListempPartial.cshtml" />
     <Content Include="Views\OverTimeRequests\Create.cshtml" />
-    <Content Include="Views\OverTimeRequests\Delete.cshtml" />
     <Content Include="Views\OverTimeRequests\Details.cshtml" />
-    <Content Include="Views\OverTimeRequests\Edit.cshtml" />
     <Content Include="Views\OverTimeRequests\Index.cshtml" />
     <Content Include="Views\Review\Create.cshtml" />
     <Content Include="Views\Review\Delete.cshtml" />
@@ -901,6 +921,13 @@
     <Content Include="Views\Employees\_SerchOverTimePartial.cshtml" />
     <Content Include="Views\Employees\SerchAttendances.cshtml" />
     <Content Include="Views\Employees\_SerchAttendancesPartial.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\LeaveRequests\_ShowPhotoPartialDetails.cshtml" />
+    <Content Include="Views\LeaveRequests\LeaveIndexView.cshtml" />
+    <Content Include="Views\Review\Ajax.cshtml" />
+    <Content Include="Views\Review\Index2.cshtml" />
+    <Content Include="Views\Review\Indexxx.cshtml" />
+    <Content Include="Views\Review\_LeavePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
