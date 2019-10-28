@@ -231,18 +231,31 @@ namespace AMS.Controllers
                 {
                     LeaveRequests leaveRequests = db.LeaveRequests.Find(item);
                     leaveRequests.ReviewStatusID = 2;
+                    leaveRequests.ReviewTime = DateTime.Now;
                     db.SaveChanges();
                 }
             }
-
+            ViewBag.Status ="updatesuccess";
             return RedirectToAction("Index");
         }
 
-
         public ActionResult Edit3(string[] Checkboxxx)
         {
-            return View();
+
+            foreach (var item in Checkboxxx)
+            {
+                if (item != "false")
+                {
+                    OverTimeRequest overTimeRequests = db.OverTimeRequest.Find(item);
+                    overTimeRequests.ReviewStatusID = 2;
+                    overTimeRequests.ReviewTime = DateTime.Now;
+                    db.SaveChanges();
+                }
+            }
+            ViewBag.Status = "updatesuccess";
+            return RedirectToAction("Index");
         }
+
         // POST: Review/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
