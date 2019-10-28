@@ -4,57 +4,176 @@
     ViewBag.Title = "Index";
 }
 
-@section css{
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="~/Content/style.css" rel="stylesheet" />
-}
+
+
+
 
 <h3 id="linked-pickers">Linked Pickers 4.13.28</h3>
-<div class="container">
-    <div class='col-md-5'>
-        <div class="form-group">
-            <label>Date To:</label>
-            <div class='input-group date' id='datetimepicker6' style="width:300px">
-                <input type='text' class="form-control" />
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div>
+
+<form method="post" action="/ClockInApplies/Index">
+    <div class="card-header row form-group">
+        <label class=" control-label" style="font-size:20px;margin-left:20px">查詢起始時間</label>
+        <div class="col-sm-2">
+            <input name="time1" id="time1" class="form-control" type="datetime-local" />
+
+        </div>
+        <label class=" control-label" style="font-size:20px;margin-left:20px">到</label>
+        <div id="ddlemp" class="col-sm-2">
+            <input name="time2" id="time2" class="form-control" type="datetime-local" />
+        </div>
+        <div class="col-sm-2">
+            <input id="Button1" type="submit" value="查詢" class="btn btn-outline-primary" />
+
         </div>
     </div>
-    <div class='col-md-5'>
-        <div class="form-group">
-            <label>Date From:</label>
-            <div class='input-group date' id='datetimepicker7' style="width:300px">
-                <input type='text' class="form-control" />
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div>
-        </div>
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" value="1" id="defaultInline1" name="inlineDefaultRadiosExample">
+        <label class="custom-control-label" for="defaultInline1">1小時</label>
     </div>
-</div>
-@section scripts{
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-    <script src="~/Scripts/moment-2.10.3.js"></script>
-    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker6').datetimepicker({
-                format: 'll'
 
-            });
-            $('#datetimepicker7').datetimepicker({
-                format: 'll'
-            });
-            $("#datetimepicker6").on("dp.change", function (e) {
-                $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
-            });
-            $("#datetimepicker7").on("dp.change", function (e) {
-                $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
-            });
-        });
-    </script>
+    <!-- Default inline 2-->
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" value="2" id="defaultInline2" name="inlineDefaultRadiosExample">
+        <label class="custom-control-label" for="defaultInline2">2小時</label>
+    </div>
 
-}
+    <!-- Default inline 3-->
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" value="3" id="defaultInline3" name="inlineDefaultRadiosExample">
+        <label class="custom-control-label" for="defaultInline3">3小時</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" value="4" id="defaultInline4" name="inlineDefaultRadiosExample">
+        <label class="custom-control-label" for="defaultInline4">4小時</label>
+    </div>
+
+    <!-- Default inline 2-->
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" value="5" id="defaultInline5" name="inlineDefaultRadiosExample">
+        <label class="custom-control-label" for="defaultInline5">5小時</label>
+    </div>
+
+    <!-- Default inline 3-->
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" value="6" id="defaultInline6" name="inlineDefaultRadiosExample">
+        <label class="custom-control-label" for="defaultInline6">6小時</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" value="7" id="defaultInline7" name="inlineDefaultRadiosExample">
+        <label class="custom-control-label" for="defaultInline7">7小時</label>
+    </div>
+    <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" class="custom-control-input" value="8" id="defaultInline8" name="inlineDefaultRadiosExample">
+        <label class="custom-control-label" for="defaultInline8">8小時</label>
+    </div>
+    <div class="col-sm-2">
+        <input id="Button2" type="button" value="查詢" class="btn btn-outline-primary" />
+
+    </div>
+</form>
+
+
+@section scripts    
+{
+
+        <script>
+            function zeroPadded(val) {
+                if (val >= 10)
+                    return val;
+                else
+                    return '0' + val;
+            }
+
+   
+            $(document).ready(function () {
+                $('#basic-datatables').DataTable({
+                });
+                $("#basic-datatables_filter").hide();
+
+                d = new Date();
+                $("#time1").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 3) + "T" + "08" + ":" + "30");
+                
+                $("#time2").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 3) + "T" + "08" + ":" + "30");               
+
+                document.getElementById("time2").disabled = true;
+            });
+            
+            $("#time1").bind("change", function () {
+                if ($("#time1").val() > $("#time2").val()) {
+                    //timechange();
+                    $("#time1").val($("#time2").val());
+                }
+                
+            });
+           
+
+          
+            //function timechange() {
+            //    swal("起始時間不可大於最後時間!", "", {
+            //        icon: "info",
+            //        buttons: {
+            //            confirm: {
+            //                className: 'btn btn-info'
+            //            }
+            //        },
+            //    });
+            //}
+
+            //$("#time2").bind("change", function () {
+            //    if ($("#time2").val() < $("#time1").val()) {
+            //        //timechange();
+            //        $("#time2").val($("#time1").val());
+            //    }
+
+            //});
+            function sethours(hours) {
+                var start = document.querySelector("#time1"), end = document.querySelector("#time2") 
+                $("#time1").val($("#time2").val());
+                end.value = start.value;
+                end.stepUp(hours);
+                //$("#time1").on("click keyup", function () {
+
+                //    end.value = start.value;
+                //    end.stepUp(hours);
+                //});
+            }
+            $("#Button2").click(function () {
+                
+                
+                switch ($("input[name='inlineDefaultRadiosExample']:checked").val()) {
+                    case "1":                         
+                        sethours(60)
+                        break;
+                    case "2":
+                        sethours(120)
+                        break;
+                    case "3":
+                        sethours(180)
+                        break;
+                    case "4":
+                        sethours(240)
+                        break;
+                    case "5":
+                        sethours(300)
+                        break;
+                    case "6":
+                        sethours(360)
+                        break;
+                    case "7":
+                        sethours(420)
+                        break;
+                    case "8":
+                        sethours(480)
+                        break;
+                       
+                }
+
+
+            }) 
+
+
+        </script>
+
+
+    }
+

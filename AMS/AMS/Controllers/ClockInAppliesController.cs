@@ -19,6 +19,11 @@ namespace AMS.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult Index(string inlineDefaultRadiosExample)
+        {
+            return View();
+        }
 
         // GET: ClockInApplies/Details/5
         public ActionResult Details(string id)
