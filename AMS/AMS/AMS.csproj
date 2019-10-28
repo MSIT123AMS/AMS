@@ -206,6 +206,7 @@
     <Compile Include="Controllers\ClockInAppliesController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\LeaveIndexViewModel.cs" />
     <Compile Include="Controllers\LeaveRequestsController.cs" />
     <Compile Include="Controllers\LineWebHookSampleController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -901,6 +902,8 @@
     <Content Include="Views\Employees\_SerchOverTimePartial.cshtml" />
     <Content Include="Views\Employees\SerchAttendances.cshtml" />
     <Content Include="Views\Employees\_SerchAttendancesPartial.cshtml" />
+    <Content Include="Views\LeaveRequests\LeaveIndexView.cshtml" />
+    <Content Include="Views\LeaveRequests\_ShowPhotoPartialDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
