@@ -121,6 +121,9 @@
 
 
         function UpdateEmployeesByDepartment() {
+
+
+
             $.ajax({
                 type: "GET",
                 url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + "null/" + Department.value,

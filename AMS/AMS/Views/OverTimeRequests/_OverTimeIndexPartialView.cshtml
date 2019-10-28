@@ -3,7 +3,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table" id="basic-datatables">
     <thead class="bg-primary text-light">
         <tr>
             <th>
@@ -74,9 +74,9 @@
                     @Html.DisplayFor(modelItem => item.ReviewTime)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.RequestID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.RequestID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.RequestID })
+
+                    @Html.ActionLink("加班明細", "Details", new { id = item.RequestID },new { @class="btn btn-primary"}) 
+
                 </td>
             </tr>
         }
