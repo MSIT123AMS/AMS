@@ -713,7 +713,6 @@
     <Content Include="obj\Debug\TempPE\Models.AMSModel.Context.cs.dll" />
     <Content Include="obj\Debug\TempPE\Models.AMSModel.cs.dll" />
     <Content Include="obj\Debug\TempPE\Models.AMSModel.Designer.cs.dll" />
-    <Content Include="OverTimeClassLibrary.dll" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -925,11 +924,10 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\LeaveRequests\_ShowPhotoPartialDetails.cshtml" />
     <Content Include="Views\LeaveRequests\LeaveIndexView.cshtml" />
-    <Content Include="Views\Review\_LeavePartial.cshtml" />
     <Content Include="Views\Review\Ajax.cshtml" />
     <Content Include="Views\Review\Index2.cshtml" />
     <Content Include="Views\Review\Indexxx.cshtml" />
-    <Content Include="Views\Review\_OverTimePartial.cshtml" />
+    <Content Include="Views\Review\_LeavePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

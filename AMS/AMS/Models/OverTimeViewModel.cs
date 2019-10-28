@@ -44,7 +44,7 @@ namespace AMS.Models
 
         [DataType(DataType.Date)]
         [Display(Name = "審核時間")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd} hh:mm", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime? ReviewTime { get; set; }
     }
 

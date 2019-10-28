@@ -75,20 +75,20 @@
 
                 <div class="sign-content popup-in-content" style="margin-bottom:100px;margin-top:100px;width:60%;height:60%">
                     <div class="popup-in-txt">
-                        <h2>sign in</h2>
+                        <h2>登入</h2>
 
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="signin-form">
                                     <form action="signin.html">
                                         <div class="form-group">
-                                            <label for="signin_form">Email</label>
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @id = "signin_form ", @placeholder = "enter your email here" })
-                                            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                            <label for="signin_form">員工編號</label>
+                                            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "signin_form ", @placeholder = "請輸入員工編號" })
+                                            @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
                                         </div><!--/.form-group -->
                                         <div class="form-group">
                                             <label for="signin_form">password</label>
-                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "signin_form", @placeholder = "Password" })
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "signin_form", @placeholder = "請輸入密碼" })
 
                                         </div><!--/.form-group -->
                                     </form><!--/form -->
