@@ -45,6 +45,48 @@ namespace AMS.Controllers
             return View(overTimeRequest);
         }
 
+        
+        public ActionResult Overtimetable (string id, string id2)
+        {
+            DateTime Starttime = Convert.ToDateTime(id.Substring(0,4)+"/"+id.Substring(4,2)+"/"+id.Substring(6,2)+" 00:00:00");
+            DateTime Endtime = Convert.ToDateTime(id2.Substring(0, 4) + "/" + id2.Substring(4, 2) + "/" + id2.Substring(6, 2)+" 23:59:59");
+            var Query =  (from ot in db.OverTimeRequest.AsEnumerable()
+                           join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                           join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                           join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                           where ot.StartTime >= Starttime && ot.EndTime<= Endtime
+                          select new OverTimeViewModel
+                           {
+                               RequestID = ot.OverTimeRequestID,
+                               EmployeeName = emp.EmployeeName,
+                               RequestTime = ot.RequestTime,
+                               StartTime = ot.StartTime,
+                               EndTime = ot.EndTime,
+                               PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
+                               OTDateType = date.WorkingDay,
+                               SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                               Reason = ot.OverTimeReason,
+                               Review = rev.ReviewStatus1,
+                               ReviewTime = ot.ReviewTime
+                           });
+
+
+            
+            if(Query!=null)
+            {
+                return PartialView("_OverTimeIndexPartialView", Query);
+            }
+            else
+            {
+                return HttpNotFound();
+            }
+
+
+            
+
+        }
+
+
         // GET: OverTimeRequests/Details/5
         public ActionResult Details(string id)
         {
