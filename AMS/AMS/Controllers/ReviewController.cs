@@ -194,7 +194,7 @@ namespace AMS.Controllers
                          OverTimeReason = l.OverTimeReason,
                          ReviewStatus = r.ReviewStatus1,
                          ReviewStatusID = l.ReviewStatusID,
-                         LeaveRequestID = l.OverTimeRequestID
+                         OverTimeRequestID = l.OverTimeRequestID
 
                      };
 
