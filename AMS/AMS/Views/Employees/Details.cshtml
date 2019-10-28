@@ -99,14 +99,6 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PositionID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PositionID)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Phone)
         </dt>
 
@@ -119,7 +111,8 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Photo)
+           
+            @Html.Partial("_ShowPhotoPartialDetails", Model)
         </dd>
 
         <dt>
