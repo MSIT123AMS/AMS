@@ -13,6 +13,108 @@ namespace AMS.Controllers
     public class EmployeesController : Controller
     {
         private Entities db = new Entities();
+        private OverTimeClassLibrary.OverTime OvertimeObj = new OverTimeClassLibrary.OverTime();
+
+
+
+        public ActionResult SerchOverTime()
+        {
+            var query = (from ot in db.OverTimeRequest.AsEnumerable()
+                                   join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                                   join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                                   join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                                   select new OverTimeViewModel
+                                   {
+                                       RequestID = ot.OverTimeRequestID,
+                                       EmployeeName = emp.EmployeeName,
+                                       RequestTime = ot.RequestTime,
+                                       StartTime = ot.StartTime,
+                                       EndTime = ot.EndTime,
+                                       PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
+                                       OTDateType = date.WorkingDay,
+                                       SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                                       Reason = ot.OverTimeReason,
+                                       Review = rev.ReviewStatus1,
+                                       ReviewTime = ot.ReviewTime
+                                   });
+
+ 
+
+           
+            return View(query);
+
+            //return View();
+        }
+
+        public ActionResult SerchAttendances()
+        {
+            var query = (from ot in db.Attendances.AsEnumerable()
+                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                         select new SerchAttendancesViewModel
+                         {                            
+                             EmployeeName = emp.EmployeeName,
+                             Date = ot.Date.ToString("yyyy/MM/dd"),
+                             StartTime = ot.OnDuty,
+                             EndTime = ot.OffDuty,
+                         });
+
+
+
+
+            return View(query);
+
+            //return View();
+        }
+
+        public ActionResult SerchLeave()
+        {
+            var query = (from ot in db.LeaveRequests.AsEnumerable()
+                                   join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                                   join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                                   select new SerchLeaveViewModel
+                                   {
+                                     LeaveRequestID= ot.LeaveRequestID,
+                                       EmployeeName = emp.EmployeeName,
+                                       LeaveType = ot.LeaveType,
+                                       RequestTime = ot.RequestTime,
+                                       StartTime = ot.StartTime,
+                                       EndTime = ot.EndTime,
+                                       Review = rev.ReviewStatus1 
+                            
+                                   });
+
+            Entities dc = new Entities();
+            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+            return View(query);
+
+            //return View();
+        }
+        [HttpPost]
+        public ActionResult SerchLeave(DateTime time1, DateTime time2)
+        {
+            var query = (from ot in db.LeaveRequests.AsEnumerable()
+                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                         join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                         select new SerchLeaveViewModel
+                         {
+                             LeaveRequestID = ot.LeaveRequestID,
+                             EmployeeName = emp.EmployeeName,
+                             RequestTime = ot.RequestTime,
+                             StartTime = ot.StartTime,
+                             EndTime = ot.EndTime,
+                             Review = rev.ReviewStatus1
+
+                         }).Where(q=>q.RequestTime >= time1 && q.RequestTime<= time2);
+
+            Entities dc = new Entities();
+            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+            return View(query);
+
+            //return View();
+        }
+
 
         // GET: Employees
         public ActionResult Index()
@@ -150,7 +252,7 @@ namespace AMS.Controllers
                 new Gender{ text="女生",value=false}
 
             };
-            ViewBag.list = new SelectList(dropdownlist, "value", "text");
+            ViewBag.gender = new SelectList(dropdownlist, "value", "text");
             return PartialView("_CreatePartial");
         }
 
@@ -158,7 +260,7 @@ namespace AMS.Controllers
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education")] Employees employees)
         {
             if (ModelState.IsValid)

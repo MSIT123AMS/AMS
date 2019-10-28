@@ -64,7 +64,6 @@
           <Property Name="Hireday" Type="datetime" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="DepartmentID" Type="int" Nullable="false" />
-          <Property Name="PositionID" Type="int" />
           <Property Name="Phone" Type="nvarchar" MaxLength="24" Nullable="false" />
           <Property Name="Photo" Type="varbinary(max)" />
           <Property Name="JobStaus" Type="nvarchar" MaxLength="10" />
@@ -81,7 +80,7 @@
           </Key>
           <Property Name="LeaveRequestID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="EmployeeID" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="RequestTime" Type="date" />
+          <Property Name="RequestTime" Type="datetime" />
           <Property Name="StartTime" Type="datetime" />
           <Property Name="EndTime" Type="datetime" />
           <Property Name="LeaveType" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -176,48 +175,6 @@
           <Property Name="Manager" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityType Name="Employees">
-          <Key>
-            <PropertyRef Name="EmployeeID" />
-          </Key>
-          <Property Name="EmployeeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EmployeeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IDNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DeputyPhone" Type="String" MaxLength="24" FixedLength="false" Unicode="true" />
-          <Property Name="Deputy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Marital" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Birthday" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Leaveday" Type="DateTime" Precision="3" />
-          <Property Name="Hireday" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Address" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DepartmentID" Type="Int32" Nullable="false" />
-          <Property Name="PositionID" Type="Int32" />
-          <Property Name="Phone" Type="String" MaxLength="24" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <Property Name="JobStaus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="JobTitle" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="EnglishName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="gender" Type="Boolean" />
-          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="LineID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Education" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="LeaveRequests">
-          <Key>
-            <PropertyRef Name="LeaveRequestID" />
-          </Key>
-          <Property Name="LeaveRequestID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EmployeeID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RequestTime" Type="DateTime" Precision="0" />
-          <Property Name="StartTime" Type="DateTime" Precision="3" />
-          <Property Name="EndTime" Type="DateTime" Precision="3" />
-          <Property Name="LeaveType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LeaveReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ReviewStatusID" Type="Int32" Nullable="false" />
-          <Property Name="ReviewTime" Type="DateTime" Precision="3" />
-          <Property Name="Attachment" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
         <EntityType Name="OverTimeRequest">
           <Key>
             <PropertyRef Name="OverTimeRequestID" />
@@ -261,13 +218,13 @@
           <EntitySet Name="Annouuncements" EntityType="Self.Annouuncements" />
           <EntitySet Name="ClockInApply" EntityType="Self.ClockInApply" />
           <EntitySet Name="Departments" EntityType="Self.Departments" />
-          <EntitySet Name="Employees" EntityType="Self.Employees" />
-          <EntitySet Name="LeaveRequests" EntityType="Self.LeaveRequests" />
           <EntitySet Name="OverTimeRequest" EntityType="Self.OverTimeRequest" />
           <EntitySet Name="ReviewStatus" EntityType="Self.ReviewStatus" />
           <EntitySet Name="Users" EntityType="Self.Users" />
           <EntitySet Name="WorkingDaySchedule" EntityType="Self.WorkingDaySchedule" />
           <EntitySet Name="Attendances" EntityType="Model.Attendances" />
+          <EntitySet Name="Employees" EntityType="Model.Employees" />
+          <EntitySet Name="LeaveRequests" EntityType="Model.LeaveRequests" />
         </EntityContainer>
         <EntityType Name="Attendances">
           <Key>
@@ -280,6 +237,47 @@
           <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="station" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="OffDuty" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IDNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DeputyPhone" Type="String" MaxLength="24" FixedLength="false" Unicode="true" />
+          <Property Name="Deputy" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Marital" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthday" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Leaveday" Type="DateTime" Precision="3" />
+          <Property Name="Hireday" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="60" FixedLength="false" Unicode="true" />
+          <Property Name="DepartmentID" Type="Int32" Nullable="false" />
+          <Property Name="Phone" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="true" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="JobStaus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="JobTitle" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EnglishName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="gender" Type="Boolean" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LineID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Education" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="LeaveRequests">
+          <Key>
+            <PropertyRef Name="LeaveRequestID" />
+          </Key>
+          <Property Name="LeaveRequestID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RequestTime" Type="DateTime" Precision="3" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="LeaveType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LeaveReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReviewStatusID" Type="Int32" Nullable="false" />
+          <Property Name="ReviewTime" Type="DateTime" Precision="3" />
+          <Property Name="Attachment" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -317,50 +315,6 @@
                 <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
                 <ScalarProperty Name="Manager" ColumnName="Manager" />
                 <ScalarProperty Name="DepartmentName" ColumnName="DepartmentName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employees">
-            <EntityTypeMapping TypeName="Model.Employees">
-              <MappingFragment StoreEntitySet="Employees">
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
-                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
-                <ScalarProperty Name="DeputyPhone" ColumnName="DeputyPhone" />
-                <ScalarProperty Name="Deputy" ColumnName="Deputy" />
-                <ScalarProperty Name="Marital" ColumnName="Marital" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
-                <ScalarProperty Name="Leaveday" ColumnName="Leaveday" />
-                <ScalarProperty Name="Hireday" ColumnName="Hireday" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
-                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
-                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Photo" ColumnName="Photo" />
-                <ScalarProperty Name="JobStaus" ColumnName="JobStaus" />
-                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
-                <ScalarProperty Name="EnglishName" ColumnName="EnglishName" />
-                <ScalarProperty Name="gender" ColumnName="gender" />
-                <ScalarProperty Name="Notes" ColumnName="Notes" />
-                <ScalarProperty Name="LineID" ColumnName="LineID" />
-                <ScalarProperty Name="Education" ColumnName="Education" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LeaveRequests">
-            <EntityTypeMapping TypeName="Model.LeaveRequests">
-              <MappingFragment StoreEntitySet="LeaveRequests">
-                <ScalarProperty Name="LeaveRequestID" ColumnName="LeaveRequestID" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="RequestTime" ColumnName="RequestTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
-                <ScalarProperty Name="LeaveReason" ColumnName="LeaveReason" />
-                <ScalarProperty Name="ReviewStatusID" ColumnName="ReviewStatusID" />
-                <ScalarProperty Name="ReviewTime" ColumnName="ReviewTime" />
-                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -416,6 +370,49 @@
                 <ScalarProperty Name="OnDuty" ColumnName="OnDuty" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="Model.Employees">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Education" ColumnName="Education" />
+                <ScalarProperty Name="LineID" ColumnName="LineID" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="EnglishName" ColumnName="EnglishName" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="JobStaus" ColumnName="JobStaus" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="DepartmentID" ColumnName="DepartmentID" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Hireday" ColumnName="Hireday" />
+                <ScalarProperty Name="Leaveday" ColumnName="Leaveday" />
+                <ScalarProperty Name="Birthday" ColumnName="Birthday" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Marital" ColumnName="Marital" />
+                <ScalarProperty Name="Deputy" ColumnName="Deputy" />
+                <ScalarProperty Name="DeputyPhone" ColumnName="DeputyPhone" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaveRequests">
+            <EntityTypeMapping TypeName="Model.LeaveRequests">
+              <MappingFragment StoreEntitySet="LeaveRequests">
+                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+                <ScalarProperty Name="ReviewTime" ColumnName="ReviewTime" />
+                <ScalarProperty Name="ReviewStatusID" ColumnName="ReviewStatusID" />
+                <ScalarProperty Name="LeaveReason" ColumnName="LeaveReason" />
+                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="RequestTime" ColumnName="RequestTime" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="LeaveRequestID" ColumnName="LeaveRequestID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
