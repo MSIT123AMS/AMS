@@ -626,6 +626,7 @@
     <Content Include="assets\img\sauro.jpg" />
     <Content Include="assets\img\talha.jpg" />
     <Content Include="assets\img\visa.svg" />
+    <Content Include="assets\img\woman.jpg" />
     <Content Include="assets\img\背景.jpg" />
     <Content Include="assets\js\atlantis.js" />
     <Content Include="assets\js\atlantis.min.js" />
