@@ -20,15 +20,15 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control"} })
+                @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger"})
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control",Type="datetime-local" } })
                 @Html.ValidationMessageFor(model => model.RequestTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -36,7 +36,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
                 @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -44,7 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
                 @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -52,7 +52,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.LeaveType, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.LeaveType, new { htmlAttributes = new { @class = "form-control"  } })
                 @Html.ValidationMessageFor(model => model.LeaveType, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -86,8 +86,6 @@
             <div class="col-md-10">
                 @Html.Partial("_ShowPhotoPartial", Model)
                 <input type="file" name="LeaveFile" id="LeaveFile" accept="image/*" />
-                @*@Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })*@
             </div>
         </div>
 
@@ -104,7 +102,7 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+     @Scripts.Render("~/bundles/jqueryval")
     <script>
     function readURL(input) {
         if (input.files && input.files[0]){

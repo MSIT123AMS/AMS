@@ -4,126 +4,151 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>請假</h2>
 
 
 @using (Html.BeginForm("Create", "LeaveRequests", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h4>LeaveRequests</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.LeaveRequestID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LeaveRequestID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LeaveRequestID, "", new { @class = "text-danger" })
+<div class="form-horizontal">
+    <div class="page-inner">
+        <div class="card">
+            <div class="card-head-row">
+                <h4>申請</h4>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
+            <hr />
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
+                    @Html.ValidationMessageFor(model => model.RequestTime, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+            <div class="form-group">
+                @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
+                    @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RequestTime, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
+                    @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("LeaveType", null, "--請選擇--", new { @class = "form-control" })
+                    @*@Html.EditorFor(model => model.LeaveType, new { htmlAttributes = new { @class = "form-control" } })*@
+                    @Html.ValidationMessageFor(model => model.LeaveType, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeaveReason, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(model => model.LeaveReason, 5, 187, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LeaveReason, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LeaveType, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LeaveType, "", new { @class = "text-danger" })
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ReviewStatusID, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ReviewStatusID, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            @*<div class="form-group">
+                    @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.ReviewTime, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ReviewTime, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+
+            <div class="form-group ">
+                @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <img id="imgPreview" src="@Url.Content("~/Img/upload.png")" style="width:240px;height:180px" />
+                    <input type="file" name="LeaveFile" id="LeaveFile" accept="image/*" />
+                    @*@Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })*@
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.LeaveReason, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LeaveReason, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LeaveReason, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ReviewStatusID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReviewStatusID, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ReviewTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReviewTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <img id="imgPreview" src="@Url.Content("~/Img/upload.png")" style="width:180px;height:120px" />
-                <input type="file" name="LeaveFile" id="LeaveFile" accept="image/*" />
-                @*@Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })*@
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="送出" class="btn btn-default" />
+                </div>
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    <script>
-    function readURL(input) {
-        if (input.files && input.files[0]){
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#imgPreview').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(input.files[0]);
         }
-    }
-    $("#LeaveFile").change(function ()
-    {
-        readURL(this);
-    });
-    </script>
-}
+
+        <div>
+            @Html.ActionLink("返回", "Index")
+        </div>
+
+        @section scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+            <script>
+                function readURL(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $('#imgPreview').attr('src', e.target.result);
+                        };
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+                $("#LeaveFile").change(function () {
+                    readURL(this);
+                });
+
+                //$(document).ready(function () {
+                //    $("#RequestTime").val(new Date().toJSON().slice(0, 19));;
+                //});
+                function zeroPadded(val) {
+                    if (val >= 10)
+                        return val;
+                    else
+                        return '0' + val;
+                }
+                $(document).ready(function () {
+                    d = new Date();
+                    $("#RequestTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + d.getHours() + ":" + d.getMinutes());
+                });
+
+                function zeroPadded(val) {
+                    if (val >= 10)
+                        return val;
+                    else
+                        return '0' + val;
+                }
+                $(document).ready(function () {
+                    d = new Date();
+                    $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 1) + "T" + "08" + ":" + "30");
+                });
+
+                function zeroPadded(val) {
+                    if (val >= 10)
+                        return val;
+                    else
+                        return '0' + val;
+                }
+                $(document).ready(function () {
+                    d = new Date();
+                    $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 1) + "T" + "18" + ":" + "00");
+                });
+            </script>
+
+        }
