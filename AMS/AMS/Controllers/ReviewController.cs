@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using AMS.Models;
 
 namespace AMS.Controllers
-{
+{ 
     public class ReviewController : Controller
     {
         private Entities db = new Entities();
