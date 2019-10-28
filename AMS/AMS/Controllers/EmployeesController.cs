@@ -15,127 +15,127 @@ namespace AMS.Controllers
         private Entities db = new Entities();
 
         // GET: Employees
-        public ActionResult Index()
-        {
-            var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-            {
-                EmployeeID = e.EmployeeID,
-                EmployeeName = e.EmployeeName,
-                DepartmentName = d.DepartmentName,
-                JobTitle = e.JobTitle,
-                Manager = d.Manager,
-                Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                JobStaus = e.JobStaus
-            });
+        //public ActionResult Index()
+        //{
+        //    var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+        //    {
+        //        EmployeeID = e.EmployeeID,
+        //        EmployeeName = e.EmployeeName,
+        //        DepartmentName = d.DepartmentName,
+        //        JobTitle = e.JobTitle,
+        //        Manager = d.Manager,
+        //        Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+        //        JobStaus = e.JobStaus
+        //    });
 
-            Entities dc = new Entities();
-            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
-            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
-            return View(query);
+        //    Entities dc = new Entities();
+        //    ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+        //    ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+        //    return View(query);
             
-            //return View();
-        }
+        //    //return View();
+        //}
 
 
-        public ActionResult Listemp(string id,int? id2)
-        {
-            Entities dc = new Entities();
+        //public ActionResult Listemp(string id,int? id2)
+        //{
+        //    Entities dc = new Entities();
 
-            IEnumerable<EmployeesViewModel> c ;
-            if (id == "null" && id2 != null)
-            {
-                c = dc.Employees.Where(emp => emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-                {
-                    EmployeeID = e.EmployeeID,
-                    EmployeeName = e.EmployeeName,
-                    DepartmentName = d.DepartmentName,
-                    JobTitle = e.JobTitle,
-                    Manager = d.Manager,
-                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                    JobStaus = e.JobStaus
-                });
+        //    //IEnumerable<EmployeesViewModel> c ;
+        //    //if (id == "null" && id2 != null)
+        //    //{
+        //    //    c = dc.Employees.Where(emp => emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+        //    //    {
+        //    //        EmployeeID = e.EmployeeID,
+        //    //        EmployeeName = e.EmployeeName,
+        //    //        DepartmentName = d.DepartmentName,
+        //    //        JobTitle = e.JobTitle,
+        //    //        Manager = d.Manager,
+        //    //        Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+        //    //        JobStaus = e.JobStaus
+        //    //    });
 
-            }
-            else if (id2 == null && id != "null")
-            {
-                c = dc.Employees.Where(emp => emp.EmployeeID == id).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-                {
-                    EmployeeID = e.EmployeeID,
-                    EmployeeName = e.EmployeeName,
-                    DepartmentName = d.DepartmentName,
-                    JobTitle = e.JobTitle,
-                    Manager = d.Manager,
-                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                    JobStaus = e.JobStaus
-                });
-            }
-            else
-            {
-
-
-                c = dc.Employees.Where(emp => emp.EmployeeID == id && emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-                {
-                    EmployeeID = e.EmployeeID,
-                    EmployeeName = e.EmployeeName,
-                    DepartmentName = d.DepartmentName,
-                    JobTitle = e.JobTitle,
-                    Manager = d.Manager,
-                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                    JobStaus = e.JobStaus
-                });
-            }
+        //    //}
+        //    //else if (id2 == null && id != "null")
+        //    //{
+        //    //    c = dc.Employees.Where(emp => emp.EmployeeID == id).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+        //    //    {
+        //    //        EmployeeID = e.EmployeeID,
+        //    //        EmployeeName = e.EmployeeName,
+        //    //        DepartmentName = d.DepartmentName,
+        //    //        JobTitle = e.JobTitle,
+        //    //        Manager = d.Manager,
+        //    //        Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+        //    //        JobStaus = e.JobStaus
+        //    //    });
+        //    //}
+        ////    else
+        ////    {
 
 
-            if (c != null)
-            {
-                return PartialView("_ListempPartial", c);
-            }
-            else
-            {
-                return HttpNotFound();
-            }
+        ////        c = dc.Employees.Where(emp => emp.EmployeeID == id && emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+        ////        {
+        ////            EmployeeID = e.EmployeeID,
+        ////            EmployeeName = e.EmployeeName,
+        ////            DepartmentName = d.DepartmentName,
+        ////            JobTitle = e.JobTitle,
+        ////            Manager = d.Manager,
+        ////            Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+        ////            JobStaus = e.JobStaus
+        ////        });
+        ////    }
 
 
-        }
+        ////    if (c != null)
+        ////    {
+        ////        return PartialView("_ListempPartial", c);
+        ////    }
+        ////    else
+        ////    {
+        ////        return HttpNotFound();
+        ////    }
 
 
-        // GET: Employees/Details/5
-        public ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Employees employees = db.Employees.Find(id);
-            if (employees == null)
-            {
-                return HttpNotFound();
-            }
-            return View(employees);
-        }
+        ////}
 
-        // GET: Employees/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
 
-        // POST: Employees/Create
-        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education")] Employees employees)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Employees.Add(employees);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        ////// GET: Employees/Details/5
+        ////public ActionResult Details(string id)
+        ////{
+        ////    if (id == null)
+        ////    {
+        ////        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        ////    }
+        ////    Employees employees = db.Employees.Find(id);
+        ////    if (employees == null)
+        ////    {
+        ////        return HttpNotFound();
+        ////    }
+        ////    return View(employees);
+        ////}
 
-            return View(employees);
-        }
+        ////// GET: Employees/Create
+        ////public ActionResult Create()
+        //{
+        //    return View();
+        //}
+
+        //// POST: Employees/Create
+        //// 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
+        //// 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education")] Employees employees)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Employees.Add(employees);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    return View(employees);
+        //}
 
         // GET: Employees/Edit/5
         public ActionResult Edit(string id)
