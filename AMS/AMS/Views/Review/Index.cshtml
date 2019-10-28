@@ -9,7 +9,7 @@
 
 
 <label class=" control-label" style="font-size:35px;margin:10px">員工管理</label>
-
+<p> @ViewBag.Status</p>
 
 <div class="page-inner">
     <div class="row">
@@ -162,6 +162,17 @@
         }
         function a() {
             alert('a');
+        }
+
+        function UpdateSuccess() {
+            swal("審核完成", "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
         }
 
         function UpdateOrders() {
