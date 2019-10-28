@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AMS.Models.LeaveReviewViewModels>
+﻿@model IEnumerable<AMS.Models.OverTimeReviewViewModels>
 @using (Html.BeginForm("Edit2", "Review"))
 {
     <button type="submit" class="btn btn-danger">核准</button>
@@ -13,7 +13,7 @@
                     @Html.DisplayNameFor(model => model.EmployeeName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LeaveType)
+                    @Html.DisplayNameFor(model => model.OverTimePay)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.StartTime)
@@ -25,7 +25,7 @@
                     @Html.DisplayNameFor(model => model.RequestTime)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LeaveReason)
+                    @Html.DisplayNameFor(model => model.OverTimeReason)
                 </th>
                 @*<th>
                         @Html.DisplayNameFor(model => model.ReviewStatusID)
@@ -41,13 +41,13 @@
             {
                 <tr class="table-light">
                     <td>
-                        @Html.CheckBox("Checkboxxx", false, new { id = "Checkboxxx", value = item.LeaveRequestID })
+                        @Html.CheckBox("Checkboxxx", false, new { id = "Checkboxxx", value = item.OverTimeRequestID })
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.EmployeeName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.LeaveType)
+                        @Html.DisplayFor(modelItem => item.OverTimePay)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StartTime)
@@ -59,7 +59,7 @@
                         @Html.DisplayFor(modelItem => item.RequestTime)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.LeaveReason)
+                        @Html.DisplayFor(modelItem => item.OverTimeReason)
                     </td>
                     @*<td>
                             @Html.DisplayFor(modelItem => item.ReviewStatusID)
@@ -69,7 +69,7 @@
                     </td>
                     <td>
                         @*@Html.ActionLink("Edit", "Edit", new { id=item.LeaveRequestID }) |*@
-                        @Html.ActionLink("Details", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })
+                        @Html.ActionLink("Details", "Details", new { id = item.OverTimeRequestID }, new { @class = "btn btn-outline-primary" })
                         @*@Html.ActionLink("Delete", "Delete", new { id=item.LeaveRequestID })*@
                     </td>
                 </tr>
@@ -77,4 +77,21 @@
         </tbody>
     </table>
 }
+@section script2{
+    <script>
+        $(document).ready(function () {
+            $("#CheckAll").click(function () {
+                if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                    $("input[name='Checkboxxx']").each(function () {
+                        $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                    })
+                } else {
+                    $("input[name='Checkboxxx']").each(function () {
+                        $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                    })
+                }
+            })
 
+        });
+    </script>
+}
