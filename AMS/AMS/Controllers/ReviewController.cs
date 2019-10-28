@@ -9,14 +9,14 @@ using System.Web.Mvc;
 using AMS.Models;
 
 namespace AMS.Controllers
-{
+{ 
     public class ReviewController : Controller
     {
         private Entities db = new Entities();
 
         // GET: Review
         public ActionResult Index5()
-        {
+        {   
             var q = db.LeaveRequests.AsEnumerable().Join(db.Employees, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new LeaveReviewViewModels
             {
                 EmployeeID = d.EmployeeID,
