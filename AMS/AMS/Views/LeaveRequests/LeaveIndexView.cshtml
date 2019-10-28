@@ -9,120 +9,70 @@
             </p>
         </div>
 
-
-        <form style="margin-left:10px;" method="post" action="/Employees/SerchLeave">
-            <div class="card-header row form-group">
-                <label class=" control-label" style="font-size:20px;margin-left:20px">查詢起始時間</label>
-                <div class="col-sm-2">
-                    <input name="time1" id="time1" class="form-control" type="date" />
-
-                </div>
-                <label class=" control-label" style="font-size:20px;margin-left:20px">到</label>
-                <div id="ddlemp" class="col-sm-2">
-                    <input name="time2" id="time2" class="form-control" type="date" />
-                </div>
-                <div class="col-sm-2">
-                    <input id="Button1" type="submit" value="查詢" class="btn btn-outline-primary" />
-
-                </div>
+        <div class="card-header row form-group">
+            <label class=" control-label" style="font-size:20px;margin-left:20px">開始時間:</label>
+            <div class="col-sm-2">
+                <input id="StartTime" name="StartTime" type="date" class="form-control" />
             </div>
-        </form>
+            <label class=" control-label" style="font-size:20px;margin-left:20px">結束時間:</label>
+            <div id="ddlemp" class="col-sm-2">
+                <input id="EndTime" name="EndTime" type="date" class="form-control" />
+            </div>
+            <div class="col-sm-2">
+                <button id="Search" name="Search" class="form-control">搜尋</button>
+
+            </div>
+        </div>
 
 
         <div class="card-body">
-            <table class="display table table-striped table-hover" id="basic-datatables">
-                <thead class="bg-primary text-light">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.LeaveRequestID)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.EmployeeName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.LeaveType)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.RequestTime)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.StartTime)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.EndTime)
-                        </th>
-
-                        <th>
-                            @Html.DisplayNameFor(model => model.LeaveReason)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Review)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ReviewTime)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Attachment)
-                        </th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr class="table-light">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LeaveRequestID)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.EmployeeName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LeaveType)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.RequestTime)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.StartTime)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.EndTime)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.LeaveReason)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Review)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ReviewTime)
-                            </td>
-                            <td>
-                                @Html.Partial("_ShowPhotoPartial", item)
-                            </td>
-
-                            <td>
-                                @Html.ActionLink("明細", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div class="table-responsive" id="LeaveTable">
+                @Html.Partial("_LeaveIndexPartialView", Model)
+       
+            </div>
         </div>
     </div>
 </div>
+
+
 @section scripts
 {
 
-    @*<script>
+    <script>
         $(document).ready(function () {
             $('#basic-datatables').DataTable({
             });
-        });
-    </script>*@
 
-    <script>
+            $('#Search').bind("click",
+                function () {
+
+                    Lrsearch();
+                });
+
+
+            d = new Date();
+            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() -7 ));
+            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()+1));
+        });
+
+        function Lrsearch() {
+            let a = $("#StartTime").val()
+            let st = a.split('-')
+            let Start = st[0] + st[1] + st[2]
+            let et = $("#EndTime").val().split('-')
+            let End = et[0] + et[1] + et[2]
+            $.ajax({
+
+                type: "GET",
+                url: "@Url.RouteUrl("Default1", new { controller = "LeaveRequests", action = "LeaveTable" })/" + Start + "/" + End,
+                }).done(function (result) {
+                    $("#LeaveTable").html(result);
+                    $('#basic-datatables').DataTable({
+                    });
+                }).fail(function(e){
+                alert(e.responseText);
+                });
+        }
         function zeroPadded(val) {
             if (val >= 10)
                 return val;
@@ -130,22 +80,10 @@
                 return '0' + val;
         }
 
-
-        $(document).ready(function () {
-            $('#basic-datatables').DataTable({
-            });
-            $("#basic-datatables_filter").hide();
-            d = new Date();
-            $("#time1").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
-            $("#time2").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
-
-
-
-        });
-        $("#time1").bind("change", function () {
-            if ($("#time1").val() > $("#time2").val()) {
+        $("#StartTime").bind("change", function () {
+            if ($("#StartTime").val() > $("#EndTime").val()) {
                 timechange();
-                $("#time1").val($("#time2").val());
+                $("#StartTime").val($("#EndTime").val());
             }
 
         });
@@ -163,17 +101,19 @@
             });
         }
 
-        $("#time2").bind("change", function () {
-            if ($("#time2").val() < $("#time1").val()) {
+        $("#EndTime").bind("change", function () {
+            if ($("#EndTime").val() < $("#StartTime").val()) {
                 timechange();
-                $("#time2").val($("#time1").val());
+                $("#EndTime").val($("#StartTime").val());
             }
 
         });
 
 
 
+
+
+
+
     </script>
-
-
 }
