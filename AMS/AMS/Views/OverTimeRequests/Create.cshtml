@@ -11,7 +11,7 @@
 }
 
 
-<h2>Create</h2>
+<label class=" control-label" style="font-size:35px;margin:10px">加班查詢</label>
 
 
 @using (Html.BeginForm())
@@ -19,16 +19,10 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>OverTimeCreateViewModel</h4>
+
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.RequestID, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RequestID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RequestID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+
 
         <div class="form-group">
             @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -58,14 +52,15 @@
         <div class="form-group">
             @Html.LabelFor(model => model.OverTimeReason, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.OverTimeReason, 5, 187, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.OverTimeReason, 5, 187, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.OverTimeReason, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="送出" class="btn btn-default" />
+                @Html.ActionLink("取消", "Index", null, new { @class = "btn btn-default" })
             </div>
         </div>
     </div>
@@ -78,12 +73,55 @@
 
 
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+
 
 @section Scripts {
-  
+    <script>
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        d = new Date();
+
+        $(document).ready(function () {
+
+            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 1) + "T" + "17" + ":" + "00");
+            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 1) + "T" + "19" + ":" + "00");
+
+        })
+
+        $("#StartTime").bind("change", function () {
+            if ($("#StartTime").val() > $("#EndTime").val()) {
+                timechange();
+                $("#StartTime").val($("#EndTime").val());
+            }
+
+        });
+
+
+
+        function timechange() {
+            swal("起始時間不可大於最後時間!", "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
+        }
+
+        $("#EndTime").bind("change", function () {
+            if ($("#EndTime").val() < $("#StartTime").val()) {
+                timechange();
+                $("#EndTime").val($("#StartTime").val());
+            }
+
+        });
+
+    </script>
 
 
 }

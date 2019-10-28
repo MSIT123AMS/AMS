@@ -41,5 +41,9 @@ namespace AMS.Models
         public System.Data.Entity.DbSet<AMS.Models.OverTimeViewModel> OverTimeViewModels { get; set; }
 
         public System.Data.Entity.DbSet<AMS.Controllers.SerchAttendancesViewModel> SerchAttendancesViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<AMS.Models.LeaveIndexViewModel> LeaveIndexViewModels { get; set; }
+
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿@*@model IEnumerable<AMS.Controllers.EmployeesViewModel>*@
-@model IEnumerable<AMS.Models.ReviewViewModels>
+@model IEnumerable<AMS.Models.LeaveReviewViewModels>
 
 @{
     ViewBag.Title = "Index";
@@ -9,6 +9,7 @@
 
 
 <label class=" control-label" style="font-size:35px;margin:10px">員工管理</label>
+<p> @ViewBag.Status</p>
 
 <div class="page-inner">
     <div class="row">
@@ -16,23 +17,48 @@
             <div class="card" id="mmmmmm">
                 <div class="card-header row form-group">
                     @*<label class=" control-label" style="font-size:20px;margin-left:20px">部門:</label>*@
-                    <div class="col-sm-2">
+                    @*<div class="col-sm-2">
                         @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })
-                        @*@Html.DropDownList(
-                            "url",
-                            new SelectList(new[]
-                            {
-                                new SelectListItem { Text = "未審核", Value = Url.Action("Index", "Review",new{ id="1"}) },
-                                new SelectListItem { Text = "以審核", Value = Url.Action("Index", "Review",new{ id="2"}) },
-                                //new SelectListItem { Text = "公假", Value = Url.Action("Index", "Review",new{ id="3"}) },
-                            }, "Value", "Text"),
-                            "-- Pick an URL ---",
-                            new { id = "urlddl" }
+                        @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })*@
+
+
+                    <label class=" control-label" style="font-size:20px;margin-left:20px">審核狀態:</label>
+                    <div class="col-sm-2">
+                        @Html.DropDownList("Customers", null, new { @class = " form-control" })
+                    </div>
+                    <label class=" control-label" style="font-size:20px;margin-left:20px">申請項目:</label>
+                    <div id="ddlemp" class="col-sm-2">
+                        @Html.DropDownList(
+                         "url",
+                         new SelectList(new[]
+                         {
+                             new SelectListItem { Text = "休假", Value ="1"},
+                             //new SelectListItem { Text = "補刷卡", Value ="2"},
+                             new SelectListItem { Text = "加班", Value = "3" },
+                         }, "Value", "Text"),
+
+                         new { id = "urlddl", @class = " form-control" }
+                        )
+
+                    </div>
+
+                    @*@Html.DropDownList(
+                         "url",
+                         new SelectList(new[]
+                         {
+                             new SelectListItem { Text = "休假", Value = Url.Action("Index", "Review",new{ id="1"}) },
+                             new SelectListItem { Text = "補刷卡", Value = Url.Action("Index", "Review",new{ id="2"}) },
+                             new SelectListItem { Text = "加班", Value = Url.Action("Index", "Review",new{ id="3"}) },
+                         }, "Value", "Text"),
+
+                         new { id = "urlddl", @class = " form-control" }
                         )*@
 
 
 
-                    </div>
+
+
+                    @*</div>*@
                     @*<label class=" control-label" style="font-size:20px;margin-left:20px">員工:</label>
                         <div id="ddlemp" class="col-sm-2">
                             @Html.DropDownList("Employees", null, "-請選擇-", new { @class = " form-control" })
@@ -55,14 +81,7 @@
 
 @section scripts
 {
-
     <script>
-
-
-
-
-
-
         //$(document).ready(function () {
         //    $("#urlddl").change(function () {
         //            var url = $(this).val();
@@ -77,13 +96,85 @@
         //});
 
         $(document).ready(function () {
+        
             $("#Customers").bind("change", function () {
-                UpdateEmployeesByDepartment();
+                Switch();
             });
 
-                $('#basic-datatables').DataTable({});
-                $("#basic-datatables_filter").hide();
-         });
+            $("#ddlemp").bind("change", function () {
+                Switch();
+            });
+
+
+            $('#basic-datatables').DataTable({});
+            $("#basic-datatables_filter").hide();
+            $("#CheckAll").click(cAll);
+
+        });
+
+        function cAll() {
+            if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                $("input[name='Checkboxxx']").each(function () {
+                    $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                })
+            } else {
+                $("input[name='Checkboxxx']").each(function () {
+                    $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                })
+            }
+        }
+
+        function Switch() {
+
+            switch ($('#urlddl').val()) {
+                case '1':
+                   var u = "@Url.Action("AjaxLeave","Review")/"
+                    break;
+                case '2':
+                   var u = "@Url.Action("Ajax","Review")/"
+                    break;
+                case '3':
+                   var u = "@Url.Action("AjaxOverTime","Review")/"
+                    break;
+
+                default:
+            }
+
+            UpdateEmployeesByDepartment(u)
+        }
+
+          function UpdateEmployeesByDepartment(u) {
+            $.ajax({
+                type: "GET",
+                @*url: "@Url.RouteUrl("Default", new { controller = "Review", action = "Ajax" })/" + "null/" + Customers.value,*@
+               url: u+ Customers.value
+               }).done(function (result) {
+                    $("#Employeestable").html(result);
+                    $('#basic-datatables').DataTable({
+                    });
+                   $("#basic-datatables_filter").hide();
+                   $("#CheckAll").click(cAll);
+                  }).fail(function (e) { alert(e.responseText) });
+
+              //$("#CheckAll").click(cAll);
+              //$("#CheckAll").click(a());
+              //$("#CheckAll").click(cAll);
+        }
+        function a() {
+            alert('a');
+        }
+
+        function UpdateSuccess() {
+            swal("審核完成", "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
+        }
+
         function UpdateOrders() {
             @*$.ajax({
                 type: "Get",
@@ -99,29 +190,29 @@
             });*@
         }
 
-        $("#Employees").bind("change", function () {
-            UpdateEmployeesByEmployee();
-        });
+        //$("#Employees").bind("change", function () {
+        //    UpdateEmployeesByEmployee();
+        //});
 
 
-        $("#Department").bind("change", function () {
-            UpdateEmployeesByDepartment();
-            Updateddl();
-        });
-        $("#Button1").bind("click", function () {
-            createmp();
-        });
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#imgPreview').attr('src', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+        //$("#Department").bind("change", function () {
+        //    UpdateEmployeesByDepartment();
+        //    Updateddl();
+        //});
+        //$("#Button1").bind("click", function () {
+        //    createmp();
+        //});
+        //function readURL(input) {
+        //    if (input.files && input.files[0]) {
+        //        var reader = new FileReader();
+        //        reader.onload = function (e) {
+        //            $('#imgPreview').attr('src', e.target.result);
+        //        };
+        //        reader.readAsDataURL(input.files[0]);
+        //    }
+        //}
 
-        function createmp() {
+        @*function createmp() {
             $.ajax({
 
                 type: "GET",
@@ -166,21 +257,10 @@
                     });
                     $("#basic-datatables_filter").hide();
                 }).fail(function (e) { alert(e.responseText) });
-        }
+        }*@
 
 
-        function UpdateEmployeesByDepartment() {
-            $.ajax({
-                type: "GET",
-                @*url: "@Url.RouteUrl("Default", new { controller = "Review", action = "Ajax" })/" + "null/" + Customers.value,*@
-               url: " @Url.Action("Ajax","Review")/" + Customers.value
-               }).done(function (result) {
-                    $("#Employeestable").html(result);
-                    $('#basic-datatables').DataTable({
-                    });
-                    $("#basic-datatables_filter").hide();
-                }).fail(function (e) { alert(e.responseText) });
-        }
+
 
 
     </script>

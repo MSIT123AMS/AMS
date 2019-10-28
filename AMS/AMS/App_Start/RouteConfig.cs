@@ -26,6 +26,10 @@ namespace AMS
               url: "{controller}/{action}/{id}/{id2}",
               defaults: new { controller = "Employees", action = "Listemp", id = UrlParameter.Optional, id2 = UrlParameter.Optional }
           );
+
+
+
+
         }
     }
 }

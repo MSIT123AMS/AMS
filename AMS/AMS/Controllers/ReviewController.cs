@@ -17,7 +17,7 @@ namespace AMS.Controllers
         // GET: Review
         public ActionResult Index5()
         {
-            var q = db.LeaveRequests.AsEnumerable().Join(db.Employees, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new ReviewViewModels
+            var q = db.LeaveRequests.AsEnumerable().Join(db.Employees, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new LeaveReviewViewModels
             {
                 EmployeeID = d.EmployeeID,
                 EmployeeName = d.EmployeeName,
@@ -40,7 +40,7 @@ namespace AMS.Controllers
             join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
 
            
-                   select new ReviewViewModels
+                   select new LeaveReviewViewModels
             {
                 EmployeeID = l.EmployeeID,
                 EmployeeName = e.EmployeeName,
@@ -70,7 +70,7 @@ namespace AMS.Controllers
                      join e in db.Employees on l.EmployeeID equals e.EmployeeID
                      join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
                      where l.ReviewStatusID == i
-                     select new ReviewViewModels
+                     select new LeaveReviewViewModels
                      {
                          EmployeeID = l.EmployeeID,
                          EmployeeName = e.EmployeeName,
@@ -96,7 +96,7 @@ namespace AMS.Controllers
                      join e in db.Employees on l.EmployeeID equals e.EmployeeID
                      join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
                      where l.ReviewStatusID == i
-                     select new ReviewViewModels
+                     select new LeaveReviewViewModels
                      {
                          EmployeeID = l.EmployeeID,
                          EmployeeName = e.EmployeeName,
@@ -114,6 +114,9 @@ namespace AMS.Controllers
             //return PartialView("_LeavePartial", q1);
         }
 
+
+
+
         public ActionResult Ajax(string id = "1")
         {
             int i = int.Parse(id);
@@ -123,7 +126,7 @@ namespace AMS.Controllers
                      join e in db.Employees on l.EmployeeID equals e.EmployeeID
                      join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
                      where l.ReviewStatusID == i
-                     select new ReviewViewModels
+                     select new LeaveReviewViewModels
                      {
                          EmployeeID = l.EmployeeID,
                          EmployeeName = e.EmployeeName,
@@ -139,6 +142,63 @@ namespace AMS.Controllers
                      };
     
             return PartialView("_LeavePartial", q1);
+
+        }
+
+
+        public ActionResult AjaxLeave(string id = "1")
+        {
+            int i = int.Parse(id);
+            //Entities db = new Entities();
+            ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
+            var q1 = from l in db.LeaveRequests
+                     join e in db.Employees on l.EmployeeID equals e.EmployeeID
+                     join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
+                     where l.ReviewStatusID == i
+                     select new LeaveReviewViewModels
+                     {
+                         EmployeeID = l.EmployeeID,
+                         EmployeeName = e.EmployeeName,
+                         LeaveType = l.LeaveType,
+                         StartTime = l.StartTime,
+                         EndTime = l.EndTime,
+                         RequestTime = l.RequestTime,
+                         LeaveReason = l.LeaveReason,
+                         ReviewStatus = r.ReviewStatus1,
+                         ReviewStatusID = l.ReviewStatusID,
+                         LeaveRequestID = l.LeaveRequestID
+
+                     };
+
+            return PartialView("_LeavePartial", q1);
+
+        }
+
+        public ActionResult AjaxOvertime(string id = "1")
+        {
+            int i = int.Parse(id);
+            //Entities db = new Entities();
+            ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
+            var q1 = from l in db.OverTimeRequest
+                     join e in db.Employees on l.EmployeeID equals e.EmployeeID
+                     join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
+                     where l.ReviewStatusID == i
+                     select new OverTimeReviewViewModels
+                     {
+                         EmployeeID = l.EmployeeID,
+                         EmployeeName = e.EmployeeName,
+                         OverTimePay = l.OverTimePay,
+                         StartTime = l.StartTime,
+                         EndTime = l.EndTime,
+                         RequestTime = l.RequestTime,
+                         OverTimeReason = l.OverTimeReason,
+                         ReviewStatus = r.ReviewStatus1,
+                         ReviewStatusID = l.ReviewStatusID,
+                         OverTimeRequestID = l.OverTimeRequestID
+
+                     };
+
+            return PartialView("_OverTimePartial", q1);
 
         }
         // GET: Review/Details/5
@@ -171,18 +231,31 @@ namespace AMS.Controllers
                 {
                     LeaveRequests leaveRequests = db.LeaveRequests.Find(item);
                     leaveRequests.ReviewStatusID = 2;
+                    leaveRequests.ReviewTime = DateTime.Now;
                     db.SaveChanges();
                 }
             }
-
+            ViewBag.Status ="updatesuccess";
             return RedirectToAction("Index");
         }
 
-
         public ActionResult Edit3(string[] Checkboxxx)
         {
-            return View();
+
+            foreach (var item in Checkboxxx)
+            {
+                if (item != "false")
+                {
+                    OverTimeRequest overTimeRequests = db.OverTimeRequest.Find(item);
+                    overTimeRequests.ReviewStatusID = 2;
+                    overTimeRequests.ReviewTime = DateTime.Now;
+                    db.SaveChanges();
+                }
+            }
+            ViewBag.Status = "updatesuccess";
+            return RedirectToAction("Index");
         }
+
         // POST: Review/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
@@ -267,4 +340,6 @@ namespace AMS.Controllers
         }
 
     }
+
+
 }
