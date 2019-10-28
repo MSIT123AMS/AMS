@@ -8,6 +8,9 @@
                 @Html.DisplayNameFor(model => model.EmployeeName)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.LeaveType)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.RequestTime)
             </th>
             <th>
@@ -25,24 +28,27 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Review)
-                </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Review)
+            </td>
 
-            </tr>
+        </tr>
         }
     </tbody>
 </table>
