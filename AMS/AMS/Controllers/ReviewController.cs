@@ -16,7 +16,7 @@ namespace AMS.Controllers
 
         // GET: Review
         public ActionResult Index5()
-        {
+        {   
             var q = db.LeaveRequests.AsEnumerable().Join(db.Employees, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new LeaveReviewViewModels
             {
                 EmployeeID = d.EmployeeID,
