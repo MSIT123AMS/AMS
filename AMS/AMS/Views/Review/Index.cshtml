@@ -10,6 +10,7 @@
 
 <label class=" control-label" style="font-size:35px;margin:10px">員工管理</label>
 
+
 <div class="page-inner">
     <div class="row">
         <div class="col-md-12">
@@ -19,16 +20,16 @@
                     <div class="col-sm-2">
                         @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })
                         @*@Html.DropDownList(
-                            "url",
-                            new SelectList(new[]
-                            {
-                                new SelectListItem { Text = "未審核", Value = Url.Action("Index", "Review",new{ id="1"}) },
-                                new SelectListItem { Text = "以審核", Value = Url.Action("Index", "Review",new{ id="2"}) },
-                                //new SelectListItem { Text = "公假", Value = Url.Action("Index", "Review",new{ id="3"}) },
-                            }, "Value", "Text"),
-                            "-- Pick an URL ---",
-                            new { id = "urlddl" }
-                        )*@
+                                "url",
+                                new SelectList(new[]
+                                {
+                                    new SelectListItem { Text = "未審核", Value = Url.Action("Index", "Review",new{ id="1"}) },
+                                    new SelectListItem { Text = "以審核", Value = Url.Action("Index", "Review",new{ id="2"}) },
+                                    //new SelectListItem { Text = "公假", Value = Url.Action("Index", "Review",new{ id="3"}) },
+                                }, "Value", "Text"),
+                                "-- Pick an URL ---",
+                                new { id = "urlddl" }
+                            )*@
 
 
 
@@ -55,14 +56,7 @@
 
 @section scripts
 {
-
     <script>
-
-
-
-
-
-
         //$(document).ready(function () {
         //    $("#urlddl").change(function () {
         //            var url = $(this).val();
@@ -82,8 +76,36 @@
             });
 
                 $('#basic-datatables').DataTable({});
-                $("#basic-datatables_filter").hide();
-         });
+            $("#basic-datatables_filter").hide();
+
+            $("#CheckAll").click(function () {
+                if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                    $("input[name='Checkboxxx']").each(function () {
+                        $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                    })
+                } else {
+                    $("input[name='Checkboxxx']").each(function () {
+                        $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                    })
+                }
+            })
+
+        });
+
+          function UpdateEmployeesByDepartment() {
+            $.ajax({
+                type: "GET",
+                @*url: "@Url.RouteUrl("Default", new { controller = "Review", action = "Ajax" })/" + "null/" + Customers.value,*@
+               url: " @Url.Action("Ajax","Review")/" + Customers.value
+               }).done(function (result) {
+                    $("#Employeestable").html(result);
+                    $('#basic-datatables').DataTable({
+                    });
+                    $("#basic-datatables_filter").hide();
+                }).fail(function (e) { alert(e.responseText) });
+        }
+
+
         function UpdateOrders() {
             @*$.ajax({
                 type: "Get",
@@ -99,29 +121,29 @@
             });*@
         }
 
-        $("#Employees").bind("change", function () {
-            UpdateEmployeesByEmployee();
-        });
+        //$("#Employees").bind("change", function () {
+        //    UpdateEmployeesByEmployee();
+        //});
 
 
-        $("#Department").bind("change", function () {
-            UpdateEmployeesByDepartment();
-            Updateddl();
-        });
-        $("#Button1").bind("click", function () {
-            createmp();
-        });
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#imgPreview').attr('src', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+        //$("#Department").bind("change", function () {
+        //    UpdateEmployeesByDepartment();
+        //    Updateddl();
+        //});
+        //$("#Button1").bind("click", function () {
+        //    createmp();
+        //});
+        //function readURL(input) {
+        //    if (input.files && input.files[0]) {
+        //        var reader = new FileReader();
+        //        reader.onload = function (e) {
+        //            $('#imgPreview').attr('src', e.target.result);
+        //        };
+        //        reader.readAsDataURL(input.files[0]);
+        //    }
+        //}
 
-        function createmp() {
+        @*function createmp() {
             $.ajax({
 
                 type: "GET",
@@ -166,21 +188,10 @@
                     });
                     $("#basic-datatables_filter").hide();
                 }).fail(function (e) { alert(e.responseText) });
-        }
+        }*@
 
 
-        function UpdateEmployeesByDepartment() {
-            $.ajax({
-                type: "GET",
-                @*url: "@Url.RouteUrl("Default", new { controller = "Review", action = "Ajax" })/" + "null/" + Customers.value,*@
-               url: " @Url.Action("Ajax","Review")/" + Customers.value
-               }).done(function (result) {
-                    $("#Employeestable").html(result);
-                    $('#basic-datatables').DataTable({
-                    });
-                    $("#basic-datatables_filter").hide();
-                }).fail(function (e) { alert(e.responseText) });
-        }
+
 
 
     </script>
