@@ -93,7 +93,7 @@
                                     @Html.DisplayFor(modelItem => item.ReviewTime)
                                 </td>
                                 <td>
-                                    @Html.Partial("_ShowPhotoPartial", item)
+                                    @Html.Partial("_ShowPhotoPartialDetails", item)
                                 </td>
                                 <td>
                                     @Html.ActionLink("編輯", "Edit", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })|

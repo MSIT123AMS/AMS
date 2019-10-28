@@ -906,9 +906,7 @@
     <Content Include="Views\Employees\_GetDdlandListempPartial.cshtml" />
     <Content Include="Views\Employees\_ListempPartial.cshtml" />
     <Content Include="Views\OverTimeRequests\Create.cshtml" />
-    <Content Include="Views\OverTimeRequests\Delete.cshtml" />
     <Content Include="Views\OverTimeRequests\Details.cshtml" />
-    <Content Include="Views\OverTimeRequests\Edit.cshtml" />
     <Content Include="Views\OverTimeRequests\Index.cshtml" />
     <Content Include="Views\Review\Create.cshtml" />
     <Content Include="Views\Review\Delete.cshtml" />
