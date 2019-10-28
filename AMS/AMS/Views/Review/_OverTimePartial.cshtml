@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AMS.Models.LeaveReviewViewModels>
+﻿@model IEnumerable<AMS.Models.OverTimeReviewViewModels>
 @using (Html.BeginForm("Edit2", "Review"))
 {
     <button type="submit" class="btn btn-danger">核准</button>
@@ -13,7 +13,7 @@
                     @Html.DisplayNameFor(model => model.EmployeeName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LeaveType)
+                    @Html.DisplayNameFor(model => model.OverTimePay)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.StartTime)
@@ -25,7 +25,7 @@
                     @Html.DisplayNameFor(model => model.RequestTime)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LeaveReason)
+                    @Html.DisplayNameFor(model => model.OverTimeReason)
                 </th>
                 @*<th>
                         @Html.DisplayNameFor(model => model.ReviewStatusID)
@@ -47,7 +47,7 @@
                         @Html.DisplayFor(modelItem => item.EmployeeName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.LeaveType)
+                        @Html.DisplayFor(modelItem => item.OverTimePay)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.StartTime)
@@ -59,7 +59,7 @@
                         @Html.DisplayFor(modelItem => item.RequestTime)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.LeaveReason)
+                        @Html.DisplayFor(modelItem => item.OverTimeReason)
                     </td>
                     @*<td>
                             @Html.DisplayFor(modelItem => item.ReviewStatusID)

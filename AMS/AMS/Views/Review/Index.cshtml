@@ -1,5 +1,5 @@
 ﻿@*@model IEnumerable<AMS.Controllers.EmployeesViewModel>*@
-@model IEnumerable<AMS.Models.ReviewViewModels>
+@model IEnumerable<AMS.Models.LeaveReviewViewModels>
 
 @{
     ViewBag.Title = "Index";
@@ -17,30 +17,55 @@
             <div class="card" id="mmmmmm">
                 <div class="card-header row form-group">
                     @*<label class=" control-label" style="font-size:20px;margin-left:20px">部門:</label>*@
+                    @*<div class="col-sm-2">
+        @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })
+        @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })*@
+
+
+                    <label class=" control-label" style="font-size:20px;margin-left:20px">審核狀態:</label>
                     <div class="col-sm-2">
-                        @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })
-                        @*@Html.DropDownList(
-                                "url",
-                                new SelectList(new[]
-                                {
-                                    new SelectListItem { Text = "未審核", Value = Url.Action("Index", "Review",new{ id="1"}) },
-                                    new SelectListItem { Text = "以審核", Value = Url.Action("Index", "Review",new{ id="2"}) },
-                                    //new SelectListItem { Text = "公假", Value = Url.Action("Index", "Review",new{ id="3"}) },
-                                }, "Value", "Text"),
-                                "-- Pick an URL ---",
-                                new { id = "urlddl" }
-                            )*@
+                        @Html.DropDownList("Customers", null, new { @class = " form-control" })
+                    </div>
+                    <label class=" control-label" style="font-size:20px;margin-left:20px">申請項目:</label>
+                    <div id="ddlemp" class="col-sm-2">
+                        @Html.DropDownList(
+                         "url",
+                         new SelectList(new[]
+                         {
+                             new SelectListItem { Text = "休假", Value ="1"},
+                             //new SelectListItem { Text = "補刷卡", Value ="2"},
+                             new SelectListItem { Text = "加班", Value = "3" },
+                         }, "Value", "Text"),
 
-
+                         new { id = "urlddl", @class = " form-control" }
+                        )
 
                     </div>
+
+                    @*@Html.DropDownList(
+ "url",
+ new SelectList(new[]
+ {
+     new SelectListItem { Text = "休假", Value = Url.Action("Index", "Review",new{ id="1"}) },
+     new SelectListItem { Text = "補刷卡", Value = Url.Action("Index", "Review",new{ id="2"}) },
+     new SelectListItem { Text = "加班", Value = Url.Action("Index", "Review",new{ id="3"}) },
+ }, "Value", "Text"),
+
+ new { id = "urlddl", @class = " form-control" }
+)*@
+
+
+
+
+
+                    @*</div>*@
                     @*<label class=" control-label" style="font-size:20px;margin-left:20px">員工:</label>
-                        <div id="ddlemp" class="col-sm-2">
-                            @Html.DropDownList("Employees", null, "-請選擇-", new { @class = " form-control" })
-                        </div>
-                        <div class="col-sm-2">
-                            <input id="Button1" type="button" value="新增員工" class="btn btn-outline-primary" />
-                        </div>*@
+        <div id="ddlemp" class="col-sm-2">
+            @Html.DropDownList("Employees", null, "-請選擇-", new { @class = " form-control" })
+        </div>
+        <div class="col-sm-2">
+            <input id="Button1" type="button" value="新增員工" class="btn btn-outline-primary" />
+        </div>*@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive" id="Employeestable">
@@ -72,8 +97,13 @@
 
         $(document).ready(function () {
             $("#Customers").bind("change", function () {
-                UpdateEmployeesByDepartment();
+                Switch();
+
             });
+            $("#ddlemp").bind("change", function () {
+                Switch();
+            });
+
 
                 $('#basic-datatables').DataTable({});
             $("#basic-datatables_filter").hide();
@@ -92,11 +122,30 @@
 
         });
 
-          function UpdateEmployeesByDepartment() {
+        function Switch() {
+            
+            switch ($('#urlddl').val()) {
+                case '1':
+                   var u = "@Url.Action("AjaxLeave","Review")/"
+                    break;
+                case '2':
+                   var u = "@Url.Action("Ajax","Review")/"
+                    break;
+                case '3':
+                   var u = "@Url.Action("AjaxOverTime","Review")/"
+                    break;
+
+                default:
+            }
+
+            UpdateEmployeesByDepartment(u)
+        }
+
+          function UpdateEmployeesByDepartment(u) {
             $.ajax({
                 type: "GET",
                 @*url: "@Url.RouteUrl("Default", new { controller = "Review", action = "Ajax" })/" + "null/" + Customers.value,*@
-               url: " @Url.Action("Ajax","Review")/" + Customers.value
+               url: u+ Customers.value
                }).done(function (result) {
                     $("#Employeestable").html(result);
                     $('#basic-datatables').DataTable({
