@@ -291,6 +291,7 @@
     <Content Include="assets\css\atlantis.min.css" />
     <Content Include="assets\css\bootsnav.css" />
     <Content Include="assets\css\bootstrap.min.css" />
+    <Content Include="assets\css\bootstrap1.min.css" />
     <Content Include="assets\css\demo.css" />
     <Content Include="assets\css\font-awesome.min.css" />
     <Content Include="assets\css\fonts.css" />
@@ -620,6 +621,7 @@
     <Content Include="assets\img\sauro.jpg" />
     <Content Include="assets\img\talha.jpg" />
     <Content Include="assets\img\visa.svg" />
+    <Content Include="assets\img\背景.jpg" />
     <Content Include="assets\js\atlantis.js" />
     <Content Include="assets\js\atlantis.min.js" />
     <Content Include="assets\js\atlantis2.js" />
@@ -866,7 +868,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login1.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -916,6 +918,7 @@
     <Content Include="Views\Employees\_SerchOverTimePartial.cshtml" />
     <Content Include="Views\Employees\SerchAttendances.cshtml" />
     <Content Include="Views\Employees\_SerchAttendancesPartial.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
