@@ -13,6 +13,58 @@ namespace AMS.Controllers
     public class EmployeesController : Controller
     {
         private Entities db = new Entities();
+        private OverTimeClassLibrary.OverTime OvertimeObj = new OverTimeClassLibrary.OverTime();
+
+
+
+        public ActionResult SerchOverTime()
+        {
+            var query = (from ot in db.OverTimeRequest.AsEnumerable()
+                                   join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                                   join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                                   join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                                   select new OverTimeViewModel
+                                   {
+                                       RequestID = ot.OverTimeRequestID,
+                                       EmployeeName = emp.EmployeeName,
+                                       RequestTime = ot.RequestTime,
+                                       StartTime = ot.StartTime,
+                                       EndTime = ot.EndTime,
+                                       PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
+                                       OTDateType = date.WorkingDay,
+                                       SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                                       Reason = ot.OverTimeReason,
+                                       Review = rev.ReviewStatus1,
+                                       ReviewTime = ot.ReviewTime
+                                   });
+
+ 
+
+           
+            return View(query);
+
+            //return View();
+        }
+
+        public ActionResult SerchAttendances()
+        {
+            var query = (from ot in db.Attendances.AsEnumerable()
+                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                         select new SerchAttendancesViewModel
+                         {                            
+                             EmployeeName = emp.EmployeeName,
+                             Date = ot.Date.ToString("yyyy/MM/dd"),
+                             StartTime = ot.OnDuty,
+                             EndTime = ot.OffDuty,
+                         });
+
+
+
+
+            return View(query);
+
+            //return View();
+        }
 
         public ActionResult SerchLeave()
         {
@@ -23,6 +75,7 @@ namespace AMS.Controllers
                                    {
                                      LeaveRequestID= ot.LeaveRequestID,
                                        EmployeeName = emp.EmployeeName,
+                                       LeaveType = ot.LeaveType,
                                        RequestTime = ot.RequestTime,
                                        StartTime = ot.StartTime,
                                        EndTime = ot.EndTime,

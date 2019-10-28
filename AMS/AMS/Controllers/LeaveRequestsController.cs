@@ -25,10 +25,12 @@ namespace AMS.Controllers
         // GET: LeaveRequests/Details/5
         public ActionResult Details(string id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
             LeaveRequests leaveRequests = db.LeaveRequests.Find(id);
             if (leaveRequests == null)
             {
@@ -42,21 +44,22 @@ namespace AMS.Controllers
         public class LeaveCombobox
         {
             public string comtext { get; set; }
-
+            public string text { get; set; }
         }
         public ActionResult Create()
         {
-            ViewBag.dropdownlist = new SelectList(new List<LeaveCombobox> {
-                new LeaveCombobox {comtext="事假"},
-                new LeaveCombobox {comtext="病假"},
-                new LeaveCombobox {comtext="公假"},
-                new LeaveCombobox {comtext="喪假"},
-                new LeaveCombobox {comtext="產假"},
-                new LeaveCombobox {comtext="陪產假"},
-                new LeaveCombobox {comtext="生理假"},
-                new LeaveCombobox {comtext="補休假"},
-                new LeaveCombobox {comtext="家庭照顧假"},
-            }, "comtext", "comtext");
+            ViewBag.LeaveType = new SelectList(new List<LeaveCombobox> {
+                new LeaveCombobox {comtext="事假",text="事假" },
+                new LeaveCombobox {comtext="病假",text="病假"},
+                new LeaveCombobox {comtext="公假",text="公假"},
+                new LeaveCombobox {comtext="喪假",text="喪假"},
+                new LeaveCombobox {comtext="產假",text="產假"},
+                new LeaveCombobox {comtext="陪產假",text="陪產假"},
+                new LeaveCombobox {comtext="生理假",text="生理假"},
+                new LeaveCombobox {comtext="補休假",text="補休假"},
+                new LeaveCombobox {comtext="家庭照顧假",text="家庭照顧假"},
+            }, "text", "comtext");
+
             return View();
         }
 
@@ -69,6 +72,11 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
+                //新增先給這幾項直(登入還沒做)
+                leaveRequests.LeaveRequestID = db.LeaveRequests.Count().ToString();
+                leaveRequests.EmployeeID = "MSIT0001";
+                leaveRequests.RequestTime = DateTime.Now;
+                leaveRequests.ReviewStatusID = 1;
                 if (Request.Files["LeaveFile"].ContentLength != 0)
                 {
                     byte[] data = null;
