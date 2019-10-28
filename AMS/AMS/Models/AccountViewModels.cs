@@ -49,9 +49,9 @@ namespace AMS.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "電子郵件")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "員工編號")]
+        
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
