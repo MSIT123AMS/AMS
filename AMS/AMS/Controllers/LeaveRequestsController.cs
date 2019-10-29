@@ -14,11 +14,13 @@ namespace AMS.Controllers
 {
     public class LeaveRequestsController : Controller
     {
+  
         private Entities db = new Entities();
 
         // GET: LeaveRequests
         public ActionResult Index()
         {
+            string User = Convert.ToString(Session["UserName"]);
             return View(db.LeaveRequests);
         }
 
@@ -26,9 +28,11 @@ namespace AMS.Controllers
 
         public ActionResult LeaveIndexView()
         {
+            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
             var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
                                     join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
                                     join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
+                                    where lt.EmployeeID == User
                                     select new LeaveIndexViewModel
                                     {
                                         LeaveRequestID = lt.LeaveRequestID,
@@ -48,13 +52,14 @@ namespace AMS.Controllers
         }
         public ActionResult Leavetable(string id, string id2)
         {
+            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
             DateTime startime = Convert.ToDateTime(id.Substring(0, 4) + "/" + id.Substring(4, 2) + "/" + id.Substring(6, 2) + " 00:00:00");
             DateTime endtime = Convert.ToDateTime(id2.Substring(0, 4) + "/" + id2.Substring(4, 2) + "/" + id2.Substring(6, 2) + " 23:59:59");
 
             var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
                                     join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
                                     join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
-                                    where lt.StartTime >= startime && lt.EndTime <= endtime
+                                    where lt.StartTime >= startime && lt.EndTime <= endtime && lt.EmployeeID == User
                                     select new LeaveIndexViewModel
                                     {
                                         LeaveRequestID = lt.LeaveRequestID,
@@ -127,7 +132,7 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                //新增先給這幾項直(登入還沒做)
+                string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
                 leaveRequests.LeaveRequestID = db.LeaveRequests.Count().ToString();
                 leaveRequests.EmployeeID = "MSIT1230001";
                 leaveRequests.RequestTime = DateTime.Now;
