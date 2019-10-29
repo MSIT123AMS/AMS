@@ -15,9 +15,10 @@ namespace AMS.Controllers
         private Entities db = new Entities();
 
         // GET: ClockInApply
+        [HttpPost]
         public ActionResult Index()
         {
-            return View(db.ClockInApply.ToList());
+            return View();
         }
 
         // GET: ClockInApply/Details/5
@@ -50,6 +51,9 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
+
+
+
                 db.ClockInApply.Add(clockInApply);
                 db.SaveChanges();
                 return RedirectToAction("Index");
