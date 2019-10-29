@@ -49,6 +49,7 @@ namespace WebApplication5.Controllers
                         {
                             var bot = new Bot(channelAccessToken);
                             List<TemplateActionBase> actions = new List<TemplateActionBase>();
+                            this.ReplyMessage(LineEvent.replyToken, "你好,謝惠婷");
                             actions.Add(new MessageAction() { label = "上班", text = "上班" });
                             actions.Add(new MessageAction() { label = "下班", text = "下班" });
 
