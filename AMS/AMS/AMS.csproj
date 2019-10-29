@@ -903,7 +903,6 @@
     <Content Include="Views\Attendances\Details.cshtml" />
     <Content Include="Views\Attendances\Edit.cshtml" />
     <Content Include="Views\Attendances\Index.cshtml" />
-    <Content Include="Views\ClockInApplies\Index.cshtml" />
     <Content Include="Views\Employees\_GetDdlandListempPartial.cshtml" />
     <Content Include="Views\Employees\_ListempPartial.cshtml" />
     <Content Include="Views\OverTimeRequests\Create.cshtml" />

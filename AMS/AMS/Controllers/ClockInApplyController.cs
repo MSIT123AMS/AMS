@@ -52,14 +52,30 @@ namespace AMS.Controllers
             if (ModelState.IsValid)
             {
 
-
+                //var query = db.ClockInApply.Select(p => new CreateViewModel
+                //{
+                //   OnDuty= p.OnDuty ,
+                //   OffDuty= p.OffDuty,
+                //   RequestDate = p.RequestDate,
+                //   EmployeeID= p.EmployeeID
+                //});
+               clockInApply.EmployeeID= "MSIT1230001";               
 
                 db.ClockInApply.Add(clockInApply);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.SaveChanges();
+                    
+                }
+                catch {
+
+                }
+
+                
+                return RedirectToAction("Index","Home");
             }
 
-            return View(clockInApply);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: ClockInApply/Edit/5
@@ -86,6 +102,7 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
+               
                 db.Entry(clockInApply).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

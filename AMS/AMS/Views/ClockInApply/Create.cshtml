@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<h2>刷卡異常申覆單</h2>
 
 
 @using (Html.BeginForm())
@@ -12,18 +12,19 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>ClockInApply</h4>
+    @*<h4>ClockInApply</h4>*@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
+    @*<div class="form-group">
         @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
             @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
         </div>
-    </div>
-
+    </div>*@
+    
     <div class="form-group">
+        
         @Html.LabelFor(model => model.OnDuty, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @Html.EditorFor(model => model.OnDuty, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
@@ -34,7 +35,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.OffDuty, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.OffDuty, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
+            @Html.EditorFor(model => model.OffDuty, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local",readOnly = true } })
             @Html.ValidationMessageFor(model => model.OffDuty, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -84,7 +85,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control", Type = "date" } })
+                @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control", Type = "date" ,readOnly=true} })
                 @Html.ValidationMessageFor(model => model.RequestDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -92,7 +93,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="申請" class="btn btn-default" id="submitButton"/>
             </div>
         </div>
     </div>
@@ -123,7 +124,7 @@
                 $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
                 $("#OffDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "16" + ":" + "00");
                 $("#RequestDate").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
-                document.getElementById("RequestDate").disabled = true;
+                //document.getElementById("RequestDate").readonly= true;
             });
 
             $("#OnDuty").bind("change", function () {
@@ -133,7 +134,7 @@
                 var searchstrmi = str.substring(14, 16);
                 //if ($("#OnDuty").val() > $("#OffDuty").val()) {
                 //    //timechange();
-                //    $("#OnDuty").val($("#OffDuty").val());
+                $("#OffDuty").val($("#OnDuty").val());
                 //}             
 
                 if (searchstr > 12 || searchstr < 06) {
@@ -151,7 +152,7 @@
 
 
             function timechange() {
-                swal("上班時間請在06:00-12:59之間設定", "", {
+                swal("上班時間請在06:00-11:59之間設定", "", {
                     icon: "info",
                     buttons: {
                         confirm: {
@@ -161,14 +162,14 @@
                 });
             }
 
-            $("#OffDuty").bind("change", function () {
+            //$("#OffDuty").bind("change", function () {
 
-                if ($("#OnDuty").val() > $("#OffDuty").val()) {
-                    //timechange();
-                    $("#OnDuty").val($("#OffDuty").val());
-                }
+            //    if ($("#OnDuty").val() > $("#OffDuty").val()) {
+            //        //timechange();
+            //        $("#OnDuty").val($("#OffDuty").val());
+            //    }
 
-            });
+            //});
             function sethours(hours) {
                 var start = document.querySelector("#OnDuty"), end = document.querySelector("#OffDuty");
                 $("#OffDuty").val($("#OnDuty").val());
@@ -214,7 +215,14 @@
 
 
             })
+               
+                $(document).ready(function () {
+                    $("#submitButton").on("click", function () {
+                        alert('申請成功');
+                    });
 
+                });
+         
 
         </script>
 
