@@ -697,7 +697,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Img\kouji_rammer.png" />
     <Content Include="Img\logo.png" />
+    <Content Include="Img\text_kosyouchuu.png" />
     <Content Include="Img\upload.png" />
     <Content Include="Models\AMSModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

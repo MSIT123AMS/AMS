@@ -51,7 +51,7 @@
         $(document).ready(function () {
             $('#basic-datatables').DataTable({
             });
-
+            $("#basic-datatables_filter").hide();
             $('#Search').bind("click",
                 function () {
 
@@ -74,10 +74,12 @@
                 
                 type: "GET",
                 url: "@Url.RouteUrl("Default1", new { controller = "OverTimeRequests", action = "Overtimetable" })/" + Start + "/" + End,
-                }).done(function (result) {
+            }).done(function (result) {
+
                     $("#OverTimeTable").html(result);
                     $('#basic-datatables').DataTable({
-                    });
+                });
+                $("#basic-datatables_filter").hide();
                 }).fail(function(e){
                 alert(e.responseText);
                 });
