@@ -230,7 +230,48 @@ namespace AMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employees employees = db.Employees.Find(id);
+            Employees emp = db.Employees.Find(id);
+
+            EmployeesDetailsViewModel employees = new EmployeesDetailsViewModel
+            {
+
+                EmployeeID = emp.EmployeeID,
+                EmployeeName = emp.EmployeeName,
+                IDNumber = emp.IDNumber,
+                DeputyPhone = emp.DeputyPhone,
+                Deputy = emp.Deputy,
+                 Marital=emp.Marital,
+                Email = emp.Email,
+                Birthday = emp.Birthday,
+                Hireday = emp.Hireday,
+                Address = emp.Address,
+
+                JobTitle = emp.JobTitle,
+                EnglishName = emp.EnglishName,
+                
+                Notes = emp.Notes,
+                Education = emp.Education
+                   //, Photo = null
+                   //, LineID = ""
+                   //, Leaveday = null
+                   ,
+                Phone = emp.Phone,
+                JobStaus = emp.JobStaus
+
+            };
+            if (emp.gender==true)
+            {
+                employees.gender = "男生";
+            }
+            else
+            {
+                employees.gender = "女生";
+            }
+            employees.DepartmentName = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().DepartmentName;
+            employees.Manager = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().Manager;
+   
+
+            return View(employees);
 
             if (employees == null)
             {
@@ -262,18 +303,48 @@ namespace AMS.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName")] EmployeesCreateViewModel employees)
+        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName")] EmployeesCreateViewModel emp)
         {
             if (ModelState.IsValid)
             {
-                //db.Employees.Add(employees);
+
+                Employees employees = new Employees
+                {
+
+                    EmployeeID = emp.EmployeeID,
+                    EmployeeName = emp.EmployeeName,
+                    IDNumber = emp.IDNumber,
+                    DeputyPhone = emp.DeputyPhone,
+                    Deputy = emp.Deputy,
+                    Marital = emp.Manager,
+                    Email = emp.Email,
+                    Birthday = emp.Birthday,
+                    Hireday = emp.Hireday,
+                    Address = emp.Address,
+
+                    JobTitle = emp.JobTitle,
+                    EnglishName = emp.EnglishName,
+                    gender = emp.gender,
+                    Notes = emp.Notes,
+                    Education = emp.Education
+                    //, Photo = null
+                    //, LineID = ""
+                    //, Leaveday = null
+                    , Phone=emp.Phone
+            
+                };
+                employees.DepartmentID = db.Departments.Where(e=>e.DepartmentName==emp.DepartmentName).First().DepartmentID;
+                employees.JobStaus = "在職";
+
+                db.Employees.Add(employees);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(employees);
-        }
+            ViewBag.flag = 88;
 
+            return View(emp);
+        }
         // GET: Employees/Edit/5
         public ActionResult Edit(string id)
         {
@@ -281,7 +352,48 @@ namespace AMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employees employees = db.Employees.Find(id);
+            Employees emp = db.Employees.Find(id);
+
+            EmployeesDetailsViewModel employees = new EmployeesDetailsViewModel
+            {
+
+                EmployeeID = emp.EmployeeID,
+                EmployeeName = emp.EmployeeName,
+                IDNumber = emp.IDNumber,
+                DeputyPhone = emp.DeputyPhone,
+                Deputy = emp.Deputy,
+                Marital = emp.Marital,
+                Email = emp.Email,
+                Birthday = emp.Birthday,
+                Hireday = emp.Hireday,
+                Address = emp.Address,
+
+                JobTitle = emp.JobTitle,
+                EnglishName = emp.EnglishName,
+
+                Notes = emp.Notes,
+                Education = emp.Education
+                   //, Photo = null
+                   //, LineID = ""
+                   //, Leaveday = null
+                   ,
+                Phone = emp.Phone,
+                JobStaus = emp.JobStaus
+
+            };
+            if (emp.gender == true)
+            {
+                employees.gender = "男生";
+            }
+            else
+            {
+                employees.gender = "女生";
+            }
+            employees.DepartmentName = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().DepartmentName;
+            employees.Manager = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().Manager;
+
+
+           
             if (employees == null)
             {
                 return HttpNotFound();

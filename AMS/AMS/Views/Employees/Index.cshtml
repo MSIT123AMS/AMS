@@ -46,6 +46,7 @@
 
     <script>
         $(document).ready(function () {
+
             $('#basic-datatables').DataTable({
             });
             $("#basic-datatables_filter").hide();
@@ -78,10 +79,12 @@
                 type: "GET",
                 url: "@Url.Action("Create", "Employees")",
             }).done(function (result) {
-
+             
+                   
+  
                 $("#mmmmmm").html(result);
 
-
+        
                 $("#empFile").bind("change", function () {
                     readURL(this);
 
