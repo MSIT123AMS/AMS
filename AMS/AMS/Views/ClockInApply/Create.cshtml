@@ -38,86 +38,74 @@
             @Html.ValidationMessageFor(model => model.OffDuty, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" value="1" id="defaultInline1" name="inlineDefaultRadiosExample">
-        <label class="custom-control-label" for="defaultInline1">1小時</label>
-    </div>
-
-    <!-- Default inline 2-->
-    <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" value="2" id="defaultInline2" name="inlineDefaultRadiosExample">
-        <label class="custom-control-label" for="defaultInline2">2小時</label>
-    </div>
-
-    <!-- Default inline 3-->
-    <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" value="3" id="defaultInline3" name="inlineDefaultRadiosExample">
-        <label class="custom-control-label" for="defaultInline3">3小時</label>
-    </div>
-    <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" value="4" id="defaultInline4" name="inlineDefaultRadiosExample">
-        <label class="custom-control-label" for="defaultInline4">4小時</label>
-    </div>
-
-    <!-- Default inline 2-->
-    <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" value="5" id="defaultInline5" name="inlineDefaultRadiosExample">
-        <label class="custom-control-label" for="defaultInline5">5小時</label>
-    </div>
-
-    <!-- Default inline 3-->
-    <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" value="6" id="defaultInline6" name="inlineDefaultRadiosExample">
-        <label class="custom-control-label" for="defaultInline6">6小時</label>
-    </div>
-    <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" value="7" id="defaultInline7" name="inlineDefaultRadiosExample">
-        <label class="custom-control-label" for="defaultInline7">7小時</label>
-    </div>
-    <div class="custom-control custom-radio custom-control-inline">
-        <input type="radio" class="custom-control-input" value="8" id="defaultInline8" name="inlineDefaultRadiosExample">
-        <label class="custom-control-label" for="defaultInline8">8小時</label>
-    </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ReviewStatusID, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ReviewStatusID, "", new { @class = "text-danger" })
+        <div class="custom-control custom-radio custom-control-inline" style="padding-left:100px">
+            <input type="radio" class="custom-control-input" value="1" id="defaultInline1" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline1">1小時</label>
+        </div>
+
+        <!-- Default inline 2-->
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" value="2" id="defaultInline2" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline2">2小時</label>
+        </div>
+
+        <!-- Default inline 3-->
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" value="3" id="defaultInline3" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline3">3小時</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" value="4" id="defaultInline4" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline4">4小時</label>
+        </div>
+
+        <!-- Default inline 2-->
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" value="5" id="defaultInline5" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline5">5小時</label>
+        </div>
+
+        <!-- Default inline 3-->
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" value="6" id="defaultInline6" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline6">6小時</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" value="7" id="defaultInline7" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline7">7小時</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" class="custom-control-input" value="8" id="defaultInline8" name="inlineDefaultRadiosExample">
+            <label class="custom-control-label" for="defaultInline8">8小時</label>
+        </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control", Type = "date" } })
+                @Html.ValidationMessageFor(model => model.RequestDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
         </div>
     </div>
+    }
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.RequestDate, "", new { @class = "text-danger" })
-        </div>
+    <div>
+        @Html.ActionLink("Back to List", "Index")
     </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.ReviewTime, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ReviewTime, "", new { @class = "text-danger" })
-        </div>
-    </div>
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
-        </div>
-    </div>
-</div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-
-    <script>
+        <script>
             function zeroPadded(val) {
                 if (val >= 10)
                     return val;
@@ -132,10 +120,10 @@
                 $("#basic-datatables_filter").hide();
 
                 d = new Date();
-                $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() ) + "T" + "08" + ":" + "00");
-                $("#OffDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() ) + "T" + "16" + ":" + "00");
-
-                //document.getElementById("OffDuty").disabled = true;
+                $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
+                $("#OffDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "16" + ":" + "00");
+                $("#RequestDate").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
+                document.getElementById("RequestDate").disabled = true;
             });
 
             $("#OnDuty").bind("change", function () {
@@ -143,13 +131,12 @@
 
                 var searchstr = str.substring(11, 13);
                 var searchstrmi = str.substring(14, 16);
-                if ($("#OnDuty").val() > $("#OffDuty").val()) {
-                    timechange();
-                    $("#OnDuty").val($("#OffDuty").val());
-                }
+                //if ($("#OnDuty").val() > $("#OffDuty").val()) {
+                //    //timechange();
+                //    $("#OnDuty").val($("#OffDuty").val());
+                //}             
 
-
-                else if (searchstr > 12 || searchstr < 06) {
+                if (searchstr > 12 || searchstr < 06) {
                     timechange();
                     $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
                 }
@@ -163,27 +150,28 @@
 
 
 
-            //function timechange() {
-            //    swal("上班時間請在06:00-12:59之間設定", "", {
-            //        icon: "info",
-            //        buttons: {
-            //            confirm: {
-            //                className: 'btn btn-info'
-            //            }
-            //        },
-            //    });
-            //}
+            function timechange() {
+                swal("上班時間請在06:00-12:59之間設定", "", {
+                    icon: "info",
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-info'
+                        }
+                    },
+                });
+            }
 
-            ////$("#time2").bind("change", function () {
-            ////    if ($("#time2").val() < $("#time1").val()) {
-            ////        //timechange();
-            ////        $("#time2").val($("#time1").val());
-            ////    }
+            $("#OffDuty").bind("change", function () {
 
-            ////});
+                if ($("#OnDuty").val() > $("#OffDuty").val()) {
+                    //timechange();
+                    $("#OnDuty").val($("#OffDuty").val());
+                }
+
+            });
             function sethours(hours) {
                 var start = document.querySelector("#OnDuty"), end = document.querySelector("#OffDuty");
-                    $("#OffDuty").val($("#OnDuty").val());
+                $("#OffDuty").val($("#OnDuty").val());
                 end.value = start.value;
                 end.stepUp(hours);
                 //$("#time1").on("click keyup", function () {
@@ -192,7 +180,7 @@
                 //    end.stepUp(hours);
                 //});
             }
-           
+
             $("input[name='inlineDefaultRadiosExample']").change(function () {
 
 
@@ -228,6 +216,6 @@
             })
 
 
-    </script>
+        </script>
 
-}
+    }
