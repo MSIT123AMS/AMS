@@ -1,6 +1,6 @@
 ﻿@model AMS.Controllers.EmployeesCreateViewModel
 
-@using (Html.BeginForm("Create", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data",@id= "emp" }))
 {
     @Html.AntiForgeryToken()
     <div class="card-header row form-group">
@@ -195,7 +195,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-5 col-md-10">
-                        <input type="submit" value="新增" class="btn btn-primary" />
+                        <input type="button" value="新增" class="btn btn-primary" id="btn1"/>
                     </div>
                 </div>
 
@@ -214,8 +214,7 @@
 
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-
-
+           
 
 
     </script>

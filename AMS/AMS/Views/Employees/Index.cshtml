@@ -79,19 +79,57 @@
                 type: "GET",
                 url: "@Url.Action("Create", "Employees")",
             }).done(function (result) {
-             
-                   
-  
+
                 $("#mmmmmm").html(result);
 
         
                 $("#empFile").bind("change", function () {
                     readURL(this);
-
                 });
+                $("#btn1").bind("click", function () {
+                    savemp();
+                });
+
+
 
                 }).fail(function (e) { alert(e.responseText) });
         }
+
+         function savemp() {
+             $.ajax({
+
+                 url: "@Url.Action("Create", "Employees")",
+                 type: "POST",
+                 data: {
+                     EmployeeID: EmployeeID.value,
+                     EmployeeName: EmployeeName.value,
+                     Email: Email.value,
+                     IDNumber: IDNumber.value,
+                     DeputyPhone: DeputyPhone.value,
+                     Deputy: Deputy.value,
+                     Marital: Marital.value,
+                     Birthday: Birthday.value,
+                     Hireday: Hireday.value,
+                     Address: Address.value,
+                     Phone: Phone.value,
+                   
+                    
+                     JobTitle: JobTitle.value,
+                     EnglishName: EnglishName.value,
+                     gender: gender.value,
+                     Notes: Notes.value,
+                    
+                     Education: Education.value,      
+                 },
+
+            }).done(function (result) {
+
+
+        }).
+            fail(function (e) { alert(e.responseText) });
+        }
+
+
 
 
         function Updateddl() {
