@@ -203,7 +203,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\AttendancesSearchController.cs" />
-    <Compile Include="Controllers\ClockInAppliesController.cs" />
+    <Compile Include="Controllers\ClockInApplyController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaveRequestsController.cs" />
