@@ -5,7 +5,7 @@
 }
 
 
-<label class=" control-label" style="font-size:35px;margin:10px">加班查詢</label>
+<label class=" control-label" style="font-size:35px;margin:10px">加班申請列表</label>
 
 <div class="page-inner">
     <div class="row">
@@ -51,7 +51,7 @@
         $(document).ready(function () {
             $('#basic-datatables').DataTable({
             });
-
+            $("#basic-datatables_filter").hide();
             $('#Search').bind("click",
                 function () {
 
@@ -74,10 +74,12 @@
                 
                 type: "GET",
                 url: "@Url.RouteUrl("Default1", new { controller = "OverTimeRequests", action = "Overtimetable" })/" + Start + "/" + End,
-                }).done(function (result) {
+            }).done(function (result) {
+
                     $("#OverTimeTable").html(result);
                     $('#basic-datatables').DataTable({
-                    });
+                });
+                $("#basic-datatables_filter").hide();
                 }).fail(function(e){
                 alert(e.responseText);
                 });

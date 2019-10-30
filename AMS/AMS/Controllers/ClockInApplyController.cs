@@ -10,17 +10,18 @@ using AMS.Models;
 
 namespace AMS.Controllers
 {
-    public class ClockInAppliesController : Controller
+    public class ClockInApplyController : Controller
     {
         private Entities db = new Entities();
 
-        // GET: ClockInApplies
+        // GET: ClockInApply
+        [HttpPost]
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: ClockInApplies/Details/5
+        // GET: ClockInApply/Details/5
         public ActionResult Details(string id)
         {
             if (id == null)
@@ -35,13 +36,13 @@ namespace AMS.Controllers
             return View(clockInApply);
         }
 
-        // GET: ClockInApplies/Create
+        // GET: ClockInApply/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ClockInApplies/Create
+        // POST: ClockInApply/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
@@ -50,15 +51,34 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                //var query = db.ClockInApply.Select(p => new CreateViewModel
+                //{
+                //   OnDuty= p.OnDuty ,
+                //   OffDuty= p.OffDuty,
+                //   RequestDate = p.RequestDate,
+                //   EmployeeID= p.EmployeeID
+                //});
+               clockInApply.EmployeeID= "MSIT1230001";               
+
                 db.ClockInApply.Add(clockInApply);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.SaveChanges();
+                    
+                }
+                catch {
+
+                }
+
+                
+                return RedirectToAction("Index","Home");
             }
 
-            return View(clockInApply);
+            return RedirectToAction("Index", "Home");
         }
 
-        // GET: ClockInApplies/Edit/5
+        // GET: ClockInApply/Edit/5
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -73,7 +93,7 @@ namespace AMS.Controllers
             return View(clockInApply);
         }
 
-        // POST: ClockInApplies/Edit/5
+        // POST: ClockInApply/Edit/5
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
@@ -82,6 +102,7 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
+               
                 db.Entry(clockInApply).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -89,7 +110,7 @@ namespace AMS.Controllers
             return View(clockInApply);
         }
 
-        // GET: ClockInApplies/Delete/5
+        // GET: ClockInApply/Delete/5
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -104,7 +125,7 @@ namespace AMS.Controllers
             return View(clockInApply);
         }
 
-        // POST: ClockInApplies/Delete/5
+        // POST: ClockInApply/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)

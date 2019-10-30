@@ -8,8 +8,8 @@
 @*<div id="Container"></div>*@
 
 
-<label class=" control-label" style="font-size:35px;margin:10px">員工管理</label>
-<p> @ViewBag.Status</p>
+<label class=" control-label" style="font-size:35px;margin:10px">主管審核</label>
+<p>@TempData["Status"]</p>
 
 <div class="page-inner">
     <div class="row">
@@ -82,19 +82,6 @@
 @section scripts
 {
     <script>
-        //$(document).ready(function () {
-        //    $("#urlddl").change(function () {
-        //            var url = $(this).val();
-        //            if (url != null && url != '') {
-        //                window.location.href = url;
-        //            }
-        //    });
-
-
-        //    $('#basic-datatables').DataTable({});
-        //    $("#basic-datatables_filter").hide();
-        //});
-
         $(document).ready(function () {
         
             $("#Customers").bind("change", function () {
@@ -105,6 +92,9 @@
                 Switch();
             });
 
+            @*if (@TempData["Status"]!="") {
+                timechange();
+            };*@
 
             $('#basic-datatables').DataTable({});
             $("#basic-datatables_filter").hide();
@@ -190,77 +180,16 @@
             });*@
         }
 
-        //$("#Employees").bind("change", function () {
-        //    UpdateEmployeesByEmployee();
-        //});
+        function timechange() {
+            swal("起始時間不可大於最後時間!", "", {
+                icon: "info",
+                buttons: {
+                confirm: { className: 'btn btn-info'}
+                },
+            });
 
 
-        //$("#Department").bind("change", function () {
-        //    UpdateEmployeesByDepartment();
-        //    Updateddl();
-        //});
-        //$("#Button1").bind("click", function () {
-        //    createmp();
-        //});
-        //function readURL(input) {
-        //    if (input.files && input.files[0]) {
-        //        var reader = new FileReader();
-        //        reader.onload = function (e) {
-        //            $('#imgPreview').attr('src', e.target.result);
-        //        };
-        //        reader.readAsDataURL(input.files[0]);
-        //    }
-        //}
-
-        @*function createmp() {
-            $.ajax({
-
-                type: "GET",
-                url: "@Url.Action("Create", "Employees")",
-            }).done(function (result) {
-
-                $("#mmmmmm").html(result);
-
-
-                $("#empFile").bind("change", function () {
-                    readURL(this);
-
-                });
-
-                }).fail(function (e) { alert(e.responseText) });
         }
-
-
-        function Updateddl() {
-            $.ajax({
-
-                type: "GET",
-                url: "@Url.Action("GetDdlandListemp", "Employees")/" + Department.value,
-            }).done(function (result) {
-
-                $("#ddlemp").html(result);
-                $("#Employees").bind("change", function () {
-                    UpdateEmployeesByEmployee();
-
-                });
-                }).fail(function (e) { alert(e.responseText) });
-        }
-
-        function UpdateEmployeesByEmployee() {
-            $.ajax({
-
-                type: "GET",
-                url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + Employees.value + "/" + Department.value,
-                }).done(function (result) {
-                    $("#Employeestable").html(result);
-                    $('#basic-datatables').DataTable({
-                    });
-                    $("#basic-datatables_filter").hide();
-                }).fail(function (e) { alert(e.responseText) });
-        }*@
-
-
-
 
 
     </script>

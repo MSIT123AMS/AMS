@@ -11,7 +11,7 @@
 }
 
 
-<label class=" control-label" style="font-size:35px;margin:10px">加班查詢</label>
+<label class=" control-label" style="font-size:35px;margin:10px">加班申請</label>
 
 
 @using (Html.BeginForm())
@@ -87,8 +87,8 @@
 
         $(document).ready(function () {
 
-            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 1) + "T" + "17" + ":" + "00");
-            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 1) + "T" + "19" + ":" + "00");
+            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() ) + "T" + "17" + ":" + "00");
+            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() ) + "T" + "19" + ":" + "00");
 
         })
 
