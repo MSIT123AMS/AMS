@@ -6,6 +6,21 @@
             <div class="card-head-row">
                 <p>
                     @Html.ActionLink("請假申請", "Create", "Create", new { @class = "btn btn-outline-primary" })
+                    <div>
+                        <input type="checkbox" checked />全選
+                        <div style="border:2px solid black;width:300px" >
+                            <input type="checkbox" checked /><label>事假</label>
+                            <input type="checkbox" checked /><label>病假</label>
+                            <input type="checkbox" checked /><label>公假</label>
+                            <input type="checkbox" checked /><label>喪假</label>
+                            <input type="checkbox" checked /><label>特休假</label>
+                            <input type="checkbox" checked /><label>產假</label><br />
+                            <input type="checkbox" checked /><label>陪產假</label>
+                            <input type="checkbox" checked /><label>生理假</label>
+                            <input type="checkbox" checked /><label>補休假</label>
+                            <input type="checkbox" checked /><label>家庭照顧假</label>
+                        </div>
+                    </div>
                 </p>
             </div>
 
