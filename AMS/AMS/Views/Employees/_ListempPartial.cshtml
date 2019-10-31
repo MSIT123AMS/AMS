@@ -48,7 +48,10 @@
 
                 <td>
                     @Html.ActionLink("編輯", "Edit", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })
-                    @Html.ActionLink("明細", "Details", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })
+
+                    @*@Html.ActionLink("明細", "Details", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })*@                   
+                        <input type="button" value="明細" class="btn btn-primary" id="'d'item.EmployeeID") />
+                   
 
                 </td>
             </tr>
