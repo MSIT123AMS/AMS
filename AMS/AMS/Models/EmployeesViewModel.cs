@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace AMS.Controllers
 {
@@ -67,7 +68,7 @@ namespace AMS.Controllers
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]        
         public DateTime Hireday { get; set; }
         [Display(Name = "照片")]
-        public byte[] Photo { get; set; }  
+        public HttpPostedFileBase Photo { get; set; }  
     }
 
 

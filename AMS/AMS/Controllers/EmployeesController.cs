@@ -197,8 +197,6 @@ namespace AMS.Controllers
             }
             else
             {
-
-
                 c = dc.Employees.Where(emp => emp.EmployeeID == id && emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
                 {
                     EmployeeID = e.EmployeeID,
@@ -335,13 +333,13 @@ namespace AMS.Controllers
                     , Phone=emp.Phone
             
                 };
-                if (Request.Files["empFile"].ContentLength != 0)
+                if (Request.Files["Photo"].ContentLength != 0)
                 {
                     byte[] data = null;
                     using (BinaryReader br = new BinaryReader(
-                        Request.Files["empFile"].InputStream))
+                        Request.Files["Photo"].InputStream))
                     {
-                        data = br.ReadBytes(Request.Files["empFile"].ContentLength);
+                        data = br.ReadBytes(Request.Files["Photo"].ContentLength);
                     }
                     employees.Photo= data;
                 }
@@ -354,10 +352,18 @@ namespace AMS.Controllers
 
                 db.Employees.Add(employees);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                var dropdownlist = new List<Gender>
+            {
+                new Gender{ text="男生",value=true},
+                new Gender{ text="女生",value=false}
+
+            };
+                ViewBag.gender = new SelectList(dropdownlist, "value", "text");
+                //return PartialView("_CreatePartial");
+                return View(emp);
             }
 
-            ViewBag.flag = 88;
+
 
             return View(emp);
         }

@@ -95,35 +95,69 @@
                 }).fail(function (e) { alert(e.responseText) });
         }
 
-         function savemp() {
+        function savemp() {
+
+            var data = new FormData();
+           
+            data.append("EmployeeID", EmployeeID.value);
+            data.append("EmployeeName", EmployeeName.value);
+            data.append("Email", Email.value);
+            data.append("IDNumber", IDNumber.value);
+            data.append("DeputyPhone", DeputyPhone.value);
+            data.append("Deputy", Deputy.value);
+            data.append("Marital", Marital.value);
+            data.append("Birthday", Birthday.value);
+            data.append("Hireday", Hireday.value);
+            data.append("Address", Address.value);
+            data.append("Phone", Phone.value);
+            data.append("DepartmentName", DepartmentName.value);
+
+            data.append("JobTitle", JobTitle.value);
+            data.append("EnglishName", EnglishName.value);
+            data.append("gender", gender.value);
+            data.append("Notes", Notes.value);
+            data.append("Education", Education.value);
+
+            var files = $("#empFile").get(0).files;
+            if (files.length > 0) {
+                data.append("Photo", files[0]);
+            }
+
              $.ajax({
 
                  url: "@Url.Action("Create", "Employees")",
                  type: "POST",
-                 contentType: "multipart/form-data",
-                 data: {
-                     "EmployeeID": EmployeeID.value,
-                     "EmployeeName": EmployeeName.value,
-                     "Email": Email.value,
-                     "IDNumber": IDNumber.value,
-                     "DeputyPhone": DeputyPhone.value,
-                     "Deputy": Deputy.value,
-                     "Marital": Marital.value,
-                     "Birthday": Birthday.value,
-                     "Hireday": Hireday.value,
-                     "Address": Address.value,
-                     "Phone": Phone.value,
-                     "DepartmentName": DepartmentName.value,
-                    
-                     "JobTitle": JobTitle.value,
-                     "EnglishName": EnglishName.value,
-                     "gender": gender.value,
-                     "Notes": Notes.value,
-                     "empFile": empFile.value,
-                     "Education": Education.value,      
-                 },
+                 contentType: false,         // 告诉jQuery不要去這置Content-Type
+                 processData: false,         // 告诉jQuery不要去處理發送的數據 
+                 dataType: "json",
+                 data: data,
+                 //contentType: "multipart/form-data",
 
-            }).done(function (result) {
+                 //data: {
+                 //    "EmployeeID": EmployeeID.value,
+                 //    "EmployeeName": EmployeeName.value,
+                 //    "Email": Email.value,
+                 //    "IDNumber": IDNumber.value,
+                 //    "DeputyPhone": DeputyPhone.value,
+                 //    "Deputy": Deputy.value,
+                 //    "Marital": Marital.value,
+                 //    "Birthday": Birthday.value,
+                 //    "Hireday": Hireday.value,
+                 //    "Address": Address.value,
+                 //    "Phone": Phone.value,
+                 //    "DepartmentName": DepartmentName.value,
+                    
+                 //    "JobTitle": JobTitle.value,
+                 //    "EnglishName": EnglishName.value,
+                 //    "gender": gender.value,
+                 //    "Notes": Notes.value,
+                 //    //"photo": $("#empFile").get(0).files,
+                 //    "Education": Education.value,      
+                 //},
+
+             }).done(function (result) {
+
+                 $("#mmmmmm").html(XXXXX);
 
 
         }).
