@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -14,7 +15,7 @@ namespace AMS.Controllers
 {
     public class LeaveRequestsController : Controller
     {
-  
+
         private Entities db = new Entities();
 
         // GET: LeaveRequests
@@ -46,20 +47,25 @@ namespace AMS.Controllers
                                         ReviewTime = lt.ReviewTime,
                                         Attachment = lt.Attachment
                                     });
-    
-                return View(LeaveTimeRequest);
+
+            return View(LeaveTimeRequest);
 
         }
-        public ActionResult Leavetable(string id, string id2)
+
+
+        [HttpPost]
+        public ActionResult Leave11(string id,string id2, string[] value) //傳入開始時間,結束時間,假別
         {
             string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
-            DateTime startime = Convert.ToDateTime(id.Substring(0, 4) + "/" + id.Substring(4, 2) + "/" + id.Substring(6, 2) + " 00:00:00");
-            DateTime endtime = Convert.ToDateTime(id2.Substring(0, 4) + "/" + id2.Substring(4, 2) + "/" + id2.Substring(6, 2) + " 23:59:59");
+            DateTime startime = Convert.ToDateTime(id);
+            DateTime endtime = Convert.ToDateTime(id2);
+            string[] LeaveValue = value;
 
+           
             var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
                                     join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
                                     join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
-                                    where lt.StartTime >= startime && lt.EndTime <= endtime && lt.EmployeeID == User
+                                    where lt.StartTime >= startime && lt.EndTime <= endtime && lt.EmployeeID == User&&LeaveValue.Any(x=>x==lt.LeaveType)
                                     select new LeaveIndexViewModel
                                     {
                                         LeaveRequestID = lt.LeaveRequestID,
@@ -73,6 +79,7 @@ namespace AMS.Controllers
                                         ReviewTime = lt.ReviewTime,
                                         Attachment = lt.Attachment
                                     });
+           
             if (LeaveTimeRequest != null)
             {
                 return PartialView("_LeaveIndexPartialView", LeaveTimeRequest);
@@ -82,7 +89,44 @@ namespace AMS.Controllers
             {
                 return HttpNotFound();
             }
+
+         
         }
+
+
+        //public ActionResult Leavetable(string id, string id2 ,string value)
+        //{
+        //    string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
+        //    DateTime startime = Convert.ToDateTime(id.Substring(0, 4) + "/" + id.Substring(4, 2) + "/" + id.Substring(6, 2) + " 00:00:00");
+        //    DateTime endtime = Convert.ToDateTime(id2.Substring(0, 4) + "/" + id2.Substring(4, 2) + "/" + id2.Substring(6, 2) + " 23:59:59");
+
+        //    var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
+        //                            join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
+        //                            join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
+        //                            where lt.StartTime >= startime && lt.EndTime <= endtime && lt.EmployeeID == User
+        //                            select new LeaveIndexViewModel
+        //                            {
+        //                                LeaveRequestID = lt.LeaveRequestID,
+        //                                EmployeeName = emp.EmployeeName,
+        //                                LeaveType = lt.LeaveType,
+        //                                RequestTime = lt.RequestTime,
+        //                                StartTime = lt.StartTime,
+        //                                EndTime = lt.EndTime,
+        //                                LeaveReason = lt.LeaveReason,
+        //                                Review = rev.ReviewStatus1,
+        //                                ReviewTime = lt.ReviewTime,
+        //                                Attachment = lt.Attachment
+        //                            });
+        //    if (LeaveTimeRequest != null)
+        //    {
+        //        return PartialView("_LeaveIndexPartialView", LeaveTimeRequest);
+
+        //    }
+        //    else
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //}
         public ActionResult Details(string id)
         {
 

@@ -935,6 +935,11 @@
     <Content Include="Views\Employees\_empPartialView.cshtml" />
     <Content Include="Views\Employees\View.cshtml" />
     <Content Include="Views\Employees\_ShowPhotoPartialDetailsemp.cshtml" />
+    <Content Include="Views\ClockInApply\Create.cshtml" />
+    <Content Include="Views\ClockInApply\Delete.cshtml" />
+    <Content Include="Views\ClockInApply\Details.cshtml" />
+    <Content Include="Views\ClockInApply\Edit.cshtml" />
+    <Content Include="Views\ClockInApply\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
