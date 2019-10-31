@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using AMS.Models;
 
+using System.IO;
+
 namespace AMS.Controllers
 {
     public class EmployeesController : Controller
@@ -230,7 +232,49 @@ namespace AMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employees employees = db.Employees.Find(id);
+            Employees emp = db.Employees.Find(id);
+
+            EmployeesDetailsViewModel employees = new EmployeesDetailsViewModel
+            {
+
+                EmployeeID = emp.EmployeeID,
+                EmployeeName = emp.EmployeeName,
+                IDNumber = emp.IDNumber,
+                DeputyPhone = emp.DeputyPhone,
+                Deputy = emp.Deputy,
+                 Marital=emp.Marital,
+                Email = emp.Email,
+                Birthday = emp.Birthday,
+                Hireday = emp.Hireday,
+                Address = emp.Address,
+
+                JobTitle = emp.JobTitle,
+                EnglishName = emp.EnglishName,
+                
+                Notes = emp.Notes,
+                Education = emp.Education
+                   //, Photo = null
+                   //, LineID = ""
+                   //, Leaveday = null
+                   ,
+                Phone = emp.Phone,
+                JobStaus = emp.JobStaus
+                , Photo=emp.Photo
+            };
+            if (emp.gender==true)
+            {
+                employees.gender = "男生";
+            }
+            else
+            {
+                employees.gender = "女生";
+            }
+            employees.DepartmentName = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().DepartmentName;
+            employees.Manager = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().Manager;
+   
+
+            return View(employees);
+
             if (employees == null)
             {
                 return HttpNotFound();
@@ -261,18 +305,62 @@ namespace AMS.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education")] Employees employees)
+        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName")] EmployeesCreateViewModel emp)
         {
             if (ModelState.IsValid)
             {
+
+                Employees employees = new Employees
+                {
+
+                    EmployeeID = emp.EmployeeID,
+                    EmployeeName = emp.EmployeeName,
+                    IDNumber = emp.IDNumber,
+                    DeputyPhone = emp.DeputyPhone,
+                    Deputy = emp.Deputy,
+                    Marital = emp.Manager,
+                    Email = emp.Email,
+                    Birthday = emp.Birthday,
+                    Hireday = emp.Hireday,
+                    Address = emp.Address,
+
+                    JobTitle = emp.JobTitle,
+                    EnglishName = emp.EnglishName,
+                    gender = emp.gender,
+                    Notes = emp.Notes,
+                    Education = emp.Education
+                    //, Photo = null
+                    //, LineID = ""
+                    //, Leaveday = null
+                    , Phone=emp.Phone
+            
+                };
+                if (Request.Files["empFile"].ContentLength != 0)
+                {
+                    byte[] data = null;
+                    using (BinaryReader br = new BinaryReader(
+                        Request.Files["empFile"].InputStream))
+                    {
+                        data = br.ReadBytes(Request.Files["empFile"].ContentLength);
+                    }
+                    employees.Photo= data;
+                }
+
+
+
+
+                employees.DepartmentID = db.Departments.Where(e=>e.DepartmentName==emp.DepartmentName).First().DepartmentID;
+                employees.JobStaus = "在職";
+
                 db.Employees.Add(employees);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(employees);
-        }
+            ViewBag.flag = 88;
 
+            return View(emp);
+        }
         // GET: Employees/Edit/5
         public ActionResult Edit(string id)
         {
@@ -280,7 +368,50 @@ namespace AMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employees employees = db.Employees.Find(id);
+            Employees emp = db.Employees.Find(id);
+
+            EmployeesDetailsViewModel employees = new EmployeesDetailsViewModel
+            {
+
+                EmployeeID = emp.EmployeeID,
+                EmployeeName = emp.EmployeeName,
+                IDNumber = emp.IDNumber,
+                DeputyPhone = emp.DeputyPhone,
+                Deputy = emp.Deputy,
+                Marital = emp.Marital,
+                Email = emp.Email,
+                Birthday = emp.Birthday,
+                Hireday = emp.Hireday,
+                Address = emp.Address,
+
+                JobTitle = emp.JobTitle,
+                EnglishName = emp.EnglishName,
+
+                Notes = emp.Notes,
+                Education = emp.Education
+                   //, Photo = null
+                   //, LineID = ""
+                   //, Leaveday = null
+                   ,
+                Phone = emp.Phone,
+                JobStaus = emp.JobStaus
+                ,
+                Photo = emp.Photo
+            };
+            if (emp.gender == true)
+            {
+                employees.gender = "男生";
+            }
+            else
+            {
+                employees.gender = "女生";
+            }
+            employees.DepartmentName = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().DepartmentName;
+            employees.Manager = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().Manager;
+
+
+            return View(employees);
+
             if (employees == null)
             {
                 return HttpNotFound();
@@ -293,15 +424,81 @@ namespace AMS.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education")] Employees employees)
+        public ActionResult Edit([Bind(Include = "DepartmentName,EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education")] EmployeesDetailsViewModel emp)
         {
             if (ModelState.IsValid)
             {
+                Employees employees = new Employees
+                {
+
+                    EmployeeID = emp.EmployeeID,
+                    EmployeeName = emp.EmployeeName,
+                    IDNumber = emp.IDNumber,
+                    DeputyPhone = emp.DeputyPhone,
+                    Deputy = emp.Deputy,
+                    Marital = emp.Manager,
+                    Email = emp.Email,
+                    Birthday = emp.Birthday,
+                    Hireday = emp.Hireday,
+                    Address = emp.Address,
+
+                    JobTitle = emp.JobTitle,
+                    EnglishName = emp.EnglishName,
+                   
+                    Notes = emp.Notes,
+                    Education = emp.Education
+                    //, Photo = null
+                    //, LineID = ""
+                    //, Leaveday = null
+                    ,
+                    Phone = emp.Phone
+
+                };
+                if (Request.Files["empFile"].ContentLength != 0)
+                {
+                    byte[] data = null;
+                    using (BinaryReader br = new BinaryReader(
+                        Request.Files["empFile"].InputStream))
+                    {
+                        data = br.ReadBytes(Request.Files["empFile"].ContentLength);
+                    }
+                    employees.Photo = data;
+                }
+
+                if (emp.gender=="男生")
+                {
+                    employees.gender = true;
+                }
+                else
+                {
+                    employees.gender = false;
+                }
+                
+
+                employees.DepartmentID = db.Departments.Where(e => e.DepartmentName == emp.DepartmentName).First().DepartmentID;
+                employees.JobStaus = "在職";
+
                 db.Entry(employees).State = EntityState.Modified;
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
-            }
-            return View(employees);
+
+               
+
+                 
+
+
+
+
+
+
+                }
+            return View(emp);
+
+
+
+
+
         }
 
         // GET: Employees/Delete/5
@@ -337,6 +534,11 @@ namespace AMS.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public FileResult ShowPhoto(string id)
+        {
+            byte[] content = db.Employees.Find(id).Photo;
+            return File(content, "image/jpeg");
         }
     }
 }

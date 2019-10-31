@@ -1,6 +1,6 @@
 ﻿@model AMS.Controllers.EmployeesCreateViewModel
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     <div class="card-header row form-group">
@@ -121,7 +121,7 @@
                     </div>
                     @Html.LabelFor(model => model.DepartmentName, htmlAttributes: new { @class = "control-label col-md-2 text-right" })
                     <div class="col-md-4">
-                        @Html.EditorFor(model => model.DepartmentName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.DepartmentName, new { htmlAttributes = new { @id = "DepartmentID", @name = "DepartmentID", @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.DepartmentName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -174,11 +174,11 @@
                 </div>
             </div>
 
-           
+
         </div>
 
         <div class="col-md-3">
-          
+
             <img id="imgPreview" src="@Url.Content("~/Img/upload.png")" style="width:360px;height:300px;margin:auto;margin-top:30px ;max-width:100%" />
             <div class="form-group col-md-12 row">
                 @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-4 text-right" })
@@ -211,12 +211,12 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 @section Scripts {
-   
-   @Scripts.Render("~/bundles/jqueryval")
+
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
 
 
-       
+
 
     </script>
 

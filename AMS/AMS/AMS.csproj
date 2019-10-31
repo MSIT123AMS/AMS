@@ -203,7 +203,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\AttendancesSearchController.cs" />
-    <Compile Include="Controllers\ClockInApplyController.cs" />
+    <Compile Include="Controllers\ClockInAppliesController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaveRequestsController.cs" />
@@ -626,6 +626,7 @@
     <Content Include="assets\img\sauro.jpg" />
     <Content Include="assets\img\talha.jpg" />
     <Content Include="assets\img\visa.svg" />
+    <Content Include="assets\img\woman.jpg" />
     <Content Include="assets\img\背景.jpg" />
     <Content Include="assets\js\atlantis.js" />
     <Content Include="assets\js\atlantis.min.js" />
@@ -697,7 +698,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Img\kouji_rammer.png" />
     <Content Include="Img\logo.png" />
+    <Content Include="Img\text_kosyouchuu.png" />
     <Content Include="Img\upload.png" />
     <Content Include="Models\AMSModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -903,6 +906,7 @@
     <Content Include="Views\Attendances\Details.cshtml" />
     <Content Include="Views\Attendances\Edit.cshtml" />
     <Content Include="Views\Attendances\Index.cshtml" />
+    <Content Include="Views\ClockInApplies\Index.cshtml" />
     <Content Include="Views\Employees\_GetDdlandListempPartial.cshtml" />
     <Content Include="Views\Employees\_ListempPartial.cshtml" />
     <Content Include="Views\OverTimeRequests\Create.cshtml" />
@@ -927,12 +931,10 @@
     <Content Include="Views\Review\Index2.cshtml" />
     <Content Include="Views\Review\Indexxx.cshtml" />
     <Content Include="Views\Review\_LeavePartial.cshtml" />
-    <Content Include="Views\ClockInApply\Create.cshtml" />
-    <Content Include="Views\ClockInApply\Delete.cshtml" />
-    <Content Include="Views\ClockInApply\Details.cshtml" />
-    <Content Include="Views\ClockInApply\Edit.cshtml" />
-    <Content Include="Views\ClockInApply\Index.cshtml" />
     <Content Include="Views\LeaveRequests\_LeaveIndexPartialView.cshtml" />
+    <Content Include="Views\Employees\_empPartialView.cshtml" />
+    <Content Include="Views\Employees\View.cshtml" />
+    <Content Include="Views\Employees\_ShowPhotoPartialDetailsemp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
