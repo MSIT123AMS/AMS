@@ -205,6 +205,7 @@
                 }).fail(function (e) { alert(e.responseText) });
         }
 
+
         function UpdateEmployeesByEmployee() {
             $.ajax({
 
@@ -215,6 +216,15 @@
                     $('#basic-datatables').DataTable({
                     });
                     $("#basic-datatables_filter").hide();
+                    $("input[name='btndetails']").bind("click", function () {
+                        UpdateEmployeesByEmployee();
+
+                    });
+
+
+
+
+
                 }).fail(function (e) { alert(e.responseText) });
         }
 
@@ -233,6 +243,20 @@
                     $("#basic-datatables_filter").hide();
                 }).fail(function (e) { alert(e.responseText) });
         }
+
+
+        function funbtndetails() {
+
+
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("Details", "Employees")/" + btndetails.value,
+                }).done(function (result) {
+                    $("#mmmmmm").html(result);
+                }).fail(function (e) { alert(e.responseText) });
+        }
+
 
 
     </script>
