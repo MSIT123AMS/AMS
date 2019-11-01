@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using AMS.Models;
+using SelectPdf;
 
 namespace AMS.Controllers
 {
@@ -93,6 +94,26 @@ namespace AMS.Controllers
          
         }
 
+        //轉PDF
+        public ActionResult ToPdf()
+        {
+            // instantiate a html to pdf converter object
+            string pdfname = "差假報表.pdf";
+            HtmlToPdf converter = new HtmlToPdf();
+            //var fullUrl = this.Url.Action("Posts", "Edit", new { id = 5 }, this.Request.Url.Scheme);
+            //Request.RequestUri.PathAndQuery
+            var fullurl = this.Url.Action("LeaveIndexView", "LeaveRequests", null, this.Request.Url.Scheme);
+            // create a new pdf document converting an url
+            PdfDocument doc = converter.ConvertUrl(fullurl);
+            MemoryStream stream = new MemoryStream();
+            // save pdf document   
+            doc.Save(stream);
+            //doc.Save(System.Web.HttpContext.Current.Response, false, pdfname);
+            //close pdf document
+            doc.Close();
+            stream.Position = 0;
+            return File(stream, "application/pdf", pdfname);  //pdfname 儲存PDF的名稱
+        }
 
         //public ActionResult Leavetable(string id, string id2 ,string value)
         //{

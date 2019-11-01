@@ -6,9 +6,9 @@
             <div class="card-head-row">
                 <p>
                     @Html.ActionLink("請假申請", "Create", "Create", new { @class = "btn btn-outline-primary" })
-
+                    @Html.ActionLink("URL轉換PDF", "ToPdf", "ToPdf", new { @class = "btn btn-outline-primary" })
                     <div class="form-group">
-                        <label  class=" control-label" style="font-size:20px;margin-left:20px">篩選假別:</label>
+                        <label class=" control-label" style="font-size:20px;margin-left:20px">篩選假別:</label>
                         <div class="selectgroup selectgroup-pills">
                             <label class="selectgroup-item">
                                 <input type="checkbox" name="value" value="事假" class="selectgroup-input" checked>
@@ -51,8 +51,8 @@
                                 <span class="selectgroup-button">家庭照顧假</span>
                             </label>
                             <label class="selectgroup-item">
-                                <input type="checkbox" name="value1" value="ALL" class="selectgroup-input" id="CheckAll" checked  >
-                                <span class="selectgroup-button" >ALL</span>
+                                <input type="checkbox" name="value1" value="ALL" class="selectgroup-input" id="CheckAll" checked>
+                                <span class="selectgroup-button">ALL</span>
                             </label>
                         </div>
                     </div>
