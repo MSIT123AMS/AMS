@@ -141,7 +141,29 @@ namespace AMS.Controllers
             //return View();
         }
 
-        
+        public ActionResult backIndex()
+        {
+            var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+            {
+
+                EmployeeID = e.EmployeeID,
+                EmployeeName = e.EmployeeName,
+                DepartmentName = d.DepartmentName,
+                JobTitle = e.JobTitle,
+                Manager = d.Manager,
+                Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                JobStaus = e.JobStaus
+            });
+
+            Entities dc = new Entities();
+            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+            return PartialView("_emplistPartial", query);
+
+            //return View();
+        }
+
+
 
         public ActionResult GetDdlandListemp(int? id)
         {
@@ -359,8 +381,25 @@ namespace AMS.Controllers
 
             };
                 ViewBag.gender = new SelectList(dropdownlist, "value", "text");
-                //return PartialView("_CreatePartial");
-                return View(emp);
+
+                var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+                {
+
+                    EmployeeID = e.EmployeeID,
+                    EmployeeName = e.EmployeeName,
+                    DepartmentName = d.DepartmentName,
+                    JobTitle = e.JobTitle,
+                    Manager = d.Manager,
+                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                    JobStaus = e.JobStaus
+                });
+
+                Entities dc = new Entities();
+                ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+                ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+
+                return PartialView("_emplistPartial", query);
+                //return Content("<script>alert('測試文字');</script>");
             }
 
 
