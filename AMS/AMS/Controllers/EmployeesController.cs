@@ -293,7 +293,7 @@ namespace AMS.Controllers
             employees.Manager = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().Manager;
 
 
-            return PartialView("_DetailsPartial");
+            return PartialView("_DetailsPartial", employees);
 
             if (employees == null)
             {
@@ -454,8 +454,8 @@ namespace AMS.Controllers
             employees.DepartmentName = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().DepartmentName;
             employees.Manager = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().Manager;
 
-
-            return View(employees);
+            return PartialView("_EditPartial", employees);
+       
 
             if (employees == null)
             {

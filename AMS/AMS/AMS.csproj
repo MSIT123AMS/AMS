@@ -845,6 +845,7 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\employeesview.js" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
@@ -932,7 +933,7 @@
     <Content Include="Views\Employees\_CreatePartial.cshtml" />
     <Content Include="Views\Employees\Delete.cshtml" />
     <Content Include="Views\Employees\_DetailsPartial.cshtml" />
-    <Content Include="Views\Employees\Edit.cshtml" />
+    <Content Include="Views\Employees\_EditPartial.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
     <Content Include="Views\LeaveRequests\_ShowPhotoPartial.cshtml" />
     <Content Include="Views\Attendances\Create.cshtml" />
@@ -967,7 +968,6 @@
     <Content Include="Views\Review\_LeavePartial.cshtml" />
     <Content Include="Views\LeaveRequests\_LeaveIndexPartialView.cshtml" />
     <Content Include="Views\Employees\_empPartialView.cshtml" />
-    <Content Include="Views\Employees\View.cshtml" />
     <Content Include="Views\Employees\_ShowPhotoPartialDetailsemp.cshtml" />
     <Content Include="Views\Review\_OverTimePartial.cshtml" />
     <Content Include="Views\ClockInApply\Create.cshtml" />

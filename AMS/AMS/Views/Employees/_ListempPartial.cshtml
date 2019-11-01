@@ -50,10 +50,11 @@
                     @*@Html.ActionLink("編輯", "Edit", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })*@
 
                     @*@Html.ActionLink("明細", "Details", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })*@
-                  
-                    
-                    <button type="button" class="btn btn-primary" value=item.EmployeeID name="btnedit">編輯</button>
-                    <button type="button" class="btn btn-primary" value=item.EmployeeID neme="btndetails">明細</button>
+
+                    <input type="button" value="編輯" name=@("Ed"+item.EmployeeID) class="btn btn-primary" />
+                    <input type="button" value="明細" name=@("De"+item.EmployeeID) class="btn btn-primary" />
+                    @*<button type="button" class="btn btn-primary" value=item.EmployeeID name="btnedit">編輯</button>*@
+                    @*<button type="button" class="btn btn-primary" value=@(item.EmployeeID) neme=@(item.EmployeeID)>明細</button>*@
 
 
                 </td>
