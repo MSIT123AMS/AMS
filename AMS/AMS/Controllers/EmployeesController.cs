@@ -291,9 +291,9 @@ namespace AMS.Controllers
             }
             employees.DepartmentName = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().DepartmentName;
             employees.Manager = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().Manager;
-   
 
-            return View(employees);
+
+            return PartialView("_DetailsPartial");
 
             if (employees == null)
             {
