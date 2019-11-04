@@ -203,6 +203,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\AttendancesSearchController.cs" />
+    <Compile Include="Models\AttendancesViewModel.cs" />
     <Compile Include="Controllers\ClockInApplyController.cs" />
     <Compile Include="Models\ClockInApplyViewModel.cs" />
     <Compile Include="Metadata\ClockInApply.cs" />
