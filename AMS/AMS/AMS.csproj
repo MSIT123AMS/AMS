@@ -203,7 +203,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\AttendancesSearchController.cs" />
-    <Compile Include="Controllers\ClockInAppliesController.cs" />
+    <Compile Include="Controllers\ClockInApplyController.cs" />
+    <Compile Include="Models\ClockInApplyViewModel.cs" />
+    <Compile Include="Metadata\ClockInApply.cs" />
+    <Compile Include="Metadata\ClockInApplyMatadata.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LeaveRequestsController.cs" />
@@ -716,6 +719,7 @@
     <Content Include="obj\Debug\TempPE\Models.AMSModel.Context.cs.dll" />
     <Content Include="obj\Debug\TempPE\Models.AMSModel.cs.dll" />
     <Content Include="obj\Debug\TempPE\Models.AMSModel.Designer.cs.dll" />
+    <Content Include="OverTimeClassLibrary.dll" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -906,7 +910,6 @@
     <Content Include="Views\Attendances\Details.cshtml" />
     <Content Include="Views\Attendances\Edit.cshtml" />
     <Content Include="Views\Attendances\Index.cshtml" />
-    <Content Include="Views\ClockInApplies\Index.cshtml" />
     <Content Include="Views\Employees\_GetDdlandListempPartial.cshtml" />
     <Content Include="Views\Employees\_ListempPartial.cshtml" />
     <Content Include="Views\OverTimeRequests\Create.cshtml" />
@@ -935,6 +938,12 @@
     <Content Include="Views\Employees\_empPartialView.cshtml" />
     <Content Include="Views\Employees\View.cshtml" />
     <Content Include="Views\Employees\_ShowPhotoPartialDetailsemp.cshtml" />
+    <Content Include="Views\ClockInApply\ClockinApply.cshtml" />
+    <Content Include="Views\ClockInApply\Delete.cshtml" />
+    <Content Include="Views\ClockInApply\Details.cshtml" />
+    <Content Include="Views\ClockInApply\Edit.cshtml" />
+    <Content Include="Views\ClockInApply\ClockInApplyView.cshtml" />
+    <Content Include="Views\ClockInApply\_ClockinPartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

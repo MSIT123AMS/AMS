@@ -15,10 +15,31 @@ namespace AMS.Controllers
         private Entities db = new Entities();
 
         // GET: ClockInApply
-        [HttpPost]
-        public ActionResult Index()
+    
+        public ActionResult ClockInApplyView()
         {
-            return View();
+            string EmployeeID = "MSIT1230005";
+            var query = db.ClockInApply.Join(
+                db.ReviewStatus, ClockIn => ClockIn.ReviewStatusID,
+                Review => Review.ReviewStatusID,
+                (ClockIn, Review) => new
+                {
+                    ClockIn.EmployeeID,
+                    ClockIn.OnDuty,
+                    ClockIn.OffDuty,
+                    ClockIn.RequestDate,
+                    Review.ReviewStatus1
+                }).Join(db.Employees, p => p.EmployeeID, z => z.EmployeeID, (p, z) => new ClockInApplyViewModel
+                {
+                    EmployeeID = p.EmployeeID,
+                    EmployeeName=z.EmployeeName,
+                    OnDuty=p.OnDuty,
+                    OffDuty=p.OffDuty,
+                    RequestDate=p.RequestDate,
+                    ReviewStatus1=p.ReviewStatus1
+                }).Where(x=>x.EmployeeID== EmployeeID);
+
+            return View(query);
         }
 
         // GET: ClockInApply/Details/5
@@ -37,9 +58,11 @@ namespace AMS.Controllers
         }
 
         // GET: ClockInApply/Create
-        public ActionResult Create()
+        public ActionResult ClockInApply()
         {
-            return View();
+          
+
+            return View();           
         }
 
         // POST: ClockInApply/Create
@@ -47,7 +70,7 @@ namespace AMS.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,OnDuty,OffDuty,ReviewStatusID,RequestDate,ReviewTime")] ClockInApply clockInApply)
+        public ActionResult ClockInApply([Bind(Include = "EmployeeID,OnDuty,OffDuty,ReviewStatusID,RequestDate,ReviewTime")] ClockInApply clockInApply)
         {
             if (ModelState.IsValid)
             {
@@ -59,23 +82,23 @@ namespace AMS.Controllers
                 //   RequestDate = p.RequestDate,
                 //   EmployeeID= p.EmployeeID
                 //});
-               clockInApply.EmployeeID= "MSIT1230001";               
-
+               clockInApply.EmployeeID= "MSIT1230005";
+               clockInApply.ReviewStatusID = 1;
                 db.ClockInApply.Add(clockInApply);
                 try
                 {
                     db.SaveChanges();
-                    
+                    return RedirectToAction("ClockInApplyView", "ClockInApply");
                 }
                 catch {
+                    
+                    TempData["message"] = $"已經有{clockInApply.RequestDate.Value.ToString("yyyy年MM月dd日")}的申請紀錄!";
+                    return RedirectToAction("ClockInApplyView", "ClockInApply");
 
-                }
-
-                
-                return RedirectToAction("Index","Home");
+                }                               
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("ClockInApplyView", "ClockInApply");
         }
 
         // GET: ClockInApply/Edit/5
