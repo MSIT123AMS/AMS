@@ -19,11 +19,33 @@ namespace AMS.Controllers
         {
             return View();
         }
-
         public ActionResult SerchAttendances()
         {
             string EmployeeID = "MSIT1230005";
-            var query = db.Attendances.Where(Att => Att.EmployeeID == EmployeeID).Join(db.Employees, Attendances => Attendances.EmployeeID, Employees => Employees.EmployeeID, (Attendances, Employees) => new AttendancesViewModel {
+            var query = db.Attendances.Where(Att => Att.EmployeeID == EmployeeID ).Join(db.Employees, Attendances => Attendances.EmployeeID, Employees => Employees.EmployeeID, (Attendances, Employees) => new AttendancesViewModel
+            {
+                EmployeeID = Attendances.EmployeeID,
+                EmployeeName = Employees.EmployeeName,
+                Date = Attendances.Date,
+                OnDuty = Attendances.OnDuty,
+                OffDuty = Attendances.OffDuty,
+                station = Attendances.station
+            });
+
+
+
+
+
+            return View(query);
+
+            //return View();
+        }
+
+        [HttpPost]
+        public ActionResult SerchAttendances(DateTime time1, DateTime time2)
+        {
+            string EmployeeID = "MSIT1230005";
+            var query = db.Attendances.Where(Att => Att.EmployeeID == EmployeeID && Att.Date>=time1 && Att.Date<=time2).Join(db.Employees, Attendances => Attendances.EmployeeID, Employees => Employees.EmployeeID, (Attendances, Employees) => new AttendancesViewModel {
                EmployeeID=Attendances.EmployeeID,
                 EmployeeName=Employees.EmployeeName,
                 Date= Attendances.Date,
