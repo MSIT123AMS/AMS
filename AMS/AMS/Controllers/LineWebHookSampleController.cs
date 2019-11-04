@@ -39,7 +39,7 @@ namespace WebApplication5.Controllers
 
                     //取得用戶資訊
                     //string EmpId = "MSIT1230015";//測試用用戶
-                    string st1 = "10:00";//設定最晚打卡的上班時間   
+                    string st1 = "16:00";//設定最晚打卡的上班時間   
                     DateTime dt1 = Convert.ToDateTime(st1);
                     DateTime todate = DateTime.Now.Date;//今天的日期
 
