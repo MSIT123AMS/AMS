@@ -139,7 +139,7 @@
                     <div class="collapse" id="sidebarLayout2">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href=@Url.Action("Index","Review")>
+                                <a href="#" onclick="funReview()">
                                     <span class="sub-item">審核</span>
                                 </a>
                             </li>
@@ -219,6 +219,101 @@
 @section scripts
 {
 <script>
+
+    //////////////////汪///////////////////////////////
+    
+
+    function funReview() {
+    $.ajax({
+    type: "GET",
+    url: "@Url.Action("Index", "Review")",
+    dataType: "html",
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
+
+                $("#Customers").bind("change", function () {
+                    Switch();
+                });
+
+                $("#ddlemp").bind("change", function () {
+                    Switch();
+                });
+        $("#CheckAll").click(cAll);
+
+
+
+    }).fail(function (e) { alert(e.responseText) });
+    }
+
+     function Switch() {
+
+            switch ($('#urlddl').val()) {
+                case '1':
+                   var u = "@Url.Action("AjaxLeave","Review")/"
+                    break;
+                case '2':
+                   var u = "@Url.Action("Ajax","Review")/"
+                    break;
+                case '3':
+                   var u = "@Url.Action("AjaxOverTime","Review")/"
+                    break;
+
+                default:
+            }
+
+            UpdateEmployeesByDepartment22(u)
+        }
+    function cAll() {
+        if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+            $("input[name='Checkboxxx']").each(function () {
+                $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+            })
+        } else {
+            $("input[name='Checkboxxx']").each(function () {
+                $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+            })
+        }
+    }
+    function UpdateEmployeesByDepartment22(u) {
+        $.ajax({
+            type: "GET",
+                @* url: "@Url.RouteUrl("Default", new { controller = "Review", action = "Ajax" })/" + "null/" + Customers.value,*@
+        url: u + Customers.value
+    }).done(function (result) {
+        $("#Employeestable").html(result);
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
+        $("#CheckAll").click(cAll);
+    }).fail(function (e) { alert(e.responseText) });
+
+              //$("#CheckAll").click(cAll);
+              //$("#CheckAll").click(a());
+              //$("#CheckAll").click(cAll);
+        }
+
+    function a() {
+        alert('a');
+    }
+
+    function UpdateSuccess() {
+        swal("審核完成", "", {
+            icon: "info",
+            buttons: {
+                confirm: {
+                    className: 'btn btn-info'
+                }
+            },
+        });
+    }
+
+
+
+
+    /////////////////////////////////////////////
     $("#EmployeeManagement").bind("click", funEmpM);
 
     function funSerchOvt() {

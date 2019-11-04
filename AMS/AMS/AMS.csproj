@@ -951,7 +951,7 @@
     <Content Include="Views\Review\Delete.cshtml" />
     <Content Include="Views\Review\Details.cshtml" />
     <Content Include="Views\Review\Edit.cshtml" />
-    <Content Include="Views\Review\Index.cshtml" />
+    <Content Include="Views\Review\_ReviewIndex.cshtml" />
     <Content Include="Views\Employees\_SerchLeaveListPartial.cshtml" />
     <Content Include="Views\Employees\_SerchLeave.cshtml" />
     <Content Include="Views\OverTimeRequests\_OverTimeIndexPartialView.cshtml" />
