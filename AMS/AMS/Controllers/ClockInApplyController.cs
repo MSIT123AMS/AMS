@@ -37,9 +37,11 @@ namespace AMS.Controllers
         }
 
         // GET: ClockInApply/Create
+        [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            return PartialView("_CKACreate");
+    
         }
 
         // POST: ClockInApply/Create
