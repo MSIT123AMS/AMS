@@ -223,13 +223,17 @@
     function funClockInApplyCreat() {
     $.ajax({
     type: "GET",
-    url: "@Url.Action("Creat", "ClockInApply")",
+    url: "@Url.Action("CKACreate", "ClockInApply")",
     dataType: "html",
     }).done(function (result) {
         $("#mainpanel").html(result);
         $('#basic-datatables').DataTable({
         });
         $("#basic-datatables_filter").hide();
+
+
+
+
 
     }).fail(function (e) { alert(e.responseText) });
     }
