@@ -86,7 +86,7 @@ namespace AMS.Controllers
         //             };
         //    return View(q1);
         //}
-
+        [HttpGet]
         public ActionResult Index(string id = "1")
         {
             string User = Convert.ToString(Session["UserName"]);
@@ -118,7 +118,8 @@ namespace AMS.Controllers
                          LeaveRequestID = l.LeaveRequestID
 
                      };
-            return View(q1);
+            //return View(q1);
+            return PartialView("_ReviewIndex", q1);
             //return PartialView("_LeavePartial", q1);
         }
 
