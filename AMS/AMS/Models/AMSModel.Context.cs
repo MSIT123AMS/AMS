@@ -45,5 +45,7 @@ namespace AMS.Models
         public System.Data.Entity.DbSet<AMS.Models.LeaveIndexViewModel> LeaveIndexViewModels { get; set; }
 
         public System.Data.Entity.DbSet<AMS.Models.ClockInApplyViewModel> ClockInApplyViewModels { get; set; }
+
+        public System.Data.Entity.DbSet<AMS.Controllers.AttendancesViewModel> AttendancesViewModels { get; set; }
     }
 }

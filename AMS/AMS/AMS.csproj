@@ -945,6 +945,8 @@
     <Content Include="Views\ClockInApply\Edit.cshtml" />
     <Content Include="Views\ClockInApply\ClockInApplyView.cshtml" />
     <Content Include="Views\ClockInApply\_ClockinPartialView.cshtml" />
+    <Content Include="Views\Attendances\SerchAttendances.cshtml" />
+    <Content Include="Views\Attendances\_SerchAttendancesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
