@@ -19,6 +19,11 @@ namespace AMS.Controllers
 
 
 
+        public ActionResult mainView()
+        {
+            return View();
+        }
+
         public ActionResult SerchOverTime()
         {
             var query = (from ot in db.OverTimeRequest.AsEnumerable()
@@ -40,10 +45,10 @@ namespace AMS.Controllers
                                        ReviewTime = ot.ReviewTime
                                    });
 
- 
 
-           
-            return View(query);
+
+
+            return PartialView("_SerchOverTime", query);
 
             //return View();
         }
@@ -62,8 +67,8 @@ namespace AMS.Controllers
 
 
 
-
-            return View(query);
+            return PartialView("_SerchAttendances", query);
+    
 
             //return View();
         }
@@ -88,8 +93,7 @@ namespace AMS.Controllers
             Entities dc = new Entities();
             ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
             ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
-            return View(query);
-
+            return PartialView("_SerchLeave", query);
             //return View();
         }
         [HttpPost]
@@ -136,12 +140,34 @@ namespace AMS.Controllers
             Entities dc = new Entities();
             ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
             ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
-            return View(query);
-            
+            return PartialView("_Index", query);
+
             //return View();
         }
 
-        
+        public ActionResult backIndex()
+        {
+            var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+            {
+
+                EmployeeID = e.EmployeeID,
+                EmployeeName = e.EmployeeName,
+                DepartmentName = d.DepartmentName,
+                JobTitle = e.JobTitle,
+                Manager = d.Manager,
+                Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                JobStaus = e.JobStaus
+            });
+
+            Entities dc = new Entities();
+            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+            return PartialView("_emplistPartial", query);
+
+            //return View();
+        }
+
+
 
         public ActionResult GetDdlandListemp(int? id)
         {
@@ -197,8 +223,6 @@ namespace AMS.Controllers
             }
             else
             {
-
-
                 c = dc.Employees.Where(emp => emp.EmployeeID == id && emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
                 {
                     EmployeeID = e.EmployeeID,
@@ -271,9 +295,9 @@ namespace AMS.Controllers
             }
             employees.DepartmentName = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().DepartmentName;
             employees.Manager = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().Manager;
-   
 
-            return View(employees);
+
+            return PartialView("_DetailsPartial", employees);
 
             if (employees == null)
             {
@@ -305,7 +329,7 @@ namespace AMS.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName")] EmployeesCreateViewModel emp)
+        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName,empFile")] EmployeesCreateViewModel emp)
         {
             if (ModelState.IsValid)
             {
@@ -335,13 +359,13 @@ namespace AMS.Controllers
                     , Phone=emp.Phone
             
                 };
-                if (Request.Files["empFile"].ContentLength != 0)
+                if (Request.Files["Photo"].ContentLength != 0)
                 {
                     byte[] data = null;
                     using (BinaryReader br = new BinaryReader(
-                        Request.Files["empFile"].InputStream))
+                        Request.Files["Photo"].InputStream))
                     {
-                        data = br.ReadBytes(Request.Files["empFile"].ContentLength);
+                        data = br.ReadBytes(Request.Files["Photo"].ContentLength);
                     }
                     employees.Photo= data;
                 }
@@ -354,10 +378,35 @@ namespace AMS.Controllers
 
                 db.Employees.Add(employees);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                var dropdownlist = new List<Gender>
+            {
+                new Gender{ text="男生",value=true},
+                new Gender{ text="女生",value=false}
+
+            };
+                ViewBag.gender = new SelectList(dropdownlist, "value", "text");
+
+                var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+                {
+
+                    EmployeeID = e.EmployeeID,
+                    EmployeeName = e.EmployeeName,
+                    DepartmentName = d.DepartmentName,
+                    JobTitle = e.JobTitle,
+                    Manager = d.Manager,
+                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                    JobStaus = e.JobStaus
+                });
+
+                Entities dc = new Entities();
+                ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+                ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+
+                return PartialView("_emplistPartial", query);
+                //return Content("<script>alert('測試文字');</script>");
             }
 
-            ViewBag.flag = 88;
+
 
             return View(emp);
         }
@@ -409,8 +458,8 @@ namespace AMS.Controllers
             employees.DepartmentName = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().DepartmentName;
             employees.Manager = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().Manager;
 
-
-            return View(employees);
+            return PartialView("_EditPartial", employees);
+       
 
             if (employees == null)
             {
@@ -423,8 +472,8 @@ namespace AMS.Controllers
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DepartmentName,EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education")] EmployeesDetailsViewModel emp)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName,empFile")] EmployeesEditViewModel emp)
         {
             if (ModelState.IsValid)
             {
@@ -454,13 +503,13 @@ namespace AMS.Controllers
                     Phone = emp.Phone
 
                 };
-                if (Request.Files["empFile"].ContentLength != 0)
+                if (Request.Files["Photo"].ContentLength != 0)
                 {
                     byte[] data = null;
                     using (BinaryReader br = new BinaryReader(
-                        Request.Files["empFile"].InputStream))
+                        Request.Files["Photo"].InputStream))
                     {
-                        data = br.ReadBytes(Request.Files["empFile"].ContentLength);
+                        data = br.ReadBytes(Request.Files["Photo"].ContentLength);
                     }
                     employees.Photo = data;
                 }
@@ -481,18 +530,42 @@ namespace AMS.Controllers
                 db.Entry(employees).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                var dropdownlist = new List<Gender>
+            {
+                new Gender{ text="男生",value=true},
+                new Gender{ text="女生",value=false}
 
-               
+            };
+                ViewBag.gender = new SelectList(dropdownlist, "value", "text");
 
-                 
+                var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+                {
+
+                    EmployeeID = e.EmployeeID,
+                    EmployeeName = e.EmployeeName,
+                    DepartmentName = d.DepartmentName,
+                    JobTitle = e.JobTitle,
+                    Manager = d.Manager,
+                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                    JobStaus = e.JobStaus
+                });
+
+                Entities dc = new Entities();
+                ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+                ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+
+                return PartialView("_emplistPartial", query);
 
 
 
 
 
 
-                }
+
+
+
+
+            }
             return View(emp);
 
 
