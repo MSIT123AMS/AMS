@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AMS.Models;
+using Quartz;
+using Quartz.Impl;
 
 namespace AMS.Controllers
 {
     public class AttendancesController : Controller
     {
-        private Entities db = new Entities();
+        internal Entities db = new Entities();
 
         // GET: Attendances
         public ActionResult Index()
@@ -62,7 +67,28 @@ namespace AMS.Controllers
 
             //return View();
         }
+        [HttpPost]
+        public ActionResult SerchAttendances(DateTime time1,DateTime time2)
+        {
+            string EmployeeID = "MSIT1230005";
+            var query = db.Attendances.Join(db.Employees, Attendances => Attendances.EmployeeID, Employees => Employees.EmployeeID, (Attendances, Employees) => new AttendancesViewModel
+            {
+                EmployeeID = Attendances.EmployeeID,
+                EmployeeName = Employees.EmployeeName,
+                Date = Attendances.Date,
+                OnDuty = Attendances.OnDuty,
+                OffDuty = Attendances.OffDuty,
+                station = Attendances.station
+            }).Where(Att => Att.EmployeeID == EmployeeID&&Att.Date>=time1&&Att.Date<=time2);
 
+
+
+
+
+            return View(query);
+
+            //return View();
+        }
 
         // GET: Attendances/Details/5
         public ActionResult Details(string id)
@@ -168,4 +194,81 @@ namespace AMS.Controllers
             base.Dispose(disposing);
         }
     }
+        
+    public class ExecuteTaskServiceCallScheduler
+    {
+        private static readonly string ScheduleCronExpression = ConfigurationManager.AppSettings["ExecuteTaskScheduleCronExpression"];
+
+        public static async System.Threading.Tasks.Task StartAsync()
+        {
+            try
+            {
+                var scheduler = await StdSchedulerFactory.GetDefaultScheduler();
+
+                if (!scheduler.IsStarted)
+                {
+                    await scheduler.Start();
+                }
+
+                var job = JobBuilder.Create<ExecuteTaskServiceCallJob>()
+                    .WithIdentity("ExecuteTaskServiceCallJob1", "group1")
+                    .Build();
+
+                var trigger = TriggerBuilder.Create()
+                    .WithIdentity("ExecuteTaskServiceCallTrigger1", "group1")
+                    .WithCronSchedule(ScheduleCronExpression)
+                    .Build();
+
+                await scheduler.ScheduleJob(job, trigger);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+    }
+    public class ExecuteTaskServiceCallJob : IJob
+    {
+        internal Entities db = new Entities();
+        public static readonly string SchedulingStatus = ConfigurationManager.AppSettings["ExecuteTaskServiceCallSchedulingStatus"];
+        public Task Execute(IJobExecutionContext context)
+        {
+            var task = Task.Run(() =>
+            {
+                if (SchedulingStatus.Equals("ON"))
+                {
+                    try
+                    {
+                        using (var message = new MailMessage("wingrovepank@gmail.com", "hauwei.pong@gmail.com"))
+                        {
+
+                            message.Subject = "Message Subject test";
+                            message.Body = "Message body test at " + DateTime.Now;
+                            using (SmtpClient client = new SmtpClient
+                            {
+                                EnableSsl = true,
+                                Host = "smtp.gmail.com",
+                                Port = 587,
+                                Credentials = new NetworkCredential("wingrovepank@gmail.com", "sss22040")
+                            })
+                            {
+                                client.Send(message);
+                            }
+                        } //Do whatever stuff you want
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+
+                }
+
+            });
+
+            return task;
+        }
+      
+    }
+
+
 }

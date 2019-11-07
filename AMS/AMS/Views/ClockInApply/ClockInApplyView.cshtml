@@ -27,7 +27,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReviewStatus1)
             </th>
-        
+
         </tr>
     </thead>
     <tbody>
@@ -60,7 +60,7 @@
     </tbody>
 </table>
 @section scripts{
-
+   
     @if (TempData["message"] != null)
     {
         <script type="text/javascript">
@@ -76,12 +76,14 @@
 
         </script>
     }
-    <script>
+
+    @*<script>
         $(document).ready(function () {
             $('#basic-datatables').DataTable({
             });
             $("#basic-datatables_filter").hide();
-        })
+
+        })*@
 
     </script>
 }

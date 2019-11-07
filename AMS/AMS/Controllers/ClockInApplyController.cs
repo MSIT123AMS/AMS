@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Ajax;
 using AMS.Models;
 
 namespace AMS.Controllers
@@ -74,14 +75,7 @@ namespace AMS.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                //var query = db.ClockInApply.Select(p => new CreateViewModel
-                //{
-                //   OnDuty= p.OnDuty ,
-                //   OffDuty= p.OffDuty,
-                //   RequestDate = p.RequestDate,
-                //   EmployeeID= p.EmployeeID
-                //});
+                
                clockInApply.EmployeeID= "MSIT1230005";
                clockInApply.ReviewStatusID = 1;
                 db.ClockInApply.Add(clockInApply);
@@ -89,15 +83,20 @@ namespace AMS.Controllers
                 {
                     db.SaveChanges();
                     return RedirectToAction("ClockInApplyView", "ClockInApply");
+                    //return PartialView("ClockInApplyView", "ClockInApplyViewModel");
                 }
                 catch {
-                    
+
+                    //new AjaxOptions
+                    //{
+                    //    OnSuccess = "onSuccess"
+                    //};
                     TempData["message"] = $"已經有{clockInApply.RequestDate.Value.ToString("yyyy年MM月dd日")}的申請紀錄!";
-                    return RedirectToAction("ClockInApplyView", "ClockInApply");
-
-                }                               
+                    return PartialView("ClockInApplyView", "ClockInApplyViewModel");
+                    ////return RedirectToAction("ClockInApplyView", "ClockInApply");
+                }
             }
-
+            //return PartialView("ClockInApplyView", "ClockInApplyViewModel");          
             return RedirectToAction("ClockInApplyView", "ClockInApply");
         }
 

@@ -46,6 +46,6 @@ namespace AMS.Models
 
         public System.Data.Entity.DbSet<AMS.Models.ClockInApplyViewModel> ClockInApplyViewModels { get; set; }
 
-        public System.Data.Entity.DbSet<AMS.Models.AttendancesViewModel> AttendancesViewModels { get; set; }
+        public System.Data.Entity.DbSet<AMS.Controllers.AttendancesViewModel> AttendancesViewModels { get; set; }
     }
 }
