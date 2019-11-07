@@ -130,7 +130,7 @@
             }
             $(document).ready(function () {
                 d = new Date();
-                $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 1) + "T" + "08" + ":" + "30");
+                $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
             });
 
             function zeroPadded(val) {
@@ -141,7 +141,7 @@
             }
             $(document).ready(function () {
                 d = new Date();
-                $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 1) + "T" + "18" + ":" + "00");
+                $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
             });
         </script>
 
