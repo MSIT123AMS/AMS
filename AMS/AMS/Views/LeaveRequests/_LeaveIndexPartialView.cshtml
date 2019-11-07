@@ -38,47 +38,47 @@
                     @Html.DisplayNameFor(model => model.Attachment)
                 </th>
                 <th>Action</th>
+               
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="table-light">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LeaveRequestID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EmployeeName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LeaveType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RequestTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EndTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LeaveReason)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Review)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReviewTime)
-                    </td>
-                    <td>
-                        @Html.Partial("_ShowPhotoPartial", item)
-                    </td>
-
-                    <td>
-                        @Html.ActionLink("明細", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })
-                    </td>
-                </tr>
+            <tr class="table-light">
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveRequestID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveReason)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewTime)
+                </td>
+                <td>
+                    @Html.Partial("_ShowPhotoPartial", item)
+                </td>
+                <td>
+                    @Html.ActionLink("明細", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })
+                </td>
+            </tr>
             }
         </tbody>
     </table>

@@ -206,6 +206,14 @@ namespace AMS.Controllers
                 leaveRequests.EmployeeID = "MSIT1230001";
                 leaveRequests.RequestTime = DateTime.Now;
                 leaveRequests.ReviewStatusID = 1;
+                if(db.LeaveRequests.Any(n=>(n.StartTime<=leaveRequests.StartTime&&n.EndTime>=leaveRequests.StartTime) ||(n.StartTime <= leaveRequests.EndTime && n.EndTime >= leaveRequests.EndTime)))
+                {
+
+                }
+                else
+                {
+                    //已經有申請過
+                }
                 if (Request.Files["LeaveFile"].ContentLength != 0)
                 {
                     byte[] data = null;
