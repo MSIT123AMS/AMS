@@ -206,14 +206,10 @@ namespace AMS.Controllers
                 leaveRequests.EmployeeID = "MSIT1230001";
                 leaveRequests.RequestTime = DateTime.Now;
                 leaveRequests.ReviewStatusID = 1;
-                if(db.LeaveRequests.Any(n=>(n.StartTime<=leaveRequests.StartTime&&n.EndTime>=leaveRequests.StartTime) ||(n.StartTime <= leaveRequests.EndTime && n.EndTime >= leaveRequests.EndTime)))
-                {
+                
+                //var sss=db.Employees.Any(n=> new { vaaa=DateTime.Now-n.Hireday })
 
-                }
-                else
-                {
-                    //已經有申請過
-                }
+
                 if (Request.Files["LeaveFile"].ContentLength != 0)
                 {
                     byte[] data = null;
@@ -225,9 +221,17 @@ namespace AMS.Controllers
                     leaveRequests.Attachment = data;
                 }
 
-                db.LeaveRequests.Add(leaveRequests);
-                db.SaveChanges();
-                return RedirectToAction("LeaveIndexView");
+                //判斷是不是有申請過
+                if (db.LeaveRequests.Any(n=>(n.StartTime<=leaveRequests.StartTime&&n.EndTime>=leaveRequests.StartTime) ||(n.StartTime <= leaveRequests.EndTime && n.EndTime>= leaveRequests.EndTime)))
+                {
+                    return Content("alert('已申請過')");
+                }
+              
+                    db.LeaveRequests.Add(leaveRequests);
+                    db.SaveChanges();
+                    return RedirectToAction("LeaveIndexView");
+
+                
             }
 
             return View(leaveRequests);
@@ -423,7 +427,7 @@ namespace AMS.Controllers
             }
             DownLoadHelper.RemoveAllCache(guid);
         }
-
+   
 
     }
 }
