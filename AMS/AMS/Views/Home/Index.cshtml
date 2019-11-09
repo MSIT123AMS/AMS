@@ -586,11 +586,30 @@ function BackToIndexFunction() {
     }).fail(function (e) { alert(e.responseText) });
 }
 
+    function changeT() {
+
+        if (window.innerWidth >= 600)
+        {
+           
+            $('#basic-datatables').DataTable({
+                destroy: true
+            });
+        }
+        else {
+
+            $('#basic-datatables').basictable("destroy");
+            $('#basic-datatables').basictable({ breakpoint: 600 });
+        }
+    }
+
+    function IndexEventFunction() {
+       
+      window.addEventListener('resize', changeT);
 
 
-function IndexEventFunction() {
-    $('#basic-datatables').DataTable({
-    });
+    //$('#basic-datatables').DataTable({
+    //});
+    //$('#basic-datatables').basictable();
     $("#basic-datatables_filter").hide();
     $("#Employees").bind("change", UpdateEmployeesByEmployee);
     $("#Department").bind("change", function () {
