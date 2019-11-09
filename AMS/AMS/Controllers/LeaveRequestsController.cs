@@ -51,7 +51,7 @@ namespace AMS.Controllers
                                         ReviewTime = lt.ReviewTime,
                                         Attachment = lt.Attachment
                                     });
-
+            
             return View(LeaveTimeRequest);
 
         }
@@ -195,6 +195,95 @@ namespace AMS.Controllers
         // POST: LeaveRequests/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+
+        public int Days(int days)
+        {
+            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
+            var d = db.Employees.Find(User).Hireday;
+            int date = (DateTime.Now-d).Days;
+            if (date >= 182&&date<365)
+            {
+                return days = 3;
+            }
+            else if(date >=365 && date < 730)
+            {
+                return days = 7;
+            }
+            else if(date >= 730 && date < 1095)
+            {
+                return days = 10;
+            }
+            else if (date >= 1095&& date < 1825)
+            {
+                return days = 14;
+            }
+            else if (date >= 1825 && date < 3650)
+            {
+                return days = 15;
+            }
+            else if (date >= 1460 && date < 1825)
+            {
+                return days = 16;
+            }
+            else if (date >= 1825 && date < 2190)
+            {
+                return days = 17;
+            }
+            else if (date >= 2190 && date < 2555)
+            {
+                return days = 18;
+            }
+            else if (date >= 2555 && date < 2920)
+            {
+                return days = 19;
+            }
+            else if (date >= 2920 && date < 3285)
+            {
+                return days = 20;
+            }
+            else if (date >= 3285 && date < 3650)
+            {
+                return days = 21;
+            }
+            else if (date >= 3650 && date < 4015)
+            {
+                return days = 22;
+            }
+            else if (date >= 4015 && date < 4380)
+            {
+                return days = 23;
+            }
+            else if (date >= 4380 && date < 4745)
+            {
+                return days = 24;
+            }
+            else if (date >= 4745 && date < 5110)
+            {
+                return days = 25;
+            }
+            else if (date >= 5110 && date < 5475)
+            {
+                return days = 26;
+            }
+            else if (date >= 5475 && date < 5840)
+            {
+                return days = 27;
+            }
+            else if (date >= 5840 && date < 6205)
+            {
+                return days = 28;
+            }
+            else if (date >= 6205 && date < 6570)
+            {
+                return days = 29;
+            }
+            else
+            {
+                return days = 30;
+            }
+        }
+
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "LeaveRequestID,EmployeeID,RequestTime,StartTime,EndTime,LeaveType,LeaveReason,ReviewStatusID,ReviewTime,Attachment")] LeaveRequests leaveRequests)
@@ -206,8 +295,8 @@ namespace AMS.Controllers
                 leaveRequests.EmployeeID = "MSIT1230001";
                 leaveRequests.RequestTime = DateTime.Now;
                 leaveRequests.ReviewStatusID = 1;
-                
-                //var sss=db.Employees.Any(n=> new { vaaa=DateTime.Now-n.Hireday })
+
+                //var sss = db.Employees.Any(n => (DateTime.Now - n.Hireday).Days > 180);
 
 
                 if (Request.Files["LeaveFile"].ContentLength != 0)
