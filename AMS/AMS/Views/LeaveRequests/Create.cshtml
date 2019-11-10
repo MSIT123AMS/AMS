@@ -16,12 +16,12 @@
                 <div class="card">
                     <hr />
                     @*<div class="form-group">
-                            @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
-                                @Html.ValidationMessageFor(model => model.RequestTime, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
+            @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
+                @Html.ValidationMessageFor(model => model.RequestTime, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -56,20 +56,30 @@
                     </div>
 
                     @*<div class="form-group">
-                            @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ReviewStatusID, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ReviewStatusID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
+                        特休剩餘天數
+                        <div class="col-md-10">
+                            <text id="ddddd"></text>
+
+                        </div>
+                    </div>*@
+
+
 
                     @*<div class="form-group">
-                            @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ReviewTime, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ReviewTime, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
+            @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReviewStatusID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReviewStatusID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+                    @*<div class="form-group">
+            @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReviewTime, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReviewTime, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
 
                     <div class="form-group ">
                         @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -77,7 +87,7 @@
                             <img id="imgPreview" src="@Url.Content("~/Img/upload.png")" style="width:240px;height:180px" />
                             <input type="file" name="LeaveFile" id="LeaveFile" accept="image/*" />
                             @*@Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })*@
+                @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })*@
                         </div>
                     </div>
 
@@ -95,6 +105,20 @@
     @section scripts {
         @Scripts.Render("~/bundles/jqueryval")
         <script>
+
+            //function dayyyyy() {
+            //    $.ajax({
+            //        url: '/LeaveRequests/Days', //Controller名稱和方法名
+            //        type: "POST",
+            //    }).done(function (result) {                        //正確做這個
+            //        $("#ddddd").val(result);
+            //    })
+
+            //$(document).ready(function () {
+            //    $("#ddddd").val(dayyyyy())
+            //});
+
+
             function readURL(input) {
                 if (input.files && input.files[0]) {
                     var reader = new FileReader();

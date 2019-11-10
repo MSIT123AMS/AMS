@@ -196,93 +196,109 @@ namespace AMS.Controllers
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
 
-        public int Days(int days)
+        //public int ddd()
+        //{
+        //    string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
+
+        //    var t = DateTime.Now.Year;
+        //    var dm = db.Employees.Find(User).Hireday.Month;
+        //    var dd = db.Employees.Find(User).Hireday.Day;
+        //    var t1 = $"{t}/{}" ;
+        //    Days();
+
+        //}
+
+
+        #region 算特休天數
+        [HttpPost]
+        public int Days()
         {
+
             string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
             var d = db.Employees.Find(User).Hireday;
-            int date = (DateTime.Now-d).Days;
-            if (date >= 182&&date<365)
+            int days = (DateTime.Now - d).Days;
+            if (days >= 182 && days < 365)// 半年~1年
             {
-                return days = 3;
+                return 3;
             }
-            else if(date >=365 && date < 730)
+            else if (days >= 365 && days < 730)// 1年~2年
             {
-                return days = 7;
+                return 7;
             }
-            else if(date >= 730 && date < 1095)
+            else if (days >= 730 && days < 1095)// 2年~3年
             {
-                return days = 10;
+                return 10;
             }
-            else if (date >= 1095&& date < 1825)
+            else if (days >= 1095 && days < 1825)// 3年~5年
             {
-                return days = 14;
+                return 14;
             }
-            else if (date >= 1825 && date < 3650)
+            else if (days >= 1825 && days < 3650)// 5年~10年
             {
-                return days = 15;
+                return 15;
             }
-            else if (date >= 1460 && date < 1825)
+            else if (days >= 3650 && days < 4015)// 11年
             {
-                return days = 16;
+                return 16;
             }
-            else if (date >= 1825 && date < 2190)
+            else if (days >= 4015 && days < 4380)// 12年
             {
-                return days = 17;
+                return 17;
             }
-            else if (date >= 2190 && date < 2555)
+            else if (days >= 4380 && days < 4745)// 13年
             {
-                return days = 18;
+                return 18;
             }
-            else if (date >= 2555 && date < 2920)
+            else if (days >= 4745 && days < 5110)// 14年
             {
-                return days = 19;
+                return 19;
             }
-            else if (date >= 2920 && date < 3285)
+            else if (days >= 5110 && days < 5475)// 15年
             {
-                return days = 20;
+                return 20;
             }
-            else if (date >= 3285 && date < 3650)
+            else if (days >= 5475 && days < 5840)// 16年
             {
-                return days = 21;
+                return 21;
             }
-            else if (date >= 3650 && date < 4015)
+            else if (days >= 5840 && days < 6205)// 17年
             {
-                return days = 22;
+                return 22;
             }
-            else if (date >= 4015 && date < 4380)
+            else if (days >= 6205 && days < 6570)// 18年
             {
-                return days = 23;
+                return 23;
             }
-            else if (date >= 4380 && date < 4745)
+            else if (days >= 6570 && days < 6935)// 19年
             {
-                return days = 24;
+                return 24;
             }
-            else if (date >= 4745 && date < 5110)
+            else if (days >= 6935 && days < 7300)// 20年
             {
-                return days = 25;
+                return 25;
             }
-            else if (date >= 5110 && date < 5475)
+            else if (days >= 7300 && days < 7665)// 21年
             {
-                return days = 26;
+                return 26;
             }
-            else if (date >= 5475 && date < 5840)
+            else if (days >= 7665 && days < 8030)// 22年
             {
-                return days = 27;
+                return 27;
             }
-            else if (date >= 5840 && date < 6205)
+            else if (days >= 8030 && days < 8395)// 23年
             {
-                return days = 28;
+                return 28;
             }
-            else if (date >= 6205 && date < 6570)
+            else if (days >= 8395 && days < 8760)// 24年
             {
-                return days = 29;
+                return 29;
             }
             else
             {
-                return days = 30;
+                return 30;// 25年以上
             }
         }
-
+        #endregion
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
@@ -296,7 +312,7 @@ namespace AMS.Controllers
                 leaveRequests.RequestTime = DateTime.Now;
                 leaveRequests.ReviewStatusID = 1;
 
-                //var sss = db.Employees.Any(n => (DateTime.Now - n.Hireday).Days > 180);
+               
 
 
                 if (Request.Files["LeaveFile"].ContentLength != 0)
