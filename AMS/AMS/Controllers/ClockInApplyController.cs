@@ -40,7 +40,7 @@ namespace AMS.Controllers
                     ReviewStatus1=p.ReviewStatus1
                 }).Where(x=>x.EmployeeID== EmployeeID);
 
-            return View(query);
+            return PartialView("_ClockInApplyView", query);
         }
 
         // GET: ClockInApply/Details/5
@@ -61,16 +61,16 @@ namespace AMS.Controllers
         // GET: ClockInApply/Create
         public ActionResult ClockInApply()
         {
-          
 
-            return View();           
+
+            return PartialView("_ClockInApply");
         }
 
         // POST: ClockInApply/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult ClockInApply([Bind(Include = "EmployeeID,OnDuty,OffDuty,ReviewStatusID,RequestDate,ReviewTime")] ClockInApply clockInApply)
         {
             if (ModelState.IsValid)
@@ -83,7 +83,7 @@ namespace AMS.Controllers
                 {
                     db.SaveChanges();
                     return RedirectToAction("ClockInApplyView", "ClockInApply");
-                    //return PartialView("ClockInApplyView", "ClockInApplyViewModel");
+                    //return PartialView("_ClockInApplyView", clockInApply);
                 }
                 catch {
 
@@ -92,12 +92,12 @@ namespace AMS.Controllers
                     //    OnSuccess = "onSuccess"
                     //};
                     TempData["message"] = $"已經有{clockInApply.RequestDate.Value.ToString("yyyy年MM月dd日")}的申請紀錄!";
-                    return PartialView("ClockInApplyView", "ClockInApplyViewModel");
-                    ////return RedirectToAction("ClockInApplyView", "ClockInApply");
+                    //return PartialView("_ClockInApplyView", clockInApply);
+                    return RedirectToAction("ClockInApplyView", "ClockInApply");
                 }
             }
-            //return PartialView("ClockInApplyView", "ClockInApplyViewModel");          
             return RedirectToAction("ClockInApplyView", "ClockInApply");
+            //return PartialView("_ClockInApplyView", clockInApply);
         }
 
         // GET: ClockInApply/Edit/5

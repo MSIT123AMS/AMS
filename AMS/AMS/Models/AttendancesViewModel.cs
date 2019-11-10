@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AMS.Controllers
+namespace AMS.Models
 {
     public class AttendancesViewModel
     {

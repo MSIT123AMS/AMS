@@ -3,7 +3,21 @@
 @{
     ViewBag.Title = "ClockInApplyView";
 }
+@if (TempData["message"] != null)
+{
+    <script type="text/javascript">
+            var message = @Html.Raw(Json.Encode(TempData["message"]));
+            swal( message , "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
 
+    </script>
+}
 <h2>打卡申覆統計表</h2>
 
 @*<p>
@@ -59,31 +73,3 @@
         }
     </tbody>
 </table>
-@section scripts{
-   
-    @if (TempData["message"] != null)
-    {
-        <script type="text/javascript">
-            var message = @Html.Raw(Json.Encode(TempData["message"]));
-            swal( message , "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-
-        </script>
-    }
-
-    @*<script>
-        $(document).ready(function () {
-            $('#basic-datatables').DataTable({
-            });
-            $("#basic-datatables_filter").hide();
-
-        })*@
-
-    </script>
-}
