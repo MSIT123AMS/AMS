@@ -1,96 +1,124 @@
 ﻿@model IEnumerable<AMS.Models.LeaveIndexViewModel>
 
 <label class=" control-label" style="font-size:35px;margin:10px">請假報表</label>
-    <div class="page-inner">
-        <div class="card">
-            <div class="card-head-row">
-                <p>
-                    @Html.ActionLink("請假申請", "Create", "Create", new { @class = "btn btn-outline-primary" })
-                    @Html.ActionLink("URL轉換PDF", "ToPdf", "ToPdf", new { @class = "btn btn-outline-primary" })
-                    <div class="form-group">
-                        <label class=" control-label" style="font-size:20px;margin-left:20px">篩選假別:</label>
-                        <div class="selectgroup selectgroup-pills">
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value" value="事假" class="selectgroup-input" checked>
-                                <span class="selectgroup-button">事假</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value" value="病假" class="selectgroup-input" checked>
-                                <span class="selectgroup-button">病假</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value" value="公假" class="selectgroup-input" checked>
-                                <span class="selectgroup-button">公假</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value" value="喪假" class="selectgroup-input" checked>
-                                <span class="selectgroup-button">喪假</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value" value="特休假" class="selectgroup-input" checked>
-                                <span class="selectgroup-button">特休假</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value" value="產假" class="selectgroup-input" checked>
-                                <span class="selectgroup-button">產假</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value" value="陪產假" class="selectgroup-input" checked>
-                                <span class="selectgroup-button">陪產假</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value" value="生理假" class="selectgroup-input" checked>
-                                <span class="selectgroup-button">生理假</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value" value="補休假" class="selectgroup-input" checked>
-                                <span class="selectgroup-button">補休假</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value" value="家庭照顧假" class="selectgroup-input" checked>
-                                <span class="selectgroup-button">家庭照顧假</span>
-                            </label>
-                            <label class="selectgroup-item">
-                                <input type="checkbox" name="value1" value="ALL" class="selectgroup-input" id="CheckAll" checked>
-                                <span class="selectgroup-button">ALL</span>
-                            </label>
-                        </div>
+<div class="page-inner">
+    <div class="card">
+        <div class="card-head-row">
+            <p>
+                @Html.ActionLink("請假申請", "Create", "Create", new { @class = "btn btn-outline-primary" })
+                @Html.ActionLink("URL轉換PDF", "ToPdf", "ToPdf", new { @class = "btn btn-outline-primary" })
+                <input type="button" value="匯出Excel" onclick="Export()" class="btn btn-outline-primary" />
+
+                <div class="form-group">
+                    <label class=" control-label" style="font-size:20px;margin-left:20px">篩選假別:</label>
+                    <div class="selectgroup selectgroup-pills">
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="事假" class="selectgroup-input" checked>
+                            <span class="selectgroup-button">事假</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="病假" class="selectgroup-input" checked>
+                            <span class="selectgroup-button">病假</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="公假" class="selectgroup-input" checked>
+                            <span class="selectgroup-button">公假</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="喪假" class="selectgroup-input" checked>
+                            <span class="selectgroup-button">喪假</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="特休假" class="selectgroup-input" checked>
+                            <span class="selectgroup-button">特休假</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="產假" class="selectgroup-input" checked>
+                            <span class="selectgroup-button">產假</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="陪產假" class="selectgroup-input" checked>
+                            <span class="selectgroup-button">陪產假</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="生理假" class="selectgroup-input" checked>
+                            <span class="selectgroup-button">生理假</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="補休假" class="selectgroup-input" checked>
+                            <span class="selectgroup-button">補休假</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value" value="家庭照顧假" class="selectgroup-input" checked>
+                            <span class="selectgroup-button">家庭照顧假</span>
+                        </label>
+                        <label class="selectgroup-item">
+                            <input type="checkbox" name="value1" value="ALL" class="selectgroup-input" id="CheckAll" checked>
+                            <span class="selectgroup-button">ALL</span>
+                        </label>
                     </div>
+                </div>
 
 
-                </p>
+            </p>
+        </div>
+
+        <div class="card-header row form-group">
+            <label class=" control-label" style="font-size:20px;margin-left:20px">開始時間:</label>
+            <div class="col-sm-2">
+                <input id="StartTime" name="StartTime" type="date" class="form-control" />
             </div>
-
-            <div class="card-header row form-group">
-                <label class=" control-label" style="font-size:20px;margin-left:20px">開始時間:</label>
-                <div class="col-sm-2">
-                    <input id="StartTime" name="StartTime" type="date" class="form-control" />
-                </div>
-                <label class=" control-label" style="font-size:20px;margin-left:20px">結束時間:</label>
-                <div id="ddlemp" class="col-sm-2">
-                    <input id="EndTime" name="EndTime" type="date" class="form-control" />
-                </div>
-                <div class="col-sm-2">
-                    <button id="Search" name="Search" class="form-control">搜尋</button>
-
-                </div>
+            <label class=" control-label" style="font-size:20px;margin-left:20px">結束時間:</label>
+            <div id="ddlemp" class="col-sm-2">
+                <input id="EndTime" name="EndTime" type="date" class="form-control" />
             </div>
+            <div class="col-sm-2">
+                <button id="Search" name="Search" class="form-control">搜尋</button>
+
+            </div>
+        </div>
 
 
-            <div class="card-body">
-                <div class="table-responsive" id="LeaveTable">
-                    @Html.Partial("_LeaveIndexPartialView", Model)
+        <div class="card-body">
+            <div class="table-responsive" id="LeaveTable">
+                @Html.Partial("_LeaveIndexPartialView", Model)
 
-                </div>
             </div>
         </div>
     </div>
+</div>
 
 
-    @section scripts
+@section scripts
 {
 
-        <script>
+    <script>
+        function Export() {
+            let valuearray = new Array()
+            for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
+                valuearray.push(item.value)
+            }
+            var value = "{'value':valuearray}"
+            var param = {
+                "value": valuearray,
+                "id": $("#StartTime").val(),
+                "id2": $("#EndTime").val(),
+
+            };
+            $.ajax({
+                url: '/LeaveRequests/DownLoadExcel', //Controller名稱和方法名
+                type: "POST",
+                dataType: "json",
+                data: param,
+                success: function (data) {
+                    //重定向返回引數
+                    location.href = "/LeaveRequests/OutExcel?guid=" + data;
+                }
+            });
+        }
+    </script>
+
+    <script>
         $(document).ready(function () {
             $('#basic-datatables').DataTable({
             });
@@ -129,16 +157,16 @@
             let Start = st[0] + st[1] + st[2]
             let et = $("#EndTime").val().split('-')
             let End = et[0] + et[1] + et[2]
-            
+
             let valuearray = new Array()
             for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
                 valuearray.push(item.value)
             }
-            var value = "{'value':valuearray}" 
+            var value = "{'value':valuearray}"
             $.ajax({
 
                 type: "Post",                                      //使用post
-                url: "@Url.Action("Leave11", "LeaveRequests")",    
+                url: "@Url.Action("Leave11", "LeaveRequests")",
                 data: {                                            //帶入值傳到controller
                     "value": valuearray,
                     "id":/*$("#StartTime").val(),*/StartTime.value,
@@ -148,7 +176,7 @@
                 }).done(function (result) {                        //正確做這個
                     $("#LeaveTable").html(result);
                     $('#basic-datatables').DataTable({
-                    });   
+                    });
                     $("#basic-datatables_filter").hide();
                 }).fail(function(e){                               //錯誤做這個
                 alert(e.responseText);
@@ -195,5 +223,5 @@
 
 
 
-        </script>
-    }
+    </script>
+}

@@ -9,7 +9,10 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using AMS.Metadata;
 using AMS.Models;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
 using SelectPdf;
 
 namespace AMS.Controllers
@@ -48,7 +51,7 @@ namespace AMS.Controllers
                                         ReviewTime = lt.ReviewTime,
                                         Attachment = lt.Attachment
                                     });
-
+            
             return View(LeaveTimeRequest);
 
         }
@@ -192,6 +195,95 @@ namespace AMS.Controllers
         // POST: LeaveRequests/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+
+        public int Days(int days)
+        {
+            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
+            var d = db.Employees.Find(User).Hireday;
+            int date = (DateTime.Now-d).Days;
+            if (date >= 182&&date<365)
+            {
+                return days = 3;
+            }
+            else if(date >=365 && date < 730)
+            {
+                return days = 7;
+            }
+            else if(date >= 730 && date < 1095)
+            {
+                return days = 10;
+            }
+            else if (date >= 1095&& date < 1825)
+            {
+                return days = 14;
+            }
+            else if (date >= 1825 && date < 3650)
+            {
+                return days = 15;
+            }
+            else if (date >= 1460 && date < 1825)
+            {
+                return days = 16;
+            }
+            else if (date >= 1825 && date < 2190)
+            {
+                return days = 17;
+            }
+            else if (date >= 2190 && date < 2555)
+            {
+                return days = 18;
+            }
+            else if (date >= 2555 && date < 2920)
+            {
+                return days = 19;
+            }
+            else if (date >= 2920 && date < 3285)
+            {
+                return days = 20;
+            }
+            else if (date >= 3285 && date < 3650)
+            {
+                return days = 21;
+            }
+            else if (date >= 3650 && date < 4015)
+            {
+                return days = 22;
+            }
+            else if (date >= 4015 && date < 4380)
+            {
+                return days = 23;
+            }
+            else if (date >= 4380 && date < 4745)
+            {
+                return days = 24;
+            }
+            else if (date >= 4745 && date < 5110)
+            {
+                return days = 25;
+            }
+            else if (date >= 5110 && date < 5475)
+            {
+                return days = 26;
+            }
+            else if (date >= 5475 && date < 5840)
+            {
+                return days = 27;
+            }
+            else if (date >= 5840 && date < 6205)
+            {
+                return days = 28;
+            }
+            else if (date >= 6205 && date < 6570)
+            {
+                return days = 29;
+            }
+            else
+            {
+                return days = 30;
+            }
+        }
+
+
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "LeaveRequestID,EmployeeID,RequestTime,StartTime,EndTime,LeaveType,LeaveReason,ReviewStatusID,ReviewTime,Attachment")] LeaveRequests leaveRequests)
@@ -203,6 +295,10 @@ namespace AMS.Controllers
                 leaveRequests.EmployeeID = "MSIT1230001";
                 leaveRequests.RequestTime = DateTime.Now;
                 leaveRequests.ReviewStatusID = 1;
+
+                //var sss = db.Employees.Any(n => (DateTime.Now - n.Hireday).Days > 180);
+
+
                 if (Request.Files["LeaveFile"].ContentLength != 0)
                 {
                     byte[] data = null;
@@ -214,9 +310,17 @@ namespace AMS.Controllers
                     leaveRequests.Attachment = data;
                 }
 
-                db.LeaveRequests.Add(leaveRequests);
-                db.SaveChanges();
-                return RedirectToAction("LeaveIndexView");
+                //判斷是不是有申請過
+                if (db.LeaveRequests.Any(n=>(n.StartTime<=leaveRequests.StartTime&&n.EndTime>=leaveRequests.StartTime) ||(n.StartTime <= leaveRequests.EndTime && n.EndTime>= leaveRequests.EndTime)))
+                {
+                    return Content("alert('已申請過')");
+                }
+              
+                    db.LeaveRequests.Add(leaveRequests);
+                    db.SaveChanges();
+                    return RedirectToAction("LeaveIndexView");
+
+                
             }
 
             return View(leaveRequests);
@@ -318,6 +422,101 @@ namespace AMS.Controllers
             return File(content, "image/jpeg");
         }
 
+        [HttpPost]
+        public ActionResult DownLoadExcel(string id, string id2, string[] value)
+        {
+            #region 查詢資料
+            //string LeaveStartTime = Convert.ToDateTime(Request["StartTime"]).ToString("yyyy-MM-dd");
+            //string LeaveEndTime = Convert.ToDateTime(Request["EndTime"]).AddDays(1).ToString("yyyy-MM-dd");
+            //string[] LeaveValue = Request.value;
+
+            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
+            DateTime startime = Convert.ToDateTime(id);
+            DateTime endtime = Convert.ToDateTime(id2);
+            string[] LeaveValue = value;
+
+
+            var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
+                                    join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
+                                    join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
+                                    where lt.StartTime >= startime && lt.EndTime <= endtime && lt.EmployeeID == User && LeaveValue.Any(x => x == lt.LeaveType)
+                                    select new LeaveIndexViewModel
+                                    {
+                                        LeaveRequestID = lt.LeaveRequestID,
+                                        EmployeeName = emp.EmployeeName,
+                                        LeaveType = lt.LeaveType,
+                                        RequestTime = lt.RequestTime,
+                                        StartTime = lt.StartTime,
+                                        EndTime = lt.EndTime,
+                                        LeaveReason = lt.LeaveReason,
+                                        Review = rev.ReviewStatus1,
+                                        ReviewTime = lt.ReviewTime,
+                                        Attachment = lt.Attachment
+                                    });
+
+            string[] titleList = new string[] { "序號", "假單編號", "員工姓名", "假別", "申請時間", "申請開始時間", "申請結束時間", "事由", "申請狀態"};
+            List<LeaveIndexViewModel> list = LeaveTimeRequest.ToList();/*OrderInfoBLL.GetOrdersInfoListByTime(OrderStartTime, OrderEndTime);*/
+            #endregion
+
+            #region NPOI資料匯出
+            //建立Excel檔案的物件
+            NPOI.HSSF.UserModel.HSSFWorkbook book = new NPOI.HSSF.UserModel.HSSFWorkbook();
+            //新增一個sheet
+            NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
+            //給sheet1新增第一行的頭部標題
+            IRow headerrow = sheet1.CreateRow(0);
+
+            HSSFCellStyle headStyle = (HSSFCellStyle)book.CreateCellStyle();
+            HSSFFont font = (HSSFFont)book.CreateFont();
+            font.FontHeightInPoints = 10;
+            font.Boldweight = 700;
+            headStyle.SetFont(font);
+            for (int i = 0; i < titleList.Length; i++)
+            {
+                ICell cell = headerrow.CreateCell(i);
+                cell.CellStyle = headStyle;
+                cell.SetCellValue(titleList[i]);
+            }
+            //將資料逐步寫入sheet1各個行
+            for (int i = 0; i < list.Count; i++)
+            {
+                NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
+                rowtemp.CreateCell(0).SetCellValue(i + 1);
+                rowtemp.CreateCell(1).SetCellValue(list[i].LeaveRequestID);
+                rowtemp.CreateCell(2).SetCellValue(list[i].EmployeeName);
+                rowtemp.CreateCell(3).SetCellValue(list[i].LeaveType);
+                rowtemp.CreateCell(4).SetCellValue(list[i].RequestTime.ToString("yyyy-MM-dd"));
+                rowtemp.CreateCell(5).SetCellValue(list[i].StartTime.ToString("yyyy-MM-dd HH:mm"));
+                rowtemp.CreateCell(6).SetCellValue(list[i].EndTime.ToString("yyyy-MM-dd HH:mm"));
+                rowtemp.CreateCell(7).SetCellValue(list[i].LeaveReason);
+                rowtemp.CreateCell(8).SetCellValue(list[i].Review == "未審核" ? "未審核" : list[i].Review == "已審核" ? "已審核" : list[i].Review == "駁回" ? "駁回" : "取消稽核不通過");
+                //rowtemp.CreateCell(9).SetCellValue(list[i].ReviewTime.ToString("yyyy-MM-dd HH:mm"));
+            }
+            var guid = Guid.NewGuid().ToString();
+            DownLoadHelper.SetCache(guid, book);
+            return Json(guid, JsonRequestBehavior.AllowGet);
+            #endregion
+        }
+
+
+        public void OutExcel(string guid)
+        {
+            object obj = DownLoadHelper.GetCache(guid);
+            NPOI.HSSF.UserModel.HSSFWorkbook book = obj as NPOI.HSSF.UserModel.HSSFWorkbook;
+            if (book != null)
+            {
+                //寫入到客戶端
+                MemoryStream ms = new MemoryStream();
+                book.Write(ms);
+                Response.AddHeader("Content-Disposition", string.Format("attachment;filename={0}.xls", DateTime.Now.ToString("yyyyMMddHHmmssfff")));
+                Response.BinaryWrite(ms.ToArray());
+                book = null;
+                ms.Close();
+                ms.Dispose();
+            }
+            DownLoadHelper.RemoveAllCache(guid);
+        }
+   
 
     }
 }
