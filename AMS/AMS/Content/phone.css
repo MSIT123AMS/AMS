@@ -1,10 +1,27 @@
-﻿@media screen and (max-width: 750px) {
+﻿@media screen and (max-width:600px) {
     label {
        
         text-align: left;
     }
+    table.table-striped tr td:first-of-type:before {
+        padding-bottom: 10px;
+    }
+    table.table-striped tr td:first-of-type {
+        border-bottom: 1px solid #e4ebeb;
+    }
+    table.table-striped tr td:first-of-type,
+    table.table-striped tr:nth-of-type(2n+2) td:first-of-type,
+    table.table-striped tr td:first-of-type:before {
+        background: #0275d8;
+        color: #ffffff;
+   
+    }
+
+
+
+
 }
-@media screen and (min-width: 751px) {
+@media screen and (min-width: 601px) {
     label {
         text-align: right;
     }

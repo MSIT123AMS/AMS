@@ -319,7 +319,7 @@
 
     /////////////////////////////////////////////
     $("#EmployeeManagement").bind("click", funEmpM);
-
+    window.addEventListener('resize', changeT);
     function funSerchOvt() {
     $.ajax({
     type: "GET",
@@ -327,9 +327,8 @@
     dataType: "html",
     }).done(function (result) {
         $("#mainpanel").html(result);
-        $('#basic-datatables').DataTable({
-        });
-        $("#basic-datatables_filter").hide();
+        changeT();
+
     }).fail(function (e) { alert(e.responseText) });
     }
 
@@ -340,9 +339,8 @@
     dataType: "html",
     }).done(function (result) {
         $("#mainpanel").html(result);
-        $('#basic-datatables').DataTable({
-        });
-        $("#basic-datatables_filter").hide();
+        changeT();
+   
     }).fail(function (e) { alert(e.responseText) });
     }
 
@@ -354,9 +352,8 @@
     dataType: "html",
     }).done(function (result) {
         $("#mainpanel").html(result);
-        $('#basic-datatables').DataTable({
-        });
-        $("#basic-datatables_filter").hide();
+        changeT();
+  
     }).fail(function (e) { alert(e.responseText) });
     }
 
@@ -506,9 +503,8 @@ function UpdateEmployeesByEmployee() {
         url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + Employees.value + "/" + Department.value,
     }).done(function (result) {
         $("#Employeestable").html(result);
-        $('#basic-datatables').DataTable({
-        });
-        $("#basic-datatables_filter").hide();
+        changeT();
+  
         $("input[name*='MSIT']").bind("click", function () {
             if (event.target.name.substr(0, 2) == "De") {
                 funbtndetails(event.target.name.substr(2));
@@ -528,9 +524,8 @@ function UpdateEmployeesByDepartment() {
         url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + "null/" + Department.value,
     }).done(function (result) {
         $("#Employeestable").html(result);
-        $('#basic-datatables').DataTable({
-        });
-        $("#basic-datatables_filter").hide();
+        changeT();
+
         $("input[name*='MSIT']").bind("click", function () {
 
             if (event.target.name.substr(0, 2) == "De") {
@@ -594,6 +589,7 @@ function BackToIndexFunction() {
             $('#basic-datatables').DataTable({
                 destroy: true
             });
+            $("#basic-datatables_filter").hide();
         }
         else {
 
@@ -603,14 +599,14 @@ function BackToIndexFunction() {
     }
 
     function IndexEventFunction() {
-       
-      window.addEventListener('resize', changeT);
+      changeT();
+      
 
 
     //$('#basic-datatables').DataTable({
     //});
     //$('#basic-datatables').basictable();
-    $("#basic-datatables_filter").hide();
+   
     $("#Employees").bind("change", UpdateEmployeesByEmployee);
     $("#Department").bind("change", function () {
         UpdateEmployeesByDepartment();
