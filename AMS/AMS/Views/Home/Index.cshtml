@@ -66,7 +66,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="components/buttons.html">
+                                <a href="#" onclick="funSerchAttendancest()" )>
                                     <span class="sub-item">個人刷卡明細查詢</span>
                                 </a>
                             </li>
@@ -122,7 +122,7 @@
                             </li>
 
                             <li>
-                                <a href=@Url.Action("Create","ClockInApply") )>
+                                <a href="#" onclick="funClockInApplyCreat()" )>
                                     <span class="sub-item">刷卡異常申覆單</span>
                                 </a>
                             </li>
@@ -223,7 +223,57 @@
 @section scripts
 {
 <script>
+      //////////////////////瑋////////////////////////////////
+    function funSerchAttendancest() {
+    $.ajax({
+    type: "GET",
+    url: "@Url.Action("SerchAttendances", "Attendances")",
+    dataType: "html",
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
 
+
+    }).fail(function (e) { alert(e.responseText) });
+    }
+    function funClockInApplyCreat() {
+    $.ajax({
+    type: "GET",
+    url: "@Url.Action("ClockinApply", "ClockInApply")",
+    dataType: "html",
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
+        $("#submitButton").bind("click", function () {
+            test();
+        })
+
+
+    }).fail(function (e) { alert(e.responseText) });
+    }
+    function test() {
+     $.ajax({
+    type: "GET",
+    url: "@Url.Action("ClockInApplyView", "ClockInApply")",
+    dataType: "html",
+    }).done(function onSuccess(result) {
+        $("#mainpanel").html(result);
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();       
+       
+
+    }).fail(function (e) { alert(e.responseText) });
+        
+ 
+    }
+
+
+    ///////////////////////////////////////////////
     //////////////////汪///////////////////////////////
     
 
