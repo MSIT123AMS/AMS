@@ -60,7 +60,7 @@
 
 
             d = new Date();
-            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() -7 ));
+            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-01" );
             $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() ));
         });
         
@@ -90,17 +90,6 @@
             else
                 return '0' + val;
         }
-           
-        $("#StartTime").bind("change", function () {
-            if ($("#StartTime").val() > $("#EndTime").val()) {
-                timechange();
-                $("#StartTime").val($("#EndTime").val());
-            }
-
-        });
-
-
-
         function timechange() {
             swal("起始時間不可大於最後時間!", "", {
                 icon: "info",
@@ -111,6 +100,18 @@
                 },
             });
         }
+
+        $("#StartTime").bind("change", function () {
+            if ($("#StartTime").val() > $("#EndTime").val()) {
+                timechange();
+                $("#StartTime").val($("#EndTime").val());
+            }
+
+        });
+
+
+
+
 
         $("#EndTime").bind("change", function () {
             if ($("#EndTime").val() < $("#StartTime").val()) {
