@@ -720,7 +720,7 @@ function IndexEventFunction() {
           data.append("EndTime", EndTime.value);
           data.append("OverTimePay", OverTimePay.value);
           data.append("OverTimeReason", OverTimeReason.value);
-    }
+    
     $.ajax({
         url: "@Url.Action("Create","OverTimeRequests")",
         type: "POST",
@@ -730,10 +730,10 @@ function IndexEventFunction() {
         data: data,
         //data: {"EmployeeID": EmployeeID.value,},
     }).done(function (result) {
-        $(document).html(result);
         
+        //$(document).html(result);
         alert('已送出申請');
-
+        OverTimeIndex();
     }).fail(function (e) { alert(e.responseText) });
         }
 
