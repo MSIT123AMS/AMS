@@ -189,6 +189,8 @@ namespace AMS.Controllers
                 new LeaveCombobox {comtext="家庭照顧假",text="家庭照顧假"},
             }, "text", "comtext");
 
+           ViewBag.on = remleave();  //剩餘特休天數
+           ViewBag.Off= Days();      //特休天數共幾天
             return View();
         }
 
@@ -196,21 +198,23 @@ namespace AMS.Controllers
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
 
-        //public int ddd()
-        //{
-        //    string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
 
-        //    var t = DateTime.Now.Year;
-        //    var dm = db.Employees.Find(User).Hireday.Month;
-        //    var dd = db.Employees.Find(User).Hireday.Day;
-        //    var t1 = $"{t}/{}" ;
-        //    Days();
+        #region 算剩餘的特休天數
+        public int remleave()
+        {
+            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
 
-        //}
-
+            var t = DateTime.Now.Year;
+            var dm = db.Employees.Find(User).Hireday.Month;
+            var dd = db.Employees.Find(User).Hireday.Day;
+            DateTime t1 = DateTime.Parse($"{t}-{dm}-{dd}");
+            DateTime t2 = DateTime.Parse($"{t+1}-{dm}-{dd}");
+            int Remain = Days() -( db.LeaveRequests.Where(n => (n.StartTime >= t1 && n.EndTime <= t2 && n.EmployeeID == User && n.LeaveType=="特休假")) .Count());
+            return Remain;
+        }
+        #endregion
 
         #region 算特休天數
-        [HttpPost]
         public int Days()
         {
 
@@ -301,7 +305,7 @@ namespace AMS.Controllers
         #endregion
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "LeaveRequestID,EmployeeID,RequestTime,StartTime,EndTime,LeaveType,LeaveReason,ReviewStatusID,ReviewTime,Attachment")] LeaveRequests leaveRequests)
         {
             if (ModelState.IsValid)
@@ -329,7 +333,7 @@ namespace AMS.Controllers
                 //判斷是不是有申請過
                 if (db.LeaveRequests.Any(n=>(n.StartTime<=leaveRequests.StartTime&&n.EndTime>=leaveRequests.StartTime) ||(n.StartTime <= leaveRequests.EndTime && n.EndTime>= leaveRequests.EndTime)))
                 {
-                    return Content("alert('已申請過')");
+                    return Content("alert('此日期已申請過')");
                 }
               
                     db.LeaveRequests.Add(leaveRequests);
@@ -442,10 +446,7 @@ namespace AMS.Controllers
         public ActionResult DownLoadExcel(string id, string id2, string[] value)
         {
             #region 查詢資料
-            //string LeaveStartTime = Convert.ToDateTime(Request["StartTime"]).ToString("yyyy-MM-dd");
-            //string LeaveEndTime = Convert.ToDateTime(Request["EndTime"]).AddDays(1).ToString("yyyy-MM-dd");
-            //string[] LeaveValue = Request.value;
-
+ 
             string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
             DateTime startime = Convert.ToDateTime(id);
             DateTime endtime = Convert.ToDateTime(id2);

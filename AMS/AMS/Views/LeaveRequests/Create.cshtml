@@ -39,6 +39,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label class="control-label col-md-2">特休天數:@ViewBag.Off</label><br />
+                        <label class="control-label col-md-2">剩餘特休天數:@ViewBag.on</label>
+                    </div>
+
+                    <div class="form-group">
                         @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             @Html.DropDownList("LeaveType", null, "--請選擇--", new { @class = "form-control" })
@@ -55,13 +60,6 @@
                         </div>
                     </div>
 
-                    @*<div class="form-group">
-                        特休剩餘天數
-                        <div class="col-md-10">
-                            <text id="ddddd"></text>
-
-                        </div>
-                    </div>*@
 
 
 
@@ -105,19 +103,6 @@
     @section scripts {
         @Scripts.Render("~/bundles/jqueryval")
         <script>
-
-            //function dayyyyy() {
-            //    $.ajax({
-            //        url: '/LeaveRequests/Days', //Controller名稱和方法名
-            //        type: "POST",
-            //    }).done(function (result) {                        //正確做這個
-            //        $("#ddddd").val(result);
-            //    })
-
-            //$(document).ready(function () {
-            //    $("#ddddd").val(dayyyyy())
-            //});
-
 
             function readURL(input) {
                 if (input.files && input.files[0]) {
