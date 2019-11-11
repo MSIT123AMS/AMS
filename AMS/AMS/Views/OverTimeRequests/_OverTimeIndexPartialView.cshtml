@@ -74,8 +74,9 @@
                     @Html.DisplayFor(modelItem => item.ReviewTime)
                 </td>
                 <td>
+                    <button class="btn btn-primary" onclick="OverTimeDetails(@item.RequestID)">加班明細</button>
 
-                    @Html.ActionLink("加班明細", "Details", new { id = item.RequestID },new { @class="btn btn-primary"}) 
+
 
                 </td>
             </tr>

@@ -59,8 +59,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="送出" class="btn btn-default" />
-                @Html.ActionLink("取消", "Index", null, new { @class = "btn btn-default" })
+                <input type="button" value="送出" class="btn btn-default" onclick="CreateNewOT()"/>
+                <button class="btn btn-primary" onclick='OverTimeIndex()' type="button">取消</button>
             </div>
         </div>
     </div>

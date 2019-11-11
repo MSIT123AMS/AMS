@@ -76,7 +76,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href=@Url.Action("index","OverTimeRequests")>
+                                <a href="#" onclick="OverTimeIndex()">
                                     <span class="sub-item">個人加班明細查詢</span>
                                 </a>
                             </li>
@@ -113,7 +113,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href=@Url.Action("Create","OverTimeRequests") )>
+                                <a href="#" onclick="OverTimeCreate()" )>
 
                                     <span class="sub-item">
                                         申請加班補休
@@ -169,7 +169,7 @@
                             </li>
 
                             <li>
-                                <a href="#" onclick="funSerchAds()")>
+                                <a href="#" onclick="funSerchAds()" )>
                                     <span class="sub-item">刷卡明細查詢</span>
                                 </a>
                             </li>
@@ -210,9 +210,7 @@
     <footer class="footer">
         <div class="container-fluid">
             <nav class="pull-left">
-                <ul class="nav">
-                   
-                </ul>
+                <ul class="nav"></ul>
             </nav>
             <div class="copyright ml-auto">
                 MSIT123。AMS差勤專題
@@ -222,10 +220,10 @@
 </div>
 @section scripts
 {
-<script>
+    <script>
 
     //////////////////汪///////////////////////////////
-    
+
 
     function funReview() {
     $.ajax({
@@ -400,7 +398,7 @@ function createmp() {
         $("#btnback").bind("click", BackToIndexFunction);
     }).fail(function (e) { alert(e.responseText) });
 }
-        
+
 function savemp() {
     var data = new FormData();
     data.append("EmployeeID", EmployeeID.value);
@@ -599,7 +597,7 @@ function IndexEventFunction() {
     });
     $("#Button1").bind("click", createmp);
     $("input[name*='MSIT']").bind("click", function () {
-     
+
         if (event.target.name.substr(0, 2) == "De") {
             funbtndetails(event.target.name.substr(2));
         }
@@ -612,7 +610,150 @@ function IndexEventFunction() {
 }
 
 
-</script>
+    </script>
+
+    <script>
+        function OverTimeIndex() {
+    $.ajax({
+    type: "GET",
+    url: "@Url.Action("Index", "OverTimeRequests")",
+    dataType: "html",
+    }).done(function (result) {
+        
+        $("#mainpanel").html(result);
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
+        $('#Search').bind("click",
+            function () {
+                OTsearch();
+            });
+        d = new Date();
+        $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-01");
+        $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
+        $("#StartTime").bind("change", function () {
+            if ($("#StartTime").val() > $("#EndTime").val()) {
+                timechange();
+                $("#StartTime").val($("#EndTime").val());
+            }
+
+        });
+
+        $("#EndTime").bind("change", function () {
+            if ($("#EndTime").val() < $("#StartTime").val()) {
+                timechange();
+                $("#EndTime").val($("#StartTime").val());
+            }
+        });
+    }).fail(function (e) { alert(e.responseText) });
+        }
+
+         function OTsearch() {
+            let a = $("#StartTime").val()
+            let st = a.split('-')
+            let Start = st[0] + st[1] + st[2]
+            let et = $("#EndTime").val().split('-')
+            let End = et[0] + et[1] + et[2]
+            $.ajax({
+
+                type: "GET",
+                url: "@Url.RouteUrl("Default1", new { controller = "OverTimeRequests", action = "Overtimetable" })/" + Start + "/" + End,
+            }).done(function (result) {
+
+                    $("#OverTimeTable").html(result);
+                    $('#basic-datatables').DataTable({
+                });
+                $("#basic-datatables_filter").hide();
+                }).fail(function(e){
+                alert(e.responseText);
+                });
+        }
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        function timechange() {
+            swal("起始時間不可大於最後時間!", "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
+        }
+
+    function OverTimeCreate() {
+    $.ajax({
+    type: "GET",
+    url: "@Url.Action("Create", "OverTimeRequests")",
+    dataType: "html",
+    }).done(function (result) {
+        d = new Date();
+        $("#mainpanel").html(result);
+        $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "17" + ":" + "00");
+        $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "19" + ":" + "00");
+        $("#StartTime").bind("change", function () {
+            if ($("#StartTime").val() > $("#EndTime").val()) {
+                timechange();
+                $("#StartTime").val($("#EndTime").val());
+            }
+
+        });
+        $("#EndTime").bind("change", function () {
+            if ($("#EndTime").val() < $("#StartTime").val()) {
+                timechange();
+                $("#EndTime").val($("#StartTime").val());
+            }
+
+        });
+
+    }).fail(function (e) { alert(e.responseText) });
+        }
 
 
+      function CreateNewOT() {
+    var data = new FormData();
+          data.append("StartTime", StartTime.value);
+          data.append("EndTime", EndTime.value);
+          data.append("OverTimePay", OverTimePay.value);
+          data.append("OverTimeReason", OverTimeReason.value);
+    }
+    $.ajax({
+        url: "@Url.Action("Create","OverTimeRequests")",
+        type: "POST",
+        contentType: false,         // 告诉jQuery不要去這置Content-Type
+        processData: false,         // 告诉jQuery不要去處理發送的數據
+        dataType: "html",
+        data: data,
+        //data: {"EmployeeID": EmployeeID.value,},
+    }).done(function (result) {
+        $(document).html(result);
+        
+        alert('已送出申請');
+
+    }).fail(function (e) { alert(e.responseText) });
+        }
+
+
+
+
+
+
+    function OverTimeDetails(requestid) {
+    $.ajax({
+    type: "GET",
+        url: "@Url.Action("Details", "OverTimeRequests")",
+        data: { "id": requestid},
+    dataType: "html",
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+
+    }).fail(function (e) { alert(e.responseText) });
+    }
+
+
+    </script>
 }
