@@ -65,9 +65,9 @@ namespace AMS.Controllers
 
 
 
-            return View(query);
+            return PartialView("_SerchAttendances",query);
 
-            //return View();
+            //return Json("'Success':'true'");
         }
 
         // GET: Attendances/Details/5
