@@ -953,7 +953,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\LeaveRequests\Create.cshtml" />
+    <Content Include="Views\LeaveRequests\_Create.cshtml" />
     <Content Include="Views\LeaveRequests\Delete.cshtml" />
     <Content Include="Views\LeaveRequests\Details.cshtml" />
     <Content Include="Views\LeaveRequests\Edit.cshtml" />
