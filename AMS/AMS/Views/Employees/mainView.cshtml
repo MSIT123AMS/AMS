@@ -108,7 +108,7 @@
                     <div class="collapse" id="sidebarLayouts">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href=@Url.Action("Create","LeaveRequests")>
+                                <a href="#" onclick="funLeaveIndex()" )>
                                     <span class="sub-item">請假申請單</span>
                                 </a>
                             </li>
@@ -169,7 +169,7 @@
                             </li>
 
                             <li>
-                                <a href="#" onclick="funSerchAds()")>
+                                <a href="#" onclick="funSerchAds()" )>
                                     <span class="sub-item">刷卡明細查詢</span>
                                 </a>
                             </li>
@@ -210,9 +210,7 @@
     <footer class="footer">
         <div class="container-fluid">
             <nav class="pull-left">
-                <ul class="nav">
-                   
-                </ul>
+                <ul class="nav"></ul>
             </nav>
             <div class="copyright ml-auto">
                 MSIT123。AMS差勤專題
@@ -222,7 +220,32 @@
 </div>
 @section scripts
 {
-<script>
+    <script>
+    ////////////////////////////////////////////////////////
+
+
+    function funLeaveIndex() {
+    $.ajax({
+    type: "GET",
+    url: "@Url.Action("CreateI", "LeaveRequests")",
+    dataType: "html",
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
+
+
+    }).fail(function (e) { alert(e.responseText) });
+    }
+
+
+
+
+
+
+
+
     //////////////////////瑋////////////////////////////////
     function funClockInApplyCreat() {
     $.ajax({
@@ -246,7 +269,7 @@
 
     ///////////////////////////////////////////////
     //////////////////汪///////////////////////////////
-    
+
 
     function funReview() {
     $.ajax({
@@ -421,7 +444,7 @@ function createmp() {
         $("#btnback").bind("click", BackToIndexFunction);
     }).fail(function (e) { alert(e.responseText) });
 }
-        
+
 function savemp() {
     var data = new FormData();
     data.append("EmployeeID", EmployeeID.value);
@@ -620,7 +643,7 @@ function IndexEventFunction() {
     });
     $("#Button1").bind("click", createmp);
     $("input[name*='MSIT']").bind("click", function () {
-     
+
         if (event.target.name.substr(0, 2) == "De") {
             funbtndetails(event.target.name.substr(2));
         }
@@ -633,7 +656,7 @@ function IndexEventFunction() {
 }
 
 
-</script>
+    </script>
 
 
 }

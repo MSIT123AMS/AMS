@@ -71,7 +71,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href=@Url.Action("LeaveIndexView","LeaveRequests")>
+                                <a href="#" onclick="funLeaveIndex()" )>
                                     <span class="sub-item">個人差假明細查詢</span>
                                 </a>
                             </li>
@@ -108,7 +108,7 @@
                     <div class="collapse" id="sidebarLayouts">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href=@Url.Action("Create","LeaveRequests")>
+                                <a href="#" onclick="funLeaveCreate()" )>
                                     <span class="sub-item">請假申請單</span>
                                 </a>
                             </li>
@@ -169,7 +169,7 @@
                             </li>
 
                             <li>
-                                <a href="#" onclick="funSerchAds()")>
+                                <a href="#" onclick="funSerchAds()" )>
                                     <span class="sub-item">刷卡明細查詢</span>
                                 </a>
                             </li>
@@ -210,9 +210,7 @@
     <footer class="footer">
         <div class="container-fluid">
             <nav class="pull-left">
-                <ul class="nav">
-                   
-                </ul>
+                <ul class="nav"></ul>
             </nav>
             <div class="copyright ml-auto">
                 MSIT123。AMS差勤專題
@@ -222,10 +220,229 @@
 </div>
 @section scripts
 {
-<script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+
+
+
+     //////////////////////睿//////////////////////////////////
+
+
+        
+
+    function funLeaveIndex() {
+    $.ajax({
+    type: "GET",
+    url: "@Url.Action("LeaveIndexView", "LeaveRequests")",
+    dataType: "html",
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
+
+        function Export() {
+            let valuearray = new Array()
+            for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
+                valuearray.push(item.value)
+            }
+            var value = "{'value':valuearray}"
+            var param = {
+                "value": valuearray,
+                "id": $("#StartTime").val(),
+                "id2": $("#EndTime").val(),
+
+            };
+            $.ajax({
+                url: '/LeaveRequests/DownLoadExcel', //Controller名稱和方法名
+                type: "POST",
+                dataType: "json",
+                data: param,
+                success: function (data) {
+                    //重定向返回引數
+                    location.href = "/LeaveRequests/OutExcel?guid=" + data;
+                }
+            });
+        }
+          $(document).ready(function () {
+            $('#basic-datatables').DataTable({
+            });
+            $("#basic-datatables_filter").hide();     //隱藏搜尋功能
+            $("#CheckAll").click(cAll);                //全選功能
+            $('#Search').bind("click",
+                function () {
+                    Lrsearch();
+                });
+
+
+            d = new Date();
+            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()-7));
+            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()+1));
+        });
+
+
+            function cAll() {
+                if ($("#CheckAll").prop("checked")) {                  //如果全選按鈕有被選擇的話（被選擇是true）
+                    $("input[name='value']").each(function () {
+                        $(this).prop("checked", true);                 //把所有的核取方框的property都變成勾選
+                    })
+                } else {
+                    $("input[name='value']").each(function () {
+                        $(this).prop("checked", false);                //把所有的核方框的property都取消勾選
+                    })
+                }
+            }
+
+
+
+
+        function Lrsearch() {
+            let a = $("#StartTime").val()
+            let st = a.split('-')
+            let Start = st[0] + st[1] + st[2]
+            let et = $("#EndTime").val().split('-')
+            let End = et[0] + et[1] + et[2]
+
+            let valuearray = new Array()
+            for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
+                valuearray.push(item.value)
+            }
+            var value = "{'value':valuearray}"
+            $.ajax({
+
+                type: "Post",                                      //使用post
+                url: "@Url.Action("Leave11", "LeaveRequests")",
+                data: {                                            //帶入值傳到controller
+                    "value": valuearray,
+                    "id":/*$("#StartTime").val(),*/StartTime.value,
+                    "id2": $("#EndTime").val(),
+
+                },
+                }).done(function (result) {                        //正確做這個
+                    $("#LeaveTable").html(result);
+                    $('#basic-datatables').DataTable({
+                    });
+                    $("#basic-datatables_filter").hide();
+                }).fail(function(e){                               //錯誤做這個
+                alert(e.responseText);
+                });
+        }
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+
+        $("#StartTime").bind("change", function () {
+            if ($("#StartTime").val() > $("#EndTime").val()) {
+                timechange();
+                $("#StartTime").val($("#EndTime").val());
+            }
+        });
+
+
+
+        function timechange() {
+            swal("起始時間不可大於最後時間!", "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
+        }
+
+        $("#EndTime").bind("change", function () {
+            if ($("#EndTime").val() < $("#StartTime").val()) {
+                timechange();
+                $("#EndTime").val($("#StartTime").val());
+            }
+
+        });
+
+
+    }).fail(function (e) { alert(e.responseText) });
+    }
+
+
+
+
+
+
+    function funLeaveCreate() {
+    $.ajax({
+    type: "GET",
+    url: "@Url.Action("Create", "LeaveRequests")",
+    dataType: "html",
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
+        /////create_start
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        $("#LeaveFile").change(function () {
+            readURL(this);
+        });
+
+        //$(document).ready(function () {
+        //    $("#RequestTime").val(new Date().toJSON().slice(0, 19));;
+        //});
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        $(document).ready(function () {
+            d = new Date();
+            $("#RequestTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + d.getHours() + ":" + d.getMinutes());
+        });
+
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        $(document).ready(function () {
+            d = new Date();
+            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
+        });
+
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        $(document).ready(function () {
+            d = new Date();
+            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
+        });
+        /////create_End
+
+
+
+    }).fail(function (e) { alert(e.responseText) });
+    }
+
+   
 
     //////////////////汪///////////////////////////////
-    
+
 
     function funReview() {
     $.ajax({
@@ -400,7 +617,7 @@ function createmp() {
         $("#btnback").bind("click", BackToIndexFunction);
     }).fail(function (e) { alert(e.responseText) });
 }
-        
+
 function savemp() {
     var data = new FormData();
     data.append("EmployeeID", EmployeeID.value);
@@ -599,7 +816,7 @@ function IndexEventFunction() {
     });
     $("#Button1").bind("click", createmp);
     $("input[name*='MSIT']").bind("click", function () {
-     
+
         if (event.target.name.substr(0, 2) == "De") {
             funbtndetails(event.target.name.substr(2));
         }
@@ -612,7 +829,7 @@ function IndexEventFunction() {
 }
 
 
-</script>
+    </script>
 
 
 }

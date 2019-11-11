@@ -52,7 +52,7 @@ namespace AMS.Controllers
                                         Attachment = lt.Attachment
                                     });
             
-            return View(LeaveTimeRequest);
+            return PartialView("LeaveIndexView", LeaveTimeRequest);
 
         }
 
@@ -174,6 +174,7 @@ namespace AMS.Controllers
             public string comtext { get; set; }
             public string text { get; set; }
         }
+
         public ActionResult Create()
         {
             ViewBag.LeaveType = new SelectList(new List<LeaveCombobox> {
@@ -191,7 +192,7 @@ namespace AMS.Controllers
 
            ViewBag.on = remleave();  //剩餘特休天數
            ViewBag.Off= Days();      //特休天數共幾天
-            return View();
+            return PartialView("_Create");
         }
 
         // POST: LeaveRequests/Create
