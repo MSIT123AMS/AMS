@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WebApplication5.Controllers;
 
 namespace AMS
 {
@@ -20,6 +21,7 @@ namespace AMS
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ExecuteTaskServiceCallScheduler.StartAsync().GetAwaiter().GetResult();
+            //LineBotExecuteTaskServiceCallScheduler.StartAsync().GetAwaiter().GetResult();
         }
     }
 

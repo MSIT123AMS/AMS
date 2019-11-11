@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AMS.Models;
+using isRock.LineBot;
 using Quartz;
 using Quartz.Impl;
+using WebApplication5.Controllers;
 
 namespace AMS.Controllers
 {
@@ -174,7 +176,7 @@ namespace AMS.Controllers
             base.Dispose(disposing);
         }
     }
-        
+
     public class ExecuteTaskServiceCallScheduler
     {
         private static readonly string ScheduleCronExpression = ConfigurationManager.AppSettings["ExecuteTaskScheduleCronExpression"];
@@ -210,6 +212,9 @@ namespace AMS.Controllers
     public class ExecuteTaskServiceCallJob : IJob
     {
         internal Entities db = new Entities();
+        public const string channelAccessToken = @"wJvLiDuDsJpYsgTqSPXQwu35UoXbtmVPXn8Q1/oWN8REU5mbLG0qBffnpgSlNWH3yncYUa3OAgyWoe8gPb8F1nFveUGakkBJ2UHqUKSXElkHhypyGWz7Ndhojww+2P0+ikiFbIIkz6nhMQwetqG1gwdB04t89/1O/w1cDnyilFU=
+";
+
         public static readonly string SchedulingStatus = ConfigurationManager.AppSettings["ExecuteTaskServiceCallSchedulingStatus"];
         public Task Execute(IJobExecutionContext context)
         {
@@ -217,11 +222,22 @@ namespace AMS.Controllers
             {
                 if (SchedulingStatus.Equals("ON"))
                 {
+                    LineBotWebHookController LineBot = new LineBotWebHookController();
+                    string EmployeeID = "MSIT1230005";
+                    DateTime d = new DateTime();                 
+                                    
+                    //設定ChannelAccessToken(或抓取Web.Config)
+                    LineBot.ChannelAccessToken = channelAccessToken;
+                    //var query = db.Attendances.Where(p => p.Date == d.Date && p.EmployeeID == EmployeeID).First();
                     try
                     {
+                        
+                        var bot = new Bot(channelAccessToken);
+                        //var LineEvent = LineBot.ReceivedMessage.events.FirstOrDefault();
+                        bot.PushMessage("U169cd14d449bd344525284f52fec1d6b", "測試");
+                        //if(query.station!=null)
                         using (var message = new MailMessage("wingrovepank@gmail.com", "hauwei.pong@gmail.com"))
                         {
-
                             message.Subject = "Message Subject test";
                             message.Body = "Message body test at " + DateTime.Now;
                             using (SmtpClient client = new SmtpClient
@@ -247,7 +263,7 @@ namespace AMS.Controllers
 
             return task;
         }
-      
+
     }
 
 

@@ -1,10 +1,15 @@
 using AMS.Models;
 using isRock.LineBot;
+using Quartz;
+using Quartz.Impl;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 
@@ -12,9 +17,9 @@ namespace WebApplication5.Controllers
 {
     public class LineBotWebHookController : isRock.LineBot.LineWebHookControllerBase
     {
-        const string channelAccessToken = @"wJvLiDuDsJpYsgTqSPXQwu35UoXbtmVPXn8Q1/oWN8REU5mbLG0qBffnpgSlNWH3yncYUa3OAgyWoe8gPb8F1nFveUGakkBJ2UHqUKSXElkHhypyGWz7Ndhojww+2P0+ikiFbIIkz6nhMQwetqG1gwdB04t89/1O/w1cDnyilFU=
+       public const string channelAccessToken = @"wJvLiDuDsJpYsgTqSPXQwu35UoXbtmVPXn8Q1/oWN8REU5mbLG0qBffnpgSlNWH3yncYUa3OAgyWoe8gPb8F1nFveUGakkBJ2UHqUKSXElkHhypyGWz7Ndhojww+2P0+ikiFbIIkz6nhMQwetqG1gwdB04t89/1O/w1cDnyilFU=
 ";
-         string AdminUserId ;
+        public string AdminUserId ;
          
         [Route("api/LineWebHookSample")]
         [HttpPost]
@@ -49,7 +54,7 @@ namespace WebApplication5.Controllers
                         {
                             var bot = new Bot(channelAccessToken);
                             List<TemplateActionBase> actions = new List<TemplateActionBase>();
-                            this.ReplyMessage(LineEvent.replyToken, "你好,謝惠婷");
+                           
                             actions.Add(new MessageAction() { label = "上班", text = "上班" });
                             actions.Add(new MessageAction() { label = "下班", text = "下班" });
 
@@ -72,7 +77,7 @@ namespace WebApplication5.Controllers
                                 {
                                     a.EmployeeID = EmpID;
                                     a.Date = todate;
-                                    a.OnDuty = DateTime.Now;
+                                    a.OnDuty = DateTime.Now;                                   
                                     d.Attendances.Add(a);
                                     try
                                     {
@@ -107,7 +112,13 @@ namespace WebApplication5.Controllers
 
                                 catch
                                 {
+                                    a.EmployeeID = EmpID;
+                                    a.Date = todate;
+                                    a.OffDuty = DateTime.Now;
+                                    a.station = "上班未打卡";
                                     this.ReplyMessage(LineEvent.replyToken, "小幫手提醒您,今天上班未打卡,請申請補打卡!");
+                                    d.Attendances.Add(a);
+                                    d.SaveChanges();
                                 }
 
                                 break;
@@ -142,4 +153,76 @@ namespace WebApplication5.Controllers
 
         }
     }
+//    public class LineBotExecuteTaskServiceCallScheduler
+//    {
+//        private static readonly string ScheduleCronExpression = ConfigurationManager.AppSettings["LineBotExecuteTaskScheduleCronExpression"];
+
+//        public static async System.Threading.Tasks.Task StartAsync()
+//        {
+//            try
+//            {
+//                var scheduler = await StdSchedulerFactory.GetDefaultScheduler();
+
+//                if (!scheduler.IsStarted)
+//                {
+//                    await scheduler.Start();
+//                }
+
+//                var job = JobBuilder.Create<ExecuteTaskServiceCallJob>()
+//                    .WithIdentity("ExecuteTaskServiceCallJob1", "group1")
+//                    .Build();
+
+//                var trigger = TriggerBuilder.Create()
+//                    .WithIdentity("ExecuteTaskServiceCallTrigger1", "group1")
+//                    .WithCronSchedule(ScheduleCronExpression)
+//                    .Build();
+
+//                await scheduler.ScheduleJob(job, trigger);
+//            }
+//            catch (Exception ex)
+//            {
+
+//            }
+//        }
+//    }
+//    public class ExecuteTaskServiceCallJob : IJob
+//    {
+//        internal Entities db = new Entities();
+//        public const string channelAccessToken = @"wJvLiDuDsJpYsgTqSPXQwu35UoXbtmVPXn8Q1/oWN8REU5mbLG0qBffnpgSlNWH3yncYUa3OAgyWoe8gPb8F1nFveUGakkBJ2UHqUKSXElkHhypyGWz7Ndhojww+2P0+ikiFbIIkz6nhMQwetqG1gwdB04t89/1O/w1cDnyilFU=
+//";
+
+//        public static readonly string SchedulingStatus = ConfigurationManager.AppSettings["LineBotExecuteTaskServiceCallSchedulingStatus"];
+//        public Task Execute(IJobExecutionContext context)
+//        {
+//            var task = Task.Run(() =>
+//            {
+//                if (SchedulingStatus.Equals("ON"))
+//                {
+//                    string EmployeeID = "MSIT1230005";
+//                    DateTime d = new DateTime();
+//                    //var query = db.Attendances.Where(p => p.Date == d.Date && p.EmployeeID == EmployeeID).First();
+//                    try
+//                    {
+                        
+                        
+//                        LineBotWebHookController LineBot = new LineBotWebHookController();
+//                        var bot = new Bot(channelAccessToken);
+//                        var LineEvent = LineBot.ReceivedMessage.events.FirstOrDefault();
+//                        bot.PushMessage("U169cd14d449bd344525284f52fec1d6b", "測試");
+
+//                    }
+//                    catch (Exception ex)
+//                    {
+
+//                    }
+
+//                }
+
+//            });
+
+//            return task;
+//        }
+
+//    }
+
 }
