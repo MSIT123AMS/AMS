@@ -47,6 +47,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="LineBot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LineBotSDK.2.0.1\lib\net45\LineBot.dll</HintPath>
     </Reference>
@@ -57,6 +60,18 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NPOI, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
     <Reference Include="OverTimeClassLibrary">
       <HintPath>..\..\..\..\..\..\Desktop\AMS20190921\AMS\bin\Debug\OverTimeClassLibrary.dll</HintPath>
     </Reference>
@@ -66,12 +81,19 @@
     <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
       <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="Quartz, Version=3.0.7.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Quartz.3.0.7\lib\net452\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="Select.HtmlToPdf, Version=19.2.0.0, Culture=neutral, PublicKeyToken=e0ae9f6e27a97018, processorArchitecture=MSIL">
+      <HintPath>..\packages\Select.HtmlToPdf.19.2.0\lib\net40\Select.HtmlToPdf.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
@@ -213,6 +235,11 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OverTimeRequestsController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Metadata\ClockInApply.cs" />
+    <Compile Include="Metadata\ClockInApplyMatadata.cs" />
+    <Compile Include="Models\AttendancesViewModel.cs" />
+    <Compile Include="Models\ClockInApplyViewModel.cs" />
+    <Compile Include="Metadata\DownLoadHelper.cs" />
     <Compile Include="Models\LeaveIndexViewModel.cs" />
     <Compile Include="Models\SerchAttendancesViewModel.cs" />
     <Compile Include="Models\SerchLeaveViewModel.cs" />
@@ -687,17 +714,15 @@
     <Content Include="assets\js\setting-demo2.js" />
     <Content Include="bin\OverTimeClassLibrary.dll" />
     <Content Include="bin\System.Linq.Dynamic.dll" />
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\basictable.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\phone.css" />
     <Content Include="Content\style.css" />
-    <Content Include="Content\style1.css" />
     <Content Include="default.aspx" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Img\kouji_rammer.png" />
@@ -835,7 +860,6 @@
     <Content Include="assets\fonts\summernote\summernote.woff" />
     <Content Include="assets\img\img-shadow.gvdesign" />
     <Content Include="obj\Debug\AMS.csproj.CoreCompileInputs.cache" />
-    <Content Include="obj\Debug\AMS.csprojAssemblyReference.cache" />
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="obj\Debug\edmxResourcesToEmbed\Models\AMSModel.csdl" />
     <Content Include="obj\Debug\edmxResourcesToEmbed\Models\AMSModel.msl" />
@@ -850,6 +874,11 @@
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper.min.js.map" />
+    <None Include="Properties\PublishProfiles\AMS20191108010909 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy2.pubxml" />
+    <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy3.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -860,7 +889,8 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\jquery.basictable.js" />
+    <Content Include="Scripts\jquery.basictable.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -924,7 +954,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\LeaveRequests\Create.cshtml" />
+    <Content Include="Views\LeaveRequests\_Create.cshtml" />
     <Content Include="Views\LeaveRequests\Delete.cshtml" />
     <Content Include="Views\LeaveRequests\Details.cshtml" />
     <Content Include="Views\LeaveRequests\Edit.cshtml" />
@@ -940,12 +970,8 @@
     <Content Include="Views\Attendances\Details.cshtml" />
     <Content Include="Views\Attendances\Edit.cshtml" />
     <Content Include="Views\Attendances\Index.cshtml" />
-    <Content Include="Views\ClockInApplies\Index.cshtml" />
     <Content Include="Views\Employees\_GetDdlandListempPartial.cshtml" />
     <Content Include="Views\Employees\_ListempPartial.cshtml" />
-    <Content Include="Views\OverTimeRequests\Create.cshtml" />
-    <Content Include="Views\OverTimeRequests\Details.cshtml" />
-    <Content Include="Views\OverTimeRequests\Index.cshtml" />
     <Content Include="Views\Review\Create.cshtml" />
     <Content Include="Views\Review\Delete.cshtml" />
     <Content Include="Views\Review\Details.cshtml" />
@@ -962,35 +988,37 @@
     <Content Include="Views\LeaveRequests\_ShowPhotoPartialDetails.cshtml" />
     <Content Include="Views\LeaveRequests\LeaveIndexView.cshtml" />
     <Content Include="Views\Review\Ajax.cshtml" />
-    <Content Include="Views\Review\Index2.cshtml" />
     <Content Include="Views\Review\Indexxx.cshtml" />
     <Content Include="Views\Review\_LeavePartial.cshtml" />
     <Content Include="Views\LeaveRequests\_LeaveIndexPartialView.cshtml" />
-    <Content Include="Views\Employees\_empPartialView.cshtml" />
     <Content Include="Views\Employees\_ShowPhotoPartialDetailsemp.cshtml" />
     <Content Include="Views\Review\_OverTimePartial.cshtml" />
     <Content Include="Views\ClockInApply\_CKACreate.cshtml" />
     <Content Include="Views\ClockInApply\Delete.cshtml" />
     <Content Include="Views\ClockInApply\Details.cshtml" />
     <Content Include="Views\ClockInApply\Edit.cshtml" />
-    <Content Include="Views\ClockInApply\Index.cshtml" />
     <Content Include="Views\Employees\_emplistPartial.cshtml" />
     <Content Include="Views\Employees\View1.cshtml" />
+    <Content Include="Views\Employees\mainView.cshtml" />
+    <Content Include="Views\Attendances\_SerchAttendancesPartial.cshtml" />
+    <Content Include="Views\ClockInApply\_ClockinPartialView.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\OverTimeRequests\_Index.cshtml" />
+    <Content Include="Views\OverTimeRequests\_Details.cshtml" />
+    <Content Include="Views\OverTimeRequests\_Create.cshtml" />
+    <Content Include="Views\ClockInApply\_ClockInApplyView.cshtml" />
+    <Content Include="Views\ClockInApply\_ClockinApply.cshtml" />
+    <Content Include="Views\Attendances\_SerchAttendances.cshtml" />
+    <Content Include="Views\Employees\LineIdBindView.cshtml" />
+    <Content Include="Views\Shared\_LineLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
@@ -998,7 +1026,9 @@
   <ItemGroup>
     <Folder Include="bin\roslyn\" />
     <Folder Include="bin\zh-Hant\" />
+    <Folder Include="fonts\" />
     <Folder Include="Views\AttendancesSearch\" />
+    <Folder Include="Views\ClockInApplies\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

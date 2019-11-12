@@ -1,0 +1,75 @@
+﻿@model IEnumerable<AMS.Models.ClockInApplyViewModel>
+
+@{
+    ViewBag.Title = "ClockInApplyView";
+}
+@if (TempData["message"] != null)
+{
+    <script type="text/javascript">
+            var message = @Html.Raw(Json.Encode(TempData["message"]));
+            swal( message , "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
+
+    </script>
+}
+<h2>打卡申覆統計表</h2>
+
+@*<p>
+        @Html.ActionLink("Create New", "Create")
+    </p>*@
+<table id="basic-datatables" class="display table table-striped table-hover">
+    <thead class="bg-primary text-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OnDuty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OffDuty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewStatus1)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OnDuty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OffDuty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewStatus1)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.EmployeeID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeID })
+                    </td>*@
+            </tr>
+
+        }
+    </tbody>
+</table>

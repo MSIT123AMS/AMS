@@ -17,13 +17,16 @@ namespace AMS.Controllers
         private Entities db = new Entities();
         private OverTimeClassLibrary.OverTime OvertimeObj = new OverTimeClassLibrary.OverTime();
 
-
+        
 
         public ActionResult mainView()
         {
             return View();
         }
-
+        public ActionResult LineIdBindView()
+        {
+            return View();
+        }
         public ActionResult SerchOverTime()
         {
             var query = (from ot in db.OverTimeRequest.AsEnumerable()

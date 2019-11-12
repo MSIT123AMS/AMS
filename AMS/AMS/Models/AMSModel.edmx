@@ -80,9 +80,9 @@
           </Key>
           <Property Name="LeaveRequestID" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="EmployeeID" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="RequestTime" Type="datetime" />
-          <Property Name="StartTime" Type="datetime" />
-          <Property Name="EndTime" Type="datetime" />
+          <Property Name="RequestTime" Type="datetime" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" Nullable="false" />
           <Property Name="LeaveType" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LeaveReason" Type="nvarchar(max)" />
           <Property Name="ReviewStatusID" Type="int" Nullable="false" />
@@ -270,9 +270,9 @@
           </Key>
           <Property Name="LeaveRequestID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RequestTime" Type="DateTime" Precision="3" />
-          <Property Name="StartTime" Type="DateTime" Precision="3" />
-          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="RequestTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="LeaveType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="LeaveReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ReviewStatusID" Type="Int32" Nullable="false" />

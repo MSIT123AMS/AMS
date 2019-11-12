@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<AMS.Models.LeaveIndexViewModel>
 
+@using (Html.BeginForm("Leave11", "LeaveRequests"))
+{
+
     <table class="display table table-striped table-hover" id="basic-datatables">
         <thead class="bg-primary text-light">
             <tr>
@@ -35,6 +38,7 @@
                     @Html.DisplayNameFor(model => model.Attachment)
                 </th>
                 <th>Action</th>
+               
             </tr>
         </thead>
         <tbody>
@@ -71,7 +75,6 @@
                 <td>
                     @Html.Partial("_ShowPhotoPartial", item)
                 </td>
-
                 <td>
                     @Html.ActionLink("明細", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })
                 </td>
@@ -79,3 +82,4 @@
             }
         </tbody>
     </table>
+}

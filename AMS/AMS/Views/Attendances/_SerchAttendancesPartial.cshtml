@@ -1,0 +1,48 @@
+﻿@model IEnumerable<AMS.Models.AttendancesViewModel>
+
+<table id="basic-datatables" class="display table table-striped table-hover">
+    <thead class="bg-primary text-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OnDuty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OffDuty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.station)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OnDuty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OffDuty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.station)
+            </td>
+
+
+        </tr>
+        }
+    </tbody>
+</table>

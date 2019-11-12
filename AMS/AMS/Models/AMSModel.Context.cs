@@ -28,8 +28,6 @@ namespace AMS.Models
         public virtual DbSet<Annouuncements> Annouuncements { get; set; }
         public virtual DbSet<ClockInApply> ClockInApply { get; set; }
         public virtual DbSet<Departments> Departments { get; set; }
-        public virtual DbSet<Employees> Employees { get; set; }
-        public virtual DbSet<LeaveRequests> LeaveRequests { get; set; }
         public virtual DbSet<OverTimeRequest> OverTimeRequest { get; set; }
         public virtual DbSet<ReviewStatus> ReviewStatus { get; set; }
         public virtual DbSet<Users> Users { get; set; }
@@ -44,6 +42,10 @@ namespace AMS.Models
 
         public System.Data.Entity.DbSet<AMS.Models.LeaveIndexViewModel> LeaveIndexViewModels { get; set; }
 
+        public System.Data.Entity.DbSet<AMS.Models.ClockInApplyViewModel> ClockInApplyViewModels { get; set; }
 
+        public System.Data.Entity.DbSet<AMS.Models.AttendancesViewModel> AttendancesViewModels { get; set; }
+        public virtual DbSet<Employees> Employees { get; set; }
+        public virtual DbSet<LeaveRequests> LeaveRequests { get; set; }
     }
 }
