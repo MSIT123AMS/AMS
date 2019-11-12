@@ -860,7 +860,6 @@
     <Content Include="assets\fonts\summernote\summernote.woff" />
     <Content Include="assets\img\img-shadow.gvdesign" />
     <Content Include="obj\Debug\AMS.csproj.CoreCompileInputs.cache" />
-    <Content Include="obj\Debug\AMS.csprojAssemblyReference.cache" />
     <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
     <Content Include="obj\Debug\edmxResourcesToEmbed\Models\AMSModel.csdl" />
     <Content Include="obj\Debug\edmxResourcesToEmbed\Models\AMSModel.msl" />
@@ -878,6 +877,8 @@
     <None Include="Properties\PublishProfiles\AMS20191108010909 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy2.pubxml" />
+    <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy3.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
@@ -971,9 +972,6 @@
     <Content Include="Views\Attendances\Index.cshtml" />
     <Content Include="Views\Employees\_GetDdlandListempPartial.cshtml" />
     <Content Include="Views\Employees\_ListempPartial.cshtml" />
-    <Content Include="Views\OverTimeRequests\Create.cshtml" />
-    <Content Include="Views\OverTimeRequests\Details.cshtml" />
-    <Content Include="Views\OverTimeRequests\Index.cshtml" />
     <Content Include="Views\Review\Create.cshtml" />
     <Content Include="Views\Review\Delete.cshtml" />
     <Content Include="Views\Review\Details.cshtml" />
@@ -990,7 +988,6 @@
     <Content Include="Views\LeaveRequests\_ShowPhotoPartialDetails.cshtml" />
     <Content Include="Views\LeaveRequests\LeaveIndexView.cshtml" />
     <Content Include="Views\Review\Ajax.cshtml" />
-    <Content Include="Views\Review\Index2.cshtml" />
     <Content Include="Views\Review\Indexxx.cshtml" />
     <Content Include="Views\Review\_LeavePartial.cshtml" />
     <Content Include="Views\LeaveRequests\_LeaveIndexPartialView.cshtml" />
@@ -1000,16 +997,18 @@
     <Content Include="Views\ClockInApply\Delete.cshtml" />
     <Content Include="Views\ClockInApply\Details.cshtml" />
     <Content Include="Views\ClockInApply\Edit.cshtml" />
-    <Content Include="Views\ClockInApply\Index.cshtml" />
     <Content Include="Views\Employees\_emplistPartial.cshtml" />
     <Content Include="Views\Employees\View1.cshtml" />
     <Content Include="Views\Employees\mainView.cshtml" />
     <Content Include="Views\Attendances\_SerchAttendancesPartial.cshtml" />
-    <Content Include="Views\Attendances\SerchAttendances.cshtml" />
     <Content Include="Views\ClockInApply\_ClockinPartialView.cshtml" />
-    <Content Include="Views\ClockInApply\ClockinApply.cshtml" />
-    <Content Include="Views\ClockInApply\ClockInApplyView.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\OverTimeRequests\_Index.cshtml" />
+    <Content Include="Views\OverTimeRequests\_Details.cshtml" />
+    <Content Include="Views\OverTimeRequests\_Create.cshtml" />
+    <Content Include="Views\ClockInApply\_ClockInApplyView.cshtml" />
+    <Content Include="Views\ClockInApply\_ClockinApply.cshtml" />
+    <Content Include="Views\Attendances\_SerchAttendances.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
