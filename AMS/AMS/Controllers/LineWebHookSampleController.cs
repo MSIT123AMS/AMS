@@ -39,6 +39,7 @@ namespace WebApplication5.Controllers
             try
             {
                 var EmpID = d.Employees.Where(p => p.LineID == AdminUserId).First().EmployeeID;
+               
                 if (LineEvent.type == "message")
                 {
 
@@ -47,10 +48,18 @@ namespace WebApplication5.Controllers
                     string st1 = "16:00";//設定最晚打卡的上班時間   
                     DateTime dt1 = Convert.ToDateTime(st1);
                     DateTime todate = DateTime.Now.Date;//今天的日期
+                    try {
 
+                        var leva = d.LeaveRequests.Where(l => l.EmployeeID == EmpID && l.StartTime <= todate && l.EndTime >= todate);//撈請假的資料,事後再補審核過的請假
+                        this.ReplyMessage(LineEvent.replyToken, "已經有" + $"{leva.First().StartTime}-{leva.First().EndTime}請假申請了");
+                    }
+                    catch
+                    {
+
+  
                     if (LineEvent.message.type == "text")
                     {
-                        if (LineEvent.message.text == "打卡")
+                        if (LineEvent.message.text == "打卡")//如果有請假的資料無法打卡
                         {
                             var bot = new Bot(channelAccessToken);
                             List<TemplateActionBase> actions = new List<TemplateActionBase>();
@@ -66,14 +75,13 @@ namespace WebApplication5.Controllers
                             };
                             bot.PushMessage(AdminUserId, ButtonTempalteMsg);
 
-                        }
-
-
+                        }                     
+                        
                         switch (LineEvent.message.text)
                         {
 
                             case "上班":
-                                if (DateTime.Now < dt1)
+                                if (DateTime.Now < dt1 )
                                 {
                                     a.EmployeeID = EmpID;
                                     a.Date = todate;
@@ -112,13 +120,9 @@ namespace WebApplication5.Controllers
 
                                 catch
                                 {
-                                    a.EmployeeID = EmpID;
-                                    a.Date = todate;
-                                    a.OffDuty = DateTime.Now;
-                                    a.station = "上班未打卡";
-                                    this.ReplyMessage(LineEvent.replyToken, "小幫手提醒您,今天上班未打卡,請申請補打卡!");
-                                    d.Attendances.Add(a);
-                                    d.SaveChanges();
+                                 
+                                    this.ReplyMessage(LineEvent.replyToken, "小幫手提醒您,今天上班未打卡,請申請補打卡!");                                  
+                                  
                                 }
 
                                 break;
@@ -130,6 +134,9 @@ namespace WebApplication5.Controllers
 
 
                     }
+
+                    }
+                  
 
 
                 }

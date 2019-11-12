@@ -216,6 +216,7 @@
     <Compile Include="Controllers\LineWebHookSampleController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OverTimeRequestsController.cs" />
+    <Compile Include="Controllers\QuartzSetting.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="Metadata\ClockInApply.cs" />
     <Compile Include="Metadata\ClockInApplyMatadata.cs" />
