@@ -1009,6 +1009,8 @@
     <Content Include="Views\ClockInApply\_ClockInApplyView.cshtml" />
     <Content Include="Views\ClockInApply\_ClockinApply.cshtml" />
     <Content Include="Views\Attendances\_SerchAttendances.cshtml" />
+    <Content Include="Views\Employees\LineIdBindView.cshtml" />
+    <Content Include="Views\Shared\_LineLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
