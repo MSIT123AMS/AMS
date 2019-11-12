@@ -14,13 +14,13 @@ namespace AMS.Models
         public string LeaveType { get; set; }
         [DataType(DataType.DateTime), Display(Name = "申請時間")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
-        public DateTime? RequestTime { get; set; }
+        public DateTime RequestTime { get; set; }
         [DataType(DataType.DateTime), Display(Name = "開始時間")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
-        public DateTime? StartTime { get; set; }
+        public DateTime StartTime { get; set; }
         [DataType(DataType.DateTime), Display(Name = "結束時間")]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
-        public DateTime? EndTime { get; set; }
+        public DateTime EndTime { get; set; }
         [Display(Name = "事由")]
         public string LeaveReason { get; set; }
         [Display(Name = "申請狀態")]
