@@ -39,7 +39,9 @@ namespace WebApplication5.Controllers
                
                 try
                 {
-                    var EmpID = d.Employees.Where(p => p.LineID == AdminUserId).First().EmployeeID;//正
+                    var q = d.Employees.Where(p => p.LineID == AdminUserId).First();
+                    var EmpID = q.EmployeeID;//正
+                  
                     if (LineEvent.type == "message")
                     {
 
@@ -55,7 +57,7 @@ namespace WebApplication5.Controllers
                             {
                                 var bot = new Bot(channelAccessToken);
                                 List<TemplateActionBase> actions = new List<TemplateActionBase>();
-                                this.ReplyMessage(LineEvent.replyToken, "你好,謝惠婷");
+                                this.ReplyMessage(LineEvent.replyToken, $"你好,{q.EmployeeName}");
                                 actions.Add(new MessageAction() { label = "上班", text = "上班" });
                                 actions.Add(new MessageAction() { label = "下班", text = "下班" });
 
