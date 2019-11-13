@@ -1,10 +1,15 @@
 using AMS.Models;
 using isRock.LineBot;
+using Quartz;
+using Quartz.Impl;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 
@@ -12,9 +17,9 @@ namespace WebApplication5.Controllers
 {
     public class LineBotWebHookController : isRock.LineBot.LineWebHookControllerBase
     {
-        const string channelAccessToken = @"wJvLiDuDsJpYsgTqSPXQwu35UoXbtmVPXn8Q1/oWN8REU5mbLG0qBffnpgSlNWH3yncYUa3OAgyWoe8gPb8F1nFveUGakkBJ2UHqUKSXElkHhypyGWz7Ndhojww+2P0+ikiFbIIkz6nhMQwetqG1gwdB04t89/1O/w1cDnyilFU=
+       public const string channelAccessToken = @"wJvLiDuDsJpYsgTqSPXQwu35UoXbtmVPXn8Q1/oWN8REU5mbLG0qBffnpgSlNWH3yncYUa3OAgyWoe8gPb8F1nFveUGakkBJ2UHqUKSXElkHhypyGWz7Ndhojww+2P0+ikiFbIIkz6nhMQwetqG1gwdB04t89/1O/w1cDnyilFU=
 ";
-         string AdminUserId ;
+        public string AdminUserId ;
          
         [Route("api/LineWebHookSample")]
         [HttpPost]
@@ -69,11 +74,10 @@ namespace WebApplication5.Controllers
                                 };
                                 bot.PushMessage(AdminUserId, ButtonTempalteMsg);
 
-                            }
-
-
-                            switch (LineEvent.message.text)
-                            {
+                        }                     
+                        
+                        switch (LineEvent.message.text)
+                        {
 
                                 case "上班":
                                     if (DateTime.Now < dt1)
