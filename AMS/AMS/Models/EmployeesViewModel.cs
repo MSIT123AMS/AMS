@@ -4,7 +4,19 @@ using System.Web;
 
 namespace AMS.Controllers
 {
-    public class EmployeesViewModel
+    public class LineIdBindViewModel
+    {
+        [Key]
+        [Display(Name = "員工編號")]
+        public string EmployeeID { get; set; }
+        [Display(Name = "密碼")]
+        public string Password { get; set; }
+        public string LineID { get; set; }
+    }
+
+
+
+        public class EmployeesViewModel
     {
         [Display(Name = "員工姓名")]
         public string EmployeeName { get; set; }
@@ -21,6 +33,9 @@ namespace AMS.Controllers
         [Key]
         public string EmployeeID { get; set; }
     }
+
+
+
 
     public class EmployeesCreateViewModel
     {

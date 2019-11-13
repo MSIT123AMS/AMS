@@ -59,6 +59,13 @@ namespace AMS.Controllers
         }
 
         // GET: ClockInApply/Create
+       
+            public ActionResult LineClockinApply()
+        {
+
+
+            return View();
+        }
         public ActionResult ClockInApply()
         {
 

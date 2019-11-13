@@ -31,102 +31,128 @@ namespace WebApplication5.Controllers
             //配合Line verify 
             if (LineEvent.replyToken == "00000000000000000000000000000000") return Ok();
             //回覆訊息
-            try
+          
+     
+            
+            if (d.Employees.Where(p => p.LineID == AdminUserId).FirstOrDefault()!=null)//正
             {
-                var EmpID = d.Employees.Where(p => p.LineID == AdminUserId).First().EmployeeID;
-                if (LineEvent.type == "message")
+               
+                try
                 {
-
-                    //取得用戶資訊
-                    //string EmpId = "MSIT1230015";//測試用用戶
-                    string st1 = "16:00";//設定最晚打卡的上班時間   
-                    DateTime dt1 = Convert.ToDateTime(st1);
-                    DateTime todate = DateTime.Now.Date;//今天的日期
-
-                    if (LineEvent.message.type == "text")
+                    var EmpID = d.Employees.Where(p => p.LineID == AdminUserId).First().EmployeeID;//正
+                    if (LineEvent.type == "message")
                     {
-                        if (LineEvent.message.text == "打卡")
-                        {
-                            var bot = new Bot(channelAccessToken);
-                            List<TemplateActionBase> actions = new List<TemplateActionBase>();
-                            this.ReplyMessage(LineEvent.replyToken, "你好,謝惠婷");
-                            actions.Add(new MessageAction() { label = "上班", text = "上班" });
-                            actions.Add(new MessageAction() { label = "下班", text = "下班" });
 
-                            var ButtonTempalteMsg = new isRock.LineBot.ConfirmTemplate()
+                        //取得用戶資訊
+                        //string EmpId = "MSIT1230015";//測試用用戶
+                        string st1 = "16:00";//設定最晚打卡的上班時間   
+                        DateTime dt1 = Convert.ToDateTime(st1);
+                        DateTime todate = DateTime.Now.Date;//今天的日期
+
+                        if (LineEvent.message.type == "text")
+                        {
+                            if (LineEvent.message.text == "打卡")
                             {
-                                text = "打卡",
-                                altText = "請在手機上檢視",
-                                actions = actions
-                            };
-                            bot.PushMessage(AdminUserId, ButtonTempalteMsg);
+                                var bot = new Bot(channelAccessToken);
+                                List<TemplateActionBase> actions = new List<TemplateActionBase>();
+                                this.ReplyMessage(LineEvent.replyToken, "你好,謝惠婷");
+                                actions.Add(new MessageAction() { label = "上班", text = "上班" });
+                                actions.Add(new MessageAction() { label = "下班", text = "下班" });
 
-                        }
-
-
-                        switch (LineEvent.message.text)
-                        {
-
-                            case "上班":
-                                if (DateTime.Now < dt1)
+                                var ButtonTempalteMsg = new isRock.LineBot.ConfirmTemplate()
                                 {
-                                    a.EmployeeID = EmpID;
-                                    a.Date = todate;
-                                    a.OnDuty = DateTime.Now;
-                                    d.Attendances.Add(a);
+                                    text = "打卡",
+                                    altText = "請在手機上檢視",
+                                    actions = actions
+                                };
+                                bot.PushMessage(AdminUserId, ButtonTempalteMsg);
+
+                            }
+
+
+                            switch (LineEvent.message.text)
+                            {
+
+                                case "上班":
+                                    if (DateTime.Now < dt1)
+                                    {
+                                        a.EmployeeID = EmpID;
+                                        a.Date = todate;
+                                        a.OnDuty = DateTime.Now;
+                                        d.Attendances.Add(a);
+                                        try
+                                        {
+                                            d.SaveChanges();
+                                            this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.ToString()}");
+                                        }
+                                        catch
+                                        {
+                                            var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).First();
+                                            this.ReplyMessage(LineEvent.replyToken, "已經在" + $"{query.OnDuty}打過卡了");
+                                        }
+
+
+                                        return Ok();
+                                    }
+                                    else
+                                    {
+                                        this.ReplyMessage(LineEvent.replyToken, "已超過可打卡的時間");
+                                    }
+                                    break;
+                                case "下班":
                                     try
                                     {
-                                        d.SaveChanges();
+                                        var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).First();
+                                        query.OffDuty = DateTime.Now;
+
                                         this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.ToString()}");
+
+                                        d.SaveChanges();
+
                                     }
+
                                     catch
                                     {
-                                        var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).First();
-                                        this.ReplyMessage(LineEvent.replyToken, "已經在" + $"{query.OnDuty}打過卡了");
+                                        //this.ReplyMessage(LineEvent.replyToken, "小幫手提醒您,今天上班未打卡,請申請補打卡!");
+                                        var bot = new Bot(channelAccessToken);
+                                        List<TemplateActionBase> actions = new List<TemplateActionBase>();
+
+                                        actions.Add(new UriAction() { label = "申請", uri = new Uri("line://app/1612776942-bm461AoW") });
+                                        actions.Add(new MessageAction() { label = "取消", text = "取消" });
+
+                                        var ButtonTempalteMsg = new isRock.LineBot.ConfirmTemplate()
+                                        {
+                                            text = "小幫手提醒您,今天上班未打卡,請申請補打卡!",
+                                            altText = "請在手機上檢視",
+                                            actions = actions
+                                        };
+                                        bot.PushMessage(AdminUserId, ButtonTempalteMsg);
                                     }
 
+                                    break;
 
-                                    return Ok();
-                                }
-                                else
-                                {
-                                    this.ReplyMessage(LineEvent.replyToken, "已超過可打卡的時間");
-                                }
-                                break;
-                            case "下班":
-                                try
-                                {
-                                    var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).First();
-                                    query.OffDuty = DateTime.Now;
+                            }
 
-                                    this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.ToString()}");
 
-                                    d.SaveChanges();
 
-                                }
 
-                                catch
-                                {
-                                    this.ReplyMessage(LineEvent.replyToken, "小幫手提醒您,今天上班未打卡,請申請補打卡!");
-                                }
-
-                                break;
 
                         }
-
-
-
 
 
                     }
-
-
+                }
+                catch
+                {
+                    this.ReplyMessage(LineEvent.replyToken, "您不是本公司員工,無法使用打卡功能!");
                 }
             }
-            catch
+            else//正
             {
-                this.ReplyMessage(LineEvent.replyToken, "您不是本公司員工,無法使用打卡功能!");
+                this.ReplyMessage(LineEvent.replyToken, "請先綁定帳號!");
+
             }
+            
 
 
           

@@ -27,6 +27,25 @@ namespace AMS.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public JsonResult LineIdBindView(LineIdBindViewModel data)
+        {
+            string result;
+            var query = db.Employees.Find(data.EmployeeID);
+            if (query.LineID == null)
+            {
+                query.LineID = data.LineID;
+                db.Entry(query).State = EntityState.Modified;
+                db.SaveChanges();
+                result = "成功綁定";
+            }
+            else
+            {
+                result = "綁定失敗";
+            }
+            return  Json(new { msg = result }, JsonRequestBehavior.AllowGet);
+
+        }
         public ActionResult SerchOverTime()
         {
             var query = (from ot in db.OverTimeRequest.AsEnumerable()
