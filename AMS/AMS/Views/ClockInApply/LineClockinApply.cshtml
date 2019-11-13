@@ -20,8 +20,11 @@
         $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
         $("#OffDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "16" + ":" + "00");
         $("#RequestDate").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
-        //document.getElementById("RequestDate").readonly= true;
-        /////////////////////////////////////////////////////////
+
+
+       
+        
+      
 
         $("#OnDuty").bind("change", function () {
             var str = $("#OnDuty").val();
@@ -119,5 +122,45 @@
             test();
         })
 
+         function Clockinsave() {
+            var data = new FormData();
+            data.append("OnDuty", OnDuty.value);
+            data.append("OffDuty", OffDuty.value);
+            data.append("RequestDate", RequestDate.value);
+      $.ajax({
+    url: "@Url.Action("ClockinApply", "ClockInApply")",
+    type: "POST",
+    contentType: false,         // 告诉jQuery不要去這置Content-Type
+    processData: false,         // 告诉jQuery不要去處理發送的數據
+    dataType: "html",
+    data: data,
+    
+    //data: {"EmployeeID": EmployeeID.value,},
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+       value='@TempData["Message"]';     
+        
+    
+
+        
+        
+    }).fail(function (e) { alert(e.responseText) });  
+      
+
+        }
+
+        function test() {
+
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("ClockInApplyView", "ClockInApply")",
+                dataType: "html",
+            }).done(function (result) {
+                $("#mainpanel").html(result);
+                changeT();
+
+
+            }).fail(function (e) { alert(e.responseText) });
+        }
     </script>
 }

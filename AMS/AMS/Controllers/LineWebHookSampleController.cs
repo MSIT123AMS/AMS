@@ -133,6 +133,27 @@ namespace WebApplication5.Controllers
 
                                     break;
 
+                                    case "出勤":
+                                    {
+                                        var bot1 = new Bot(channelAccessToken);
+                                        List<TemplateActionBase> actions1 = new List<TemplateActionBase>();
+
+                                        actions1.Add(new UriAction() { label = "補打卡", uri = new Uri("line://app/1612776942-bm461AoW") });
+                                        actions1.Add(new UriAction() { label = "查詢", uri = new Uri("line://app/1612776942-9MbWYMog") });
+
+                                        var ButtonTempalteMsg1 = new isRock.LineBot.ConfirmTemplate()
+                                        {
+                                            text = "出勤",
+                                            altText = "請在手機上檢視",
+                                            actions = actions1
+                                        };
+                                        bot1.PushMessage(AdminUserId, ButtonTempalteMsg1);
+
+                                        
+                                    }
+                                    break;
+
+
                             }
 
 

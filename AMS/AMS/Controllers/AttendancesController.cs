@@ -24,6 +24,21 @@ namespace AMS.Controllers
         {
             return View();
         }
+        
+          public ActionResult LineSerchAttendances()
+        {
+            string EmployeeID = "MSIT1230001";
+            var query = db.Attendances.Where(Att => Att.EmployeeID == EmployeeID).Join(db.Employees, Attendances => Attendances.EmployeeID, Employees => Employees.EmployeeID, (Attendances, Employees) => new AttendancesViewModel
+            {
+                EmployeeID = Attendances.EmployeeID,
+                EmployeeName = Employees.EmployeeName,
+                Date = Attendances.Date,
+                OnDuty = Attendances.OnDuty,
+                OffDuty = Attendances.OffDuty,
+                station = Attendances.station
+            });
+            return View(query);
+        }
         public ActionResult SerchAttendances()
         {
             string EmployeeID = "MSIT1230005";
