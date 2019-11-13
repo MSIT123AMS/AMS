@@ -84,12 +84,12 @@ namespace WebApplication5.Controllers
                                     {
                                         a.EmployeeID = EmpID;
                                         a.Date = todate;
-                                        a.OnDuty = DateTime.Now;
+                                        a.OnDuty = DateTime.Now.AddHours(8);
                                         d.Attendances.Add(a);
                                         try
                                         {
                                             d.SaveChanges();
-                                            this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.ToString()}");
+                                            this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.AddHours(8).ToString()}");
                                         }
                                         catch
                                         {
@@ -109,9 +109,9 @@ namespace WebApplication5.Controllers
                                     try
                                     {
                                         var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).First();
-                                        query.OffDuty = DateTime.Now;
+                                        query.OffDuty = DateTime.Now.AddHours(8);
 
-                                        this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.ToString()}");
+                                        this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.AddHours(8).ToString()}");
 
                                         d.SaveChanges();
 
