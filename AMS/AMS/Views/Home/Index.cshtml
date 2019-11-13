@@ -1257,15 +1257,18 @@ function BackToIndexFunction() {
         type: "POST",
         contentType: false,         // 告诉jQuery不要去這置Content-Type
         processData: false,         // 告诉jQuery不要去處理發送的數據
-        dataType: "html",
+        dataType: "json",
         data: data,
-        //data: {"EmployeeID": EmployeeID.value,},
+        
     }).done(function (result) {
 
-        //$(document).html(result);
+        
         alert('已送出申請');
         OverTimeIndex();
-    }).fail(function (e) { alert(e.responseText) });
+        }).fail(function (e) {
+            alert(e.responseJSON.Message);
+
+        });
         }
 
 
