@@ -181,22 +181,16 @@ namespace AMS.Controllers
                                  
                 if(Query.Any(n=>n.StartTime.Date==overTimeRequest.StartTime.Date&&!(n.Review=="3")))
                 {
-                    //重複加班
+                    Response.StatusCode = 500;
+                    return Json(new { Success = false, Message = "今天已經申請過加班" },JsonRequestBehavior.AllowGet);
+
                 }
                 if(LeaveQuery.Any(n=>n.StartTime== overTimeRequest.StartTime.Date &&!(n.ReviewStatusID==3)))
                 {
-                    //請假
+                    Response.StatusCode = 500;
+                    return Json(new { Success = false, Message = "今天已經申請過請假" }, JsonRequestBehavior.AllowGet);
                 }
 
-
-
-
-
-
-
-
-
-                
 
                 overTimeRequest.OverTimeRequestID = Convert.ToString(db.OverTimeRequest.Count()+1);
                 overTimeRequest.EmployeeID = User;
@@ -213,7 +207,9 @@ namespace AMS.Controllers
 
   
 
-
+        
 
     }
+
+
 }

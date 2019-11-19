@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AMS.Models;
+using isRock.LineBot;
 using Quartz;
 using Quartz.Impl;
+using WebApplication5.Controllers;
 
 namespace AMS.Controllers
 {
@@ -23,6 +25,21 @@ namespace AMS.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+        
+          public ActionResult LineSerchAttendances()
+        {
+            string EmployeeID = "MSIT1230001";
+            var query = db.Attendances.Where(Att => Att.EmployeeID == EmployeeID).Join(db.Employees, Attendances => Attendances.EmployeeID, Employees => Employees.EmployeeID, (Attendances, Employees) => new AttendancesViewModel
+            {
+                EmployeeID = Attendances.EmployeeID,
+                EmployeeName = Employees.EmployeeName,
+                Date = Attendances.Date,
+                OnDuty = Attendances.OnDuty,
+                OffDuty = Attendances.OffDuty,
+                station = Attendances.station
+            });
+            return View(query);
         }
         public ActionResult SerchAttendances()
         {
@@ -174,81 +191,6 @@ namespace AMS.Controllers
             base.Dispose(disposing);
         }
     }
-        
-    public class ExecuteTaskServiceCallScheduler
-    {
-        private static readonly string ScheduleCronExpression = ConfigurationManager.AppSettings["ExecuteTaskScheduleCronExpression"];
-
-        public static async System.Threading.Tasks.Task StartAsync()
-        {
-            try
-            {
-                var scheduler = await StdSchedulerFactory.GetDefaultScheduler();
-
-                if (!scheduler.IsStarted)
-                {
-                    await scheduler.Start();
-                }
-
-                var job = JobBuilder.Create<ExecuteTaskServiceCallJob>()
-                    .WithIdentity("ExecuteTaskServiceCallJob1", "group1")
-                    .Build();
-
-                var trigger = TriggerBuilder.Create()
-                    .WithIdentity("ExecuteTaskServiceCallTrigger1", "group1")
-                    .WithCronSchedule(ScheduleCronExpression)
-                    .Build();
-
-                await scheduler.ScheduleJob(job, trigger);
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-    }
-    public class ExecuteTaskServiceCallJob : IJob
-    {
-        internal Entities db = new Entities();
-        public static readonly string SchedulingStatus = ConfigurationManager.AppSettings["ExecuteTaskServiceCallSchedulingStatus"];
-        public Task Execute(IJobExecutionContext context)
-        {
-            var task = Task.Run(() =>
-            {
-                if (SchedulingStatus.Equals("ON"))
-                {
-                    try
-                    {
-                        using (var message = new MailMessage("wingrovepank@gmail.com", "hauwei.pong@gmail.com"))
-                        {
-
-                            message.Subject = "Message Subject test";
-                            message.Body = "Message body test at " + DateTime.Now;
-                            using (SmtpClient client = new SmtpClient
-                            {
-                                EnableSsl = true,
-                                Host = "smtp.gmail.com",
-                                Port = 587,
-                                Credentials = new NetworkCredential("wingrovepank@gmail.com", "sss22040")
-                            })
-                            {
-                                client.Send(message);
-                            }
-                        } //Do whatever stuff you want
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-
-                }
-
-            });
-
-            return task;
-        }
-      
-    }
-
+   
 
 }

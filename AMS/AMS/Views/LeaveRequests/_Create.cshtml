@@ -16,14 +16,14 @@
                 <div class="card">
                     <hr />
                     @*<div class="form-group">
-            @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
                 @Html.ValidationMessageFor(model => model.RequestTime, "", new { @class = "text-danger" })
             </div>
         </div>*@
                     <div class="form-group">
-                        @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left"})
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
                             @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
                             @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
@@ -39,12 +39,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-2">特休天數:@ViewBag.Off</label><br />
-                        <label class="control-label col-md-2">剩餘特休天數:@ViewBag.on</label>
+                        <label class="control-label col-md-2" style= "text-align:left" >特休天數:@ViewBag.Off</label><br />
+                        <label class="control-label col-md-2" style= "text-align:left" >剩餘特休天數:@ViewBag.on</label>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
                         <div class="col-md-10">
                             @Html.DropDownList("LeaveType", null, "--請選擇--", new { @class = "form-control" })
                             @*@Html.EditorFor(model => model.LeaveType, new { htmlAttributes = new { @class = "form-control" } })*@
@@ -53,7 +53,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.LeaveReason, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.LeaveReason, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
                         <div class="col-md-10">
                             @Html.TextAreaFor(model => model.LeaveReason, 5, 187, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.LeaveReason, "", new { @class = "text-danger" })
@@ -64,7 +64,7 @@
 
 
                     @*<div class="form-group">
-            @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ReviewStatusID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ReviewStatusID, "", new { @class = "text-danger" })
@@ -72,7 +72,7 @@
         </div>*@
 
                     @*<div class="form-group">
-            @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ReviewTime, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ReviewTime, "", new { @class = "text-danger" })
@@ -80,7 +80,7 @@
         </div>*@
 
                     <div class="form-group ">
-                        @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2" })
+                        @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
                         <div class="col-md-10">
                             <img id="imgPreview" src="@Url.Content("~/Img/upload.png")" style="width:240px;height:180px" />
                             <input type="file" name="LeaveFile" id="LeaveFile" accept="image/*" />
