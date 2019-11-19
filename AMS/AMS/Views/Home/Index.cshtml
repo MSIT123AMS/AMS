@@ -269,9 +269,7 @@
             $('#Search').bind("click",
                 function () {
                     Lrsearch();
-                });
-
-
+                  });
             d = new Date();
             $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()-7));
             $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()+1));
@@ -374,6 +372,8 @@
     }).done(function (result) {
         $("#mainpanel").html(result);
         changeT();
+
+
         /////create_start
         function readURL(input) {
             if (input.files && input.files[0]) {
