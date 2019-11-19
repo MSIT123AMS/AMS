@@ -875,6 +875,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper.min.js.map" />
+    <None Include="Properties\PublishProfiles\ams123 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\AMS20191108010909 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy1.pubxml" />
@@ -1000,7 +1001,6 @@
     <Content Include="Views\ClockInApply\Edit.cshtml" />
     <Content Include="Views\Employees\_emplistPartial.cshtml" />
     <Content Include="Views\Employees\View1.cshtml" />
-    <Content Include="Views\Employees\mainView.cshtml" />
     <Content Include="Views\Attendances\_SerchAttendancesPartial.cshtml" />
     <Content Include="Views\ClockInApply\_ClockinPartialView.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
@@ -1010,6 +1010,10 @@
     <Content Include="Views\ClockInApply\_ClockInApplyView.cshtml" />
     <Content Include="Views\ClockInApply\_ClockinApply.cshtml" />
     <Content Include="Views\Attendances\_SerchAttendances.cshtml" />
+    <Content Include="Views\Employees\LineIdBindView.cshtml" />
+    <Content Include="Views\Shared\_LineLayout.cshtml" />
+    <Content Include="Views\ClockInApply\LineClockinApply.cshtml" />
+    <Content Include="Views\Attendances\LineSerchAttendances.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -74,7 +74,7 @@ namespace AMS.Controllers
 
                         var bot = new Bot(channelAccessToken);
                         //var LineEvent = LineBot.ReceivedMessage.events.FirstOrDefault();
-                        bot.PushMessage("U169cd14d449bd344525284f52fec1d6b", "測試");
+                        bot.PushMessage("U169cd14d449bd344525284f52fec1d6b", $"現在時間{DateTime.Now.AddHours(8)}");
                         //if(query.station!=null)
                         using (var message = new MailMessage("wingrovepank@gmail.com", "hauwei.pong@gmail.com"))
                         {

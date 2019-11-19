@@ -1,0 +1,161 @@
+﻿@model IEnumerable<AMS.Models.AttendancesViewModel>
+@{
+    ViewBag.Title = "LineSerchAttendances";
+    Layout = "~/Views/Shared/_LineLayout.cshtml";
+}
+
+@Html.Partial("_SerchAttendances", Model);
+
+@section scripts1
+
+{
+<script>
+    window.addEventListener('resize', changeT);
+
+    changeT();
+    function changeT() {
+
+        if (window.innerWidth >= 600) {
+
+            $('#basic-datatables').DataTable({
+                destroy: true
+            });
+            $("#basic-datatables_filter").hide();
+        }
+        else {
+
+            $('#basic-datatables').basictable("destroy");
+            $('#basic-datatables').basictable({ breakpoint: 600 });
+        }
+    }
+
+ 
+    changeT();
+
+
+
+    d = new Date();
+    $("#time1").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
+    $("#time2").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
+
+
+
+
+
+    $("#time1").bind("change", function () {
+        if ($("#time1").val() > $("#time2").val()) {
+            timechange();
+            $("#time1").val($("#time2").val());
+        }
+
+    });
+
+    function zeroPadded(val) {
+        if (val >= 10)
+            return val;
+        else
+            return '0' + val;
+    }
+
+    function timechange() {
+        swal("起始時間不可大於最後時間!", "", {
+            icon: "info",
+            buttons: {
+                confirm: {
+                    className: 'btn btn-info'
+                }
+            },
+        });
+    }
+
+    $("#time2").bind("change", function () {
+        if ($("#time2").val() < $("#time1").val()) {
+            timechange();
+            $("#time2").val($("#time1").val());
+        }
+
+    });
+
+    $("#Button1").bind("click", function () {
+        AttendancesSave();
+    })
+
+     function AttendancesSave() {
+        var data = new FormData;
+        //data.get("time1");
+        //data.get("time2");
+        data.append("time1", $('#time1').val());
+        data.append("time2", $('#time2').val());
+        //    time1: $('#time1').val(),
+        //    time2: $('#time2').val()
+        //}
+      $.ajax({
+    url: "@Url.Action("SerchAttendances", "Attendances")",
+    type: "POST",
+    contentType: false,         // 告诉jQuery不要去這置Content-Type
+    processData: false,         // 告诉jQuery不要去處理發送的數據
+    dataType: "html",
+    data: data,
+    
+    //data: {"EmployeeID": EmployeeID.value,},
+    }).done(function (result) {
+        $("#mainpanel").html(result);        
+        
+        $("#mainpanel").html(result);
+        changeT();
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+
+
+
+        d = new Date();
+        $("#time1").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
+        $("#time2").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
+
+
+
+
+
+        $("#time1").bind("change", function () {
+            if ($("#time1").val() > $("#time2").val()) {
+                timechange();
+                $("#time1").val($("#time2").val());
+            }
+
+        });
+
+
+
+        function timechange() {
+            swal("起始時間不可大於最後時間!", "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
+        }
+
+        $("#time2").bind("change", function () {
+            if ($("#time2").val() < $("#time1").val()) {
+                timechange();
+                $("#time2").val($("#time1").val());
+            }
+
+        });
+
+        $("#Button1").bind("click", function () {
+            AttendancesSave();
+        })
+        
+    }).fail(function (e) { alert(e.responseText) });  
+      
+
+    }
+</script>
+}
