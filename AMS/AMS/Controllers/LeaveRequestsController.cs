@@ -454,7 +454,7 @@ namespace AMS.Controllers
             string[] LeaveValue = value;
 
 
-            var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
+            var LeaveTimeRequest = from lt in db.LeaveRequests.AsEnumerable()
                                     join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
                                     join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
                                     where lt.StartTime >= startime && lt.EndTime <= endtime && lt.EmployeeID == User && LeaveValue.Any(x => x == lt.LeaveType)
@@ -470,7 +470,7 @@ namespace AMS.Controllers
                                         Review = rev.ReviewStatus1,
                                         ReviewTime = lt.ReviewTime,
                                         Attachment = lt.Attachment
-                                    });
+                                    };
 
             string[] titleList = new string[] { "序號", "假單編號", "員工姓名", "假別", "申請時間", "申請開始時間", "申請結束時間", "事由", "申請狀態"};
             List<LeaveIndexViewModel> list = LeaveTimeRequest.ToList();/*OrderInfoBLL.GetOrdersInfoListByTime(OrderStartTime, OrderEndTime);*/

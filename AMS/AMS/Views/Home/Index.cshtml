@@ -228,19 +228,7 @@
 
      //////////////////////睿//////////////////////////////////
 
-
-
-
-    function funLeaveIndex() {
-    $.ajax({
-    type: "GET",
-    url: "@Url.Action("LeaveIndexView", "LeaveRequests")",
-    dataType: "html",
-    }).done(function (result) {
-        $("#mainpanel").html(result);
-        changeT();
-
-        function Export() {
+        function Export() {  //匯出excel方法
             let valuearray = new Array()
             for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
                 valuearray.push(item.value)
@@ -253,7 +241,7 @@
 
             };
             $.ajax({
-                url: '/LeaveRequests/DownLoadExcel', //Controller名稱和方法名
+                url:"@Url.Action("DownLoadExcel", "LeaveRequests")", /*'/LeaveRequests/DownLoadExcel',*/ //Controller名稱和方法名
                 type: "POST",
                 dataType: "json",
                 data: param,
@@ -263,6 +251,18 @@
                 }
             });
         }
+
+
+    function funLeaveIndex() {  //到搜尋頁面
+    $.ajax({
+    type: "GET",
+    url: "@Url.Action("LeaveIndexView", "LeaveRequests")",
+    dataType: "html",
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+        changeT();
+
+
           $(document).ready(function () {
               changeT(); 
             $("#CheckAll").click(cAll);                //全選功能
