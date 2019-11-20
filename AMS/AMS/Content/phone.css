@@ -25,6 +25,40 @@
     label {
         text-align: right;
     }
+
+    table.table-striped td {
+        font-size: 16px;
+    }
+
+    table.table-striped th, td {
+        font-size: 16px;
+        font-family: 'Microsoft JhengHei';
+        text-align: center;
+    }
+    table.table-striped td:before {
+        display: none;
+    }
+
+    table.table-striped th, table.table-striped td {
+        display: table-cell;
+        padding: 0.25em 0.5em 0px 0px;
+    }
+
+        table.table-striped th:first-child,
+        table.table-striped td:first-child {
+            padding-left: 0;
+        }
+
+        table.table-striped th:last-child,
+        table.table-striped td:last-child {
+            padding-right: 0;
+        }
+
+    table.table-striped th,
+    table.table-striped td {
+        padding: 1em !important;
+    }
+
 }
 
 

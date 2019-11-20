@@ -79,7 +79,7 @@ namespace AMS.Controllers
                         using (var message = new MailMessage("wingrovepank@gmail.com", "hauwei.pong@gmail.com"))
                         {
                             message.Subject = "未打卡通知信";
-                            message.Body = $"你今天{},請申請補打卡";
+                            //message.Body = $"你今天{},請申請補打卡";
                             using (SmtpClient client = new SmtpClient
                             {
                                 EnableSsl = true,
