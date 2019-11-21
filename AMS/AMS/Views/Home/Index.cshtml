@@ -227,6 +227,28 @@
 
 
      //////////////////////睿//////////////////////////////////
+        @*function outPDF() {
+            let valuearray = new Array()
+            for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
+                valuearray.push(item.value)
+            }
+            var param = {
+                "value": valuearray,
+                "id": $("#StartTime").val(),
+                "id2": $("#EndTime").val(),
+
+            };
+            $.ajax({
+                url: "@Url.Action("ToPdf", "LeaveRequests")",
+                type: "POST",
+                data: param,
+                dataType: "json",
+            }).done(function (response) {
+                
+                window.location = "/home/DownloadInvoice" + "?fName=" + response.fName;
+                }).fail(function (error) {
+                alert(error.statusText)});
+        }*@
 
         function Export() {  //匯出excel方法
             let valuearray = new Array()
@@ -239,7 +261,7 @@
                 "id": $("#StartTime").val(),
                 "id2": $("#EndTime").val(),
 
-            };
+            }.done();
             $.ajax({
                 url:"@Url.Action("DownLoadExcel", "LeaveRequests")", /*'/LeaveRequests/DownLoadExcel',*/ //Controller名稱和方法名
                 type: "POST",
@@ -334,8 +356,6 @@
             }
         });
 
-
-
         function timechange() {
             swal("起始時間不可大於最後時間!", "", {
                 icon: "info",
@@ -423,12 +443,37 @@
             d = new Date();
             $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
         });
-        /////create_End
+        //////////以下是時間防呆
+        $("#StartTime").bind("change", function () {
+            if ($("#StartTime").val() > $("#EndTime").val()) {
+                timechange();
+                $("#StartTime").val($("#EndTime").val());
+            }
+        });
 
+        function timechange() {
+            swal("起始時間不可大於最後時間!", "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
+        }
 
+        $("#EndTime").bind("change", function () {
+            if ($("#EndTime").val() < $("#StartTime").val()) {
+                timechange();
+                $("#EndTime").val($("#StartTime").val());
+            }
+
+        });
 
     }).fail(function (e) { alert(e.responseText) });
     }
+     /////create_End
+
     ////////////////////////////////////////////////////////
      //////////////////////瑋////////////////////////////////
     function funSerchAttendancest() {

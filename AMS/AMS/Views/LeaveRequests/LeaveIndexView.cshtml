@@ -7,6 +7,7 @@
             <p>
                 <input type="button" value="請假申請" onclick="funLeaveCreate()" class="btn btn-outline-primary" />
                 @Html.ActionLink("URL轉換PDF", "ToPdf", "ToPdf", new { @class = "btn btn-outline-primary" })
+                @*<input type="button" value="匯出PDF" onclick="outPDF()" class="btn btn-outline-primary" />*@
                 <input type="button" value="匯出Excel" onclick="Export()" class="btn btn-outline-primary" />
 
                 <div class="form-group">
@@ -93,7 +94,7 @@
 {
 
     <script>
-        function Export() {
+        function Export() {   //匯出excel的按鈕
             let valuearray = new Array()
             for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
                 valuearray.push(item.value)
@@ -116,6 +117,23 @@
                 }
             });
         }
+
+
+        function outPDF() {
+            var param = {
+                "value": valuearray,
+                "id": $("#StartTime").val(),
+                "id2": $("#EndTime").val(),
+
+            };
+            $.ajax({
+                url: "@Url.Action("ToPdf", "LeaveRequests")",
+                type: "POST",
+                data: param
+            });
+        }
+
+
     </script>
 
     <script>

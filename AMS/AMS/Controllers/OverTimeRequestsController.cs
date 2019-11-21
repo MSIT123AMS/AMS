@@ -199,7 +199,7 @@ namespace AMS.Controllers
                 
                 db.OverTimeRequest.Add(overTimeRequest);
                 db.SaveChanges();
-                return RedirectToAction("Index","Home");
+                return Content("Home");
             }
 
             return RedirectToAction("Index", "Home");
