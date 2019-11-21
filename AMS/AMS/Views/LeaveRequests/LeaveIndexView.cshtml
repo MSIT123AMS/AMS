@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<AMS.Models.LeaveIndexViewModel>
-
-<label class=" control-label" style="font-size:35px;margin:10px">請假報表</label>
+<body>          
+    
 <div class="page-inner">
+    <div style="background-color:#91989F">
+        <h1><span class="badge" style="color:#FFFFFB">個人差假明細查詢</span></h1>
+    </div>
+    
     <div class="card">
         <div class="card-head-row">
             <p>
-                @Html.ActionLink("請假申請", "Create", "Create", new { @class = "btn btn-outline-primary" })
-                @Html.ActionLink("URL轉換PDF", "ToPdf", "ToPdf", new { @class = "btn btn-outline-primary" })
-                <input type="button" value="匯出Excel" onclick="Export()" class="btn btn-outline-primary" />
 
                 <div class="form-group">
                     <label class=" control-label" style="font-size:20px;margin-left:20px">篩選假別:</label>
@@ -55,6 +56,7 @@
                         <label class="selectgroup-item">
                             <input type="checkbox" name="value1" value="ALL" class="selectgroup-input" id="CheckAll" checked>
                             <span class="selectgroup-button">ALL</span>
+
                         </label>
                     </div>
                 </div>
@@ -73,52 +75,70 @@
                 <input id="EndTime" name="EndTime" type="date" class="form-control" />
             </div>
             <div class="col-sm-2">
-                <button id="Search" name="Search" class="form-control">搜尋</button>
-
+                <button id="Search" name="Search" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                    <i class="fa fa-search fa-fw"></i>搜尋
+                </button>
             </div>
-        </div>
+            <div class="col-sm" style="margin-left:230px;margin-top:10px">
+                <a href="@Url.Action("Create", "Create")" class="btn btn-sm" style="background-color:#f1f0ed;color:#91989F">
+                    <i class="icon-pencil icon-white"></i>
+                    <span>
+                        <strong>請假申請</strong>
+                    </span>
+                </a>
+                <a href="@Url.Action("ToPdf", "ToPdf")" class="btn btn-sm" style="background-color:#f1f0ed;color:#91989F">
+                    <i class="icon-doc"></i>
+                    <span>
+                        <strong>URL轉換PDF</strong>
+                    </span>
+                </a>
+                <button type="button" onclick="Export()" class="btn btn-sm" style="background-color:#f1f0ed;color:#91989F">
+                    <i class="icon-logout"></i>匯出Excel
+                </button>
+                @*<input type="button" value="匯出Excel" onclick="Export()" class="btn btn-sm " style="background-color:#f1f0ed;color:#91989F" />*@
+            </div>
+            <div class="card-body">
+                <div class="table-responsive" id="LeaveTable">
+                    @Html.Partial("_LeaveIndexPartialView", Model)
 
-
-        <div class="card-body">
-            <div class="table-responsive" id="LeaveTable">
-                @Html.Partial("_LeaveIndexPartialView", Model)
-
+                </div>
             </div>
         </div>
     </div>
 </div>
 
+</body>
 
-@section scripts
+    @section scripts
 {
 
-    <script>
-        function Export() {
-            let valuearray = new Array()
-            for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
-                valuearray.push(item.value)
-            }
-            var value = "{'value':valuearray}"
-            var param = {
-                "value": valuearray,
-                "id": $("#StartTime").val(),
-                "id2": $("#EndTime").val(),
-
-            };
-            $.ajax({
-                url: '/LeaveRequests/DownLoadExcel', //Controller名稱和方法名
-                type: "POST",
-                dataType: "json",
-                data: param,
-                success: function (data) {
-                    //重定向返回引數
-                    location.href = "/LeaveRequests/OutExcel?guid=" + data;
+        <script>
+            function Export() {
+                let valuearray = new Array()
+                for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
+                    valuearray.push(item.value)
                 }
-            });
-        }
-    </script>
+                var value = "{'value':valuearray}"
+                var param = {
+                    "value": valuearray,
+                    "id": $("#StartTime").val(),
+                    "id2": $("#EndTime").val(),
 
-    <script>
+                };
+                $.ajax({
+                    url: '/LeaveRequests/DownLoadExcel', //Controller名稱和方法名
+                    type: "POST",
+                    dataType: "json",
+                    data: param,
+                    success: function (data) {
+                        //重定向返回引數
+                        location.href = "/LeaveRequests/OutExcel?guid=" + data;
+                    }
+                });
+            }
+        </script>
+
+        <script>
         $(document).ready(function () {
             $('#basic-datatables').DataTable({
             });
@@ -223,5 +243,5 @@
 
 
 
-    </script>
-}
+        </script>
+    }

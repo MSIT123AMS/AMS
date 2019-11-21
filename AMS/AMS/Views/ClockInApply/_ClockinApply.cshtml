@@ -4,103 +4,110 @@
     ViewBag.Title = "ClockinApply";
 }
 
-<h2>刷卡異常申覆單</h2>
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
+<body>
+    <div class="page-inner">
+        <div style="background-color:#91989F">
+            <h1><span class="badge" style="color:#FFFFFB">刷卡異常申覆單</span></h1>
+        </div>
+        <div class="card" id="mmmmmm">
+            <div class="form-horizontal">
+                @*<h4>ClockInApply</h4>*@
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
 
-<div class="form-horizontal">
-    @*<h4>ClockInApply</h4>*@
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @*<div class="form-group">
-            @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
+                <div class="form-group">
+
+                    @Html.LabelFor(model => model.OnDuty, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OnDuty, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
+                        @Html.ValidationMessageFor(model => model.OnDuty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.OffDuty, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.OffDuty, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local", readOnly = true } })
+                        @Html.ValidationMessageFor(model => model.OffDuty, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-radio custom-control-inline" style="padding-left:100px">
+                        <input type="radio" class="custom-control-input" value="1" id="defaultInline1" name="inlineDefaultRadiosExample">
+                        <label class="custom-control-label" for="defaultInline1">1小時</label>
+                    </div>
+
+                    <!-- Default inline 2-->
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" value="2" id="defaultInline2" name="inlineDefaultRadiosExample">
+                        <label class="custom-control-label" for="defaultInline2">2小時</label>
+                    </div>
+
+                    <!-- Default inline 3-->
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" value="3" id="defaultInline3" name="inlineDefaultRadiosExample">
+                        <label class="custom-control-label" for="defaultInline3">3小時</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" value="4" id="defaultInline4" name="inlineDefaultRadiosExample">
+                        <label class="custom-control-label" for="defaultInline4">4小時</label>
+                    </div>
+
+                    <!-- Default inline 2-->
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" value="5" id="defaultInline5" name="inlineDefaultRadiosExample">
+                        <label class="custom-control-label" for="defaultInline5">5小時</label>
+                    </div>
+
+                    <!-- Default inline 3-->
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" value="6" id="defaultInline6" name="inlineDefaultRadiosExample">
+                        <label class="custom-control-label" for="defaultInline6">6小時</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" value="7" id="defaultInline7" name="inlineDefaultRadiosExample">
+                        <label class="custom-control-label" for="defaultInline7">7小時</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" value="8" id="defaultInline8" name="inlineDefaultRadiosExample">
+                        <label class="custom-control-label" for="defaultInline8">8小時</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control", Type = "date", readOnly = true } })
+                        @Html.ValidationMessageFor(model => model.RequestDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="申請" class="btn btn-default" id="submitButton" />
+                    </div>
+                </div>
+
             </div>
+        </div>
+    </div>
+</body>
+    }
+
+    @*<div>
+            @Html.ActionLink("Back to List", "Index")
         </div>*@
-
-    <div class="form-group">
-
-        @Html.LabelFor(model => model.OnDuty, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.OnDuty, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
-            @Html.ValidationMessageFor(model => model.OnDuty, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.OffDuty, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.OffDuty, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local", readOnly = true } })
-            @Html.ValidationMessageFor(model => model.OffDuty, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="custom-control custom-radio custom-control-inline" style="padding-left:100px">
-            <input type="radio" class="custom-control-input" value="1" id="defaultInline1" name="inlineDefaultRadiosExample">
-            <label class="custom-control-label" for="defaultInline1">1小時</label>
-        </div>
-
-        <!-- Default inline 2-->
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" class="custom-control-input" value="2" id="defaultInline2" name="inlineDefaultRadiosExample">
-            <label class="custom-control-label" for="defaultInline2">2小時</label>
-        </div>
-
-        <!-- Default inline 3-->
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" class="custom-control-input" value="3" id="defaultInline3" name="inlineDefaultRadiosExample">
-            <label class="custom-control-label" for="defaultInline3">3小時</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" class="custom-control-input" value="4" id="defaultInline4" name="inlineDefaultRadiosExample">
-            <label class="custom-control-label" for="defaultInline4">4小時</label>
-        </div>
-
-        <!-- Default inline 2-->
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" class="custom-control-input" value="5" id="defaultInline5" name="inlineDefaultRadiosExample">
-            <label class="custom-control-label" for="defaultInline5">5小時</label>
-        </div>
-
-        <!-- Default inline 3-->
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" class="custom-control-input" value="6" id="defaultInline6" name="inlineDefaultRadiosExample">
-            <label class="custom-control-label" for="defaultInline6">6小時</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" class="custom-control-input" value="7" id="defaultInline7" name="inlineDefaultRadiosExample">
-            <label class="custom-control-label" for="defaultInline7">7小時</label>
-        </div>
-        <div class="custom-control custom-radio custom-control-inline">
-            <input type="radio" class="custom-control-input" value="8" id="defaultInline8" name="inlineDefaultRadiosExample">
-            <label class="custom-control-label" for="defaultInline8">8小時</label>
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control", Type = "date", readOnly = true } })
-            @Html.ValidationMessageFor(model => model.RequestDate, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="button" value="申請" class="btn btn-default" id="submitButton" />
-        </div>
-    </div>
-    
-</div>
-}
-
-@*<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>*@
 

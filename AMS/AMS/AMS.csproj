@@ -1034,8 +1034,6 @@
     <Folder Include="bin\roslyn\" />
     <Folder Include="bin\zh-Hant\" />
     <Folder Include="fonts\" />
-    <Folder Include="Views\AttendancesSearch\" />
-    <Folder Include="Views\ClockInApplies\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
