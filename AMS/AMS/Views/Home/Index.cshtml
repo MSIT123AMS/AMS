@@ -1,9 +1,4 @@
-﻿@model IEnumerable<AMS.Models.ClockInApply>
-
-@{
-    ViewBag.Title = "Index";
-}
-<!-- Sidebar -->
+﻿<!-- Sidebar -->
 <div class="sidebar sidebar-style-2">
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
@@ -16,7 +11,6 @@
                         <span>
                             謝惠婷
                             @*<span class="user-level">@User.Identity.GetUserName()</span>*@
-
                             <span class="caret"></span>
                         </span>
                     </a>
@@ -139,7 +133,7 @@
                     <div class="collapse" id="sidebarLayout2">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="#" onclick="funReview()">
+                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")","審核")'>
                                     <span class="sub-item">審核</span>
                                 </a>
                             </li>
@@ -155,43 +149,36 @@
                     <div class="collapse" id="sidebarLayouts1">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="#" onclick="funEmpM()">
+                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Employees")","員工管理")'>
                                     <span class="sub-item">員工管理</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
-
                                     <span class="sub-item">
                                         部門管理
                                     </span>
                                 </a>
                             </li>
-
                             <li>
-                                <a href="#" onclick="funSerchAds()" )>
+                                <a href="#" onclick='PageAjax("@Url.Action("SerchAttendances", "Employees")","刷卡明細查詢")'>
                                     <span class="sub-item">刷卡明細查詢</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" onclick="funSerchLev()" )>
+                                <a href="#" onclick='PageAjax("@Url.Action("SerchLeave", "Employees")","差假明細查詢")'>
 
                                     <span class="sub-item">差假明細查詢</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" onclick="funSerchOvt()" )>
+                                <a href="#" onclick='PageAjax("@Url.Action("SerchOverTime", "Employees")","加班明細查詢")'>
                                     <span class="sub-item">加班明細查詢</span>
                                 </a>
                             </li>
-
-
-                        </ul>
+                       </ul>
                     </div>
                 </li>
-
-
-
             </ul>
         </div>
     </div>
@@ -221,14 +208,105 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
+<script>
+       //圖檔顯示
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#imgPreview').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+            }
+        }
 
+        function Datechange() {
+            SweetAlert("無法提交隔日後之申請");
+        }
+        function timechange1() {
+            SweetAlert("上班時間請在06:00-11:59之間設定");
+        }
+        function timechange() {
+            SweetAlert("起始時間不可大於最後時間!");
+        }
+        function UpdateSuccess() {
+            SweetAlert("審核完成");
+        }
+        function SweetAlert(alertstring) {
+
+            swal(alertstring, "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
+        }
+
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        //time1:初始,time2:結束
+        function TimeErrorProof(time1, time2) {
+            time1.bind("change",()=>{
+                if (time1.val() > time2.val()) {
+                    timechange();
+                    time1.val(time2.val());
+                }
+            });
+            time2.bind("change", ()=>{
+                if (time1.val() > time2.val()) {
+                    timechange();
+                    time2.val(time1.val());
+                }
+            });
+        }
+        //設定TimePicker起始值X/1~X/30
+        function SetTimePicker(time1, time2) {
+            d = new Date();
+            time1.val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-01");
+            time2.val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
+            TimeErrorProof(time1, time2)
+        }
+        function PageAjax(PageUrl, sta) {
+        $.ajax({
+            type: "GET",
+            url: PageUrl,
+            dataType: "html",
+        }).done(function (result) {
+            $("#mainpanel").html(result);
+
+            switch (sta) {
+                case '員工管理':
+                    IndexEventFunction();
+                    break;
+                case '審核':
+                    {
+                        changeT();
+                        $("#Customers").bind("change", Switch);
+                        $("#ddlemp").bind("change", Switch);
+                        $("#CheckAll").click(cAll);
+                        $("input[name*='Le']").bind("click", function () {                           
+                            Reviewfunbtndetails(event.target.name.substr(2));
+                        });
+
+                        break;
+                    }
+                default:
+                    changeT();
+                    SetTimePicker($("#time1"), $("#time2"));
+                    break;
+            }
+        }).fail(function (e) { alert(e.responseText) });
+        }
 
 
 
      //////////////////////睿//////////////////////////////////
-
-
 
 
     function funLeaveIndex() {
@@ -264,17 +342,12 @@
             });
         }
           $(document).ready(function () {
-              changeT(); 
+              changeT();
             $("#CheckAll").click(cAll);                //全選功能
             $('#Search').bind("click",
                 function () {
                     Lrsearch();
                 });
-
-
-            d = new Date();
-            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()-7));
-            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()+1));
         });
 
 
@@ -322,45 +395,14 @@
                 alert(e.responseText);
                 });
         }
-        function zeroPadded(val) {
-            if (val >= 10)
-                return val;
-            else
-                return '0' + val;
-        }
 
-        $("#StartTime").bind("change", function () {
-            if ($("#StartTime").val() > $("#EndTime").val()) {
-                timechange();
-                $("#StartTime").val($("#EndTime").val());
-            }
-        });
+        SetTimePicker($("#StartTime"), $("#EndTime"));
 
 
-
-        function timechange() {
-            swal("起始時間不可大於最後時間!", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
-
-        $("#EndTime").bind("change", function () {
-            if ($("#EndTime").val() < $("#StartTime").val()) {
-                timechange();
-                $("#EndTime").val($("#StartTime").val());
-            }
-
-        });
 
 
     }).fail(function (e) { alert(e.responseText) });
     }
-
 
 
 
@@ -375,15 +417,7 @@
         $("#mainpanel").html(result);
         changeT();
         /////create_start
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#imgPreview').attr('src', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+      
         $("#LeaveFile").change(function () {
             readURL(this);
         });
@@ -391,34 +425,19 @@
         //$(document).ready(function () {
         //    $("#RequestTime").val(new Date().toJSON().slice(0, 19));;
         //});
-        function zeroPadded(val) {
-            if (val >= 10)
-                return val;
-            else
-                return '0' + val;
-        }
+
         $(document).ready(function () {
             d = new Date();
             $("#RequestTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + d.getHours() + ":" + d.getMinutes());
         });
 
-        function zeroPadded(val) {
-            if (val >= 10)
-                return val;
-            else
-                return '0' + val;
-        }
+
         $(document).ready(function () {
             d = new Date();
             $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
         });
 
-        function zeroPadded(val) {
-            if (val >= 10)
-                return val;
-            else
-                return '0' + val;
-        }
+
         $(document).ready(function () {
             d = new Date();
             $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
@@ -432,70 +451,25 @@
     ////////////////////////////////////////////////////////
      //////////////////////瑋////////////////////////////////
     function funSerchAttendancest() {
-      
+
       $.ajax({
     url: "@Url.Action("SerchAttendances", "Attendances")",
-    type: "GET",    
+    type: "GET",
     dataType: "html",
-    
-    //data: {"EmployeeID": EmployeeID.value,},
+
     }).done(function (result) {
-        $("#mainpanel").html(result);        
-        
         $("#mainpanel").html(result);
+
         changeT();
-        function zeroPadded(val) {
-            if (val >= 10)
-                return val;
-            else
-                return '0' + val;
-        }
+        SetTimePicker($("#time1"), $("#time2"));
 
-
-
-        d = new Date();
-        $("#time1").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
-        $("#time2").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
-
-
-
-
-
-        $("#time1").bind("change", function () {
-            if ($("#time1").val() > $("#time2").val()) {
-                timechange();
-                $("#time1").val($("#time2").val());
-            }
-
-        });
-
-
-
-        function timechange() {
-            swal("起始時間不可大於最後時間!", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
-
-        $("#time2").bind("change", function () {
-            if ($("#time2").val() < $("#time1").val()) {
-                timechange();
-                $("#time2").val($("#time1").val());
-            }
-
-        });
 
         $("#Button1").bind("click", function () {
             AttendancesSave();
         })
-        
-    }).fail(function (e) { alert(e.responseText) });  
-      
+
+    }).fail(function (e) { alert(e.responseText) });
+
 
     }
         /////////////////////////////////////////////////
@@ -525,7 +499,7 @@
             //}
 
             if (searchstr > 12 || searchstr < 06) {
-                timechange();
+                timechange1();
                 $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
             }
             else if (str >= Today) {
@@ -536,74 +510,24 @@
 
         });
 
-        function Datechange() {
-            swal("無法提交隔日後之申請", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
+
+
         function sethours(hours) {
             var start = document.querySelector("#OnDuty"), end = document.querySelector("#OffDuty");
             $("#OffDuty").val($("#OnDuty").val());
             end.value = start.value;
             end.stepUp(hours);
-            //$("#time1").on("click keyup", function () {
 
-            //    end.value = start.value;
-            //    end.stepUp(hours);
-            //});
         }
         $("input[name='inlineDefaultRadiosExample']").bind("change", function () {
 
             var ele = $("input[name='inlineDefaultRadiosExample']:checked").val()
-            switch (ele) {
-
-                case "1":
-                    sethours(60)
-                    break;
-                case "2":
-                    sethours(120)
-                    break;
-                case "3":
-                    sethours(180)
-                    break;
-                case "4":
-                    sethours(240)
-                    break;
-                case "5":
-                    sethours(300)
-                    break;
-                case "6":
-                    sethours(360)
-                    break;
-                case "7":
-                    sethours(420)
-                    break;
-                case "8":
-                    sethours(480)
-                    break;
-
-            }
-
-
+            sethours(ele * 60);
         });
 
 
 
-        function timechange() {
-            swal("上班時間請在06:00-11:59之間設定", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
+
 
         $("#submitButton").bind("click", function () {
             Clockinsave();
@@ -613,12 +537,7 @@
     }).fail(function (e) { alert(e.responseText) });
     }
 
-        function zeroPadded(val) {
-            if (val >= 10)
-                return val;
-            else
-                return '0' + val;
-        }
+
 
         function Clockinsave() {
             var data = new FormData();
@@ -632,21 +551,21 @@
     processData: false,         // 告诉jQuery不要去處理發送的數據
     dataType: "html",
     data: data,
-    
+
     //data: {"EmployeeID": EmployeeID.value,},
     }).done(function (result) {
         $("#mainpanel").html(result);
-       value='@TempData["Message"]';     
-        
-    
+       value='@TempData["Message"]';
 
-        
-        
-    }).fail(function (e) { alert(e.responseText) });  
-      
+
+
+
+
+    }).fail(function (e) { alert(e.responseText) });
+
 
     }
-    
+
     function test() {
 
      $.ajax({
@@ -656,7 +575,7 @@
     }).done(function (result) {
        $("#mainpanel").html(result);
        changeT();
-       
+
 
     }).fail(function (e) { alert(e.responseText) });
 
@@ -678,19 +597,13 @@
     processData: false,         // 告诉jQuery不要去處理發送的數據
     dataType: "html",
     data: data,
-    
+
     //data: {"EmployeeID": EmployeeID.value,},
     }).done(function (result) {
-        $("#mainpanel").html(result);        
-        
+        $("#mainpanel").html(result);
+
         $("#mainpanel").html(result);
         changeT();
-        function zeroPadded(val) {
-            if (val >= 10)
-                return val;
-            else
-                return '0' + val;
-        }
 
 
 
@@ -700,72 +613,33 @@
 
 
 
+        TimeErrorProof($("#time1"), $("#time2"));
 
 
-        $("#time1").bind("change", function () {
-            if ($("#time1").val() > $("#time2").val()) {
-                timechange();
-                $("#time1").val($("#time2").val());
-            }
-
-        });
-
-
-
-        function timechange() {
-            swal("起始時間不可大於最後時間!", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
-
-        $("#time2").bind("change", function () {
-            if ($("#time2").val() < $("#time1").val()) {
-                timechange();
-                $("#time2").val($("#time1").val());
-            }
-
-        });
 
         $("#Button1").bind("click", function () {
             AttendancesSave();
         })
-        
-    }).fail(function (e) { alert(e.responseText) });  
-      
+
+    }).fail(function (e) { alert(e.responseText) });
+
 
     }
 
       ////////////////////////瑋////////////////////////////////
     //////////////////汪///////////////////////////////
-
-
-    function funReview() {
+    function Reviewfunbtndetails(s) {
     $.ajax({
-    type: "GET",
-    url: "@Url.Action("Index", "Review")",
-    dataType: "html",
+        type: "GET",
+        url: "@Url.Action("Details", "Review")/" + s,
+        dataType: "html",
     }).done(function (result) {
-        $("#mainpanel").html(result);
-        changeT();
-
-                $("#Customers").bind("change", function () {
-                    Switch();
-                });
-
-                $("#ddlemp").bind("change", function () {
-                    Switch();
-                });
-        $("#CheckAll").click(cAll);
-
-
-
+        $("#mmmmmm").html(result);
+        //$("#btnback").bind("click", BackToIndexFunction);
     }).fail(function (e) { alert(e.responseText) });
-    }
+}
+
+   
 
      function Switch() {
 
@@ -816,85 +690,15 @@
         alert('a');
     }
 
-    function UpdateSuccess() {
-        swal("審核完成", "", {
-            icon: "info",
-            buttons: {
-                confirm: {
-                    className: 'btn btn-info'
-                }
-            },
-        });
-    }
+
 
 
 
 
     ///////////////////////正//////////////////////
-    $("#EmployeeManagement").bind("click", funEmpM);
     window.addEventListener('resize', changeT);
-    function funSerchOvt() {
-    $.ajax({
-    type: "GET",
-    url: "@Url.Action("SerchOverTime", "Employees")",
-    dataType: "html",
-    }).done(function (result) {
-        $("#mainpanel").html(result);
-        changeT();
 
-    }).fail(function (e) { alert(e.responseText) });
-    }
-
-     function funSerchAds() {
-    $.ajax({
-    type: "GET",
-    url: "@Url.Action("SerchAttendances", "Employees")",
-    dataType: "html",
-    }).done(function (result) {
-        $("#mainpanel").html(result);
-        changeT();
-
-    }).fail(function (e) { alert(e.responseText) });
-    }
-
-
-    function funSerchLev() {
-    $.ajax({
-    type: "GET",
-    url: "@Url.Action("SerchLeave", "Employees")",
-    dataType: "html",
-    }).done(function (result) {
-        $("#mainpanel").html(result);
-        changeT();
-
-    }).fail(function (e) { alert(e.responseText) });
-    }
-
-
-    function funEmpM() {
-    $.ajax({
-    type: "GET",
-    url: "@Url.Action("Index", "Employees")",
-    dataType: "html",
-    }).done(function (result) {
-        $("#mainpanel").html(result);
-        IndexEventFunction();
-    }).fail(function (e) { alert(e.responseText) });
-    }
-
-    function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('#s1').attr('src', e.target.result);
-        };
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-//$(document).ready(function () {
-//    IndexEventFunction();
-//});
-
+    
 function createmp() {
     $.ajax({
         type: "GET",
@@ -1115,11 +919,6 @@ function BackToIndexFunction() {
       changeT();
 
 
-
-    //$('#basic-datatables').DataTable({
-    //});
-    //$('#basic-datatables').basictable();
-
     $("#Employees").bind("change", UpdateEmployeesByEmployee);
     $("#Department").bind("change", function () {
         UpdateEmployeesByDepartment();
@@ -1139,11 +938,8 @@ function BackToIndexFunction() {
 
 }
 
-
-    </script>
-
-    <script>
         /////////////////WU//////////////////
+
         function OverTimeIndex() {
     $.ajax({
     type: "GET",
@@ -1159,23 +955,8 @@ function BackToIndexFunction() {
             function () {
                 OTsearch();
             });
-        d = new Date();
-        $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-01");
-        $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
-        $("#StartTime").bind("change", function () {
-            if ($("#StartTime").val() > $("#EndTime").val()) {
-                timechange();
-                $("#StartTime").val($("#EndTime").val());
-            }
 
-        });
-
-        $("#EndTime").bind("change", function () {
-            if ($("#EndTime").val() < $("#StartTime").val()) {
-                timechange();
-                $("#EndTime").val($("#StartTime").val());
-            }
-        });
+        SetTimePicker($("#StartTime"), $("#EndTime"));
     }).fail(function (e) { alert(e.responseText) });
         }
 
@@ -1199,22 +980,7 @@ function BackToIndexFunction() {
                 alert(e.responseText);
                 });
         }
-        function zeroPadded(val) {
-            if (val >= 10)
-                return val;
-            else
-                return '0' + val;
-        }
-        function timechange() {
-            swal("起始時間不可大於最後時間!", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
+
 
     function OverTimeCreate() {
     $.ajax({
@@ -1226,20 +992,7 @@ function BackToIndexFunction() {
         $("#mainpanel").html(result);
         $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "17" + ":" + "00");
         $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "19" + ":" + "00");
-        $("#StartTime").bind("change", function () {
-            if ($("#StartTime").val() > $("#EndTime").val()) {
-                timechange();
-                $("#StartTime").val($("#EndTime").val());
-            }
-
-        });
-        $("#EndTime").bind("change", function () {
-            if ($("#EndTime").val() < $("#StartTime").val()) {
-                timechange();
-                $("#EndTime").val($("#StartTime").val());
-            }
-
-        });
+        TimeErrorProof($("#StartTime"), $("#EndTime"));
 
     }).fail(function (e) { alert(e.responseText) });
         }
@@ -1259,10 +1012,10 @@ function BackToIndexFunction() {
         processData: false,         // 告诉jQuery不要去處理發送的數據
         dataType: "json",
         data: data,
-        
+
     }).done(function (result) {
 
-        
+
         alert('已送出申請');
         OverTimeIndex();
         }).fail(function (e) {
@@ -1270,11 +1023,6 @@ function BackToIndexFunction() {
 
         });
         }
-
-
-
-
-
 
     function OverTimeDetails(requestid) {
     $.ajax({
@@ -1288,6 +1036,5 @@ function BackToIndexFunction() {
     }).fail(function (e) { alert(e.responseText) });
     }
 
-
-    </script>
+</script>
 }

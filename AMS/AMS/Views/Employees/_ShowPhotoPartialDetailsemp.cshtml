@@ -4,9 +4,9 @@
 
 @if (Model.Photo!= null)
 {
-    <img src='@Url.Action("ShowPhoto","Employees",new { id=Model.EmployeeID})' style="width:360px;height:300px;margin:auto;margin-top:30px ;max-width:100%" id="s1"/>
+    <img src='@Url.Action("ShowPhoto","Employees",new { id=Model.EmployeeID})' style="width:360px;height:300px;margin:auto;margin-top:30px ;max-width:100%" id="imgPreview"/>
 }
 else
 {
-    <img src="@Url.Content("~/Img/upload.png")" style="width:360px;height:300px;margin:auto;margin-top:30px ;max-width:100%" id="s1" />
+    <img src="@Url.Content("~/Img/upload.png")" style="width:360px;height:300px;margin:auto;margin-top:30px ;max-width:100%" id="imgPreview" />
 }

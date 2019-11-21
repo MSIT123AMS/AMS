@@ -249,7 +249,7 @@ namespace AMS.Controllers
             {
                 return HttpNotFound();
             }
-            return View(leaveRequests);
+            return PartialView("_ReviewDetails", leaveRequests);
         }
 
         // GET: Review/Create
