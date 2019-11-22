@@ -32,6 +32,10 @@
     <link rel="stylesheet" href="~/assets/css/demo.css">
     <link href="~/Content/basictable.css" rel="stylesheet" />
     <link href="~/Content/phone.css" rel="stylesheet" />
+
+    //Aleart
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
     @RenderSection("styles", required: false)
     @*@RenderSection("css", required: false)*@
 </head>
@@ -323,6 +327,7 @@
     @RenderSection("scripts", required: false)
     @*@RenderSection("scripts1", required: false)*@
     @*@Scripts.Render("~/bundles/empview")*@
-    
+    //Aleart
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </body>
 </html>

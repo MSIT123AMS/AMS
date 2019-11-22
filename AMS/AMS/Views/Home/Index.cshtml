@@ -232,16 +232,43 @@
         function UpdateSuccess() {
             SweetAlert("審核完成");
         }
-        function SweetAlert(alertstring) {
+    function SweetAlert(alertstring) {
 
-            swal(alertstring, "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
+
+            //swal(alertstring, "", {
+            //    icon: "info",
+            //    buttons: {
+            //        confirm: {
+            //            className: 'btn btn-info'
+            //        }
+            //    },
+            //});
+            $.confirm({
+                
+                //content: alertstring,
+                //animationSpeed: 2000,
+                //type: 'black',
+                    title: '警告',
+                content: `<h2 style="font-family:微軟正黑體;">${alertstring}</h2>`,
+           
+                    icon: 'fa fa-question',
+                    theme: 'bootstrap',
+                    closeIcon: true,
+                    animation: 'scale',
+                    type: 'orange',
+                    buttons: {
+                        '確認': {
+                            function() {
+                                $.alert('您好!');
+                            },
+                            btnClass: 'btn btn-primary'
+                        },
+                    '取消': function () {
+                        $.alert('您不好!');
                     }
-                },
-            });
+                }
+                });
+            
         }
 
         function zeroPadded(val) {
