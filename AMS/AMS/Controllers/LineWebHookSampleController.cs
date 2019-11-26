@@ -299,7 +299,7 @@ namespace WebApplication5.Controllers
 
         [Question("請問您要請假結束日期是?")]
         [Order(3)]
-        public string 請假結束日期 { get; set; }
+        public DateTime 請假結束日期 { get; set; }
 
     }
 
