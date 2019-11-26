@@ -65,7 +65,7 @@ namespace AMS.Controllers
                     LineBotWebHookController LineBot = new LineBotWebHookController();
                     string EmployeeID = "MSIT1230005";
                     DateTime d = new DateTime();
-
+                    //var query=db.Attendances.Any(p=>p.)
                     //設定ChannelAccessToken(或抓取Web.Config)
                     LineBot.ChannelAccessToken = channelAccessToken;
                     //var query = db.Attendances.Where(p => p.Date == d.Date && p.EmployeeID == EmployeeID).First();
@@ -78,8 +78,8 @@ namespace AMS.Controllers
                         //if(query.station!=null)
                         using (var message = new MailMessage("wingrovepank@gmail.com", "hauwei.pong@gmail.com"))
                         {
-                            message.Subject = "Message Subject test";
-                            message.Body = "Message body test at " + DateTime.Now;
+                            message.Subject = "未打卡通知信";
+                            //message.Body = $"你今天{},請申請補打卡";
                             using (SmtpClient client = new SmtpClient
                             {
                                 EnableSsl = true,

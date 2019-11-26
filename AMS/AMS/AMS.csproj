@@ -227,6 +227,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\AttendancesSearchController.cs" />
+    <Compile Include="Models\calendar.cs" />
     <Compile Include="Controllers\ClockInApplyController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -718,7 +719,9 @@
     <Content Include="Content\basictable.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\daygrid-main.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\main.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\phone.css" />
     <Content Include="Content\style.css" />
@@ -726,8 +729,11 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Img\icons-search.png" />
     <Content Include="Img\kouji_rammer.png" />
     <Content Include="Img\logo.png" />
+    <Content Include="Img\logo2.png" />
+    <Content Include="Img\logo3.png" />
     <Content Include="Img\text_kosyouchuu.png" />
     <Content Include="Img\upload.png" />
     <Content Include="Models\AMSModel.Context.tt">
@@ -870,6 +876,7 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\day-gridmain.js" />
     <Content Include="Scripts\employeesview.js" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
@@ -897,6 +904,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment-2.10.3.js" />
     <Content Include="Scripts\moment-with-locales.js" />
@@ -1031,8 +1039,6 @@
     <Folder Include="bin\roslyn\" />
     <Folder Include="bin\zh-Hant\" />
     <Folder Include="fonts\" />
-    <Folder Include="Views\AttendancesSearch\" />
-    <Folder Include="Views\ClockInApplies\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

@@ -11,59 +11,66 @@
 }
 
 
-<label class=" control-label" style="font-size:35px;margin:10px">加班申請</label>
+
 
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", @type = "datetime-local" } })
-                @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.OverTimePay, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-            <div class="col-md-10">
-                @Html.DropDownList("OverTimePay", null, "---請選擇---", new { @class = "form-control" })
-
-                @Html.ValidationMessageFor(model => model.OverTimePay, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.OverTimeReason, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-            <div class="col-md-10">
-                @Html.TextAreaFor(model => model.OverTimeReason, 5, 187, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.OverTimeReason, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="button" value="送出" class="btn btn-default" onclick="CreateNewOT()"/>
-                <button class="btn btn-primary" onclick='OverTimeIndex()' type="button">取消</button>
+<body>
+    <!-- Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Shipper <span></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addForm">
+                        <input type="hidden" name="ShipperID" id="ShipperID">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                            @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new {@id= "StartTime_wu_creat", @class = "form-control", @type = "datetime-local" } })
+                            @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                            @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @id = "EndTime_wu_creat", @class = "form-control", @type = "datetime-local" } })
+                            @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OverTimePay, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                            @Html.DropDownList("OverTimePay", null, "---請選擇---", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.OverTimePay, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.OverTimeReason, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                            @Html.TextAreaFor(model => model.OverTimeReason, 5, 187, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.OverTimeReason, "", new { @class = "text-danger" })
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-search" style="background-color:#FFFFFB;color:#91989F;border-color:#91989F" onclick='OverTimeIndex()' data-dismiss="modal" type="button">取消</button>
+                    <button onclick="CreateNewOT()" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                        <i class="icon-docs"></i> 申請
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+
+    @*<div class="container mt-3">
+        <button id="buttonAdd" class="btn btn-primary mb-3" data-toggle="modal" data-target="#addModal">
+            <i class="fas fa-plus-square"></i>
+        </button>
+    </div>*@
+</body>
 }
 
 
@@ -84,11 +91,11 @@
                 return '0' + val;
         }
         d = new Date();
-
+        
         $(document).ready(function () {
-
-            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() ) + "T" + "17" + ":" + "00");
-            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() ) + "T" + "19" + ":" + "00");
+            
+            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "17" + ":" + "00");
+            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "19" + ":" + "00");
 
         })
 

@@ -32,19 +32,24 @@
     <link rel="stylesheet" href="~/assets/css/demo.css">
     <link href="~/Content/basictable.css" rel="stylesheet" />
     <link href="~/Content/phone.css" rel="stylesheet" />
+
+
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <link href="~/Content/daygrid-main.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
     @*@RenderSection("css", required: false)*@
+
 </head>
 <body>
-    <div class="wrapper">
-        <div class="main-header">
+    <div class="wrapper" >
+        <div class="main-header" >
             <!-- Logo Header -->
-            <div class="logo-header" data-background-color="white">
+            <div class="logo-header" style="background-color:#434343;padding-left:0px">
 
-                <a href=@Url.Action("Index","Home") class="logo">
+                <a href=@Url.Action("Index","Home") class="logo" >
 
 
-                    <img src=@Url.Content("~/Img/logo.png") alt="navbar brand" class="navbar-brand" width="150" height="50">
+                    <img src=@Url.Content("~/Img/logo3.png") alt="navbar brand" class="navbar-brand" width="200" height="56" style="margin-left:0px">
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
@@ -60,7 +65,7 @@
             </div>
             <!-- End Logo Header -->
             <!-- Navbar Header -->
-            <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
+            <nav class="navbar navbar-header navbar-expand-lg" style="background-color:#434343">
 
                 <div class="container-fluid">
                     <div class="collapse" id="search-nav">
@@ -104,7 +109,7 @@
             <!-- End Navbar -->
         </div>
 
-        <div>
+        <div >
 
             @RenderBody()
         </div>
@@ -223,6 +228,10 @@
     <script src="~/assets/js/setting-demo.js"></script>
     <script src="~/assets/js/demo.js"></script>
     <script src="~/Scripts/jquery.basictable.min.js"></script>
+
+    <script src="~/Scripts/main.js"></script>
+    <script src="~/Scripts/day-gridmain.js"></script>
+
     <script>
         Circles.create({
             id: 'circles-1',
@@ -323,6 +332,6 @@
     @RenderSection("scripts", required: false)
     @*@RenderSection("scripts1", required: false)*@
     @*@Scripts.Render("~/bundles/empview")*@
-    
+
 </body>
 </html>

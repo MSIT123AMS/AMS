@@ -5,36 +5,49 @@
 }
 
 
-<label class=" control-label" style="font-size:35px;margin:10px">加班申請列表</label>
 
-<div class="page-inner">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card" id="mmmmmm">
-                <div class="card-header row form-group">
-                    <label class=" control-label" style="font-size:20px;margin-left:20px">開始時間:</label>
-                    <div class="col-sm-2">
-                        <input id="StartTime" name="StartTime" type="date" class="form-control" />
+<body>
+   
+    <div class="page-inner">
+        <div style="background-color:#91989F">
+            <h1>
+                <span class="badge" style="color:#FFFFFB">個人加班明細查詢</span>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" id="mmmmmm">
+                    <div class="card-header row form-group">
+                        <label class=" control-label" style="font-size:20px;margin-left:20px">開始時間:</label>
+                        <div class="col-sm-2">
+                            <input id="StartTime" name="StartTime" type="date" class="form-control" />
+                        </div>
+                        <label class=" control-label" style="font-size:20px;margin-left:20px">結束時間:</label>
+                        <div id="ddlemp" class="col-sm-2">
+                            <input id="EndTime" name="EndTime" type="date" class="form-control" />
+                        </div>
+                        <button id="Search" name="Search" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                            <i class="fa fa-search fa-fw"></i>搜尋
+                        </button>
                     </div>
-                    <label class=" control-label" style="font-size:20px;margin-left:20px">結束時間:</label>
-                    <div id="ddlemp" class="col-sm-2">
-                        <input id="EndTime" name="EndTime" type="date" class="form-control" />
+                    <div class="container mt-3">
+                        <button id="buttonAdd" class="btn btn-primary mb-3" onclick="OverTimeCreate()">
+                            <i class="fas fa-plus-square"></i>
+                        </button>
                     </div>
-                    <div class="col-sm-2">
-                        <button id="Search" name="Search" class="form-control">搜尋</button>
+                    <div class="card-body">
+                        <div class="table-responsive" id="OverTimeTable">
 
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive" id="OverTimeTable">
-
-                @Html.Partial("_OverTimeIndexPartialView", Model)
+                            @Html.Partial("_OverTimeIndexPartialView", Model)
+                       
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+</body>
 
 
 
@@ -57,7 +70,7 @@
 
                     OTsearch();
                 });
-
+          
 
             d = new Date();
             $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-01" );

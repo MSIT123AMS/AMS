@@ -6,45 +6,48 @@
     ViewBag.Title = "SerchAttendances";
 }
 
-<label class=" control-label" style="font-size:35px;margin:10px">打卡明細</label>
+@*<label class=" control-label" style="font-size:35px;margin:10px"></label>*@
+<body>
+    <div class="page-inner">
+        <div style="background-color:#91989F">
+            <h1><span class="badge" style="color:#FFFFFB">個人刷卡明細查詢</span></h1>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" id="mmmmmm">
+                    <form style="margin-left:10px;font-family:'Microsoft JhengHei'" method="post" action="/Attendances/SerchAttendances">
 
-<div class="page-inner">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card" id="mmmmmm">
-                <form style="margin-left:10px;" method="post" action="/Attendances/SerchAttendances">
-                    <div class="card-header row form-group">
-                        <label class=" control-label" style="font-size:20px;margin-left:20px">查詢起始時間</label>
-                        <div class="col-sm-2">
-                            <input name="time1" id="time1" class="form-control" type="date" />
+                        <div class="card-header row form-group">
+                            <label class=" control-label pt-1" style="font-size:20px;margin-left:20px;">起始時間:</label>
+                            <div class="col-sm-2">
 
-                        </div>
-                        <label class=" control-label" style="font-size:20px;margin-left:20px">到</label>
-                        <div id="ddlemp" class="col-sm-2">
-                            <input name="time2" id="time2" class="form-control" type="date" />
-                        </div>
-                        <div class="col-sm-2">
-                            <input id="Button1" type="button" value="查詢" class="btn btn-outline-primary" />
+                                <input name="time1" id="time1" class="form-control" type="date" style="font-weight:800" />
+                            </div>
+                            <label class=" control-label pt-1" style="font-size:20px;margin-left:20px">結束時間:</label>
+                            <div id="ddlemp" class="col-sm-2">
 
+                                <input name="time2" id="time2" class="form-control" type="date" />
+                            </div>
+                            <div class="col-sm-2">
+                                <button id="Button1" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                                    <i class="fa fa-search fa-fw"></i>搜尋
+                                </button>
+                                @*<input id="Button1" type="button" value="查詢" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB"
+                                    >*@
+
+                            </div>
                         </div>
-                    </div>
-                </form>
-                <div class="card-body">
-                    <div class="table-responsive" id="Employeestable">
-                        @Html.Partial("_SerchAttendancesPartial", Model);
+                    </form>
+                    <div class="card-body">
+                        <div class="table-responsive" id="Employeestable">
+                            @Html.Partial("_SerchAttendancesPartial", Model);
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-@section styles
-{
-    <style>
-        th {
-        }
-    </style>
-}
+</body>
 @section scripts
 {
 
