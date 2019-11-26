@@ -1,6 +1,6 @@
 ﻿@model AMS.Controllers.EmployeesDetailsViewModel
 
-@using (Html.BeginForm("Edit", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Edit", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data",@id = "editform" }))
 {
     @Html.AntiForgeryToken()
     <div class="card-header row form-group">

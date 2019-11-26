@@ -235,39 +235,36 @@
     function SweetAlert(alertstring) {
 
 
-            //swal(alertstring, "", {
-            //    icon: "info",
-            //    buttons: {
-            //        confirm: {
-            //            className: 'btn btn-info'
-            //        }
-            //    },
-            //});
-            $.confirm({
-                
-                //content: alertstring,
-                //animationSpeed: 2000,
-                //type: 'black',
-                    title: '警告',
-                content: `<h2 style="font-family:微軟正黑體;">${alertstring}</h2>`,
-           
-                    icon: 'fa fa-question',
-                    theme: 'bootstrap',
-                    closeIcon: true,
-                    animation: 'scale',
-                    type: 'orange',
-                    buttons: {
-                        '確認': {
-                            function() {
-                                $.alert('您好!');
-                            },
-                            btnClass: 'btn btn-primary'
-                        },
-                    '取消': function () {
-                        $.alert('您不好!');
+            swal(alertstring, "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
                     }
-                }
-                });
+                },
+            });
+            //$.confirm({
+
+            //        title: '警告',
+            //    content: `<h2 style="font-family:微軟正黑體;">${alertstring}</h2>`,
+           
+            //        icon: 'fa fa-question',
+            //        theme: 'bootstrap',
+            //        closeIcon: true,
+            //        animation: 'scale',
+            //        type: 'orange',
+            //        buttons: {
+            //            '確認': {
+            //                function() {
+            //                    $.alert('您好!');
+            //                },
+            //                btnClass: 'btn btn-primary'
+            //            },
+            //        '取消': function () {
+            //            $.alert('您不好!');
+            //        }
+            //    }
+            //    });
             
         }
 
@@ -783,30 +780,15 @@ function savemp() {
         }
 
 
-        function editemp() {
-    var data = new FormData();
-    data.append("EmployeeID", EmployeeID.value);
-    data.append("EmployeeName", EmployeeName.value);
-    data.append("Email", Email.value);
-    data.append("IDNumber", IDNumber.value);
-    data.append("DeputyPhone", DeputyPhone.value);
-    data.append("Deputy", Deputy.value);
-    data.append("Marital", Marital.value);
-    data.append("Birthday", Birthday.value);
-    data.append("Hireday", Hireday.value);
-    data.append("Address", Address.value);
-    data.append("Phone", Phone.value);
-    data.append("DepartmentName", DepartmentName.value);
-    data.append("JobTitle", JobTitle.value);
-    data.append("EnglishName", EnglishName.value);
-    data.append("gender", gender.value);
-    data.append("Notes", Notes.value);
-    data.append("Education", Education.value);
+    function editemp() {
+        var myForm = document.querySelector("#editform");
+        var data = new FormData(myForm);
 
     var files = $("#empFile").get(0).files;
     if (files.length > 0) {
         data.append("Photo", files[0]);
-    }
+        }
+
     $.ajax({
         url: "@Url.Action("Edit","Employees")",
         type: "POST",

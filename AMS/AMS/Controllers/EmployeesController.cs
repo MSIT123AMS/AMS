@@ -199,7 +199,7 @@ namespace AMS.Controllers
             ViewBag.Employees = new SelectList(query, "EmployeeID", "EmployeeName");
             if (query != null)
             {
-                return PartialView("_GetDdlandListempPartial", new SelectList(query, "EmployeeID", "EmployeeName"));
+                return PartialView("_GetDdlandListempPartial"/*, new SelectList(query, "EmployeeID", "EmployeeName")*/);
             }
             else
             {
@@ -525,7 +525,7 @@ namespace AMS.Controllers
                     Phone = emp.Phone
 
                 };
-                if (Request.Files["Photo"].ContentLength != 0)
+                if (emp.Photo != null && Request.Files["Photo"].ContentLength != 0)
                 {
                     byte[] data = null;
                     using (BinaryReader br = new BinaryReader(
@@ -535,6 +535,11 @@ namespace AMS.Controllers
                     }
                     employees.Photo = data;
                 }
+                else
+                {
+                    employees.Photo = employees.Photo;
+                }
+                        
 
                 if (emp.gender=="男生")
                 {
