@@ -23,10 +23,32 @@ namespace AMS.Controllers
         private Entities db = new Entities();
 
         // GET: LeaveRequests
-        public ActionResult Index()
+        public ActionResult ToPDFIndex(string user/*, string ID, string ID2, string[] Value*/)
         {
-            string User = Convert.ToString(Session["UserName"]);
-            return View(db.LeaveRequests);
+            
+            //DateTime startime = Convert.ToDateTime(ID);
+            //DateTime endtime = Convert.ToDateTime(ID2);
+            //string[] LeaveValue = Value;
+
+
+            var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
+                                    join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
+                                    join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
+                                    where lt.EmployeeID == user  //&&lt.StartTime >= startime && lt.EndTime <= endtime &&  LeaveValue.Any(x => x == lt.LeaveType)
+                                    select new LeaveIndexViewModel
+                                    {
+                                        LeaveRequestID = lt.LeaveRequestID,
+                                        EmployeeName = emp.EmployeeName,
+                                        LeaveType = lt.LeaveType,
+                                        RequestTime = lt.RequestTime,
+                                        StartTime = lt.StartTime,
+                                        EndTime = lt.EndTime,
+                                        LeaveReason = lt.LeaveReason,
+                                        Review = rev.ReviewStatus1,
+                                        ReviewTime = lt.ReviewTime,
+                                        Attachment = lt.Attachment
+                                    });
+            return View(LeaveTimeRequest);
         }
 
         // GET: LeaveRequests/Details/5
@@ -56,7 +78,7 @@ namespace AMS.Controllers
 
         }
 
-
+        
         [HttpPost]
         public ActionResult Leave11(string id,string id2, string[] value) //傳入開始時間,結束時間,假別
         {
@@ -97,15 +119,24 @@ namespace AMS.Controllers
          
         }
 
+
         //轉PDF
-        public ActionResult ToPdf()
+        //[HttpPost]
+        public ActionResult ToPdf(/*string id, string id2, string[] value*/)
         {
+
+            //DateTime startime = Convert.ToDateTime(id);
+            //DateTime endtime = Convert.ToDateTime(id2);
+            //string[] LeaveValue = value;
+
+
+            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
             // instantiate a html to pdf converter object
             string pdfname = "差假報表.pdf";
             HtmlToPdf converter = new HtmlToPdf();
             //var fullUrl = this.Url.Action("Posts", "Edit", new { id = 5 }, this.Request.Url.Scheme);
             //Request.RequestUri.PathAndQuery
-            var fullurl = this.Url.Action("LeaveIndexView", "LeaveRequests", null, this.Request.Url.Scheme);
+            var fullurl = this.Url.Action("ToPDFIndex", "LeaveRequests",new { user= User/*,ID= startime, ID2= endtime, Value=LeaveValue*/ }, this.Request.Url.Scheme);
             // create a new pdf document converting an url
             PdfDocument doc = converter.ConvertUrl(fullurl);
             MemoryStream stream = new MemoryStream();
@@ -118,39 +149,7 @@ namespace AMS.Controllers
             return File(stream, "application/pdf", pdfname);  //pdfname 儲存PDF的名稱
         }
 
-        //public ActionResult Leavetable(string id, string id2 ,string value)
-        //{
-        //    string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
-        //    DateTime startime = Convert.ToDateTime(id.Substring(0, 4) + "/" + id.Substring(4, 2) + "/" + id.Substring(6, 2) + " 00:00:00");
-        //    DateTime endtime = Convert.ToDateTime(id2.Substring(0, 4) + "/" + id2.Substring(4, 2) + "/" + id2.Substring(6, 2) + " 23:59:59");
-
-        //    var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
-        //                            join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
-        //                            join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
-        //                            where lt.StartTime >= startime && lt.EndTime <= endtime && lt.EmployeeID == User
-        //                            select new LeaveIndexViewModel
-        //                            {
-        //                                LeaveRequestID = lt.LeaveRequestID,
-        //                                EmployeeName = emp.EmployeeName,
-        //                                LeaveType = lt.LeaveType,
-        //                                RequestTime = lt.RequestTime,
-        //                                StartTime = lt.StartTime,
-        //                                EndTime = lt.EndTime,
-        //                                LeaveReason = lt.LeaveReason,
-        //                                Review = rev.ReviewStatus1,
-        //                                ReviewTime = lt.ReviewTime,
-        //                                Attachment = lt.Attachment
-        //                            });
-        //    if (LeaveTimeRequest != null)
-        //    {
-        //        return PartialView("_LeaveIndexPartialView", LeaveTimeRequest);
-
-        //    }
-        //    else
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //}
+     
         public ActionResult Details(string id)
         {
 
@@ -334,14 +333,17 @@ namespace AMS.Controllers
                 //判斷是不是有申請過
                 if (db.LeaveRequests.Any(n=>(n.StartTime<=leaveRequests.StartTime&&n.EndTime>=leaveRequests.StartTime) ||(n.StartTime <= leaveRequests.EndTime && n.EndTime>= leaveRequests.EndTime)))
                 {
-                    return Content("alert('此日期已申請過')");
+                    //Response.Write("<script>alert('此日期已申請過');</script>");
+
+                    return Content(("<script>alert('此日期已申請過');window.location.href ='http://localhost:64643/Home/Index'</script>"));
+                
                 }
-              
+           
                     db.LeaveRequests.Add(leaveRequests);
                     db.SaveChanges();
-                    return RedirectToAction("LeaveIndexView");
-
-                
+                //return RedirectToAction("LeaveIndexView");
+                //return RedirectToAction("Index");
+                return Content(("<script>alert('送出申請，待主管審核');window.location.href ='http://localhost:64643/Home/Index'</script>"));
             }
 
             return View(leaveRequests);
@@ -454,7 +456,7 @@ namespace AMS.Controllers
             string[] LeaveValue = value;
 
 
-            var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
+            var LeaveTimeRequest = from lt in db.LeaveRequests.AsEnumerable()
                                     join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
                                     join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
                                     where lt.StartTime >= startime && lt.EndTime <= endtime && lt.EmployeeID == User && LeaveValue.Any(x => x == lt.LeaveType)
@@ -470,7 +472,7 @@ namespace AMS.Controllers
                                         Review = rev.ReviewStatus1,
                                         ReviewTime = lt.ReviewTime,
                                         Attachment = lt.Attachment
-                                    });
+                                    };
 
             string[] titleList = new string[] { "序號", "假單編號", "員工姓名", "假別", "申請時間", "申請開始時間", "申請結束時間", "事由", "申請狀態"};
             List<LeaveIndexViewModel> list = LeaveTimeRequest.ToList();/*OrderInfoBLL.GetOrdersInfoListByTime(OrderStartTime, OrderEndTime);*/
@@ -483,32 +485,70 @@ namespace AMS.Controllers
             NPOI.SS.UserModel.ISheet sheet1 = book.CreateSheet("Sheet1");
             //給sheet1新增第一行的頭部標題
             IRow headerrow = sheet1.CreateRow(0);
+            //給sheet1欄寬
+            sheet1.SetColumnWidth(0, 5 * 256);
+            sheet1.SetColumnWidth(1, 10 * 256);
+            sheet1.SetColumnWidth(2, 10 * 256);
+            sheet1.SetColumnWidth(3, 15 * 256);
+            sheet1.SetColumnWidth(4, 15 * 256);
+            sheet1.SetColumnWidth(5, 20 * 256);
+            sheet1.SetColumnWidth(6, 20 * 256);
+            sheet1.SetColumnWidth(7, 25 * 256);
+            sheet1.SetColumnWidth(8, 8 * 256);
 
+            //標題樣式
             HSSFCellStyle headStyle = (HSSFCellStyle)book.CreateCellStyle();
             HSSFFont font = (HSSFFont)book.CreateFont();
             font.FontHeightInPoints = 10;
             font.Boldweight = 700;
+            headStyle.Alignment = HorizontalAlignment.Left;
+
+
             headStyle.SetFont(font);
+            
             for (int i = 0; i < titleList.Length; i++)
             {
                 ICell cell = headerrow.CreateCell(i);
                 cell.CellStyle = headStyle;
                 cell.SetCellValue(titleList[i]);
+                
+
             }
+            //設定寫入資料的樣式
+            HSSFCellStyle ContentStyle = (HSSFCellStyle)book.CreateCellStyle();
+            ContentStyle.Alignment= HorizontalAlignment.Right;
             //將資料逐步寫入sheet1各個行
             for (int i = 0; i < list.Count; i++)
             {
                 NPOI.SS.UserModel.IRow rowtemp = sheet1.CreateRow(i + 1);
                 rowtemp.CreateCell(0).SetCellValue(i + 1);
-                rowtemp.CreateCell(1).SetCellValue(list[i].LeaveRequestID);
-                rowtemp.CreateCell(2).SetCellValue(list[i].EmployeeName);
-                rowtemp.CreateCell(3).SetCellValue(list[i].LeaveType);
-                rowtemp.CreateCell(4).SetCellValue(list[i].RequestTime.ToString("yyyy-MM-dd"));
-                rowtemp.CreateCell(5).SetCellValue(list[i].StartTime.ToString("yyyy-MM-dd HH:mm"));
-                rowtemp.CreateCell(6).SetCellValue(list[i].EndTime.ToString("yyyy-MM-dd HH:mm"));
-                rowtemp.CreateCell(7).SetCellValue(list[i].LeaveReason);
-                rowtemp.CreateCell(8).SetCellValue(list[i].Review == "未審核" ? "未審核" : list[i].Review == "已審核" ? "已審核" : list[i].Review == "駁回" ? "駁回" : "取消稽核不通過");
+
+                var cell1 = rowtemp.CreateCell(1);
+                cell1.SetCellValue(list[i].LeaveRequestID);
+                cell1.CellStyle = ContentStyle;
+                var cell2 = rowtemp.CreateCell(2);
+                cell2.SetCellValue(list[i].EmployeeName);
+                cell2.CellStyle = ContentStyle;
+                var cell3 = rowtemp.CreateCell(3);
+                cell3.SetCellValue(list[i].LeaveType);
+                cell3.CellStyle = ContentStyle;
+                var cell4 = rowtemp.CreateCell(4);
+                cell4.SetCellValue(list[i].RequestTime.ToString("yyyy-MM-dd"));
+                cell4.CellStyle = ContentStyle;
+                var cell5 = rowtemp.CreateCell(5);
+                cell5.SetCellValue(list[i].StartTime.ToString("yyyy-MM-dd HH:mm"));
+                cell5.CellStyle = ContentStyle;
+                var cell6 = rowtemp.CreateCell(6);
+                cell6.SetCellValue(list[i].EndTime.ToString("yyyy-MM-dd HH:mm"));
+                cell6.CellStyle = ContentStyle;
+                var cell7 = rowtemp.CreateCell(7);
+                cell7.SetCellValue(list[i].LeaveReason);
+                cell7.CellStyle = ContentStyle;
+                var cell8 = rowtemp.CreateCell(8);
+                cell8.SetCellValue(list[i].Review == "未審核" ? "未審核" : list[i].Review == "已審核" ? "已審核" : list[i].Review == "駁回" ? "駁回" : "取消稽核不通過");
+                cell8.CellStyle = ContentStyle;
                 //rowtemp.CreateCell(9).SetCellValue(list[i].ReviewTime.ToString("yyyy-MM-dd HH:mm"));
+
             }
             var guid = Guid.NewGuid().ToString();
             DownLoadHelper.SetCache(guid, book);

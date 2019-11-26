@@ -41,7 +41,7 @@ namespace AMS.Controllers
                                        ReviewTime = ot.ReviewTime
                                    });
 
-            
+
 
             return PartialView("_Index",overTimeRequest);
         }
@@ -199,7 +199,7 @@ namespace AMS.Controllers
                 
                 db.OverTimeRequest.Add(overTimeRequest);
                 db.SaveChanges();
-                return Json(new { Success = false, Message = "申請成功" }, JsonRequestBehavior.AllowGet);
+                return Content("Home");
             }
 
             return RedirectToAction("Index", "Home");
