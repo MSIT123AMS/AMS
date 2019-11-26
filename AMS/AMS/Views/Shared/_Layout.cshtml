@@ -32,8 +32,13 @@
     <link rel="stylesheet" href="~/assets/css/demo.css">
     <link href="~/Content/basictable.css" rel="stylesheet" />
     <link href="~/Content/phone.css" rel="stylesheet" />
+
+
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <link href="~/Content/daygrid-main.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
     @*@RenderSection("css", required: false)*@
+
 </head>
 <body>
     <div class="wrapper" >
@@ -223,6 +228,10 @@
     <script src="~/assets/js/setting-demo.js"></script>
     <script src="~/assets/js/demo.js"></script>
     <script src="~/Scripts/jquery.basictable.min.js"></script>
+
+    <script src="~/Scripts/main.js"></script>
+    <script src="~/Scripts/day-gridmain.js"></script>
+
     <script>
         Circles.create({
             id: 'circles-1',
@@ -323,6 +332,6 @@
     @RenderSection("scripts", required: false)
     @*@RenderSection("scripts1", required: false)*@
     @*@Scripts.Render("~/bundles/empview")*@
-    
+
 </body>
 </html>

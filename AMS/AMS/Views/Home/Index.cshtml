@@ -1,8 +1,18 @@
-﻿@model IEnumerable<AMS.Models.ClockInApply>
+﻿
 
 @{
     ViewBag.Title = "Index";
 }
+
+@section styles{
+    <style>
+        #calendar{
+            font-size:30px;
+        }
+    </style>
+    
+    }
+
 <!-- Sidebar -->
 <div class="sidebar sidebar-style-2">
     <div class="sidebar-wrapper scrollbar scrollbar-inner" style="font-family:'Microsoft JhengHei'">
@@ -201,10 +211,9 @@
 <div class="main-panel">
     <div class="content" id="mainpanel" style="background-color:#fffefa">
         @*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*@
-        <div class="row">
-            <img src="~/Img/text_kosyouchuu.png" style="display:block; margin:auto;" />
-            <img src="~/Img/kouji_rammer.png" style="display:block; margin:auto;" />
-        </div>
+        @*行事曆*@
+        <div id="calendar"> </div>
+        @*行事曆*@
 
     </div>
     <div id="aaaa"></div>
@@ -1290,6 +1299,26 @@ function BackToIndexFunction() {
 
     }).fail(function (e) { alert(e.responseText) });
     }
+
+
+        //Calendar
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['dayGrid'],
+                events: "@Url.Action("LoadCalender", "Home")",
+                lazyFetching: false,
+            });
+
+            calendar.render();
+            //$('#fc-prev-button fc-button fc-button-primary').bind('click',)
+        });
+
+        
+
+
+      
 
 
     </script>
