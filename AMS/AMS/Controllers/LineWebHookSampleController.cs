@@ -1,5 +1,6 @@
 using AMS.Models;
 using isRock.LineBot;
+using isRock.LineBot.Conversation;
 using Quartz;
 using Quartz.Impl;
 using System;
@@ -17,8 +18,7 @@ namespace WebApplication5.Controllers
 {
     public class LineBotWebHookController : isRock.LineBot.LineWebHookControllerBase
     {
-       public const string channelAccessToken = @"wJvLiDuDsJpYsgTqSPXQwu35UoXbtmVPXn8Q1/oWN8REU5mbLG0qBffnpgSlNWH3yncYUa3OAgyWoe8gPb8F1nFveUGakkBJ2UHqUKSXElkHhypyGWz7Ndhojww+2P0+ikiFbIIkz6nhMQwetqG1gwdB04t89/1O/w1cDnyilFU=
-";
+       public const string channelAccessToken = @"ehC2bzsC2xmmwK5J59gcEK4ihHfRlYfb8kQFxVR2jn0B9vlAtMfvAwXXn5KfJfeQlC+5Higk86SmFJkwGn3bwDHH1uvL2X4vwahMbdMCeIFJttH9jNekMNBw6RHL0hJaQq2oEDSKKf0ocx3CQTFaO1GUYhWQfeY8sLGRXgo3xvw=";
         public string AdminUserId ;
          
         [Route("api/LineWebHookSample")]
@@ -74,10 +74,27 @@ namespace WebApplication5.Controllers
                                 };
                                 bot.PushMessage(AdminUserId, ButtonTempalteMsg);
 
-                        }                     
-                        
-                        switch (LineEvent.message.text)
-                        {
+                            }
+                            //if (LineEvent.message.text == "請假")//新增MessageAction請假
+                            //{
+                                
+                            //    var bot = new Bot(channelAccessToken);
+                            //    List<TemplateActionBase> actions = new List<TemplateActionBase>();
+                            //    this.ReplyMessage(LineEvent.replyToken, $"你好,{q.EmployeeName}");
+                            //    actions.Add(new MessageAction() { label = "請假", text = "請假" });
+
+                            //    var ButtonTempalteMsg = new isRock.LineBot.ConfirmTemplate()
+                            //    {
+                            //        text = "請假",
+                            //        altText = "請在手機上檢視",
+                            //        actions = actions
+                            //    };
+                            //    bot.PushMessage(AdminUserId, ButtonTempalteMsg);
+                            //}
+
+                            switch (LineEvent.message.text)
+                            {
+                         
 
                                 case "上班":
                                     if (DateTime.Now < dt1)
@@ -156,6 +173,80 @@ namespace WebApplication5.Controllers
                                         
                                     }
                                     break;
+                                #region Line請假回訊息區
+                                case "請假":
+                                    {
+                                        var bot2 = new Bot(channelAccessToken);
+                                        List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
+
+                                        //actions2.Add(new UriAction() { label = "請假", uri = new Uri("line://app/1612776942-bm461AoW") });
+                                        //actions2.Add(new UriAction() { label = "查詢", uri = new Uri("line://app/1612776942-9MbWYMog") });
+                                        actions2.Add(new MessageAction() { label = "請假申請", text = "請假申請" });
+                                        actions2.Add(new MessageAction() { label = "請假查詢", text = "請假查詢" });
+                                        actions2.Add(new MessageAction() { label = "測試請假", text = "測試請假" });
+                                        var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
+                                        {
+                                            text = "請假",
+                                            altText = "請在手機上檢視",
+                                            thumbnailImageUrl = new Uri("https://imgs.fun1shot.com/21d825754c12110fc0b5cc2778e7bc99.jpg"),
+                                            actions = actions2
+                                        };
+                                        bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                                        break;
+
+                                    }
+
+                                case "測試請假":
+                                    {
+                                      
+                                        break;
+
+                                    }
+
+
+                                case "請假申請":
+                                    {
+                                        var bot2 = new Bot(channelAccessToken);
+                                        List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
+
+                                        //actions2.Add(new UriAction() { label = "請假", uri = new Uri("line://app/1612776942-bm461AoW") });
+                                        //actions2.Add(new UriAction() { label = "查詢", uri = new Uri("line://app/1612776942-9MbWYMog") });
+                                        actions2.Add(new DateTimePickerAction() { label = "請假開始時間", mode = "datetime" });
+                                        actions2.Add(new DateTimePickerAction() { label = "請假開始結束", mode = "datetime" });
+                                        actions2.Add(new MessageAction() { label = "假別", text = "假別" });
+                                        var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
+                                        {
+                                            text = "請假申請",
+                                            altText = "請在手機上檢視",
+                                            thumbnailImageUrl = new Uri("https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2019/01/26/99/5848687.jpg&x=0&y=0&sw=0&sh=0&exp=3600"),
+                                            actions = actions2
+                                        };
+                                        bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                                        break;
+
+                                    }
+
+                               
+
+
+                                case "假別":
+                                    {
+                                        TextMessage msg = new TextMessage("請問你要請什麼假?");
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("事假", "事假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("病假", "病假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("公假", "公假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("喪假", "喪假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("特休假", "特休假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("產假", "產假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("陪產假", "陪產假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("生理假", "生理假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("補休假", "補休假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("家庭照顧假", "家庭照顧假"));
+                                        Bot bot = new Bot(ChannelAccessToken);
+                                        bot.PushMessage(AdminUserId, msg);
+                                        break;
+                                    }
+                                    #endregion
 
 
                             }
@@ -195,4 +286,22 @@ namespace WebApplication5.Controllers
 
         }
     }
+
+    public class LeaveRequstLine : ConversationEntity
+    {
+        [Question("請問您要請假的假別是?")]
+        [Order(1)]
+        public string 假別 { get; set; }
+
+        [Question("請問您要請假開始日期是?")]
+        [Order(2)]
+        public DateTime 請假開始日期 { get; set; }
+
+        [Question("請問您要請假結束日期是?")]
+        [Order(3)]
+        public string 請假結束日期 { get; set; }
+
+    }
+
+
 }
