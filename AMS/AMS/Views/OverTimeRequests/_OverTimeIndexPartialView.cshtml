@@ -1,10 +1,11 @@
 ﻿@model IEnumerable<AMS.Models.OverTimeViewModel>
 
 <p>
+  
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table" id="basic-datatables">
-    <thead class="bg-primary text-light">
+<table class="basic-datatables" id="basic-datatables">
+    <thead class="text-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeName)
