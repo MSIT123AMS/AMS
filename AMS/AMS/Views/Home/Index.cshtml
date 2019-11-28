@@ -740,24 +740,26 @@ function createmp() {
 }
 
 function savemp() {
-    var data = new FormData();
-    data.append("EmployeeID", EmployeeID.value);
-    data.append("EmployeeName", EmployeeName.value);
-    data.append("Email", Email.value);
-    data.append("IDNumber", IDNumber.value);
-    data.append("DeputyPhone", DeputyPhone.value);
-    data.append("Deputy", Deputy.value);
-    data.append("Marital", Marital.value);
-    data.append("Birthday", Birthday.value);
-    data.append("Hireday", Hireday.value);
-    data.append("Address", Address.value);
-    data.append("Phone", Phone.value);
-    data.append("DepartmentName", DepartmentName.value);
-    data.append("JobTitle", JobTitle.value);
-    data.append("EnglishName", EnglishName.value);
-    data.append("gender", gender.value);
-    data.append("Notes", Notes.value);
-    data.append("Education", Education.value);
+    //var data = new FormData();
+    //data.append("EmployeeID", EmployeeID.value);
+    //data.append("EmployeeName", EmployeeName.value);
+    //data.append("Email", Email.value);
+    //data.append("IDNumber", IDNumber.value);
+    //data.append("DeputyPhone", DeputyPhone.value);
+    //data.append("Deputy", Deputy.value);
+    //data.append("Marital", Marital.value);
+    //data.append("Birthday", Birthday.value);
+    //data.append("Hireday", Hireday.value);
+    //data.append("Address", Address.value);
+    //data.append("Phone", Phone.value);
+    //data.append("DepartmentName", DepartmentName.value);
+    //data.append("JobTitle", JobTitle.value);
+    //data.append("EnglishName", EnglishName.value);
+    //data.append("gender", gender.value);
+    //data.append("Notes", Notes.value);
+    //data.append("Education", Education.value);
+    var myForm = document.querySelector("#Creatform");
+    var data = new FormData(myForm);
 
     var files = $("#empFile").get(0).files;
     if (files.length > 0) {

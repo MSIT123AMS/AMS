@@ -1,7 +1,7 @@
 ﻿@model AMS.Controllers.EmployeesCreateViewModel
 
-@*@using (Html.BeginForm("Create", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data",@id= "emp" }))
-    {*@
+@using (Html.BeginForm("Create", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data", @id= "Creatform" }))
+{
 @Html.AntiForgeryToken()
 <div class="card-header row form-group">
     <label class=" control-label" style="font-size:20px;margin-left:20px">新增員工</label>
@@ -208,7 +208,7 @@
         </div>
     </div>
 </div>
-
+}
 
 @section Scripts {
 
