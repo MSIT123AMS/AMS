@@ -6,6 +6,7 @@
     <table class="display table table-striped table-hover" id="basic-datatables">
         <thead class="bg-primary text-light">
             <tr>
+                <th></th>
                 <th>
                     @Html.DisplayNameFor(model => model.LeaveRequestID)
                 </th>
@@ -37,14 +38,23 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Attachment)
                 </th>
-                <th>Action</th>
-               
+
+
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
             <tr class="table-light">
+                <td>
+                    <a href="@Url.Action("Details",new { id = item.LeaveRequestID })" class="btn btn-sm" style="background-color:#DAC9A6;color:#3A3226">
+                        <i class="icon-list"></i>
+                        <span>
+                            <strong>明細</strong>
+                        </span>
+                    </a>
+                    @*@Html.ActionLink("明細", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })*@
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LeaveRequestID)
                 </td>
@@ -75,9 +85,7 @@
                 <td>
                     @Html.Partial("_ShowPhotoPartial", item)
                 </td>
-                <td>
-                    @Html.ActionLink("明細", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })
-                </td>
+
             </tr>
             }
         </tbody>

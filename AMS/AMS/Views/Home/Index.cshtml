@@ -108,38 +108,7 @@
 
                         </ul>
                     </div>
-                </li>
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#sidebarLayouts">
-                        <i class="fas fa-th-list"></i>
-                        <p style="font-family:'Microsoft JhengHei'">表單</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="sidebarLayouts">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#" onclick="funLeaveCreate()" )>
-                                    <span class="sub-item"style="font-family:'Microsoft JhengHei'">請假申請單</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick="OverTimeCreate()" )>
-
-                                    <span class="sub-item"style="font-family:'Microsoft JhengHei'">
-                                        申請加班補休
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" onclick="funClockInApplyCreat()" )>
-                                    <span class="sub-item"style="font-family:'Microsoft JhengHei'">刷卡異常申覆單</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
+                </li>               
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#sidebarLayout2">
                         <i class="fas fa-th-list"></i>
@@ -400,7 +369,9 @@
     url: "@Url.Action("Create", "LeaveRequests")",
     dataType: "html",
     }).done(function (result) {
-        $("#mainpanel").html(result);
+        $("#aaaa").html(result);
+
+        $('#addModal').modal('show'); 
         changeT();
 
 
@@ -440,7 +411,7 @@
         }
         $(document).ready(function () {
             d = new Date();
-            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
+            $("#StartTime_leave_create").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
         });
 
         function zeroPadded(val) {
@@ -451,13 +422,13 @@
         }
         $(document).ready(function () {
             d = new Date();
-            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
+            $("#EndTime_leave_create").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
         });
         //////////以下是時間防呆
-        $("#StartTime").bind("change", function () {
-            if ($("#StartTime").val() > $("#EndTime").val()) {
+        $("#StartTime_leave_create").bind("change", function () {
+            if ($("#StartTime_leave_create").val() > $("#EndTime_leave_create").val()) {
                 timechange();
-                $("#StartTime").val($("#EndTime").val());
+                $("#StartTime_leave_create").val($("#EndTime_leave_create").val());
             }
         });
 
@@ -472,10 +443,10 @@
             });
         }
 
-        $("#EndTime").bind("change", function () {
-            if ($("#EndTime").val() < $("#StartTime").val()) {
+        $("#EndTime_leave_create").bind("change", function () {
+            if ($("#EndTime_leave_create").val() < $("#StartTime_leave_create").val()) {
                 timechange();
-                $("#EndTime").val($("#StartTime").val());
+                $("#EndTime_leave_create").val($("#StartTime_leave_create").val());
             }
 
         });
@@ -561,7 +532,8 @@
     url: "@Url.Action("ClockinApply", "ClockInApply")",
     dataType: "html",
     }).done(function (result) {
-        $("#mainpanel").html(result);
+        $("#aaaa").html(result);
+        $('#addModal').modal('show'); 
              d = new Date();
             $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
             $("#OffDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "16" + ":" + "00");
@@ -1304,7 +1276,7 @@ function BackToIndexFunction() {
 
       function CreateNewOT() {
     var data = new FormData();
-          data.append("StartTime1", StartTime.value);
+          data.append("StartTime", StartTime.value);
           data.append("EndTime", EndTime.value);
           data.append("OverTimePay", OverTimePay.value);
           data.append("OverTimeReason", OverTimeReason.value);

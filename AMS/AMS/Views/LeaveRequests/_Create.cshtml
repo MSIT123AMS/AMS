@@ -7,23 +7,97 @@
 <label class=" control-label" style="font-size:35px;margin:10px">請假申請</label>
 
 
-    @using (Html.BeginForm("Create", "LeaveRequests", FormMethod.Post, new { @enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
+@using (Html.BeginForm("Create", "LeaveRequests", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <body>
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h1>
+                                <span class="badge">請假申請單</span>
+                            </h1>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addForm">
+                            @*<input type="hidden" name="ShipperID" id="ShipperID">*@
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new {@id= "StartTime_leave_create" ,@class = "form-control", Type = "datetime-local" } })
+                                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @id = "EndTime_leave_create", @class = "form-control", Type = "datetime-local" } })
+                                @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="badge badge-info" style="background-color:#A8D8B9">特休天數:@ViewBag.Off</label>
+                                        <label class="badge badge-info" style="background-color:#A8D8B9">剩餘特休天數:@ViewBag.on</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                @Html.DropDownList("LeaveType", null, "--請選擇--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.LeaveType, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.LeaveReason, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
+                                @Html.TextAreaFor(model => model.LeaveReason, 5, 187, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.LeaveReason, "", new { @class = "text-danger" })
+                            </div>
+
+
+                            <div class="container">
+                                <div class="form-group ">
+                                    @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label", @style = "text-align:left" })
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <input type="file" name="LeaveFile" id="LeaveFile" value="附件" accept="image/*" />
+                                            <img id="imgPreview" src="@Url.Content("~/Img/upload.png")" class="img-thumbnail img-fluid" style="width:200px;height:200px" />
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-search" style="background-color:#FFFFFB;color:#91989F;border-color:#91989F" data-dismiss="modal" type="button">關閉</button>
+                        <button type="submit" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                            <i class="icon-docs"></i> 申請
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="form-horizontal">
             <div class="page-inner">
                 <div class="card">
                     <hr />
                     @*<div class="form-group">
-            @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
-                @Html.ValidationMessageFor(model => model.RequestTime, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+                            @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
+                                @Html.ValidationMessageFor(model => model.RequestTime, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
                     <div class="form-group">
-                        @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left"})
+                        @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
                             @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
@@ -31,7 +105,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
+                        @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
                         <div class="col-md-10">
                             @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
                             @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
@@ -39,12 +113,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-2" style= "text-align:left" >特休天數:@ViewBag.Off</label><br />
-                        <label class="control-label col-md-2" style= "text-align:left" >剩餘特休天數:@ViewBag.on</label>
+                        <label class="control-label col-md-2" style="text-align:left">特休天數:@ViewBag.Off</label>
+                        <br />
+                        <label class="control-label col-md-2" style="text-align:left">剩餘特休天數:@ViewBag.on</label>
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
+                        @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
                         <div class="col-md-10">
                             @Html.DropDownList("LeaveType", null, "--請選擇--", new { @class = "form-control" })
                             @*@Html.EditorFor(model => model.LeaveType, new { htmlAttributes = new { @class = "form-control" } })*@
@@ -53,7 +128,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.LabelFor(model => model.LeaveReason, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
+                        @Html.LabelFor(model => model.LeaveReason, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
                         <div class="col-md-10">
                             @Html.TextAreaFor(model => model.LeaveReason, 5, 187, new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.LeaveReason, "", new { @class = "text-danger" })
@@ -64,34 +139,34 @@
 
 
                     @*<div class="form-group">
-            @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ReviewStatusID, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReviewStatusID, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+                            @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ReviewStatusID, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ReviewStatusID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
 
                     @*<div class="form-group">
-            @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ReviewTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReviewTime, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
+                            @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ReviewTime, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ReviewTime, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
 
                     <div class="form-group ">
-                        @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
+                        @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
                         <div class="col-md-10">
                             <img id="imgPreview" src="@Url.Content("~/Img/upload.png")" style="width:240px;height:180px" />
                             <input type="file" name="LeaveFile" id="LeaveFile" accept="image/*" />
                             @*@Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })*@
+                                @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })*@
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            
+
 
 
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -109,7 +184,7 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                           確定要送出嗎
+                                            確定要送出嗎
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -129,60 +204,62 @@
                 </div>
             </div>
         </div>
-    }
 
-    @section scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-        <script>
+    </body>
+}
 
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#imgPreview').attr('src', e.target.result);
-                    };
-                    reader.readAsDataURL(input.files[0]);
-                }
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPreview').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
             }
-            $("#LeaveFile").change(function () {
-                readURL(this);
-            });
+        }
+        $("#LeaveFile").change(function () {
+            readURL(this);
+        });
 
-            //$(document).ready(function () {
-            //    $("#RequestTime").val(new Date().toJSON().slice(0, 19));;
-            //});
-            function zeroPadded(val) {
-                if (val >= 10)
-                    return val;
-                else
-                    return '0' + val;
-            }
-            $(document).ready(function () {
-                d = new Date();
-                $("#RequestTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + d.getHours() + ":" + d.getMinutes());
-            });
+        //$(document).ready(function () {
+        //    $("#RequestTime").val(new Date().toJSON().slice(0, 19));;
+        //});
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        $(document).ready(function () {
+            d = new Date();
+            $("#RequestTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + d.getHours() + ":" + d.getMinutes());
+        });
 
-            function zeroPadded(val) {
-                if (val >= 10)
-                    return val;
-                else
-                    return '0' + val;
-            }
-            $(document).ready(function () {
-                d = new Date();
-                $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
-            });
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        $(document).ready(function () {
+            d = new Date();
+            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
+        });
 
-            function zeroPadded(val) {
-                if (val >= 10)
-                    return val;
-                else
-                    return '0' + val;
-            }
-            $(document).ready(function () {
-                d = new Date();
-                $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
-            });
-        </script>
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+        $(document).ready(function () {
+            d = new Date();
+            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
+        });
+    </script>
 
-    }
+}

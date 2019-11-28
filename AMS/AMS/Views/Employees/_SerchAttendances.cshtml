@@ -7,9 +7,13 @@
     ViewBag.Title = "SerchLeave";
 }
 
-<label class=" control-label" style="font-size:35px;margin:10px">打卡明細</label>
 
 <div class="page-inner">
+    <div style="background-color:#91989F">
+        <h1>
+            <span class="badge" style="color:#FFFFFB">刷卡明細查詢</span>
+        </h1>
+    </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card" id="mmmmmm">
@@ -25,8 +29,12 @@
                             <input name="time2" id="time2" class="form-control" type="date" />
                         </div>
                         <div class="col-sm-2">
-                            <input id="Button1" type="submit" value="查詢" class="btn btn-outline-primary" />
-
+                            <button id="Button1" type="submit" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                                <i class="fa fa-search fa-fw"></i><span>
+                                    <strong>搜尋</strong>
+                                </span>
+                            </button>
+                           
                         </div>
                     </div>
                 </form>
