@@ -833,15 +833,15 @@ function UpdateEmployeesByEmployee() {
         $("#Employeestable").html(result);
         changeT();
 
-        $("input[name*='MSIT']").bind("click", function () {
-            if (event.target.name.substr(0, 2) == "De") {
-                funbtndetails(event.target.name.substr(2));
-            }
-            else if (event.target.name.substr(0, 2) == "Ed") {
-                funbtnedit(event.target.name.substr(2));
-            }
+        //$("input[name*='MSIT']").bind("click", function () {
+        //    if (event.target.name.substr(0, 2) == "De") {
+        //        funbtndetails(event.target.name.substr(2));
+        //    }
+        //    else if (event.target.name.substr(0, 2) == "Ed") {
+        //        funbtnedit(event.target.name.substr(2));
+        //    }
 
-        });
+        //});
     }).fail(function (e) { alert(e.responseText) });
 }
 
@@ -854,24 +854,24 @@ function UpdateEmployeesByDepartment() {
         $("#Employeestable").html(result);
         changeT();
 
-        $("input[name*='MSIT']").bind("click", function () {
+        //$("input[name*='MSIT']").bind("click", function () {
 
-            if (event.target.name.substr(0, 2) == "De") {
-                funbtndetails(event.target.name.substr(2));
-            }
-            else if (event.target.name.substr(0, 2) == "Ed"){
-                funbtnedit(event.target.name.substr(2));
-            }
+        //    if (event.target.name.substr(0, 2) == "De") {
+        //        funbtndetails(event.target.name.substr(2));
+        //    }
+        //    else if (event.target.name.substr(0, 2) == "Ed"){
+        //        funbtnedit(event.target.name.substr(2));
+        //    }
 
 
-        });
+        //});
     }).fail(function (e) { alert(e.responseText) });
 }
 
-function funbtnedit(s) {
+    function funbtnedit(EmployeeID) {
     $.ajax({
         type: "GET",
-        url: "@Url.Action("Edit", "Employees")/" + s,
+        url: "@Url.Action("Edit", "Employees")/" + EmployeeID,
         dataType: "html",
     }).done(function (result) {
         $("#mmmmmm").html(result);
@@ -888,10 +888,10 @@ function funbtnedit(s) {
 
 
 
-function funbtndetails(s) {
+    function funbtndetails(EmployeeID) {
     $.ajax({
         type: "GET",
-        url: "@Url.Action("Details", "Employees")/" + s,
+        url: "@Url.Action("Details", "Employees")/" + EmployeeID,
         dataType: "html",
     }).done(function (result) {
         $("#mmmmmm").html(result);
@@ -936,16 +936,16 @@ function BackToIndexFunction() {
         Updateddl();
     });
     $("#Button1").bind("click", createmp);
-    $("input[name*='MSIT']").bind("click", function () {
+    //$("input[name*='MSIT']").bind("click", function () {
 
-        if (event.target.name.substr(0, 2) == "De") {
-            funbtndetails(event.target.name.substr(2));
-        }
-        else if (event.target.name.substr(0, 2) == "Ed") {
-            funbtnedit(event.target.name.substr(2));
-        }
+    //    if (event.target.name.substr(0, 2) == "De") {
+    //        funbtndetails(event.target.name.substr(2));
+    //    }
+    //    else if (event.target.name.substr(0, 2) == "Ed") {
+    //        funbtnedit(event.target.name.substr(2));
+    //    }
 
-    });
+    //});
 
 }
 
