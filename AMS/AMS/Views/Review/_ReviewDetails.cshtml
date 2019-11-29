@@ -4,87 +4,101 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>LeaveRequests</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.EmployeeID)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.EmployeeID)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.RequestTime)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.RequestTime)
-        </dd>
+    <div class="page-inner">
+        <div style="background-color:#91989F">
+            <h1>
+                <span class="badge" style="color:#FFFFFB">明細</span>
+            </h1>
+        </div>
+        <div class="card">
+            <div class="card-head-row">
+                <div class="form-group col-md-12 row">
+                    @Html.LabelFor(model => model.EmployeeID, htmlAttributes: new { @class = "control-label col-md-2 text-center " })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.EmployeeID, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
 
-        <dt>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </dt>
+                    </div>
+                    @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label  col-md-2 text-center" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
 
-        <dd>
-            @Html.DisplayFor(model => model.StartTime)
-        </dd>
+                    </div>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </dt>
+                <div class="form-group col-md-12 row">
+                    @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2 text-center " })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
 
-        <dd>
-            @Html.DisplayFor(model => model.EndTime)
-        </dd>
+                    </div>
+                    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label  col-md-2 text-center" })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LeaveType)
-        </dt>
+                    </div>
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.LeaveType)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LeaveReason)
-        </dt>
+                <div class="form-group col-md-12 row">
+                    @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2 text-center " })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.LeaveType, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
 
-        <dd>
-            @Html.DisplayFor(model => model.LeaveReason)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ReviewStatusID)
-        </dt>
+                        <div class="form-group col-md-12 row">
+                            @Html.LabelFor(model => model.LeaveReason, htmlAttributes: new { @class = "control-label  col-md-2 text-center" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.LeaveReason, new { htmlAttributes = new { @readonly = true, @class = "form-control" } })
 
-        <dd>
-            @Html.DisplayFor(model => model.ReviewStatusID)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.ReviewTime)
-        </dt>
+                            </div>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.ReviewTime)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Attachment)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Attachment)
-        </dd>
 
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.LeaveRequestID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+
+                        <div class="form-group col-md-12 row">
+                            @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2 text-center " })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.ReviewStatusID, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+
+                            </div>
+                            @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label  col-md-2 text-center" })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.ReviewTime, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12 row">
+                            @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2 text-center " })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+
+                            </div>
+                            
+                            <div class="col-md-4">
+                               
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12 row">
+
+                            <div class="col-md-offset-3 col-md-12">
+                                <div class="float-right">
+                                    <button class="btn btn-search" style="background-color:#FFFFFB;color:#3A3226;border-color:#91989F" onclick='PageAjax("@Url.Action("Index", "Review")","審核")'>
+                                        <i class="flaticon-back"></i><span>
+                                            <strong>返回</strong>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </div>

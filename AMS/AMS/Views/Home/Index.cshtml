@@ -614,31 +614,7 @@
             $("#EndTime_leave_create").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
         });
         //////////以下是時間防呆
-        $("#StartTime_leave_create").bind("change", function () {
-            if ($("#StartTime_leave_create").val() > $("#EndTime_leave_create").val()) {
-                timechange();
-                $("#StartTime_leave_create").val($("#EndTime_leave_create").val());
-            }
-        });
-
-        function timechange() {
-            swal("起始時間不可大於最後時間!", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
-
-        $("#EndTime_leave_create").bind("change", function () {
-            if ($("#EndTime_leave_create").val() < $("#StartTime_leave_create").val()) {
-                timechange();
-                $("#EndTime_leave_create").val($("#StartTime_leave_create").val());
-            }
-
-        });
+        TimeErrorProof($("#StartTime_leave_create"), $("#EndTime_leave_create"));
 
     }).fail(function (e) { alert(e.responseText) });
     }
@@ -717,10 +693,6 @@
             sethours(ele * 60);
         });
 
-
-
-
-
         $("#submitButton").bind("click", function () {
             Clockinsave();
             test();
@@ -775,13 +747,8 @@
     }
     function AttendancesSave() {
         var data = new FormData;
-        //data.get("time1");
-        //data.get("time2");
         data.append("time1", $('#time1').val());
         data.append("time2", $('#time2').val());
-        //    time1: $('#time1').val(),
-        //    time2: $('#time2').val()
-        //}
       $.ajax({
     url: "@Url.Action("SerchAttendances", "Attendances")",
     type: "POST",
@@ -789,36 +756,53 @@
     processData: false,         // 告诉jQuery不要去處理發送的數據
     dataType: "html",
     data: data,
-
-    //data: {"EmployeeID": EmployeeID.value,},
     }).done(function (result) {
         $("#mainpanel").html(result);
-
         changeT();
-
-
-
         d = new Date();
         $("#time1").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
         $("#time2").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
 
-
-
         TimeErrorProof($("#time1"), $("#time2"));
-
-
-
         $("#Button1").bind("click", function () {
             AttendancesSave();
         })
-
     }).fail(function (e) { alert(e.responseText) });
-
-
     }
 
       ////////////////////////瑋////////////////////////////////
     //////////////////汪///////////////////////////////
+    function ReviewPageAjax(PageUrl, sta) {
+        $.ajax({
+            type: "GET",
+            url: PageUrl,
+            dataType: "html",
+        }).done(function (result) {
+            $("#mainpanel").html(result);
+
+            switch (sta) {
+                case 'creat':
+                    $("#empFile").bind("change", function () {
+                        readURL(this);
+                    });
+                    break;
+                case 'edit':
+                    {
+                        $("#empFile").bind("change", function () {
+                            readURL(this);
+                        });
+                        break;
+                    }
+                case 'details':
+                    {
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }).fail(function (e) { alert(e.responseText) });
+    }
+
     function Reviewfunbtndetails(s) {
     $.ajax({
         type: "GET",
@@ -826,11 +810,9 @@
         dataType: "html",
     }).done(function (result) {
         $("#mmmmmm").html(result);
-        //$("#btnback").bind("click", BackToIndexFunction);
+    
     }).fail(function (e) { alert(e.responseText) });
 }
-
-
 
      function Switch() {
 
@@ -863,8 +845,7 @@
     }
     function UpdateEmployeesByDepartment22(u) {
         $.ajax({
-            type: "GET",
-                @* url: "@Url.RouteUrl("Default", new { controller = "Review", action = "Ajax" })/" + "null/" + Customers.value,*@
+        type: "GET",
         url: u + Customers.value
     }).done(function (result) {
         $("#Employeestable").html(result);
@@ -872,9 +853,6 @@
         $("#CheckAll").click(cAll);
     }).fail(function (e) { alert(e.responseText) });
 
-              //$("#CheckAll").click(cAll);
-              //$("#CheckAll").click(a());
-              //$("#CheckAll").click(cAll);
         }
 
     function a() {
@@ -886,21 +864,18 @@
 
 function Updateddl() {
     $.ajax({
-
         type: "GET",
         url: "@Url.Action("GetDdlandListemp","Employees")/" + Department.value,
     }).done(function (result) {
         $("#ddlemp").html(result);
         $("#Employees").bind("change", function () {
             UpdateEmployeesByEmployee();
-
         });
     }).fail(function (e) { alert(e.responseText) });
 }
 
 function UpdateEmployeesByEmployee() {
     $.ajax({
-
         type: "GET",
         url: "@Url.Action("UpdateEmployeesByEmployee", "Employees")/" + Employees.value,
     }).done(function (result) {
@@ -977,21 +952,7 @@ function UpdateEmployeesByDepartment() {
         $('#addModal').modal('show');
         $("#StartTime_wu_creat").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "17" + ":" + "00");
         $("#EndTime_wu_creat").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "19" + ":" + "00");
-        $("#StartTime_wu_creat").bind("change", function () {
-            if ($("#StartTime_wu_creat").val() > $("#EndTime_wu_creat").val()) {
-                timechange();
-                $("#StartTime_wu_creat").val($("#EndTime_wu_creat").val());
-            }
-
-        });
-
-        $("#EndTime_wu_creat").bind("change", function () {
-            if ($("#EndTime_wu_creat").val() < $("#StartTime_wu_creat").val()) {
-                timechange();
-                $("#EndTime_wu_creat").val($("#StartTime_wu_creat").val());
-            }
-
-        });
+        TimeErrorProof($("#StartTime_wu_creat"), $("#EndTime_wu_creat"));      
 
     }).fail(function (e) { alert(e.responseText) });
         }

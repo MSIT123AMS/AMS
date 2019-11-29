@@ -231,19 +231,55 @@ namespace AMS.Controllers
                          ReviewStatus = r.ReviewStatus1,
                          ReviewStatusID = l.ReviewStatusID,
                          OverTimeRequestID = l.OverTimeRequestID
+                         
 
                      };
 
             return PartialView("_OverTimePartial", q1);
 
         }
-        // GET: Review/Details/5
-        public ActionResult Details(string id)
+        private OverTimeClassLibrary.OverTime OvertimeObj = new OverTimeClassLibrary.OverTime();
+        public ActionResult OverTimeDetails(string id)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+
+            var overTimeRequest = (from ot in db.OverTimeRequest.AsEnumerable()
+                                   join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                                   join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                                   join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                                   where ot.OverTimeRequestID == id
+                                   select new OverTimeViewModel
+                                   {
+                                       RequestID = ot.OverTimeRequestID,
+                                       EmployeeName = emp.EmployeeName,
+                                       RequestTime = ot.RequestTime,
+                                       StartTime = ot.StartTime,
+                                       EndTime = ot.EndTime,
+                                       PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
+                                       OTDateType = date.WorkingDay,
+                                       SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                                       Reason = ot.OverTimeReason,
+                                       Review = rev.ReviewStatus1,
+                                       ReviewTime = ot.ReviewTime
+                                   }).First();
+
+            if (overTimeRequest == null)
+            {
+                return HttpNotFound();
+            }
+
+            return PartialView("_ReviewOverTimeDetails", overTimeRequest);
+        }
+
+        // GET: Review/Details/5
+        public ActionResult Details(string id)
+        {
+
             LeaveRequests leaveRequests = db.LeaveRequests.Find(id);
             if (leaveRequests == null)
             {
