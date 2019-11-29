@@ -297,7 +297,7 @@
             time2.val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
             TimeErrorProof(time1, time2)
     }
-
+ 
         function PageAjax(PageUrl, sta) {
         $.ajax({
             type: "GET",
@@ -356,11 +356,9 @@
         $("#Department").bind("change", function () {
             UpdateEmployeesByDepartment();
             Updateddl();
-        });
-        $("#Button1").bind("click", createmp);
-
+        });     
     }
-
+      
     function EmployeesPageAjax(PageUrl, sta) {
         $.ajax({
             type: "GET",
@@ -391,7 +389,7 @@
             }
         }).fail(function (e) { alert(e.responseText) });
     }
-
+     ///post
     function SaveFormDataUseAjaxPost(AjaxUrl) {
         let myForm = document.querySelector("#FormData");
         let data = new FormData(myForm);
@@ -793,13 +791,7 @@
     }
 
 
-
-
-
-
     ///////////////////////正//////////////////////
-
-
 
 function Updateddl() {
     $.ajax({
@@ -815,34 +807,29 @@ function Updateddl() {
     }).fail(function (e) { alert(e.responseText) });
 }
 
-
 function UpdateEmployeesByEmployee() {
     $.ajax({
 
         type: "GET",
-        url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + Employees.value + "/" + Department.value,
+        url: "@Url.Action("UpdateEmployeesByEmployee", "Employees")/" + Employees.value,
     }).done(function (result) {
         $("#Employeestable").html(result);
         changeT();
 
     }).fail(function (e) { alert(e.responseText) });
 }
-
 
 function UpdateEmployeesByDepartment() {
     $.ajax({
         type: "GET",
-        url: "@Url.RouteUrl("Default1", new { controller = "Employees", action = "Listemp" })/" + "null/" + Department.value,
+        url: "@Url.Action("UpdateEmployeesByDepartment", "Employees")/" + Department.value,
     }).done(function (result) {
         $("#Employeestable").html(result);
         changeT();
     
     }).fail(function (e) { alert(e.responseText) });
+  
 }
-
-    
-
-    
 
         /////////////////WU//////////////////
 

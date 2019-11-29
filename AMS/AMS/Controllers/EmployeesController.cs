@@ -113,8 +113,7 @@ namespace AMS.Controllers
                                    });
 
             Entities dc = new Entities();
-            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
-            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+           
             return PartialView("_SerchLeave", query);
             //return View();
         }
@@ -167,27 +166,6 @@ namespace AMS.Controllers
             //return View();
         }
 
-        public ActionResult backIndex()
-        {
-            var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-            {
-
-                EmployeeID = e.EmployeeID,
-                EmployeeName = e.EmployeeName,
-                DepartmentName = d.DepartmentName,
-                JobTitle = e.JobTitle,
-                Manager = d.Manager,
-                Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                JobStaus = e.JobStaus
-            });
-
-            Entities dc = new Entities();
-            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
-            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
-            return PartialView("_emplistPartial", query);
-
-            //return View();
-        }
 
 
 
@@ -208,16 +186,13 @@ namespace AMS.Controllers
 
 
         }
-
-
-        public ActionResult Listemp(string id,int? id2)
+       
+        public ActionResult UpdateEmployeesByDepartment(int? id)
         {
             Entities dc = new Entities();
 
-            IEnumerable<EmployeesViewModel> c ;
-            if (id == "null" && id2 != null)
-            {
-                c = dc.Employees.Where(emp => emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+
+                var c = dc.Employees.Where(emp => emp.DepartmentID == id).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
                 {
                     EmployeeID = e.EmployeeID,
                     EmployeeName = e.EmployeeName,
@@ -227,35 +202,6 @@ namespace AMS.Controllers
                     Hireday = e.Hireday.ToString("yyyy/MM/dd"),
                     JobStaus = e.JobStaus
                 });
-                var query = dc.Employees.Where(emp => emp.DepartmentID == id2);
-                ViewBag.Employees = new SelectList(query, "EmployeeID", "EmployeeName");
-            }
-            else if (id2 == null && id != "null")
-            {
-                c = dc.Employees.Where(emp => emp.EmployeeID == id).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-                {
-                    EmployeeID = e.EmployeeID,
-                    EmployeeName = e.EmployeeName,
-                    DepartmentName = d.DepartmentName,
-                    JobTitle = e.JobTitle,
-                    Manager = d.Manager,
-                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                    JobStaus = e.JobStaus
-                });
-            }
-            else
-            {
-                c = dc.Employees.Where(emp => emp.EmployeeID == id && emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-                {
-                    EmployeeID = e.EmployeeID,
-                    EmployeeName = e.EmployeeName,
-                    DepartmentName = d.DepartmentName,
-                    JobTitle = e.JobTitle,
-                    Manager = d.Manager,
-                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                    JobStaus = e.JobStaus
-                });
-            }
 
 
             if (c != null)
@@ -267,8 +213,37 @@ namespace AMS.Controllers
                 return HttpNotFound();
             }
 
+        }
+        public ActionResult UpdateEmployeesByEmployee(string id)
+        {
+            Entities dc = new Entities();
+
+
+            var c = dc.Employees.Where(emp => emp.EmployeeID == id).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+            {
+                EmployeeID = e.EmployeeID,
+                EmployeeName = e.EmployeeName,
+                DepartmentName = d.DepartmentName,
+                JobTitle = e.JobTitle,
+                Manager = d.Manager,
+                Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                JobStaus = e.JobStaus
+            });
+
+
+            if (c != null)
+            {
+                return PartialView("_ListempPartial", c);
+            }
+            else
+            {
+                return HttpNotFound();
+            }
 
         }
+
+       
+
 
 
         // GET: Employees/Details/5
