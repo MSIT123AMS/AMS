@@ -12,17 +12,6 @@
             <th>Action</th>
         </tr>
     </thead>
-    @*<tfoot class="bg-primary text-light">
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
-            <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
-            <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
-            <th>@Html.DisplayNameFor(model => model.Manager)</th>
-            <th>@Html.DisplayNameFor(model => model.Hireday)</th>
-            <th>@Html.DisplayNameFor(model => model.JobStaus)</th>
-            <th>Action</th>
-        </tr>
-    </tfoot>*@
     <tbody >
         @foreach (var item in Model)
         {
@@ -47,17 +36,8 @@
                 </td>
 
                 <td>
-                    @*@Html.ActionLink("編輯", "Edit", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })*@
-
-                    @*@Html.ActionLink("明細", "Details", new { id = item.EmployeeID }, new { @class = "btn btn-outline-primary" })*@
-
-                    <button class="btn btn-primary" onclick="funbtnedit('@item.EmployeeID')">編輯</button>
-                    <button class="btn btn-primary" onclick="funbtndetails('@item.EmployeeID')">明細</button>
-
-                    @*<button type="button" class="btn btn-primary" value=item.EmployeeID name="btnedit">編輯</button>*@
-                    @*<button type="button" class="btn btn-primary" value=@(item.EmployeeID) neme=@(item.EmployeeID)>明細</button>*@
-
-
+                    <button class="btn btn-primary" onclick="EmployeesPageAjax(('@Url.Action("Edit", "Employees")/'+'@item.EmployeeID'),'edit')">編輯</button>
+                    <button class="btn btn-primary" onclick="EmployeesPageAjax(('@Url.Action("Details", "Employees")/'+'@item.EmployeeID'),'details')">明細</button>
                 </td>
             </tr>
         }

@@ -196,7 +196,7 @@
                 <div class="form-group">
                     <div class=" col-md-12">
                         <button type="button" class="btn btn-primary" onclick="SaveFormDataUseAjaxPost('@Url.Action("Edit","Employees")')">編輯</button>
-                        <button type="button" class="btn btn-primary" onclick="BackToIndexFunction()">回上一頁</button>
+                        <button type="button" class="btn btn-primary" onclick="PageAjax('@Url.Action("Index", "Employees")', '員工管理')">回上一頁</button>
                     
 
                     </div>

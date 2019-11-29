@@ -10,7 +10,8 @@
         @Html.DropDownList("Employees", null, "-請選擇-", new { @class = " form-control" })
     </div>
     <div class="col-sm-2">
-        <input id="Button1" type="button" value="新增員工" class="btn btn-outline-primary" />
+        @*<input id="Button1" type="button" value="新增員工" class="btn btn-outline-primary" />*@
+        <button class="btn btn-primary" onclick="EmployeesPageAjax('@Url.Action("Create","Employees")','creat')">新增員工</button>
         @*@Html.ActionLink("新增員工", "Create", null, new { @class = "btn btn-outline-primary" })*@
     </div>
 </div>
