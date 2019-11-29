@@ -36,19 +36,24 @@
     //Aleart
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
+
+
+    <link href="~/Content/main.css" rel="stylesheet" />
+    <link href="~/Content/daygrid-main.css" rel="stylesheet" />
     @RenderSection("styles", required: false)
     @*@RenderSection("css", required: false)*@
+
 </head>
 <body>
-    <div class="wrapper">
-        <div class="main-header">
+    <div class="wrapper" >
+        <div class="main-header" >
             <!-- Logo Header -->
-            <div class="logo-header" data-background-color="white">
+            <div class="logo-header" style="background-color:#434343;padding-left:0px">
 
-                <a href=@Url.Action("Index","Home") class="logo">
+                <a href=@Url.Action("Index","Home") class="logo" >
 
 
-                    <img src=@Url.Content("~/Img/logo.png") alt="navbar brand" class="navbar-brand" width="150" height="50">
+                    <img src=@Url.Content("~/Img/logo3.png") alt="navbar brand" class="navbar-brand" width="200" height="56" style="margin-left:0px">
                 </a>
                 <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon">
@@ -64,7 +69,7 @@
             </div>
             <!-- End Logo Header -->
             <!-- Navbar Header -->
-            <nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
+            <nav class="navbar navbar-header navbar-expand-lg" style="background-color:#434343">
 
                 <div class="container-fluid">
                     <div class="collapse" id="search-nav">
@@ -108,7 +113,7 @@
             <!-- End Navbar -->
         </div>
 
-        <div>
+        <div >
 
             @RenderBody()
         </div>
@@ -227,7 +232,104 @@
     <script src="~/assets/js/setting-demo.js"></script>
     <script src="~/assets/js/demo.js"></script>
     <script src="~/Scripts/jquery.basictable.min.js"></script>
-   
+
+    <script src="~/Scripts/main.js"></script>
+    <script src="~/Scripts/day-gridmain.js"></script>
+
+    <script>
+        Circles.create({
+            id: 'circles-1',
+            radius: 45,
+            value: 60,
+            maxValue: 100,
+            width: 7,
+            text: 5,
+            colors: ['#f1f1f1', '#FF9E27'],
+            duration: 400,
+            wrpClass: 'circles-wrp',
+            textClass: 'circles-text',
+            styleWrapper: true,
+            styleText: true
+        })
+
+        Circles.create({
+            id: 'circles-2',
+            radius: 45,
+            value: 70,
+            maxValue: 100,
+            width: 7,
+            text: 36,
+            colors: ['#f1f1f1', '#2BB930'],
+            duration: 400,
+            wrpClass: 'circles-wrp',
+            textClass: 'circles-text',
+            styleWrapper: true,
+            styleText: true
+        })
+
+        Circles.create({
+            id: 'circles-3',
+            radius: 45,
+            value: 40,
+            maxValue: 100,
+            width: 7,
+            text: 12,
+            colors: ['#f1f1f1', '#F25961'],
+            duration: 400,
+            wrpClass: 'circles-wrp',
+            textClass: 'circles-text',
+            styleWrapper: true,
+            styleText: true
+        })
+
+        var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
+
+        var mytotalIncomeChart = new Chart(totalIncomeChart, {
+            type: 'bar',
+            data: {
+                labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
+                datasets: [{
+                    label: "Total Income",
+                    backgroundColor: '#ff9e27',
+                    borderColor: 'rgb(23, 125, 255)',
+                    data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    display: false,
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            display: false //this will remove only the label
+                        },
+                        gridLines: {
+                            drawBorder: false,
+                            display: false
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            drawBorder: false,
+                            display: false
+                        }
+                    }]
+                },
+            }
+        });
+
+        $('#lineChart').sparkline([105, 103, 123, 100, 95, 105, 115], {
+            type: 'line',
+            height: '70',
+            width: '100%',
+            lineWidth: '2',
+            lineColor: '#ffa534',
+            fillColor: 'rgba(255, 165, 52, .14)'
+        });
+    </script>
 
 
 

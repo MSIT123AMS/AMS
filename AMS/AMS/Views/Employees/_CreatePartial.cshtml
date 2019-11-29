@@ -188,24 +188,27 @@
 
 
                 <input type="file" name="empFile" id="empFile" accept="image/*" multiple="multiple" />
-
             </div>
-            @*<br /><br /><br /> <br /><br /><br /><br /> <br /><br /><br /><br /> <br /><br /><br /><br /> <br />*@
 
+        </div>
+    </div>
+    <div class="container">
+        <div class="form-group col-md-12 row">
+            <div class="col-md-offset-3 col-md-10">
+                <div class="float-right">
+                    <button type="button" class="btn btn-search" style="background-color:#FFFFFB;color:#3A3226;border-color:#91989F" onclick="PageAjax('@Url.Action(" Index", "Employees" )', '員工管理' )">
+                        <i class="flaticon-back"></i><span>
+                            <strong>返回</strong>
+                        </span>
+                    </button>
+                    <button type="button" class="btn btn-search" style="background-color:#787D7B;color:#FFFFFB;margin-right:50px" onclick="SaveFormDataUseAjaxPost('@Url.Action(" Create","Employees")')">
+                        <i class="flaticon-add"></i><span>
+                            <strong>新增</strong>
+                        </span>
+                    </button>
 
-
-
-            <div class="form-group">
-                <div class=" col-md-12">
-                    <button  type="button" class="btn btn-primary" onclick="SaveFormDataUseAjaxPost('@Url.Action("Create","Employees")')">新增</button>
-                    <button  type="button" class="btn btn-primary" onclick="PageAjax('@Url.Action("Index", "Employees")', '員工管理')">回上一頁</button>
-        
                 </div>
             </div>
-
-
-
-
         </div>
     </div>
 </div>

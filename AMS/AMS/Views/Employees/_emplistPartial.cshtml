@@ -9,13 +9,20 @@
     <div id="ddlemp" class="col-sm-2">
         @Html.DropDownList("Employees", null, "-請選擇-", new { @class = " form-control" })
     </div>
-    <div class="col-sm-2">
-        @*<input id="Button1" type="button" value="新增員工" class="btn btn-outline-primary" />*@
-        <button class="btn btn-primary" onclick="EmployeesPageAjax('@Url.Action("Create","Employees")','creat')">新增員工</button>
-        @*@Html.ActionLink("新增員工", "Create", null, new { @class = "btn btn-outline-primary" })*@
-    </div>
+    
 </div>
 <div class="card-body">
+    <div class="form-group">
+        <div class="row">
+            <div class="col-12 col-md-2 ">
+                <button id="Button1" type="button" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226;margin-left:10px" onclick="EmployeesPageAjax('@Url.Action("Create","Employees")','creat')">
+                    <i class="fas fa-plus-square"></i><span>
+                        <strong>新增員工</strong>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="table-responsive" id="Employeestable">
         @Html.Partial("_ListempPartial", Model);
     </div>

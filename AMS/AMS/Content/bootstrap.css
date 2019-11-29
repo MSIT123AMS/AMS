@@ -4843,14 +4843,14 @@ input[type="button"].btn-block {
 }
 
 .page-link {
-  position: relative;
-  display: block;
-  padding: 0.5rem 0.75rem;
-  margin-left: -1px;
-  line-height: 1.25;
-  color: #007bff;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
+    position: relative;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #BDC0BA;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
 }
 
 .page-link:hover {
@@ -4864,7 +4864,7 @@ input[type="button"].btn-block {
 .page-link:focus {
   z-index: 2;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(189, 192, 186, 0.25);
 }
 
 .page-item:first-child .page-link {
@@ -4879,10 +4879,10 @@ input[type="button"].btn-block {
 }
 
 .page-item.active .page-link {
-  z-index: 1;
-  color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+    z-index: 1;
+    color: #fff;
+    background-color: #BDC0BA;
+    border-color: #BDC0BA;
 }
 
 .page-item.disabled .page-link {

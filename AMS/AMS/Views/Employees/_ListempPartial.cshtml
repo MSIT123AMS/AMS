@@ -3,43 +3,58 @@
 <table id="basic-datatables" class="display table table-striped table-hover">
     <thead class="bg-primary text-light">
         <tr>
+            <th></th>
             <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
             <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
             <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
             <th>@Html.DisplayNameFor(model => model.Manager)</th>
             <th>@Html.DisplayNameFor(model => model.Hireday)</th>
             <th>@Html.DisplayNameFor(model => model.JobStaus)</th>
-            <th>Action</th>
+
         </tr>
     </thead>
     <tbody >
         @foreach (var item in Model)
         {
-            <tr class="table-light">
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DepartmentName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.JobTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Manager)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Hireday)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.JobStaus)
-                </td>
+        <tr class="table-light">
+            <td>
 
-                <td>
-                    <button class="btn btn-primary" onclick="EmployeesPageAjax(('@Url.Action("Edit", "Employees")/'+'@item.EmployeeID'),'edit')">編輯</button>
-                    <button class="btn btn-primary" onclick="EmployeesPageAjax(('@Url.Action("Details", "Employees")/'+'@item.EmployeeID'),'details')">明細</button>
-                </td>
-            </tr>
+           
+            <button class="btn btn-sm" style="background-color:#DAC9A6;color:#3A3226" onclick="EmployeesPageAjax(('@Url.Action(" Edit", "Employees" )/'+'@item.EmployeeID'),'edit')">
+                <i class="icon-pencil"></i><span>
+                    <strong>編輯</strong>
+                </span>
+            </button>
+            <button class="btn btn-sm"  style="background-color:#DAC9A6;color:#3A3226" onclick="EmployeesPageAjax(('@Url.Action(" Details", "Employees" )/'+'@item.EmployeeID'),'details')">
+                <i class="icon-list"></i><span>
+                    <strong>明細</strong>
+                </span>
+            </button>
+
+
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manager)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hireday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobStaus)
+            </td>
+
+
+        </tr>
         }
     </tbody>
 </table>

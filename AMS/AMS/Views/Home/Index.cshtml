@@ -1,6 +1,21 @@
-﻿<!-- Sidebar -->
+﻿
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@section styles{
+    <style>
+        #calendar {
+            /*font-size: 30px;*/
+        }
+    </style>
+
+}
+
+<!-- Sidebar -->
 <div class="sidebar sidebar-style-2">
-    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+    <div class="sidebar-wrapper scrollbar scrollbar-inner" style="font-family:'Microsoft JhengHei'">
         <div class="sidebar-content">
             <div class="user">
                 <div class="avatar-sm float-left mr-2">
@@ -8,7 +23,7 @@
                 </div>
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-                        <span>
+                        <span style="font-family:'Microsoft JhengHei'">
                             謝惠婷
                             @*<span class="user-level">@User.Identity.GetUserName()</span>*@
                             <span class="caret"></span>
@@ -47,77 +62,46 @@
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#base">
                         <i class="fa fa-search search-icon"></i>
-                        <p>查詢</p>
+                        <p style="font-family:'Microsoft JhengHei'">查詢</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="base">
-                        <ul class="nav nav-collapse">
+                        <ul class="nav nav-collapse" style="font-family:'Microsoft JhengHei'">
                             <li>
                                 <a href="#">
-                                    <span class="sub-item">
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">
                                         個人出勤明細查詢
                                     </span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" onclick="funSerchAttendancest()" )>
-                                    <span class="sub-item">個人刷卡明細查詢</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人刷卡明細查詢</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" onclick="funLeaveIndex()" )>
-                                    <span class="sub-item">個人差假明細查詢</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人差假明細查詢</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" onclick="OverTimeIndex()">
-                                    <span class="sub-item">個人加班明細查詢</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人加班明細查詢</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="sub-item">打卡申覆統計表</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">打卡申覆統計表</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="sub-item">個人差勤統計查詢</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人差勤統計查詢</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="sub-item">個人月勤惰統計</span>
-                                </a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#sidebarLayouts">
-                        <i class="fas fa-th-list"></i>
-                        <p>表單</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="sidebarLayouts">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#" onclick="funLeaveCreate()" )>
-                                    <span class="sub-item">請假申請單</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick="OverTimeCreate()" )>
-
-                                    <span class="sub-item">
-                                        申請加班補休
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="#" onclick="funClockInApplyCreat()" )>
-                                    <span class="sub-item">刷卡異常申覆單</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人月勤惰統計</span>
                                 </a>
                             </li>
 
@@ -127,14 +111,14 @@
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#sidebarLayout2">
                         <i class="fas fa-th-list"></i>
-                        <p>主管區</p>
+                        <p style="font-family:'Microsoft JhengHei'">主管區</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="sidebarLayout2">
                         <ul class="nav nav-collapse">
                             <li>
                                 <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")","審核")'>
-                                    <span class="sub-item">審核</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">審核</span>
                                 </a>
                             </li>
                         </ul>
@@ -143,37 +127,40 @@
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#sidebarLayouts1">
                         <i class="fas fa-users"></i>
-                        <p>人資區</p>
+                        <p style="font-family:'Microsoft JhengHei'">人資區</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="sidebarLayouts1">
                         <ul class="nav nav-collapse">
                             <li>
                                 <a href="#" onclick='PageAjax("@Url.Action("Index", "Employees")","員工管理")'>
-                                    <span class="sub-item">員工管理</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">員工管理</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#">
-                                    <span class="sub-item">
+
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">
                                         部門管理
                                     </span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" onclick='PageAjax("@Url.Action("SerchAttendances", "Employees")","刷卡明細查詢")'>
-                                    <span class="sub-item">刷卡明細查詢</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">刷卡明細查詢</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" onclick='PageAjax("@Url.Action("SerchLeave", "Employees")","差假明細查詢")'>
 
-                                    <span class="sub-item">差假明細查詢</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">差假明細查詢</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" onclick='PageAjax("@Url.Action("SerchOverTime", "Employees")","加班明細查詢")'>
-                                    <span class="sub-item">加班明細查詢</span>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">加班明細查詢</span>
+
+
                                 </a>
                             </li>
                        </ul>
@@ -183,18 +170,32 @@
         </div>
     </div>
 </div>
+
 <!-- End Sidebar -->
 
 <div class="main-panel">
-    <div class="content" id="mainpanel">
-
+    <div class="content" id="mainpanel" style="background-color:#fffefa">
         @*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*@
-        <div class="row">
-            <img src="~/Img/text_kosyouchuu.png" style="display:block; margin:auto;" />
-            <img src="~/Img/kouji_rammer.png" style="display:block; margin:auto;" />
-        </div>
+        @*行事曆*@
+        <div class="page-inner">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" id="mmmmmm">
+                        <div class="row">
+                            <div class="card col-md-7" id="calendar"></div>
+                            <div class="card col-md-2" id="calendar_open"></div>
+                        </div>
 
+
+
+                        @*行事曆*@
+
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <div id="aaaa"></div>
     <footer class="footer">
         <div class="container-fluid">
             <nav class="pull-left">
@@ -205,6 +206,34 @@
             </div>
         </div>
     </footer>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                    Shipper
+                    <span></span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addForm">
+                    <div class="card" id="calendar_open"></div>
+                </form>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                    <button type="button" class="btn btn-primary" id="buttonSend">送出</button>
+                </div>*@
+        </div>
+    </div>
 </div>
 @section scripts
 {
@@ -248,7 +277,7 @@
 
             //        title: '警告',
             //    content: `<h2 style="font-family:微軟正黑體;">${alertstring}</h2>`,
-           
+
             //        icon: 'fa fa-question',
             //        theme: 'bootstrap',
             //        closeIcon: true,
@@ -266,7 +295,7 @@
             //        }
             //    }
             //    });
-            
+
         }
 
         function zeroPadded(val) {
@@ -297,7 +326,7 @@
             time2.val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
             TimeErrorProof(time1, time2)
     }
- 
+
         function PageAjax(PageUrl, sta) {
         $.ajax({
             type: "GET",
@@ -316,7 +345,7 @@
                         $("#Customers").bind("change", Switch);
                         $("#ddlemp").bind("change", Switch);
                         $("#CheckAll").click(cAll);
-                        $("input[name*='Le']").bind("click", function () {                           
+                        $("input[name*='Le']").bind("click", function () {
                             Reviewfunbtndetails(event.target.name.substr(2));
                         });
 
@@ -345,7 +374,7 @@
             $('#basic-datatables').basictable({ breakpoint: 600 });
         }
     }
-   
+
     window.addEventListener('resize', changeT);
        /////////////////////正///////////////////////////////////
     function IndexEventFunction() {
@@ -356,9 +385,9 @@
         $("#Department").bind("change", function () {
             UpdateEmployeesByDepartment();
             Updateddl();
-        });     
+        });
     }
-      
+
     function EmployeesPageAjax(PageUrl, sta) {
         $.ajax({
             type: "GET",
@@ -418,18 +447,30 @@
 
 
      //////////////////////睿//////////////////////////////////
+        @*function outPDF() {
+            let valuearray = new Array()
+            for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
+                valuearray.push(item.value)
+            }
+            var param = {
+                "value": valuearray,
+                "id": $("#StartTime").val(),
+                "id2": $("#EndTime").val(),
 
+            };
+            $.ajax({
+                url: "@Url.Action("ToPdf", "LeaveRequests")",
+                type: "POST",
+                data: param,
+                dataType: "json",
+            }).done(function (response) {
 
-    function funLeaveIndex() {
-    $.ajax({
-    type: "GET",
-    url: "@Url.Action("LeaveIndexView", "LeaveRequests")",
-    dataType: "html",
-    }).done(function (result) {
-        $("#mainpanel").html(result);
-        changeT();
+                window.location = "/home/DownloadInvoice" + "?fName=" + response.fName;
+                }).fail(function (error) {
+                alert(error.statusText)});
+        }*@
 
-        function Export() {
+        function Export() {  //匯出excel方法
             let valuearray = new Array()
             for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
                 valuearray.push(item.value)
@@ -440,9 +481,9 @@
                 "id": $("#StartTime").val(),
                 "id2": $("#EndTime").val(),
 
-            };
+            }.done();
             $.ajax({
-                url: '/LeaveRequests/DownLoadExcel', //Controller名稱和方法名
+                url:"@Url.Action("DownLoadExcel", "LeaveRequests")", /*'/LeaveRequests/DownLoadExcel',*/ //Controller名稱和方法名
                 type: "POST",
                 dataType: "json",
                 data: param,
@@ -452,13 +493,28 @@
                 }
             });
         }
+
+
+    function funLeaveIndex() {  //到搜尋頁面
+    $.ajax({
+    type: "GET",
+    url: "@Url.Action("LeaveIndexView", "LeaveRequests")",
+    dataType: "html",
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+        changeT();
+
+
           $(document).ready(function () {
               changeT();
             $("#CheckAll").click(cAll);                //全選功能
             $('#Search').bind("click",
                 function () {
                     Lrsearch();
-                });
+                  });
+            d = new Date();
+            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()-7));
+            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()+1));
         });
 
 
@@ -525,10 +581,14 @@
     url: "@Url.Action("Create", "LeaveRequests")",
     dataType: "html",
     }).done(function (result) {
-        $("#mainpanel").html(result);
+        $("#aaaa").html(result);
+
+        $('#addModal').modal('show');
         changeT();
+
+
         /////create_start
-      
+
         $("#LeaveFile").change(function () {
             readURL(this);
         });
@@ -545,20 +605,45 @@
 
         $(document).ready(function () {
             d = new Date();
-            $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
+            $("#StartTime_leave_create").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
         });
 
 
         $(document).ready(function () {
             d = new Date();
-            $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
+            $("#EndTime_leave_create").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
         });
-        /////create_End
+        //////////以下是時間防呆
+        $("#StartTime_leave_create").bind("change", function () {
+            if ($("#StartTime_leave_create").val() > $("#EndTime_leave_create").val()) {
+                timechange();
+                $("#StartTime_leave_create").val($("#EndTime_leave_create").val());
+            }
+        });
 
+        function timechange() {
+            swal("起始時間不可大於最後時間!", "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
+        }
 
+        $("#EndTime_leave_create").bind("change", function () {
+            if ($("#EndTime_leave_create").val() < $("#StartTime_leave_create").val()) {
+                timechange();
+                $("#EndTime_leave_create").val($("#StartTime_leave_create").val());
+            }
+
+        });
 
     }).fail(function (e) { alert(e.responseText) });
     }
+     /////create_End
+
     ////////////////////////////////////////////////////////
      //////////////////////瑋////////////////////////////////
     function funSerchAttendancest() {
@@ -591,7 +676,8 @@
     url: "@Url.Action("ClockinApply", "ClockInApply")",
     dataType: "html",
     }).done(function (result) {
-        $("#mainpanel").html(result);
+        $("#aaaa").html(result);
+        $('#addModal').modal('show');
              d = new Date();
             $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
             $("#OffDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "16" + ":" + "00");
@@ -663,7 +749,13 @@
         $("#mainpanel").html(result);
        value='@TempData["Message"]';
 
+
+
+
+
     }).fail(function (e) { alert(e.responseText) });
+
+
     }
 
     function test() {
@@ -702,7 +794,6 @@
     }).done(function (result) {
         $("#mainpanel").html(result);
 
-        $("#mainpanel").html(result);
         changeT();
 
 
@@ -739,7 +830,7 @@
     }).fail(function (e) { alert(e.responseText) });
 }
 
-   
+
 
      function Switch() {
 
@@ -826,9 +917,9 @@ function UpdateEmployeesByDepartment() {
     }).done(function (result) {
         $("#Employeestable").html(result);
         changeT();
-    
+
     }).fail(function (e) { alert(e.responseText) });
-  
+
 }
 
         /////////////////WU//////////////////
@@ -839,7 +930,6 @@ function UpdateEmployeesByDepartment() {
     url: "@Url.Action("Index", "OverTimeRequests")",
     dataType: "html",
     }).done(function (result) {
-
         $("#mainpanel").html(result);
         $('#basic-datatables').DataTable({
         });
@@ -882,10 +972,26 @@ function UpdateEmployeesByDepartment() {
     dataType: "html",
     }).done(function (result) {
         d = new Date();
-        $("#mainpanel").html(result);
-        $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "17" + ":" + "00");
-        $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "19" + ":" + "00");
-        TimeErrorProof($("#StartTime"), $("#EndTime"));
+        $("#aaaa").html(result);
+
+        $('#addModal').modal('show');
+        $("#StartTime_wu_creat").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "17" + ":" + "00");
+        $("#EndTime_wu_creat").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "19" + ":" + "00");
+        $("#StartTime_wu_creat").bind("change", function () {
+            if ($("#StartTime_wu_creat").val() > $("#EndTime_wu_creat").val()) {
+                timechange();
+                $("#StartTime_wu_creat").val($("#EndTime_wu_creat").val());
+            }
+
+        });
+
+        $("#EndTime_wu_creat").bind("change", function () {
+            if ($("#EndTime_wu_creat").val() < $("#StartTime_wu_creat").val()) {
+                timechange();
+                $("#EndTime_wu_creat").val($("#StartTime_wu_creat").val());
+            }
+
+        });
 
     }).fail(function (e) { alert(e.responseText) });
         }
@@ -917,6 +1023,21 @@ function UpdateEmployeesByDepartment() {
         });
         }
 
+
+
+        @*function opencalendar() {
+            $('#addModal').modal('show');
+            var calendarEl_open = document.getElementById('calendar_open');
+            var calendar = new FullCalendar.Calendar(calendarEl_open, {
+                plugins: ['dayGrid'],
+                events: "@Url.Action("LoadCalender", "Home")",
+                lazyFetching: false,
+            });
+
+            calendar.render();
+        };*@
+
+
     function OverTimeDetails(requestid) {
     $.ajax({
     type: "GET",
@@ -929,5 +1050,43 @@ function UpdateEmployeesByDepartment() {
     }).fail(function (e) { alert(e.responseText) });
     }
 
-</script>
+
+        //Calendar
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['dayGrid'],
+                events: "@Url.Action("LoadCalender", "Home")",
+                lazyFetching: false,
+            });
+
+            calendar.render();
+            //$('#fc-prev-button fc-button fc-button-primary').bind('click',)
+            //////////////////////////////////////////////////
+
+            var calendarEl_open = document.getElementById('calendar_open');
+            var calendar_opne = new FullCalendar.Calendar(calendarEl_open, {
+                plugins: ['dayGrid'],
+                events: "@Url.Action("LoadCalender", "Home")",
+                lazyFetching: false,
+            });
+            calendar_opne.render();
+
+
+
+
+
+        });
+
+        $("#calendar").click(function () {
+            $('#addModal').modal('show');
+
+        })
+
+
+
+
+
+    </script>
 }

@@ -54,7 +54,9 @@ table.bt tbody td .bt-content {
   -webkit-overflow-scrolling: touch;
 }
 
-table.bt.bt--no-header tfoot td::before,
-table.bt.bt--no-header tbody td::before {
-  display: none;
-}
+
+ input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-clear-button {
+        display: none;
+    }
+
+  

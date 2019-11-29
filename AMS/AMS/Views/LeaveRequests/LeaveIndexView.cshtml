@@ -1,13 +1,19 @@
 ﻿@model IEnumerable<AMS.Models.LeaveIndexViewModel>
 
-<label class=" control-label" style="font-size:35px;margin:10px">請假報表</label>
+
 <div class="page-inner">
+    <div style="background-color:#91989F">
+        <h1>
+            <span class="badge" style="color:#FFFFFB">個人差假明細查詢</span>
+        </h1>
+    </div>
     <div class="card">
         <div class="card-head-row">
             <p>
-                @Html.ActionLink("請假申請", "Create", "Create", new { @class = "btn btn-outline-primary" })
-                @Html.ActionLink("URL轉換PDF", "ToPdf", "ToPdf", new { @class = "btn btn-outline-primary" })
-                <input type="button" value="匯出Excel" onclick="Export()" class="btn btn-outline-primary" />
+                @*<input type="button" value="請假申請" onclick="funLeaveCreate()" class="btn btn-outline-primary" />
+                    @Html.ActionLink("URL轉換PDF", "ToPdf", "ToPdf", new { @class = "btn btn-outline-primary" })
+                    @*<input type="button" value="匯出PDF" onclick="outPDF()" class="btn btn-outline-primary" />*@
+                @*<input type="button" value="匯出Excel" onclick="Export()" class="btn btn-outline-primary" />*@
 
                 <div class="form-group">
                     <label class=" control-label" style="font-size:20px;margin-left:20px">篩選假別:</label>
@@ -73,15 +79,42 @@
                 <input id="EndTime" name="EndTime" type="date" class="form-control" />
             </div>
             <div class="col-sm-2">
-                <button id="Search" name="Search" class="form-control">搜尋</button>
-
+                <button id="Search" name="Search" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                    <i class="fa fa-search fa-fw"></i><span>
+                        <strong>搜尋</strong>
+                    </span>
+                </button>
             </div>
-        </div>
-
+        </div>      
 
         <div class="card-body">
+            <div class="form-group">
+
+                <div class="float-left">
+                    <button type="button" onclick="funLeaveCreate()" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226;margin-left:10px">
+                        <i class="icon-pencil icon-white"></i>
+                        <span>
+                            <strong>請假申請</strong>
+                        </span>
+                    </button>
+                    <a href="@Url.Action("ToPdf", "ToPdf")" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226">
+                        <i class="icon-doc"></i>
+                        <span>
+                            <strong>URL轉換PDF</strong>
+                        </span>
+                    </a>
+                    <button type="button" onclick="Export()" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226">
+                        <i class="icon-logout"></i> <span>
+                            <strong>匯出Excel</strong>
+                        </span>
+                    </button>
+                </div>
+
+                @*<input type="button" value="匯出Excel" onclick="Export()" class="btn btn-sm " style="background-color:#f1f0ed;color:#91989F" />*@
+            </div>
             <div class="table-responsive" id="LeaveTable">
                 @Html.Partial("_LeaveIndexPartialView", Model)
+
 
             </div>
         </div>
@@ -93,7 +126,7 @@
 {
 
     <script>
-        function Export() {
+        function Export() {   //匯出excel的按鈕
             let valuearray = new Array()
             for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
                 valuearray.push(item.value)
@@ -116,6 +149,23 @@
                 }
             });
         }
+
+
+        function outPDF() {
+            var param = {
+                "value": valuearray,
+                "id": $("#StartTime").val(),
+                "id2": $("#EndTime").val(),
+
+            };
+            $.ajax({
+                url: "@Url.Action("ToPdf", "LeaveRequests")",
+                type: "POST",
+                data: param
+            });
+        }
+
+
     </script>
 
     <script>

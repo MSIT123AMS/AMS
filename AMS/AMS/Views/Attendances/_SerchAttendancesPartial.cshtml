@@ -1,7 +1,18 @@
 ﻿@model IEnumerable<AMS.Models.AttendancesViewModel>
 
+<div class="form-group">
+    <div class="row">
+        <div class="col-12 col-md-2 ">
+            <button id="buttonAdd" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226;margin-left:10px" onclick="funClockInApplyCreat()">
+                <i class="fas fa-plus-square"></i><span>
+                    <strong>補打卡申請</strong>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
 <table id="basic-datatables" class="display table table-striped table-hover">
-    <thead class="bg-primary text-light">
+    <thead class="text-light">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeName)
@@ -24,25 +35,25 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OnDuty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OffDuty)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.station)
-            </td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OnDuty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OffDuty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.station)
+                </td>
 
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>
