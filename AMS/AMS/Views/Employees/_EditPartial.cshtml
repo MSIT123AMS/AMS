@@ -1,6 +1,6 @@
 ﻿@model AMS.Controllers.EmployeesDetailsViewModel
 
-@using (Html.BeginForm("Edit", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data",@id = "editform" }))
+@using (Html.BeginForm("Edit", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data",@id = "FormData" }))
 {
     @Html.AntiForgeryToken()
     <div class="card-header row form-group">
@@ -195,8 +195,10 @@
 
                 <div class="form-group">
                     <div class=" col-md-12">
-                        <input type="button" value="編輯" class="btn btn-primary" id="btneditpost" />
-                        <input type="button" value="回上一頁" class="btn btn-primary" id="btnback" />
+                        <button type="button" class="btn btn-primary" onclick="SaveFormDataUseAjaxPost('@Url.Action("Edit","Employees")')">編輯</button>
+                        <button type="button" class="btn btn-primary" onclick="BackToIndexFunction()">回上一頁</button>
+                    
+
                     </div>
                 </div>
 
