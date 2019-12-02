@@ -115,6 +115,7 @@ namespace AMS.Controllers
                                                  join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
                                                  join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
                                                  //where ot.EmployeeID == User
+                                                
                                                  where ot.ReviewStatusID==1
                                                         
                                                  select new OverTimeViewModel
@@ -131,6 +132,12 @@ namespace AMS.Controllers
                                                     // Review = rev.ReviewStatus1,
                                                    //  ReviewTime = ot.ReviewTime
                                                  });
+            var b = overTimeRequest.GroupBy(o => o.SummaryTime);
+
+           foreach(var i in b)
+            {
+                i.Key;
+            }
 
 
             //姓名,累計時數 
