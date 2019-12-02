@@ -13,7 +13,6 @@ using AMS.Metadata;
 using AMS.Models;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
-using SelectPdf;
 
 namespace AMS.Controllers
 {
@@ -22,36 +21,8 @@ namespace AMS.Controllers
 
         private Entities db = new Entities();
 
-        // GET: LeaveRequests
-        public ActionResult ToPDFIndex(string user/*, string ID, string ID2, string[] Value*/)
-        {
-            
-            //DateTime startime = Convert.ToDateTime(ID);
-            //DateTime endtime = Convert.ToDateTime(ID2);
-            //string[] LeaveValue = Value;
 
-
-            var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
-                                    join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
-                                    join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
-                                    where lt.EmployeeID == user  //&&lt.StartTime >= startime && lt.EndTime <= endtime &&  LeaveValue.Any(x => x == lt.LeaveType)
-                                    select new LeaveIndexViewModel
-                                    {
-                                        LeaveRequestID = lt.LeaveRequestID,
-                                        EmployeeName = emp.EmployeeName,
-                                        LeaveType = lt.LeaveType,
-                                        RequestTime = lt.RequestTime,
-                                        StartTime = lt.StartTime,
-                                        EndTime = lt.EndTime,
-                                        LeaveReason = lt.LeaveReason,
-                                        Review = rev.ReviewStatus1,
-                                        ReviewTime = lt.ReviewTime,
-                                        Attachment = lt.Attachment
-                                    });
-            return View(LeaveTimeRequest);
-        }
-
-        // GET: LeaveRequests/Details/5
+       
 
         public ActionResult LeaveIndexView()
         {
@@ -118,52 +89,30 @@ namespace AMS.Controllers
 
          
         }
-
-
-        //轉PDF
-        //[HttpPost]
-        public ActionResult ToPdf(/*string id, string id2, string[] value*/)
-        {
-
-            //DateTime startime = Convert.ToDateTime(id);
-            //DateTime endtime = Convert.ToDateTime(id2);
-            //string[] LeaveValue = value;
-
-
-            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
-            // instantiate a html to pdf converter object
-            string pdfname = "差假報表.pdf";
-            HtmlToPdf converter = new HtmlToPdf();
-            //var fullUrl = this.Url.Action("Posts", "Edit", new { id = 5 }, this.Request.Url.Scheme);
-            //Request.RequestUri.PathAndQuery
-            var fullurl = this.Url.Action("ToPDFIndex", "LeaveRequests",new { user= User/*,ID= startime, ID2= endtime, Value=LeaveValue*/ }, this.Request.Url.Scheme);
-            // create a new pdf document converting an url
-            PdfDocument doc = converter.ConvertUrl(fullurl);
-            MemoryStream stream = new MemoryStream();
-            // save pdf document   
-            doc.Save(stream);
-            //doc.Save(System.Web.HttpContext.Current.Response, false, pdfname);
-            //close pdf document
-            doc.Close();
-            stream.Position = 0;
-            return File(stream, "application/pdf", pdfname);  //pdfname 儲存PDF的名稱
-        }
-
-     
+      // GET: LeaveRequests/Details/5
         public ActionResult Details(string id)
         {
 
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
+            var LeaveTimeRequest = (from lt in db.LeaveRequests.AsEnumerable()
+                                    join emp in db.Employees.AsEnumerable() on lt.EmployeeID equals emp.EmployeeID
+                                    join rev in db.ReviewStatus.AsEnumerable() on lt.ReviewStatusID equals rev.ReviewStatusID
+                                    where lt.EmployeeID == User&&lt.LeaveRequestID==id
+                                    select new LeaveIndexViewModel
+                                    {
+                                        LeaveRequestID = lt.LeaveRequestID,
+                                        EmployeeName = emp.EmployeeName,
+                                        LeaveType = lt.LeaveType,
+                                        RequestTime = lt.RequestTime,
+                                        StartTime = lt.StartTime,
+                                        EndTime = lt.EndTime,
+                                        LeaveReason = lt.LeaveReason,
+                                        Review = rev.ReviewStatus1,
+                                        ReviewTime = lt.ReviewTime,
+                                        Attachment = lt.Attachment
+                                    }).First();
 
-            LeaveRequests leaveRequests = db.LeaveRequests.Find(id);
-            if (leaveRequests == null)
-            {
-                return HttpNotFound();
-            }
-            return View(leaveRequests);
+            return PartialView("Details", LeaveTimeRequest);
         }
 
         // GET: LeaveRequests/Create
@@ -335,7 +284,7 @@ namespace AMS.Controllers
                 {
                     //Response.Write("<script>alert('此日期已申請過');</script>");
 
-                    return Content(("<script>alert('此日期已申請過');window.location.href ='http://localhost:64643/Home/Index'</script>"));
+                    return Content(("<script>alert('此日期已申請過,請先確認日期');window.location.href ='http://localhost:64643/Home/Index'</script>"));
                 
                 }
            

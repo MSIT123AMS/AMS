@@ -26,18 +26,18 @@
                     @Html.DisplayNameFor(model => model.EndTime)
                 </th>
 
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.LeaveReason)
-                </th>
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Review)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ReviewTime)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Attachment)
-                </th>
+                @*<th>
+            @Html.DisplayNameFor(model => model.Attachment)
+        </th>*@
 
 
             </tr>
@@ -47,13 +47,12 @@
             {
             <tr class="table-light">
                 <td>
-                    <a href="@Url.Action("Details",new { id = item.LeaveRequestID })" class="btn btn-sm" style="background-color:#DAC9A6;color:#3A3226">
-                        <i class="icon-list"></i>
-                        <span>
+
+                    <button type="button" class="btn btn-sm" style="background-color:#DAC9A6;color:#3A3226" onclick="LeaveDetails(@item.LeaveRequestID)">
+                        <i class="icon-list"></i><span>
                             <strong>明細</strong>
                         </span>
-                    </a>
-                    @*@Html.ActionLink("明細", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })*@
+                    </button>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LeaveRequestID)
@@ -73,18 +72,18 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.EndTime)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LeaveReason)
-                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.LeaveReason)
+        </td>*@
                 <td>
                     @Html.DisplayFor(modelItem => item.Review)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReviewTime)
                 </td>
-                <td>
-                    @Html.Partial("_ShowPhotoPartial", item)
-                </td>
+                @*<td>
+            @Html.Partial("_ShowPhotoPartial", item)
+        </td>*@
 
             </tr>
             }
