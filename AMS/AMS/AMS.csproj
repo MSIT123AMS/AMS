@@ -231,8 +231,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AjaxTestController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\AttendancesSearchController.cs" />
+    <Compile Include="Controllers\Position.cs" />
     <Compile Include="Models\calendar.cs" />
     <Compile Include="Controllers\ClockInApplyController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
@@ -1046,6 +1048,7 @@
     <Folder Include="bin\roslyn\" />
     <Folder Include="bin\zh-Hant\" />
     <Folder Include="fonts\" />
+    <Folder Include="Views\AjaxTest\" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />

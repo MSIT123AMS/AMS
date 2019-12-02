@@ -1,3 +1,4 @@
+using AMS.Controllers;
 using AMS.Models;
 using isRock.LineBot;
 using Quartz;
@@ -11,6 +12,7 @@ using System.Net.Http;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Results;
 
 
 namespace WebApplication5.Controllers
@@ -19,13 +21,21 @@ namespace WebApplication5.Controllers
     {
        public const string channelAccessToken = @"wJvLiDuDsJpYsgTqSPXQwu35UoXbtmVPXn8Q1/oWN8REU5mbLG0qBffnpgSlNWH3yncYUa3OAgyWoe8gPb8F1nFveUGakkBJ2UHqUKSXElkHhypyGWz7Ndhojww+2P0+ikiFbIIkz6nhMQwetqG1gwdB04t89/1O/w1cDnyilFU=
 ";
-        public string AdminUserId ;
-         
+        public string AdminUserId ;          
+
+        
+
         [Route("api/LineWebHookSample")]
         [HttpPost]
+        public IHttpActionResult POST(Position position)
+        {
+          
+            return Json(position);
+        }
         public IHttpActionResult POST()
         {
-            Entities d = new Entities();           
+            
+            Entities d = new Entities();
             this.AdminUserId = this.ReceivedMessage.events.FirstOrDefault().source.userId;
             //var FindEmpID = d.Employees.Where(p => p.LineID == AdminUserId).First().EmployeeID;
             Attendances a = new Attendances();
@@ -36,9 +46,9 @@ namespace WebApplication5.Controllers
             //配合Line verify 
             if (LineEvent.replyToken == "00000000000000000000000000000000") return Ok();
             //回覆訊息
+         
+           
           
-     
-            
             if (d.Employees.Where(p => p.LineID == AdminUserId).FirstOrDefault()!=null)//正
             {
                
@@ -52,7 +62,7 @@ namespace WebApplication5.Controllers
 
                         //取得用戶資訊
                         //string EmpId = "MSIT1230015";//測試用用戶
-                        string st1 = "16:00";//設定最晚打卡的上班時間   
+                        string st1 = "16:00";//設定最晚打卡的上班時間(可以擺到人事) ///要再做每日統計上班時數功能  
                         DateTime dt1 = Convert.ToDateTime(st1);
                         DateTime todate = DateTime.Now.Date;//今天的日期
 
@@ -73,7 +83,7 @@ namespace WebApplication5.Controllers
                                     actions = actions
                                 };
                                 bot.PushMessage(AdminUserId, ButtonTempalteMsg);
-
+                                //return RedirectToRoute("Index", "Home");
                         }                     
                         
                         switch (LineEvent.message.text)
