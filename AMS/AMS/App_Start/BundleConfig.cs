@@ -16,6 +16,7 @@ namespace AMS
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*",
+                         "~/Scripts/jquery.unobtrusive-ajax.js",
                         "~/Scripts/home.js"
                         ));
 

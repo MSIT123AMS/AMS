@@ -44,11 +44,16 @@ namespace AMS.Controllers
         public string EmployeeID { get; set; }
         [Display(Name = "密碼")]
         public string Password { get; set; }
+
         [Display(Name = "員工姓名")]
+        [Required(ErrorMessage ="XXXX")]
         public string EmployeeName { get; set; }
         [Display(Name = "英文名字")]
+        [Required(ErrorMessage = "XXXX")]
         public string EnglishName { get; set; }
+
         [DataType(DataType.DateTime)]
+        [Required]
         [Display(Name = "生日")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]        
         public DateTime Birthday { get; set; }
@@ -57,6 +62,7 @@ namespace AMS.Controllers
         [Display(Name = "性別")]
         public Nullable<bool> gender { get; set; }
         [Display(Name = "婚姻")]
+        [Required]
         public string Marital { get; set; }
         [Display(Name = "電子信箱")]
         public string Email { get; set; }
@@ -92,7 +98,9 @@ namespace AMS.Controllers
         public string EmployeeID { get; set; }
         [Display(Name = "密碼")]
         public string Password { get; set; }
+
         [Display(Name = "員工姓名")]
+        [Required]
         public string EmployeeName { get; set; }
         [Display(Name = "英文名字")]
         public string EnglishName { get; set; }

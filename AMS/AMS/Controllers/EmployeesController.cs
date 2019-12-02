@@ -17,13 +17,11 @@ namespace AMS.Controllers
         private Entities db = new Entities();
         private OverTimeClassLibrary.OverTime OvertimeObj = new OverTimeClassLibrary.OverTime();
 
-        
-
-        public ActionResult mainView()
+        public ActionResult LineIdBindView()
         {
             return View();
         }
-        public ActionResult LineIdBindView()
+        public ActionResult sView()
         {
             return View();
         }
@@ -325,7 +323,7 @@ namespace AMS.Controllers
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName,empFile")] EmployeesCreateViewModel emp)
         {
             if (ModelState.IsValid)
@@ -339,7 +337,7 @@ namespace AMS.Controllers
                     IDNumber = emp.IDNumber,
                     DeputyPhone = emp.DeputyPhone,
                     Deputy = emp.Deputy,
-                    Marital = emp.Manager,
+                    //Marital = emp.Manager,
                     Email = emp.Email,
                     Birthday = emp.Birthday,
                     Hireday = emp.Hireday,
@@ -353,8 +351,9 @@ namespace AMS.Controllers
                     //, Photo = null
                     //, LineID = ""
                     //, Leaveday = null
-                    , Phone=emp.Phone
-            
+                    ,
+                    Phone = emp.Phone
+
                 };
                 if (Request.Files["Photo"].ContentLength != 0)
                 {
@@ -364,13 +363,13 @@ namespace AMS.Controllers
                     {
                         data = br.ReadBytes(Request.Files["Photo"].ContentLength);
                     }
-                    employees.Photo= data;
+                    employees.Photo = data;
                 }
 
 
 
 
-                employees.DepartmentID = db.Departments.Where(e=>e.DepartmentName==emp.DepartmentName).First().DepartmentID;
+                //employees.DepartmentID = db.Departments.Where(e => e.DepartmentName == emp.DepartmentName).First().DepartmentID;
                 employees.JobStaus = "在職";
 
                 db.Employees.Add(employees);
@@ -402,10 +401,17 @@ namespace AMS.Controllers
                 return PartialView("_emplistPartial", query);
                 //return Content("<script>alert('測試文字');</script>");
             }
+            //throw new InvalidOperationException("Something went wrong");
+            //return RedirectToAction("Create");
+            throw new Exception("XXXXX");
+            //else
+            //{
 
 
+            //}
+            
 
-            return View(emp);
+
         }
         // GET: Employees/Edit/5
         public ActionResult Edit(string id)

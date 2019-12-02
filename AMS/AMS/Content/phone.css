@@ -1,4 +1,6 @@
-﻿@media screen and (max-width:600px) {
+﻿
+
+@media screen and (max-width:600px) {
     label {
        
         text-align: left;
@@ -67,5 +69,81 @@
 
 }
 
+@media print {
+    body {
+        -webkit-print-color-adjust: exact;
+    }
+
+    .noprint {
+        display: none;
+    }
+
+    .main-panel {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        margin: auto;
+        margin-top: 0px !important;
+        border: 1px solid;
+    }
+
+    table {
+        border-collapse: collapse;
+        border: 1px solid #000000;
+ 
+    }
+
+    td {
+     
+    }
+
+    tr {
+      
+    }
+
+    table.table-striped td {
+        font-size: 16px;
+    }
+
+    table.table-striped th {
+        background-color: #6E75A4
+    }
+
+    table.table-striped th, td {
+        font-size: 16px;
+        font-family: 'Microsoft JhengHei';
+        text-align: center;
+    }
+
+    table.table-striped td:before {
+        display: none;
+    }
+
+    table.table-striped thead {
+        background-color: #6E75A4
+    }
+
+    table.table-striped th, table.table-striped td {
+        display: table-cell;
+        padding: 0.25em 0.5em 0px 0px;
+    }
+
+        table.table-striped th:first-child,
+        table.table-striped td:first-child {
+            padding-left: 0;
+        }
+
+        table.table-striped th:last-child,
+        table.table-striped td:last-child {
+            padding-right: 0;
+        }
+
+    table.table-striped th,
+    table.table-striped td {
+        padding: 1em !important;
+    }
+}
 
 

@@ -14,7 +14,7 @@
 }
 
 <!-- Sidebar -->
-<div class="sidebar sidebar-style-2">
+<div class="sidebar sidebar-style-2 noprint">
     <div class="sidebar-wrapper scrollbar scrollbar-inner" style="font-family:'Microsoft JhengHei'">
         <div class="sidebar-content">
             <div class="user">
@@ -24,8 +24,10 @@
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span style="font-family:'Microsoft JhengHei'">
-                            謝惠婷
+                            @*謝惠婷*@
+                            @Session["UserFullName"]
                             @*<span class="user-level">@User.Identity.GetUserName()</span>*@
+                           
                             <span class="caret"></span>
                         </span>
                     </a>
@@ -361,22 +363,42 @@
     ////換Table樣式
     function changeT() {
 
-        if (window.innerWidth >= 600) {
+        //if (window.innerWidth >= 600) {
 
             $('#basic-datatables').DataTable({
-                destroy: true
+                destroy: true,
+                responsive: true
             });
             $("#basic-datatables_filter").hide();
-        }
-        else {
+        //}
+        //else {
 
-            $('#basic-datatables').basictable("destroy");
-            $('#basic-datatables').basictable({ breakpoint: 600 });
-        }
+        //    $('#basic-datatables').basictable("destroy");
+        //    $('#basic-datatables').basictable({ breakpoint: 600 });
+        //}
     }
 
-    window.addEventListener('resize', changeT);
+    //window.addEventListener('resize', changeT);
        /////////////////////正///////////////////////////////////
+    function EmployeeDetailsToEdit() {
+        $(":input").attr("readonly",false)//去除input元素的readonly屬性
+    }
+
+    function EmployeePrint() {
+        $('#basic-datatables').DataTable({
+            destroy: true,
+            paging: false,
+            ordering: false,
+            info: false,
+           
+        });
+        $("#basic-datatables_filter").hide();
+        $('#basic-datatables').removeClass("table");
+        window.print();
+        changeT();
+        $('#basic-datatables').addClass("table");
+
+    }
     function IndexEventFunction() {
         changeT();
 
@@ -420,15 +442,32 @@
     }
      ///post
     function SaveFormDataUseAjaxPost(AjaxUrl) {
-        let myForm = document.querySelector("#FormData");
-        let data = new FormData(myForm);
 
+        let myForm = document.querySelector("#FormData");
+        var validator =$("#FormData").validate({
+            //rules: {
+            //    EmployeeName: {
+            //        required: true,
+            //        minlength: 5
+            //    },
+            //},messages: {
+            //    EmployeeName: {
+            //        required: "不可為空值",
+            //        minlength: "XXXX",
+            //    },
+            //},
+            debug: true
+        }
+        );
+        console.log(validator);
+        let data = new FormData(myForm);
+        //data.append("DepartmentID","2");
         let files = $("#empFile").get(0).files;
         if (files.length > 0) {
             data.append("Photo", files[0]);
         }
         $.ajax({
-            url: AjaxUrl,
+            url:AjaxUrl,
             type: "POST",
             contentType: false,         // 告诉jQuery不要去這置Content-Type
             processData: false,         // 告诉jQuery不要去處理發送的數據
@@ -440,7 +479,7 @@
             IndexEventFunction();
             alert('XXXX');
 
-        }).fail(function (e) { alert(e.responseText) });
+            }).fail(function (e) { SweetAlert("驗證失敗") });
     }
     /////////////////////正///////////////////////////////////
 

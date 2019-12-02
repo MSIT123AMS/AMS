@@ -223,8 +223,8 @@
           <EntitySet Name="Users" EntityType="Self.Users" />
           <EntitySet Name="WorkingDaySchedule" EntityType="Self.WorkingDaySchedule" />
           <EntitySet Name="Attendances" EntityType="Model.Attendances" />
-          <EntitySet Name="Employees" EntityType="Model.Employees" />
           <EntitySet Name="LeaveRequests" EntityType="Model.LeaveRequests" />
+          <EntitySet Name="Employees" EntityType="Model.Employees" />
         </EntityContainer>
         <EntityType Name="Attendances">
           <Key>
@@ -237,6 +237,21 @@
           <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="station" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="OffDuty" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="LeaveRequests">
+          <Key>
+            <PropertyRef Name="LeaveRequestID" />
+          </Key>
+          <Property Name="LeaveRequestID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RequestTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LeaveType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LeaveReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ReviewStatusID" Type="Int32" Nullable="false" />
+          <Property Name="ReviewTime" Type="DateTime" Precision="3" />
+          <Property Name="Attachment" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Employees">
           <Key>
@@ -263,21 +278,6 @@
           <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="LineID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Education" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="LeaveRequests">
-          <Key>
-            <PropertyRef Name="LeaveRequestID" />
-          </Key>
-          <Property Name="LeaveRequestID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="RequestTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EndTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="LeaveType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="LeaveReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ReviewStatusID" Type="Int32" Nullable="false" />
-          <Property Name="ReviewTime" Type="DateTime" Precision="3" />
-          <Property Name="Attachment" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -373,6 +373,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="LeaveRequests">
+            <EntityTypeMapping TypeName="Model.LeaveRequests">
+              <MappingFragment StoreEntitySet="LeaveRequests">
+                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
+                <ScalarProperty Name="ReviewTime" ColumnName="ReviewTime" />
+                <ScalarProperty Name="ReviewStatusID" ColumnName="ReviewStatusID" />
+                <ScalarProperty Name="LeaveReason" ColumnName="LeaveReason" />
+                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="RequestTime" ColumnName="RequestTime" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="LeaveRequestID" ColumnName="LeaveRequestID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Employees">
             <EntityTypeMapping TypeName="Model.Employees">
               <MappingFragment StoreEntitySet="Employees">
@@ -397,22 +413,6 @@
                 <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="LeaveRequests">
-            <EntityTypeMapping TypeName="Model.LeaveRequests">
-              <MappingFragment StoreEntitySet="LeaveRequests">
-                <ScalarProperty Name="Attachment" ColumnName="Attachment" />
-                <ScalarProperty Name="ReviewTime" ColumnName="ReviewTime" />
-                <ScalarProperty Name="ReviewStatusID" ColumnName="ReviewStatusID" />
-                <ScalarProperty Name="LeaveReason" ColumnName="LeaveReason" />
-                <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="RequestTime" ColumnName="RequestTime" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-                <ScalarProperty Name="LeaveRequestID" ColumnName="LeaveRequestID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

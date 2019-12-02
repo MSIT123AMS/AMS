@@ -3,7 +3,7 @@
 <table id="basic-datatables" class="display table table-striped table-hover">
     <thead class="bg-primary text-light">
         <tr>
-            <th></th>
+            <th>功能</th>
             <th>@Html.DisplayNameFor(model => model.EmployeeName)</th>
             <th>@Html.DisplayNameFor(model => model.DepartmentName)</th>
             <th>@Html.DisplayNameFor(model => model.JobTitle)</th>
@@ -17,22 +17,17 @@
         @foreach (var item in Model)
         {
         <tr class="table-light">
-            <td>
-
-           
-            <button class="btn btn-sm" style="background-color:#DAC9A6;color:#3A3226" onclick="EmployeesPageAjax(('@Url.Action("Edit","Employees")/'+'@item.EmployeeID'),'edit')">
+            <td>           
+            @*<button class="btn btn-sm" style="background-color:#DAC9A6;color:#3A3226" onclick="EmployeesPageAjax(('@Url.Action("Edit","Employees")/'+'@item.EmployeeID'),'edit')">
                 <i class="icon-pencil"></i><span>
                     <strong>編輯</strong>
                 </span>
-            </button>
+            </button>*@
             <button class="btn btn-sm"  style="background-color:#DAC9A6;color:#3A3226" onclick="EmployeesPageAjax(('@Url.Action("Details","Employees")/'+'@item.EmployeeID'),'details')">
                 <i class="icon-list"></i><span>
                     <strong>明細</strong>
                 </span>
             </button>
-
-
-
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.EmployeeName)

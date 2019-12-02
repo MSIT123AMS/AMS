@@ -876,6 +876,7 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\dataTables.responsive.min.js" />
     <Content Include="Scripts\day-gridmain.js" />
     <Content Include="Scripts\employeesview.js" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
@@ -901,6 +902,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.basictable.js" />
     <Content Include="Scripts\jquery.basictable.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -1024,6 +1027,7 @@
     <Content Include="Views\Shared\_Layout2.cshtml" />
     <Content Include="Views\Shared\_LayoutToPDF.cshtml" />
     <Content Include="Views\Review\_ReviewOverTimeDetails.cshtml" />
+    <Content Include="Views\Employees\sView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
