@@ -1,5 +1,6 @@
 using AMS.Models;
 using isRock.LineBot;
+using isRock.LineBot.Conversation;
 using Quartz;
 using Quartz.Impl;
 using System;
@@ -35,9 +36,9 @@ namespace WebApplication5.Controllers
             //配合Line verify 
             if (LineEvent.replyToken == "00000000000000000000000000000000") return Ok();
             //回覆訊息
-          
-     
-            
+
+            var responseMsg = "";//設定一個空字串給請假
+
             if (d.Employees.Where(p => p.LineID == AdminUserId).FirstOrDefault()!=null)//正
             {
                
@@ -73,10 +74,27 @@ namespace WebApplication5.Controllers
                                 };
                                 bot.PushMessage(AdminUserId, ButtonTempalteMsg);
 
-                        }                     
-                        
-                        switch (LineEvent.message.text)
-                        {
+                            }
+                            //if (LineEvent.message.text == "請假")//新增MessageAction請假
+                            //{
+                                
+                            //    var bot = new Bot(channelAccessToken);
+                            //    List<TemplateActionBase> actions = new List<TemplateActionBase>();
+                            //    this.ReplyMessage(LineEvent.replyToken, $"你好,{q.EmployeeName}");
+                            //    actions.Add(new MessageAction() { label = "請假", text = "請假" });
+
+                            //    var ButtonTempalteMsg = new isRock.LineBot.ConfirmTemplate()
+                            //    {
+                            //        text = "請假",
+                            //        altText = "請在手機上檢視",
+                            //        actions = actions
+                            //    };
+                            //    bot.PushMessage(AdminUserId, ButtonTempalteMsg);
+                            //}
+
+                            switch (LineEvent.message.text)
+                            {
+                         
 
                                 case "上班":
                                     if (DateTime.Now < dt1)
@@ -157,6 +175,147 @@ namespace WebApplication5.Controllers
                                     break;
 
 
+                                #region Line請假回訊息區
+                                case "請假":
+                                    {
+                                        var bot2 = new Bot(channelAccessToken);
+                                        List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
+
+                                        actions2.Add(new MessageAction() { label = "請假申請", text = "請假申請" });
+                                        actions2.Add(new MessageAction() { label = "請假查詢", text = "請假查詢" });
+                                        actions2.Add(new MessageAction() { label = "text請假", text = "我要請假" });
+                                        var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
+                                        {
+                                            text = "請假",
+                                            altText = "請在手機上檢視",
+                                            thumbnailImageUrl = new Uri("https://imgs.fun1shot.com/21d825754c12110fc0b5cc2778e7bc99.jpg"),
+                                            actions = actions2
+                                        };
+                                        bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                                        break;
+
+                                    }
+
+                                case "我要請假":
+                                    {                       
+                                        //定義資訊蒐集者
+                                    InformationCollector<LeaveRequstLine> CIC =new InformationCollector<LeaveRequstLine>(ChannelAccessToken);
+
+                                        //取得 http Post RawData(should be JSON)
+                                        string postData = Request.Content.ReadAsStringAsync().Result;
+                                        //剖析JSON
+                                        var ReceivedMessage =Utility.Parsing(postData);
+                                        //定義接收CIC結果的類別
+                                        ProcessResult<LeaveRequstLine> result;
+                                        try
+                                        {
+
+                                            if (ReceivedMessage.events[0].message.text == "我要請假")
+                                            {
+                                                //把訊息丟給CIC 
+                                                result = CIC.Process(ReceivedMessage.events[0], true);
+                                                responseMsg = "開始請假程序\n";
+                                            }
+                                            else
+                                            {
+                                                //把訊息丟給CIC 
+                                                result = CIC.Process(ReceivedMessage.events[0]);
+                                            }
+
+                                            //處理 CIC回覆的結果
+                                            switch (result.ProcessResultStatus)
+                                            {
+                                                case ProcessResultStatus.Processed:
+                                                    //取得候選訊息發送
+                                                    responseMsg += result.ResponseMessageCandidate;
+                                                    break;
+                                                case ProcessResultStatus.Done:
+                                                    responseMsg += result.ResponseMessageCandidate;
+                                                    responseMsg += $"蒐集到的資料有...\n";
+                                                    responseMsg += result.ConversationState.ConversationEntity; /*Newtonsoft.Json.JsonConvert.SerializeObject(result.ConversationState.ConversationEntity);*/
+                                                    break;
+                                                case ProcessResultStatus.Pass:
+                                                    responseMsg = $"你說的 '{ReceivedMessage.events[0].message.text}' 我看不懂，如果想要請假，請跟我說 : 『我要請假』";
+                                                    break;
+                                                case ProcessResultStatus.Exception:
+                                                    //取得候選訊息發送
+                                                    responseMsg += result.ResponseMessageCandidate;
+                                                    break;
+                                                case ProcessResultStatus.Break:
+                                                    //取得候選訊息發送
+                                                    responseMsg += result.ResponseMessageCandidate;
+                                                    break;
+                                                case ProcessResultStatus.InputDataFitError:
+                                                    responseMsg += "\n資料型態不合\n";
+                                                    responseMsg += result.ResponseMessageCandidate;
+                                                    break;
+                                                default:
+                                                    //取得候選訊息發送
+                                                    responseMsg += result.ResponseMessageCandidate;
+                                                    break;
+                                            }
+
+                                            //回覆用戶訊息
+                                            isRock.LineBot.Utility.ReplyMessage(ReceivedMessage.events[0].replyToken, responseMsg, ChannelAccessToken);
+                                            //回覆API OK
+                                            return Ok();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            //... 略 ...
+                                            this.ReplyMessage(LineEvent.replyToken, ex.Message+""); //回傳錯誤之後須刪除
+                                            return Ok();
+                                        }
+                                        //break;
+
+                                    }
+
+
+                                case "請假申請":
+                                    {
+                                        var bot2 = new Bot(channelAccessToken);
+                                        List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
+
+                                        //actions2.Add(new UriAction() { label = "請假", uri = new Uri("line://app/1612776942-bm461AoW") });
+                                        //actions2.Add(new UriAction() { label = "查詢", uri = new Uri("line://app/1612776942-9MbWYMog") });
+                                        actions2.Add(new DateTimePickerAction() { label = "請假開始時間", mode = "datetime" });
+                                        actions2.Add(new DateTimePickerAction() { label = "請假開始結束", mode = "datetime" });
+                                        actions2.Add(new MessageAction() { label = "假別", text = "假別" });
+                                        var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
+                                        {
+                                            text = "請假申請",
+                                            altText = "請在手機上檢視",
+                                            thumbnailImageUrl = new Uri("https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2019/01/26/99/5848687.jpg&x=0&y=0&sw=0&sh=0&exp=3600"),
+                                            actions = actions2
+                                        };
+                                        bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                                        break;
+
+                                    }
+
+                               
+
+
+                                case "假別":
+                                    {
+                                        TextMessage msg = new TextMessage("請問你要請什麼假?");
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("事假", "事假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("病假", "病假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("公假", "公假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("喪假", "喪假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("特休假", "特休假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("產假", "產假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("陪產假", "陪產假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("生理假", "生理假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("補休假", "補休假"));
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("家庭照顧假", "家庭照顧假"));
+                                        Bot bot = new Bot(ChannelAccessToken);
+                                        bot.PushMessage(AdminUserId, msg);
+                                        break;
+                                    }
+                                    #endregion
+
+
                             }
 
 
@@ -168,9 +327,9 @@ namespace WebApplication5.Controllers
 
                     }
                 }
-                catch
+                catch(Exception ex )
                 {
-                    this.ReplyMessage(LineEvent.replyToken, "您不是本公司員工,無法使用打卡功能!");
+                    this.ReplyMessage(LineEvent.replyToken, $"{ex.Message}....您不是本公司員工,無法使用打卡功能!");
                 }
             }
             else//正
@@ -194,4 +353,22 @@ namespace WebApplication5.Controllers
 
         }
     }
+
+    public class LeaveRequstLine : ConversationEntity
+    {
+        [Question("請問您要請假的假別是?")]
+        [Order(1)]
+        public string 假別 { get; set; }
+
+        [Question("請問您要請假開始日期是?")]
+        [Order(2)]
+        public DateTime 請假開始日期 { get; set; }
+
+        [Question("請問您要請假結束日期是?")]
+        [Order(3)]
+        public DateTime 請假結束日期 { get; set; }
+
+    }
+
+
 }
