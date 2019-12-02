@@ -1304,8 +1304,8 @@ function BackToIndexFunction() {
 
       function CreateNewOT() {
     var data = new FormData();
-          data.append("StartTime1", StartTime.value);
-          data.append("EndTime", EndTime.value);
+          data.append("StartTime", StartTime_wu_creat.value);
+          data.append("EndTime", EndTime_wu_creat.value);
           data.append("OverTimePay", OverTimePay.value);
           data.append("OverTimeReason", OverTimeReason.value);
 
@@ -1319,10 +1319,11 @@ function BackToIndexFunction() {
         
     }).done(function (result) {
 
-        
+        $('#addModal').modal('hide');        
         alert('已送出申請');
         OverTimeIndex();
         }).fail(function (e) {
+            $('#addModal').modal('hide');
             alert(e.responseJSON.Message);
 
         });
@@ -1352,14 +1353,21 @@ function BackToIndexFunction() {
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['dayGrid'],
-                events: "@Url.Action("LoadCalender", "Home")",
-                lazyFetching: false,
+                events: "@Url.Action("LoadCalender", "Home")",                
+                //header: { // layout header
+                //    right: ''
+                //},
+                locale: 'zh-tw',
+                eventClick: function (info) {
+                    //EventClick()
+                    alert('Event: ' + info.event.title);
+                },
             });
 
             calendar.render();
             //$('#fc-prev-button fc-button fc-button-primary').bind('click',)
         });
-
+        //function EventClick(title,content)
         
 
 
