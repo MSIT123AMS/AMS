@@ -13,8 +13,8 @@
         <EntityTypeShape EntityType="Model.Users" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.WorkingDaySchedule" Width="1.5" PointX="4.75" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Attendances" Width="1.5" PointX="7.375" PointY="7.75" />
-        <EntityTypeShape EntityType="Model.Employees" Width="1.5" PointX="4.75" PointY="0.875" />
         <EntityTypeShape EntityType="Model.LeaveRequests" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Model.Employees" Width="1.5" PointX="5" PointY="0.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

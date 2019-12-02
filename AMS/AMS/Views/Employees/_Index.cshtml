@@ -1,22 +1,23 @@
 ﻿@model IEnumerable<AMS.Controllers.EmployeesViewModel>
 
-@{
+    @{
     ViewBag.Title = "Index";
-}
+    }
 
-<body>
-    <div class="page-inner">
-        <div style="background-color:#91989F">
-            <h1>
-                <span class="badge" style="color:#FFFFFB">員工管理</span>
-            </h1>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card" id="mmmmmm">
-                    @Html.Partial("_emplistPartial", Model);
+    <body>
+      
+        <div class="page-inner">
+            <div style="background-color:#91989F">
+                <h1>
+                    <span class="badge" style="color:#FFFFFB">員工管理</span>
+                </h1>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" id="mmmmmm">
+                        @Html.Partial("_emplistPartial", Model);
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</body>
+    </body>

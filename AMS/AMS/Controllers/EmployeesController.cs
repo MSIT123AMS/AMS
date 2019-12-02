@@ -17,13 +17,11 @@ namespace AMS.Controllers
         private Entities db = new Entities();
         private OverTimeClassLibrary.OverTime OvertimeObj = new OverTimeClassLibrary.OverTime();
 
-        
-
-        public ActionResult mainView()
+        public ActionResult LineIdBindView()
         {
             return View();
         }
-        public ActionResult LineIdBindView()
+        public ActionResult sView()
         {
             return View();
         }
@@ -113,8 +111,7 @@ namespace AMS.Controllers
                                    });
 
             Entities dc = new Entities();
-            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
-            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+           
             return PartialView("_SerchLeave", query);
             //return View();
         }
@@ -167,27 +164,6 @@ namespace AMS.Controllers
             //return View();
         }
 
-        public ActionResult backIndex()
-        {
-            var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-            {
-
-                EmployeeID = e.EmployeeID,
-                EmployeeName = e.EmployeeName,
-                DepartmentName = d.DepartmentName,
-                JobTitle = e.JobTitle,
-                Manager = d.Manager,
-                Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                JobStaus = e.JobStaus
-            });
-
-            Entities dc = new Entities();
-            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
-            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
-            return PartialView("_emplistPartial", query);
-
-            //return View();
-        }
 
 
 
@@ -199,7 +175,7 @@ namespace AMS.Controllers
             ViewBag.Employees = new SelectList(query, "EmployeeID", "EmployeeName");
             if (query != null)
             {
-                return PartialView("_GetDdlandListempPartial", new SelectList(query, "EmployeeID", "EmployeeName"));
+                return PartialView("_GetDdlandListempPartial"/*, new SelectList(query, "EmployeeID", "EmployeeName")*/);
             }
             else
             {
@@ -208,16 +184,13 @@ namespace AMS.Controllers
 
 
         }
-
-
-        public ActionResult Listemp(string id,int? id2)
+       
+        public ActionResult UpdateEmployeesByDepartment(int? id)
         {
             Entities dc = new Entities();
 
-            IEnumerable<EmployeesViewModel> c ;
-            if (id == "null" && id2 != null)
-            {
-                c = dc.Employees.Where(emp => emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+
+                var c = dc.Employees.Where(emp => emp.DepartmentID == id).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
                 {
                     EmployeeID = e.EmployeeID,
                     EmployeeName = e.EmployeeName,
@@ -227,35 +200,6 @@ namespace AMS.Controllers
                     Hireday = e.Hireday.ToString("yyyy/MM/dd"),
                     JobStaus = e.JobStaus
                 });
-                var query = dc.Employees.Where(emp => emp.DepartmentID == id2);
-                ViewBag.Employees = new SelectList(query, "EmployeeID", "EmployeeName");
-            }
-            else if (id2 == null && id != "null")
-            {
-                c = dc.Employees.Where(emp => emp.EmployeeID == id).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-                {
-                    EmployeeID = e.EmployeeID,
-                    EmployeeName = e.EmployeeName,
-                    DepartmentName = d.DepartmentName,
-                    JobTitle = e.JobTitle,
-                    Manager = d.Manager,
-                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                    JobStaus = e.JobStaus
-                });
-            }
-            else
-            {
-                c = dc.Employees.Where(emp => emp.EmployeeID == id && emp.DepartmentID == id2).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-                {
-                    EmployeeID = e.EmployeeID,
-                    EmployeeName = e.EmployeeName,
-                    DepartmentName = d.DepartmentName,
-                    JobTitle = e.JobTitle,
-                    Manager = d.Manager,
-                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                    JobStaus = e.JobStaus
-                });
-            }
 
 
             if (c != null)
@@ -267,8 +211,37 @@ namespace AMS.Controllers
                 return HttpNotFound();
             }
 
+        }
+        public ActionResult UpdateEmployeesByEmployee(string id)
+        {
+            Entities dc = new Entities();
+
+
+            var c = dc.Employees.Where(emp => emp.EmployeeID == id).AsEnumerable().Join(dc.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
+            {
+                EmployeeID = e.EmployeeID,
+                EmployeeName = e.EmployeeName,
+                DepartmentName = d.DepartmentName,
+                JobTitle = e.JobTitle,
+                Manager = d.Manager,
+                Hireday = e.Hireday.ToString("yyyy/MM/dd"),
+                JobStaus = e.JobStaus
+            });
+
+
+            if (c != null)
+            {
+                return PartialView("_ListempPartial", c);
+            }
+            else
+            {
+                return HttpNotFound();
+            }
 
         }
+
+       
+
 
 
         // GET: Employees/Details/5
@@ -350,7 +323,7 @@ namespace AMS.Controllers
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName,empFile")] EmployeesCreateViewModel emp)
         {
             if (ModelState.IsValid)
@@ -364,7 +337,7 @@ namespace AMS.Controllers
                     IDNumber = emp.IDNumber,
                     DeputyPhone = emp.DeputyPhone,
                     Deputy = emp.Deputy,
-                    Marital = emp.Manager,
+                    //Marital = emp.Manager,
                     Email = emp.Email,
                     Birthday = emp.Birthday,
                     Hireday = emp.Hireday,
@@ -378,8 +351,9 @@ namespace AMS.Controllers
                     //, Photo = null
                     //, LineID = ""
                     //, Leaveday = null
-                    , Phone=emp.Phone
-            
+                    ,
+                    Phone = emp.Phone
+
                 };
                 if (Request.Files["Photo"].ContentLength != 0)
                 {
@@ -389,13 +363,13 @@ namespace AMS.Controllers
                     {
                         data = br.ReadBytes(Request.Files["Photo"].ContentLength);
                     }
-                    employees.Photo= data;
+                    employees.Photo = data;
                 }
 
 
 
 
-                employees.DepartmentID = db.Departments.Where(e=>e.DepartmentName==emp.DepartmentName).First().DepartmentID;
+                //employees.DepartmentID = db.Departments.Where(e => e.DepartmentName == emp.DepartmentName).First().DepartmentID;
                 employees.JobStaus = "在職";
 
                 db.Employees.Add(employees);
@@ -427,10 +401,17 @@ namespace AMS.Controllers
                 return PartialView("_emplistPartial", query);
                 //return Content("<script>alert('測試文字');</script>");
             }
+            //throw new InvalidOperationException("Something went wrong");
+            //return RedirectToAction("Create");
+            throw new Exception("XXXXX");
+            //else
+            //{
 
 
+            //}
+            
 
-            return View(emp);
+
         }
         // GET: Employees/Edit/5
         public ActionResult Edit(string id)
@@ -525,7 +506,7 @@ namespace AMS.Controllers
                     Phone = emp.Phone
 
                 };
-                if (Request.Files["Photo"].ContentLength != 0)
+                if (emp.Photo != null && Request.Files["Photo"].ContentLength != 0)
                 {
                     byte[] data = null;
                     using (BinaryReader br = new BinaryReader(
@@ -535,6 +516,11 @@ namespace AMS.Controllers
                     }
                     employees.Photo = data;
                 }
+                else
+                {
+                    employees.Photo = employees.Photo;
+                }
+                        
 
                 if (emp.gender=="男生")
                 {

@@ -81,12 +81,12 @@
                         @Html.DisplayFor(modelItem => item.ReviewStatus)
                     </td>
                     <td>
-                        <a href="@Url.Action("Details",new { id = item.LeaveRequestID } )" class="btn btn-sm" style="background-color:#DAC9A6;color:#3A3226">
-                            <i class="icon-list"></i>
-                            <span>
+
+                        <button class="btn btn-sm" type="button" style="background-color:#DAC9A6;color:#3A3226" onclick="ReviewPageAjax(('@Url.Action("Details", "Review" )/'+'@item.LeaveRequestID'),'details')">
+                            <i class="icon-list"></i><span>
                                 <strong>明細</strong>
                             </span>
-                        </a>
+                        </button>
                         @*@Html.ActionLink("Edit", "Edit", new { id=item.LeaveRequestID }) |*@
                         @*@Html.ActionLink("Details", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })*@
                         @*@Html.ActionLink("Delete", "Delete", new { id=item.LeaveRequestID })*@

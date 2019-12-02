@@ -359,10 +359,10 @@ $.extend( $.validator, {
 		$.extend( $.validator.defaults, settings );
 	},
 
-	messages: {
-		required: "This field is required.",
+    messages: {
+        required: "不可為空值",
 		remote: "Please fix this field.",
-		email: "Please enter a valid email address.",
+		email: "請輸入正確Email格式",
 		url: "Please enter a valid URL.",
 		date: "Please enter a valid date.",
 		dateISO: "Please enter a valid date (ISO).",
