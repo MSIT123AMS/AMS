@@ -20,18 +20,22 @@ namespace WebApplication5.Controllers
     public class LineBotWebHookController : isRock.LineBot.LineWebHookControllerBase
     {
        public const string channelAccessToken = @"ehC2bzsC2xmmwK5J59gcEK4ihHfRlYfb8kQFxVR2jn0B9vlAtMfvAwXXn5KfJfeQlC+5Higk86SmFJkwGn3bwDHH1uvL2X4vwahMbdMCeIFJttH9jNekMNBw6RHL0hJaQq2oEDSKKf0ocx3CQTFaO1GUYhWQfeY8sLGRXgo3xvw=";
-        public string AdminUserId ;
-         
+        public string AdminUserId ;        
+        public static double Lat;//緯度
+        public static double Long;//經度
+       [Route("api/LineWebHookSample")]
+        [HttpPut]
+        public IHttpActionResult Put(Position position)
+        {
+            Lat = position.Lat;
+            Long = position.Long;
+            return Json(position) ;
+        }
         [Route("api/LineWebHookSample")]
         [HttpPost]
-        public IHttpActionResult POST(Position position)
-        {
-          
-            return Json(position);
-        }
         public IHttpActionResult POST()
         {
-            
+            Console.Write(Lat);
             Entities d = new Entities();
             this.AdminUserId = this.ReceivedMessage.events.FirstOrDefault().source.userId;
             //var FindEmpID = d.Employees.Where(p => p.LineID == AdminUserId).First().EmployeeID;
@@ -183,7 +187,7 @@ namespace WebApplication5.Controllers
             }
             else//正
             {
-                this.ReplyMessage(LineEvent.replyToken, "請先綁定帳號!");
+                this.ReplyMessage(LineEvent.replyToken, "請先綁定帳號!"+ Lat);
 
             }
             
@@ -201,5 +205,6 @@ namespace WebApplication5.Controllers
             return Ok();
 
         }
+        
     }
 }

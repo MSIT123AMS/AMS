@@ -259,7 +259,8 @@
         var map, marker, lat, lng;
 
         //$(document).ready(initMap)  
-        document.addEventListener('DOMContentLoaded',initMap)
+        document.addEventListener('DOMContentLoaded', initMap)
+       
             function initMap() {
 
                 navigator.geolocation.getCurrentPosition((position) => {
@@ -275,8 +276,44 @@
                         position: { lat: lat, lng: lng },
                         map: map
                     });
-                });            
+              var postData = { Lat: position.coords.latitude, Long: position.coords.longitude };
+            
+            $.ajax(
+                {
+                    type: "Put",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.RouteUrl("DefaultApi", new { httproute="",controller= "LineWebHookSample" })",
+                    //dataType: "json",
+                    data: JSON.stringify(postData),
+                    success: function (data, status) {
+                        alert("Pass" + data);
+                    },
+                    error: function (ex) {
+                        alert("Fail" + ex);
+                    }
+                });
+                });  
+                
         }
+         @*function showPosition(position) {
+            var postData = { Lat: position.coords.latitude, Long: position.coords.longitude };
+            
+            $.ajax(
+                {
+                    type: "Put",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.RouteUrl("DefaultApi", new { httproute="",controller= "LineWebHookSample" })",
+                    //dataType: "json",
+                    data: JSON.stringify(postData),
+                    success: function (data, status) {
+                        alert("Pass" + data);
+                    },
+                    error: function (ex) {
+                        alert("Fail" + ex);
+                    }
+                });
+        };*@      
+        
         //var geolocation ='https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBK8UP_RL_nVi7Mec8Azju2sKkwdD3j4H8';
         //(function () {
         //    xhr = new XMLHttpRequest();
@@ -410,25 +447,13 @@
             //    }
             //    });
 
+    }
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
         }
-        function showPosition(position) {
-            var postData = { Lat: position.coords.latitude, Long: position.coords.longitude };
-            $.ajax(
-                {
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    url: "@Url.RouteUrl("DefaultApi", new { httproute="",controller= "LineWebHookSample" })",
-                    //dataType: "json",
-                    data: JSON.stringify(postData),
-                    success: function (data, status) {
-                        alert("Pass" + data);
-                    },
-                    error: function (ex) {
-                        alert("Fail" + ex);
-                    }
-                });
-        };      
-        
+    };
+       
 
         function zeroPadded(val) {
             if (val >= 10)
