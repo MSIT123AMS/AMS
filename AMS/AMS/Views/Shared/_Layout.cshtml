@@ -33,6 +33,10 @@
     <link href="~/Content/basictable.css" rel="stylesheet" />
     <link href="~/Content/phone.css" rel="stylesheet" />
 
+ 
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
+
 
     <link href="~/Content/main.css" rel="stylesheet" />
     <link href="~/Content/daygrid-main.css" rel="stylesheet" />
@@ -42,7 +46,7 @@
 </head>
 <body>
     <div class="wrapper" >
-        <div class="main-header" >
+        <div class="main-header noprint" >
             <!-- Logo Header -->
             <div class="logo-header" style="background-color:#434343;padding-left:0px">
 
@@ -89,10 +93,12 @@
                                 <div class="dropdown-user-scroll scrollbar-outer">
                                     <li>
                                         <div class="user-box">
+                                     
                                             <div class="avatar-lg"><img src="~/assets/img/woman.jpg" alt="image profile" class="avatar-img rounded"></div>
                                             <div class="u-text">
-                                                <h4>謝惠婷</h4>
-                                                <p class="text-muted">MSIT1230001@example.com</p>@*<a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>*@
+                                                <p class="text-muted">@Session["UserName"]</p>@*<a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>*@
+                                                <h4>@Session["UserFullName"]</h4>
+
                                             </div>
                                         </div>
                                     </li>
@@ -115,7 +121,7 @@
         </div>
 
         <!-- Custom template | don't include it in your project! -->
-        <div class="custom-template">
+        <div class="custom-template noprint">
             <div class="title">Settings</div>
             <div class="custom-content">
                 <div class="switcher">
@@ -210,7 +216,7 @@
 
     <!-- Datatables -->
     <script src="~/assets/js/plugin/datatables/datatables.min.js"></script>
-
+    <script src="~/Scripts/dataTables.responsive.min.js"></script>
     <!-- Bootstrap Notify -->
     @*<script src="~/assets/js/plugin/bootstrap-notify/bootstrap-notify.min.js"></script>*@
 
@@ -332,6 +338,7 @@
     @RenderSection("scripts", required: false)
     @*@RenderSection("scripts1", required: false)*@
     @*@Scripts.Render("~/bundles/empview")*@
-
+    //Aleart
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 </body>
 </html>

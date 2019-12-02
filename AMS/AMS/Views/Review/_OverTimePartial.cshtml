@@ -1,13 +1,26 @@
 ﻿@model IEnumerable<AMS.Models.OverTimeReviewViewModels>
 @using (Html.BeginForm("Edit3", "Review"))
 {
-    <button type="submit" class="btn btn-danger">核准</button>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-12 col-md-2 ">
+                <button type="submit" class="btn btn-search md-3" style="background-color:#5DAC81;color:#FFFFFB;margin-left:10px">
+                    <i class="icon-check"></i><span>
+                        <strong>核准</strong>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
     <table id="basic-datatables" class="display table table-striped table-hover">
 
         <thead class="bg-primary text-light">
             <tr>
                 <td>
                     @Html.CheckBox("CheckBox", false, new { id = "CheckAll" })
+                    <span>
+                        <strong>全選</strong>
+                    </span>
                 </td>
                 <th>
                     @Html.DisplayNameFor(model => model.EmployeeName)
@@ -68,8 +81,14 @@
                         @Html.DisplayFor(modelItem => item.ReviewStatus)
                     </td>
                     <td>
+
+                        <button class="btn btn-sm" type="button" style="background-color:#DAC9A6;color:#3A3226" onclick="ReviewPageAjax(('@Url.Action("OverTimeDetails", "Review" )/'+'@item.OverTimeRequestID'),'details')">
+                            <i class="icon-list"></i><span>
+                                <strong>明細</strong>
+                            </span>
+                        </button>
                         @*@Html.ActionLink("Edit", "Edit", new { id=item.LeaveRequestID }) |*@
-                        @Html.ActionLink("Details", "Details", new { id = item.OverTimeRequestID }, new { @class = "btn btn-outline-primary" })
+                        @*@Html.ActionLink("Details", "Details", new { id = item.OverTimeRequestID }, new { @class = "btn btn-outline-primary" })*@
                         @*@Html.ActionLink("Delete", "Delete", new { id=item.LeaveRequestID })*@
                     </td>
                 </tr>

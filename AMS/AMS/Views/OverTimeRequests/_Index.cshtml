@@ -7,7 +7,7 @@
 
 
 <body>
-   
+
     <div class="page-inner">
         <div style="background-color:#91989F">
             <h1>
@@ -27,19 +27,17 @@
                             <input id="EndTime" name="EndTime" type="date" class="form-control" />
                         </div>
                         <button id="Search" name="Search" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
-                            <i class="fa fa-search fa-fw"></i>搜尋
+                            <i class="fa fa-search fa-fw"></i><span>
+                                <strong>搜尋</strong>
+                            </span>
                         </button>
                     </div>
-                    <div class="container mt-3">
-                        <button id="buttonAdd" class="btn btn-primary mb-3" onclick="OverTimeCreate()">
-                            <i class="fas fa-plus-square"></i>
-                        </button>
-                    </div>
+
                     <div class="card-body">
                         <div class="table-responsive" id="OverTimeTable">
 
                             @Html.Partial("_OverTimeIndexPartialView", Model)
-                       
+
                         </div>
                     </div>
                 </div>
@@ -70,13 +68,13 @@
 
                     OTsearch();
                 });
-          
+
 
             d = new Date();
             $("#StartTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-01" );
             $("#EndTime").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() ));
         });
-        
+
         function OTsearch() {
             let a = $("#StartTime").val()
             let st = a.split('-')
@@ -84,7 +82,7 @@
             let et = $("#EndTime").val().split('-')
             let End = et[0] + et[1] + et[2]
             $.ajax({
-                
+
                 type: "GET",
                 url: "@Url.RouteUrl("Default1", new { controller = "OverTimeRequests", action = "Overtimetable" })/" + Start + "/" + End,
             }).done(function (result) {
@@ -134,10 +132,10 @@
 
         });
 
-            
-            
 
-       
+
+
+
 
 
     </script>

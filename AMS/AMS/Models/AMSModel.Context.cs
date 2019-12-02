@@ -33,19 +33,7 @@ namespace AMS.Models
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<WorkingDaySchedule> WorkingDaySchedule { get; set; }
         public virtual DbSet<Attendances> Attendances { get; set; }
-
-        public System.Data.Entity.DbSet<AMS.Controllers.EmployeesCreateViewModel> EmployeesCreateViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<AMS.Models.OverTimeViewModel> OverTimeViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<AMS.Controllers.SerchAttendancesViewModel> SerchAttendancesViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<AMS.Models.LeaveIndexViewModel> LeaveIndexViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<AMS.Models.ClockInApplyViewModel> ClockInApplyViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<AMS.Models.AttendancesViewModel> AttendancesViewModels { get; set; }
-        public virtual DbSet<Employees> Employees { get; set; }
         public virtual DbSet<LeaveRequests> LeaveRequests { get; set; }
+        public virtual DbSet<Employees> Employees { get; set; }
     }
 }

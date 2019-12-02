@@ -1,12 +1,20 @@
 ﻿@model IEnumerable<AMS.Models.OverTimeViewModel>
 
-<p>
-  
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="display table table-striped table-hove" id="basic-datatables">
+<div class="form-group">
+    <div class="row">
+        <div class="col-12 col-md-2 ">
+            <button id="buttonAdd" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226;margin-left:10px" onclick="OverTimeCreate()">
+                <i class="fas fa-plus-square"></i><span>
+                    <strong>申請加班補休</strong>
+                </span>
+            </button>
+        </div>
+    </div>
+</div>
+<table class="display table table-striped table-hover" id="basic-datatables">
     <thead class="text-light">
         <tr>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeName)
             </th>
@@ -37,50 +45,52 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReviewTime)
             </th>
-            <th></th>
+
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr class="table-light">
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StartTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EndTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PayorOFF)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OTDateType)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SummaryTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Reason)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Review)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReviewTime)
-                </td>
-                <td>
-                    <button class="btn btn-primary" onclick="OverTimeDetails(@item.RequestID)">加班明細</button>
+        <tr class="table-light">
+            <td>
 
-
-
-                </td>
-            </tr>
+                <button class="btn btn-sm" style="background-color:#DAC9A6;color:#3A3226" onclick="OverTimeDetails(@item.RequestID)">
+                    <i class="icon-list"></i><span>
+                        <strong>明細</strong>
+                    </span>
+                </button>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayorOFF)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OTDateType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SummaryTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Reason)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Review)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReviewTime)
+            </td>
+        </tr>
         }
     </tbody>
 </table>

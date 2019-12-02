@@ -1,0 +1,122 @@
+﻿
+@{
+    ViewBag.Title = "sView";
+}
+
+<h2>View</h2>
+
+<video id="player" controls autoplay></video>
+<button id="capture">Capture</button>
+<canvas id="snapshot" width=320 height=240></canvas>
+<h1>Detect Faces:</h1>
+Enter the URL to an image that includes a face or faces, then click
+the <strong>Analyze face</strong> button.<br><br>
+Image to analyze: <input type="text" name="inputImage" id="inputImage"
+                         value="https://upload.wikimedia.org/wikipedia/commons/c/c3/RH_Louise_Lillian_Gish.jpg" />
+<button onclick="processImage()">Analyze face</button><br><br>
+<div id="wrapper" style="width:1020px; display:table;">
+    <div id="jsonOutput" style="width:600px; display:table-cell;">
+        Response:<br><br>
+        <textarea id="responseTextArea" class="UIInput"
+                  style="width:580px; height:400px;"></textarea>
+    </div>
+    <div id="imageDiv" style="width:420px; display:table-cell;">
+        Source image:<br><br>
+        <img id="sourceImage" width="400" />
+    </div>
+</div>
+@section scripts
+{
+    <script>
+        var player = document.getElementById('player');
+        var snapshotCanvas = document.getElementById('snapshot');
+        var captureButton = document.getElementById('capture');
+        var videoTracks;
+
+        var handleSuccess = function (stream) {
+            // Attach the video stream to the video element and autoplay.
+            player.srcObject = stream;
+            videoTracks = stream.getVideoTracks();
+        };
+
+        captureButton.addEventListener('click', function () {
+            
+            var context = snapshot.getContext('2d');
+            context.drawImage(player, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
+
+            // Stop all video streams.
+            videoTracks.forEach(function (track) { track.stop() });
+            xxx();
+        });
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(handleSuccess);
+
+        function xxx() {
+            var sCanvas = document.getElementById('snapshot');
+            var dataURL = sCanvas.toDataURL(); 
+    
+            var params = {
+                // Request parameters
+                "returnFaceId": "true",
+                "returnFaceLandmarks": "false",
+                //"returnFaceAttributes": "{string}",
+                "recognitionModel": "recognition_01",
+                "returnRecognitionModel": "false",
+                "detectionModel": "detection_01",
+            };
+
+            $.ajax({
+                url: "https://msitfaceams.cognitiveservices.azure.com/face/v1.0/detect",
+                beforeSend: function (xhrObj) {
+                    // Request headers
+                    xhrObj.setRequestHeader("Content-Type", "application/json");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","8f11a9ed05c54441b203f86a5d54cbba");
+                },
+                type:"POST",
+                // Request body
+                data:{
+                    "url": dataURL
+                }
+            })
+                .done(function (data) {
+                    console.log(data);
+                    alert("success");
+                })
+                .fail(function () {
+                    alert("error");
+                });
+        }
+    </script>
+ 
+        @*<script>
+          
+           
+
+
+
+            $(function() {
+            var params = {
+                // Request parameters
+            };
+
+            $.ajax({
+                url: "https://amsfaceapi.cognitiveservices.azure.com/face/v1.0/verify?" + $.param(params),
+                beforeSend: function(xhrObj){
+                // Request headers
+                xhrObj.setRequestHeader("Content-Type", "application/json");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","7def02696b62466d9aea745627648cad");
+        },
+        type: "POST",
+        // Request body
+                data: "{body}",
+        })
+            .done(function(data) {
+                alert("success");
+            })
+            .fail(function() {
+                alert("error");
+            });
+        });
+    </script>*@
+}

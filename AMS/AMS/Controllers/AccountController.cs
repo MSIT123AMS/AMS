@@ -63,6 +63,7 @@ namespace AMS.Controllers
 
         //
         // POST: /Account/Login
+        private Entities db = new Entities();
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -80,8 +81,11 @@ namespace AMS.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    Session["UserName"] = model.UserName;
-                    return RedirectToLocal(returnUrl);
+                    {
+                        Session["UserFullName"] = db.Employees.Find(model.UserName).EmployeeName;
+                        Session["UserName"] = model.UserName;
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
