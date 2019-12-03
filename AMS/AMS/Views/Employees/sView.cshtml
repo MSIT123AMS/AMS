@@ -12,7 +12,7 @@
 Enter the URL to an image that includes a face or faces, then click
 the <strong>Analyze face</strong> button.<br><br>
 Image to analyze: <input type="text" name="inputImage" id="inputImage"
-                         value="https://upload.wikimedia.org/wikipedia/commons/c/c3/RH_Louise_Lillian_Gish.jpg" />
+                         value="https://img.ltn.com.tw/Upload/liveNews/BigPic/600_phpKUXAG2.jpg" />
 <button onclick="processImage()">Analyze face</button><br><br>
 <div id="wrapper" style="width:1020px; display:table;">
     <div id="jsonOutput" style="width:600px; display:table-cell;">
@@ -89,34 +89,151 @@ Image to analyze: <input type="text" name="inputImage" id="inputImage"
         }
     </script>
  
-        @*<script>
-          
-           
+        <script>
+            var sourceImageUrl = document.getElementById("inputImage").value;
+            var sourceImageUrl2 = "https://upload.wikimedia.org/wikipedia/commons/6/6a/%E9%AB%98%E9%9B%84%E5%B8%82%E9%95%B7_%E9%9F%93%E5%9C%8B%E7%91%9C.jpg";
+
+            function processImage() {
+
+               processImage1(sourceImageUrl);
 
 
 
-            $(function() {
-            var params = {
-                // Request parameters
+
+            }
+            function processImage2(purl) {
+                // Replace <Subscription Key> with your valid subscription key.
+                var subscriptionKey = "8f11a9ed05c54441b203f86a5d54cbba";
+
+                var uriBase =
+                    "https://msitfaceams.cognitiveservices.azure.com/face/v1.0/detect";
+
+                // Request parameters.
+                var params = {
+                    "returnFaceId": "true",
+                };
+
+                // Display the image.
+
+                document.querySelector("#sourceImage").src = purl;
+
+                // Perform the REST API call.
+                $.ajax({
+                    url: uriBase + "?" + $.param(params),
+
+                    // Request headers.
+                    beforeSend: function (xhrObj) {
+                        xhrObj.setRequestHeader("Content-Type", "application/json");
+                        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+                    },
+
+                    type: "POST",
+
+                    // Request body.
+                    data: '{"url": ' + '"' + purl + '"}',
+                })
+
+                    .done(function (data) {
+                        console.log(data);
+                        console.log(data[0].faceId);
+                     
+
+
+                    })
+
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        // Display error message.
+                        var errorString = (errorThrown === "") ?
+                            "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+                        errorString += (jqXHR.responseText === "") ?
+                            "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+                                jQuery.parseJSON(jqXHR.responseText).message :
+                                jQuery.parseJSON(jqXHR.responseText).error.message;
+                        alert(errorString);
+                    });
             };
 
-            $.ajax({
-                url: "https://amsfaceapi.cognitiveservices.azure.com/face/v1.0/verify?" + $.param(params),
-                beforeSend: function(xhrObj){
-                // Request headers
-                xhrObj.setRequestHeader("Content-Type", "application/json");
-                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key","7def02696b62466d9aea745627648cad");
-        },
-        type: "POST",
-        // Request body
-                data: "{body}",
-        })
-            .done(function(data) {
-                alert("success");
-            })
-            .fail(function() {
-                alert("error");
+            function processImage1(purl) {
+                // Replace <Subscription Key> with your valid subscription key.
+                var subscriptionKey = "8f11a9ed05c54441b203f86a5d54cbba";
+
+                var uriBase =
+                    "https://msitfaceams.cognitiveservices.azure.com/face/v1.0/detect";
+
+                // Request parameters.
+                var params = {
+                    "returnFaceId": "true",
+                };
+
+                // Display the image.
+                
+                document.querySelector("#sourceImage").src = purl;
+
+                // Perform the REST API call.
+                $.ajax({
+                    url: uriBase + "?" + $.param(params),
+
+                    // Request headers.
+                    beforeSend: function (xhrObj) {
+                        xhrObj.setRequestHeader("Content-Type", "application/json");
+                        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+                    },
+
+                    type: "POST",
+
+                    // Request body.
+                    data: '{"url": ' + '"' + purl + '"}',
+                })
+
+                    .done(function (data) {
+                        console.log(data);
+                        console.log(data[0].faceId);
+                        processImage2(sourceImageUrl2);
+                       
+                    })
+
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        // Display error message.
+                        var errorString = (errorThrown === "") ?
+                            "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+                        errorString += (jqXHR.responseText === "") ?
+                            "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+                                jQuery.parseJSON(jqXHR.responseText).message :
+                                jQuery.parseJSON(jqXHR.responseText).error.message;
+                        alert(errorString);
+                    });
+            };
+            $(function () {
+                var subscriptionKey = "8f11a9ed05c54441b203f86a5d54cbba";
+                var uriBase1 =
+                    "https://msitfaceams.cognitiveservices.azure.com/face/v1.0/verify";
+                var params = {
+                    // Request parameters
+                };
+                purl = "1ed5d1a0-4d22-4dd0-b1fe-f927e18ec0cd";
+                pur2 = "bf53a179-38a5-4033-bc78-4809baec0429";
+                $.ajax({
+                    url: uriBase1 + "?" + $.param(params),
+
+                    // Request headers.
+                    beforeSend: function (xhrObj) {
+                        xhrObj.setRequestHeader("Content-Type", "application/json");
+                        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+                    },
+                    
+                    type: "POST",
+                    // Request body
+                  
+                    data: `{"faceId1":"${purl}","faceId2":"${pur2}"}`,
+
+                })
+                    .done(function (data) {
+                        console.log(data.confidence);
+                        alert("success");
+                    })
+                    .fail(function () {
+                        alert("error");
+                    });
             });
-        });
-    </script>*@
+    </script>
 }

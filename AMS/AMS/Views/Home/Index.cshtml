@@ -165,7 +165,13 @@
 
                                 </a>
                             </li>
-                       </ul>
+                            <li>
+                                <a href="#" onclick='PageAjax("@Url.Action("DailyStatistics", "Employees")","日期員工出勤統計")'>
+
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">日期員工出勤統計</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </li>
             </ul>
@@ -230,10 +236,7 @@
                     <div class="card" id="calendar_open"></div>
                 </form>
             </div>
-            @*<div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
-                    <button type="button" class="btn btn-primary" id="buttonSend">送出</button>
-                </div>*@
+
         </div>
     </div>
 </div>
@@ -353,6 +356,13 @@
 
                         break;
                     }
+                case '日期員工出勤統計':
+                    {
+
+                        //SetTimePicker($("#time1"), $("#time2"));
+                        GetDailyStatistics();
+                        break;
+                    }
                 default:
                     changeT();
                     SetTimePicker($("#time1"), $("#time2"));
@@ -408,6 +418,72 @@
             UpdateEmployeesByDepartment();
             Updateddl();
         });
+    }
+    function GetDailyStatistics() {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetDailyStatistics", "Employees")/",
+            dataType: "json",
+        }).done(function (datas) {
+            console.log(datas);
+
+            $("#statisticsnum1").text(`${datas[4].人數}`)
+            $("#statisticsnum2").text(`${datas[4].未到}`)
+            $("#statisticsnum3").text(`${datas[4].請假}`)
+            
+
+
+
+            var ctx = document.getElementById('myChart');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['行銷部', '業務部', '會計部','資訊部','人資部','工程部','研發部'],
+                    datasets: [{
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 206, 86, 0.2)' 
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                             'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1,
+                        label: '出席率(%)',
+                        data: [Math.ceil(((datas[0].人數 - datas[0].未到) / datas[0].人數)* 100), Math.ceil(((datas[1].人數 - datas[1].未到) / datas[1].人數)* 100), Math.ceil(((datas[2].人數 - datas[2].未到) / datas[2].人數)* 100),
+                            Math.ceil(((datas[3].人數 - datas[3].未到) / datas[3].人數)* 100), Math.ceil(((datas[4].人數 - datas[4].未到) / datas[4].人數)* 100), Math.ceil(((datas[5].人數 - datas[5].未到) / datas[5].人數)* 100),
+                            Math.ceil(((datas[6].人數 - datas[6].未到) / datas[6].人數)* 100)]
+                    }]
+                },
+                options: {
+                    onClick: function (c, i) {
+                        e = i[0];
+                        console.log(e._index+1)
+                        var x_value = this.data.labels[e._index];
+                        var y_value = this.data.datasets[0].data[e._index];
+                        $("#StatisticsDepartmentName").text(x_value);
+                        console.log(y_value);
+                        GetDailyStatisticsDataByDepartment(e._index + 1)
+                        GetDailyStatisticsByDepartment(e._index + 1 );
+                    }
+                },
+
+            });
+
+
+
+        }).fail(function (e) { alert(e.responseText) });
     }
 
     function EmployeesPageAjax(PageUrl, sta) {
@@ -900,7 +976,29 @@
 
 
     ///////////////////////正//////////////////////
+      function GetDailyStatisticsDataByDepartment(DepartmentId) {
+    $.ajax({
+        type: "GET",
+        url: "@Url.Action("GetDailyStatisticsDataByDepartment", "Employees")/" + DepartmentId,
+        dataType: 'json',
+    }).done(function (datas) {
+        $("#statisticsnum1").text(`${datas[0].人數}`)
+        $("#statisticsnum2").text(`${datas[0].未到}`)
+        $("#statisticsnum3").text(`${datas[0].請假}`)
 
+    }).fail(function (e) { alert(e.responseText) });
+}
+    function GetDailyStatisticsByDepartment(DepartmentId) {
+    $.ajax({
+        type: "GET",
+        url: "@Url.Action("GetDailyStatisticsByDepartment", "Employees")/" + DepartmentId,
+        dataType: 'html',
+    }).done(function (result) {
+        $("#Employeestable").html(result);
+        changeT();
+
+    }).fail(function (e) { alert(e.responseText) });
+}
 function Updateddl() {
     $.ajax({
         type: "GET",

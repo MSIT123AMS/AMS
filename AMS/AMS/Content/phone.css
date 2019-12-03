@@ -22,7 +22,10 @@
         background-color: #6E75A4
     }
 
-
+    #myChart {
+        width: 250px;
+        height: 150px;
+    }
 
 }
 @media screen and (min-width: 601px) {
@@ -66,10 +69,15 @@
     table.table-striped td {
         padding: 1em !important;
     }
+    #myChart {
+        width: 350px;
+        height: 150px;
+    }
 
 }
 
 @media print {
+    
     body {
         -webkit-print-color-adjust: exact;
     }
@@ -88,7 +96,9 @@
         margin-top: 0px !important;
         border: 1px solid;
     }
-
+    #myChart {
+        width: 250px;
+    }
     table {
         border-collapse: collapse;
         border: 1px solid #000000;

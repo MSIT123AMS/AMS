@@ -72,20 +72,183 @@ namespace AMS.Controllers
 
             //return View();
         }
+        public ActionResult GetDailyStatistics()
+        {
+            DateTime dateTime = DateTime.Parse("2019/09/24");
+
+            DateTime dateTime3 = DateTime.Parse("2019/09/24");
+            DateTime dateTime2 = dateTime.AddDays(1);
+
+
+
+            var query = (from e in db.Employees
+                         join a in db.Attendances.Where(w => w.Date == dateTime) on e.EmployeeID equals a.EmployeeID into ae
+                         from a2 in ae.DefaultIfEmpty()
+                         select new
+                         {
+                             e.EmployeeID,
+                             e.DepartmentID,
+                             e.EmployeeName,
+                             StartTime = a2 == null ? null : a2.OnDuty,
+                             EndTime = a2 == null ? null : a2.OffDuty,
+                         });
+            var query2 = (from e in query
+                          join Le in db.LeaveRequests.Where(w => w.StartTime <= dateTime2 && w.EndTime >= dateTime)
+                          on e.EmployeeID equals Le.EmployeeID into Le2
+                          from a3 in Le2.DefaultIfEmpty()
+                          select new /*DailyStatisticsViewModel1*/
+                          {
+                              e.EmployeeID,
+                              e.DepartmentID,
+                              EmployeeName = e.EmployeeName,
+                              StartTime = e.StartTime,
+                              EndTime = e.EndTime,
+                              LeaveType = a3 == null ? null : a3.LeaveType
+                          });
+
+
+
+            var q = query2.GroupBy(De => De.DepartmentID).Select(Emp => new Daily {部門= Emp.Key,人數 = Emp.Count(), 請假 = Emp.Where(g => g.LeaveType != null).Count(), 未到 = Emp.Where(g => g.StartTime == null && g.LeaveType == null && g.EndTime == null).Count() });
+
+
+            return Json(q,JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetDailyStatisticsDataByDepartment(int? id)
+        {
+            DateTime dateTime = DateTime.Parse("2019/09/24");
+
+            DateTime dateTime3 = DateTime.Parse("2019/09/24");
+            DateTime dateTime2 = dateTime.AddDays(1);
+
+
+
+            var query = (from e in db.Employees
+                         join a in db.Attendances.Where(w => w.Date == dateTime) on e.EmployeeID equals a.EmployeeID into ae
+                         from a2 in ae.DefaultIfEmpty()
+                         where e.DepartmentID == id
+                         select new
+                         {
+                             e.EmployeeID,
+                             e.DepartmentID,
+                             e.EmployeeName,
+                             StartTime = a2 == null ? null : a2.OnDuty,
+                             EndTime = a2 == null ? null : a2.OffDuty,
+                         });
+            var query2 = (from e in query
+                          join Le in db.LeaveRequests.Where(w => w.StartTime <= dateTime2 && w.EndTime >= dateTime)
+                          on e.EmployeeID equals Le.EmployeeID into Le2
+                          from a3 in Le2.DefaultIfEmpty()
+                          select new /*DailyStatisticsViewModel1*/
+                          {
+                              e.EmployeeID,
+                              e.DepartmentID,
+                              EmployeeName = e.EmployeeName,
+                              StartTime = e.StartTime,
+                              EndTime = e.EndTime,
+                              LeaveType = a3 == null ? null : a3.LeaveType
+                          });
+
+
+
+            var q = query2.GroupBy(De => De.DepartmentID).Select(Emp => new Daily { 部門 = Emp.Key, 人數 = Emp.Count(), 請假 = Emp.Where(g => g.LeaveType != null).Count(), 未到 = Emp.Where(g => g.StartTime == null && g.LeaveType == null && g.EndTime == null).Count() });
+
+
+            return Json(q, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult DailyStatistics()
+        {
+
+            return PartialView("_DailyStatistics");
+
+            //return View();
+        }
+        public ActionResult GetDailyStatisticsByDepartment(int? id)
+        {
+            DateTime dateTime = DateTime.Parse("2019/09/24");
+
+            DateTime dateTime3 = DateTime.Parse("2019/09/24");
+            DateTime dateTime2 = dateTime.AddDays(1);
+
+            //var query = (from e in db.Employees
+            //             join a in db.Attendances on e.EmployeeID equals a.EmployeeID into ae
+            //             from a2 in ae.DefaultIfEmpty()
+            //             join Le in db.LeaveRequests on a2.EmployeeID equals Le.EmployeeID into Le2                                           
+            //             from a3 in Le2.DefaultIfEmpty()
+            //             where a2.Date== dateTime
+            //             select new DailyStatisticsViewModel1
+            //             {
+            //                 EmployeeName = e.EmployeeName,                             
+            //                 StartTime = a2 == null ? null : a2.OnDuty,
+            //                 EndTime =a2== null ? null : a2.OffDuty,
+            //                 LeaveType = a3 == null ? null : a3.LeaveType,
+
+            //             });
+            //var query2 = db.LeaveRequests.Where(w => w.StartTime <= dateTime2 && w.EndTime >= dateTime);
+
+            var query = (from e in db.Employees
+                         join a in db.Attendances.Where(w => w.Date== dateTime) on e.EmployeeID equals a.EmployeeID into ae
+                         from a2 in ae.DefaultIfEmpty()
+                         where e.DepartmentID== id
+                         select new
+                         {
+                             e.EmployeeID,
+                             //e.DepartmentID,
+                             e.EmployeeName,
+                             StartTime = a2 == null ? null : a2.OnDuty,
+                             EndTime = a2 == null ? null : a2.OffDuty,                             
+                         });
+            var query2 = (from e in query
+                          join Le in db.LeaveRequests.Where(w => w.StartTime <= dateTime2 && w.EndTime >= dateTime) 
+                          on e.EmployeeID equals Le.EmployeeID into Le2
+                          from a3 in Le2.DefaultIfEmpty()
+                          select new DailyStatisticsViewModel1
+                          {
+                              //e.EmployeeID,
+                              //e.DepartmentID,
+                              EmployeeName = e.EmployeeName,
+                              StartTime = e.StartTime,
+                              EndTime = e.EndTime,
+                              LeaveType = a3 == null ? null : a3.LeaveType
+                          });
+
+
+
+  //var q = query2.GroupBy(De => De.DepartmentID).Select(Emp => new { 人數 = Emp.Count(), 請假= Emp.Where(g=>g.LeaveType!=null).Count(),未到= Emp.Where(g => g.StartTime==null && g.LeaveType == null && g.EndTime == null).Count() });
+  //          //var q = Context.Employees.Select(Emp => new { 部門 = Emp., 主管 = Emp.Key.Manager, 人數 = Emp.Count() });
+
+
+            //return PartialView("_DailyStatistics", query);
+            return PartialView("_DailyStatisticsPartial", query2);
+
+
+            //return View();
+        }
+
 
         public ActionResult SerchAttendances()
         {
-            var query = (from ot in db.Attendances.AsEnumerable()
-                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+            //var query = (from ot in db.Attendances.AsEnumerable()
+            //             join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+            //             select new SerchAttendancesViewModel
+            //             {                            
+            //                 EmployeeName = emp.EmployeeName,
+            //                 Date = ot.Date.ToString("yyyy/MM/dd"),
+            //                 StartTime = ot.OnDuty,
+            //                 EndTime = ot.OffDuty,
+            //             });
+            var query = (from e in db.Employees.AsEnumerable()
+                         join a in db.Attendances.AsEnumerable() on e.EmployeeID equals a.EmployeeID into g
+                         from a in g.DefaultIfEmpty()
                          select new SerchAttendancesViewModel
-                         {                            
-                             EmployeeName = emp.EmployeeName,
-                             Date = ot.Date.ToString("yyyy/MM/dd"),
-                             StartTime = ot.OnDuty,
-                             EndTime = ot.OffDuty,
+                         {
+                             EmployeeName = e.EmployeeName,
+                             Date = a == null ? "沒打卡" : a.Date.ToString("yyyy/MM/dd"),
+                             StartTime = a == null ? null : a.OnDuty,
+                             EndTime = a == null ? null : a.OffDuty,
                          });
-
-
 
             return PartialView("_SerchAttendances", query);
     
@@ -622,4 +785,6 @@ namespace AMS.Controllers
             return File(content, "image/jpeg");
         }
     }
+
+
 }

@@ -1028,6 +1028,9 @@
     <Content Include="Views\Shared\_LayoutToPDF.cshtml" />
     <Content Include="Views\Review\_ReviewOverTimeDetails.cshtml" />
     <Content Include="Views\Employees\sView.cshtml" />
+    <Content Include="Views\Employees\_DailyStatistics.cshtml" />
+    <Content Include="Views\Employees\_DailyStatisticsPartial.cshtml" />
+    <Content Include="Views\Employees\DailyStatistics1111.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
