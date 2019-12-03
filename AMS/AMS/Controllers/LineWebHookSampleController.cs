@@ -1,6 +1,8 @@
 using AMS.Controllers;
 using AMS.Models;
 using isRock.LineBot;
+using Line.Messaging;
+using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
 using System;
@@ -21,21 +23,35 @@ namespace WebApplication5.Controllers
     {
        public const string channelAccessToken = @"ehC2bzsC2xmmwK5J59gcEK4ihHfRlYfb8kQFxVR2jn0B9vlAtMfvAwXXn5KfJfeQlC+5Higk86SmFJkwGn3bwDHH1uvL2X4vwahMbdMCeIFJttH9jNekMNBw6RHL0hJaQq2oEDSKKf0ocx3CQTFaO1GUYhWQfeY8sLGRXgo3xvw=";
         public string AdminUserId ;        
-        public static double Lat;//緯度
-        public static double Long;//經度
+        public static string Lat;//緯度
+        public static string Long;//經度
        [Route("api/LineWebHookSample")]
         [HttpPut]
         public IHttpActionResult Put(Position position)
         {
-            Lat = position.Lat;
-            Long = position.Long;
+            Lat = (position.Lat).Substring(0,9);
+            Long = (position.Long).Substring(0, 10);
             return Json(position) ;
         }
+        public bool flaglocation()
+        {
+            double MSITLat = 25.033765;////資策會經緯度
+            double MSITLong = 121.543412;//資策會經緯度
+          
+                if (((MSITLat + 0.0015) > double.Parse(Lat) && (MSITLat - 0.0015) < double.Parse(Lat)) && ((MSITLong + 0.0015) > double.Parse(Long) && (MSITLong - 0.0015) < double.Parse(Long)))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }         
+         }
         [Route("api/LineWebHookSample")]
         [HttpPost]
         public IHttpActionResult POST()
         {
-            Console.Write(Lat);
+          
             Entities d = new Entities();
             this.AdminUserId = this.ReceivedMessage.events.FirstOrDefault().source.userId;
             //var FindEmpID = d.Employees.Where(p => p.LineID == AdminUserId).First().EmployeeID;
@@ -47,9 +63,8 @@ namespace WebApplication5.Controllers
             //配合Line verify 
             if (LineEvent.replyToken == "00000000000000000000000000000000") return Ok();
             //回覆訊息
-         
-           
-          
+            //var Liff = isRock.LIFF.Utility.AddLiffApp(channelAccessToken, new Uri("https://1380f17d.ngrok.io/Home/Contact"), isRock.LIFF.ViewType.full);            
+
             if (d.Employees.Where(p => p.LineID == AdminUserId).FirstOrDefault()!=null)//正
             {
                
@@ -60,61 +75,84 @@ namespace WebApplication5.Controllers
                   
                     if (LineEvent.type == "message")
                     {
-
+                       
                         //取得用戶資訊
                         //string EmpId = "MSIT1230015";//測試用用戶
-                        string st1 = "16:00";//設定最晚打卡的上班時間(可以擺到人事) ///要再做每日統計上班時數功能  
+                        string st1 = "22:00";//設定最晚打卡的上班時間(可以擺到人事) ///要再做每日統計上班時數功能  
                         DateTime dt1 = Convert.ToDateTime(st1);
-                        DateTime todate = DateTime.Now.Date;//今天的日期
-
+                        DateTime todate = DateTime.Now.Date;//今天的日期                        
                         if (LineEvent.message.type == "text")
                         {
                             if (LineEvent.message.text == "打卡")
-                            {
-                                var bot = new Bot(channelAccessToken);
+                            {                                        
+                               var bot = new Bot(channelAccessToken);
+                                var actions1 = new List<isRock.LineBot.TemplateActionBase>();
+                                actions1.Add(new isRock.LineBot.UriAction() { label = "請確認地點", uri = new Uri("https://1380f17d.ngrok.io/Home/Contact") });
+                               
+
+
+
                                 List<TemplateActionBase> actions = new List<TemplateActionBase>();
                                 this.ReplyMessage(LineEvent.replyToken, $"你好,{q.EmployeeName}");
+                                //isRock.LineBot.Utility.PushMessage(
+                                //  AdminUserId, "" + Liff, channelAccessToken);
                                 actions.Add(new MessageAction() { label = "上班", text = "上班" });
-                                actions.Add(new MessageAction() { label = "下班", text = "下班" });
-
+                                actions.Add(new MessageAction() { label = "下班", text = "下班" });                         
                                 var ButtonTempalteMsg = new isRock.LineBot.ConfirmTemplate()
                                 {
                                     text = "打卡",
                                     altText = "請在手機上檢視",
-                                    actions = actions
+                                    actions = actions       
+                                    
                                 };
+                                List<Column> c = new List<Column>();
+                                c.Add(new Column() { title = "標題1", text = "ABC...敘述...", thumbnailImageUrl = new Uri("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShM4OsAL9Y7-4iGKI0mvP2WsQ3gQeEApOwnjsXdUs90dQe2ph8"), actions = actions1 });
+                                var CarouselTemplate = new isRock.LineBot.CarouselTemplate()
+                                {
+                                    columns = c
+                                };
+                                //bot.ReplyMessage(channelAccessToken, new isRock.LineBot.TemplateMessage(CarouselTemplate));
+                                bot.PushMessage(AdminUserId, CarouselTemplate);
                                 bot.PushMessage(AdminUserId, ButtonTempalteMsg);
-                                //return RedirectToRoute("Index", "Home");
-                        }                     
-                        
+                                
+                            }
+
                         switch (LineEvent.message.text)
                         {
 
                                 case "上班":
-                                    if (DateTime.Now < dt1)
+                                    if (flaglocation())
                                     {
-                                        a.EmployeeID = EmpID;
-                                        a.Date = todate;
-                                        a.OnDuty = DateTime.Now.AddHours(8);
-                                        d.Attendances.Add(a);
-                                        try
+                                        if (DateTime.Now < dt1)
                                         {
-                                            d.SaveChanges();
-                                            this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.AddHours(8).ToString()}");
-                                        }
-                                        catch
-                                        {
-                                            var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).First();
-                                            this.ReplyMessage(LineEvent.replyToken, "已經在" + $"{query.OnDuty}打過卡了");
-                                        }
+                                            a.EmployeeID = EmpID;
+                                            a.Date = todate;
+                                            a.OnDuty = DateTime.Now.AddHours(8);
+                                            d.Attendances.Add(a);
+                                            try
+                                            {
+                                                d.SaveChanges();
+                                                this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.AddHours(8).ToString()}");
+                                            }
+                                            catch
+                                            {
+                                                var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).First();
+                                                this.ReplyMessage(LineEvent.replyToken, "已經在" + $"{query.OnDuty}打過卡了");
+                                            }
 
 
-                                        return Ok();
+                                            return Ok();
+                                        }
+                                        else
+                                        {
+                                            this.ReplyMessage(LineEvent.replyToken, "已超過可打卡的時間");
+                                        }
                                     }
                                     else
                                     {
-                                        this.ReplyMessage(LineEvent.replyToken, "已超過可打卡的時間");
+                                        this.ReplyMessage(LineEvent.replyToken, "超出可打卡範圍");
                                     }
+
                                     break;
                                 case "下班":
                                     try
@@ -187,7 +225,7 @@ namespace WebApplication5.Controllers
             }
             else//正
             {
-                this.ReplyMessage(LineEvent.replyToken, "請先綁定帳號!"+ Lat);
+                this.ReplyMessage(LineEvent.replyToken,  "請先綁定帳號!");
 
             }
             
