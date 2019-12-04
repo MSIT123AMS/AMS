@@ -140,12 +140,31 @@ namespace AMS.Controllers
 
            ViewBag.on = remleave();  //剩餘特休天數
            ViewBag.Off= Days();      //特休天數共幾天
+           ViewBag.over = SumoverTime();//計算當年度補修申時數
             return PartialView("_Create");
         }
 
         // POST: LeaveRequests/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+        #region 算剩餘的補修時數
+        public int SumoverTime()
+        {
+            OverTimeRequest Overtime = new OverTimeRequest();
+            string User = Convert.ToString(Session["UserName"]);
+
+            var dbover = db.OverTimeRequest;
+            var time1 = dbover.AsEnumerable().Where(n => n.EmployeeID == User && n.StartTime.Year == DateTime.Now.Year && n.OverTimePay == false).Sum(n => (n.EndTime - n.StartTime).Hours);
+
+
+            return time1;
+        }
+
+        #endregion
+
+
+
+
 
 
         #region 算剩餘的特休天數
