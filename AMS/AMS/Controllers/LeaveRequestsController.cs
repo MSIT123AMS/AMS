@@ -209,7 +209,8 @@ namespace AMS.Controllers
             var dd = db.Employees.Find(User).Hireday.Day;
             DateTime t1 = DateTime.Parse($"{t}-{dm}-{dd}");
             DateTime t2 = DateTime.Parse($"{t+1}-{dm}-{dd}");
-            int Remain = Days() -( db.LeaveRequests.Where(n => (n.StartTime >= t1 && n.EndTime <= t2 && n.EmployeeID == User && n.LeaveType=="特休假")) .Count());
+            int a = (db.LeaveRequests.AsEnumerable().Where(n => (n.StartTime >= t1 && n.EndTime <= t2 && n.EmployeeID == User && n.LeaveType == "特休假")).Count());
+            int Remain = Days() - a;
             return Remain;
         }
         #endregion
