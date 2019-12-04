@@ -90,73 +90,73 @@ namespace AMS.Controllers
 
 
 
-        public ActionResult Json()
-        {
-            var result = ReadLeaveRequests(1);
-            result.Select(r => r.EmployeeName);
-            var leaveType = result.Select(r => r.LeaveType);
-            var a = from e in result
-                    where e.LeaveType == "病假" && e.EmployeeID == "MIST0001"
-                    select e;
-            a.Count();
+        //public ActionResult Json()
+        //{
+        //    var result = ReadLeaveRequests(1);
+        //    result.Select(r => r.EmployeeName);
+        //    var leaveType = result.Select(r => r.LeaveType);
+        //    var a = from e in result
+        //            where e.LeaveType == "病假" && e.EmployeeID == "MIST0001"
+        //            select e;
+        //    a.Count();
 
 
-            var R = ReadOverTimeRequests(1).Select(r => r.EmployeeName, );
-            var k= from l in ReadOverTimeRequests(1)
-                   group l by l.EmployeeName
-                   select new
-                   {
-                       l.EmployeeName,
-                       l.
-                   }
+        //    var R = ReadOverTimeRequests(1).Select(r => r.EmployeeName, );
+        //    var k= from l in ReadOverTimeRequests(1)
+        //           group l by l.EmployeeName
+        //           select new
+        //           {
+        //               l.EmployeeName,
+        //               l.
+        //           }
 
-                          var overTimeRequest = (from ot in db.OverTimeRequest.AsEnumerable()
-                                                 join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
-                                                 join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
-                                                 join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
-                                                 //where ot.EmployeeID == User
+        //                  var overTimeRequest = (from ot in db.OverTimeRequest.AsEnumerable()
+        //                                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+        //                                         join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+        //                                         join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+        //                                         //where ot.EmployeeID == User
                                                 
-                                                 where ot.ReviewStatusID==1
+        //                                         where ot.ReviewStatusID==1
                                                         
-                                                 select new OverTimeViewModel
-                                                 {
-                                                     //RequestID = ot.OverTimeRequestID,
-                                                     EmployeeName = emp.EmployeeName,
-                                                   //  RequestTime = ot.RequestTime,
-                                                    // StartTime = ot.StartTime,
-                                                    // EndTime = ot.EndTime,
-                                                   //  PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
-                                                   //  OTDateType = date.WorkingDay,
-                                                     SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
-                                                   //  Reason = ot.OverTimeReason,
-                                                    // Review = rev.ReviewStatus1,
-                                                   //  ReviewTime = ot.ReviewTime
-                                                 });
-            var b = overTimeRequest.GroupBy(o => o.SummaryTime);
+        //                                         select new OverTimeViewModel
+        //                                         {
+        //                                             //RequestID = ot.OverTimeRequestID,
+        //                                             EmployeeName = emp.EmployeeName,
+        //                                           //  RequestTime = ot.RequestTime,
+        //                                            // StartTime = ot.StartTime,
+        //                                            // EndTime = ot.EndTime,
+        //                                           //  PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
+        //                                           //  OTDateType = date.WorkingDay,
+        //                                             SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+        //                                           //  Reason = ot.OverTimeReason,
+        //                                            // Review = rev.ReviewStatus1,
+        //                                           //  ReviewTime = ot.ReviewTime
+        //                                         });
+        //    var b = overTimeRequest.GroupBy(o => o.SummaryTime);
 
-           foreach(var i in b)
-            {
-                i.Key;
-            }
+        //   //foreach(var i in b)
+        //   // {
+        //   //     i.Key;
+        //   // }
 
 
-            //姓名,累計時數 
-            //篩選日期區間
-            var b=from k in R
-                  select k. 
-            foreach(var item in R)
-            {
-                item.
+        //   // //姓名,累計時數 
+        //   // //篩選日期區間
+        //   // var b=from k in R
+        //   //       select k. 
+        //   // foreach(var item in R)
+        //   // {
+        //   //     item.
       
-            }
+        //   // }
 
-            //如何計算假總計
-            //計算總加班時數
-            //補打卡次數
+        //    //如何計算假總計
+        //    //計算總加班時數
+        //    //補打卡次數
 
 
 
-        }
+        //}
 
         [HttpGet]
         public ActionResult Index(string id = "1")
@@ -219,31 +219,31 @@ namespace AMS.Controllers
 
         }
 
-        public ActionResult AjaxClockInApply(string id = "1")
-        {//todo
-            int i = int.Parse(id);
-            //Entities db = new Entities();
-            ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
-            var q1 = from c in db.ClockInApply
-                     join e in db.Employees on c.EmployeeID equals e.EmployeeID
-                     join r in db.ReviewStatus on c.ReviewStatusID equals r.ReviewStatusID
-                     where c.ReviewStatusID == i
-                     select new LeaveReviewViewModels
-                     {
-                         EmployeeID = c.EmployeeID,
-                         EmployeeName = e.EmployeeName,
-                         StartTime = c.OnDuty,
-                         EndTime = c.OffDuty,
-                         RequestTime = c.RequestDate,
-                         ReviewStatus = r.ReviewStatus1,
-                         ReviewStatusID = int.Parse(c.ReviewStatusID),
-                         LeaveRequestID = c.LeaveRequestID
+        //public ActionResult AjaxClockInApply(string id = "1")
+        //{//todo
+        //    int i = int.Parse(id);
+        //    //Entities db = new Entities();
+        //    ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
+        //    var q1 = from c in db.ClockInApply
+        //             join e in db.Employees on c.EmployeeID equals e.EmployeeID
+        //             join r in db.ReviewStatus on c.ReviewStatusID equals r.ReviewStatusID
+        //             where c.ReviewStatusID == i
+        //             select new LeaveReviewViewModels
+        //             {
+        //                 EmployeeID = c.EmployeeID,
+        //                 EmployeeName = e.EmployeeName,
+        //                 StartTime = c.OnDuty,
+        //                 EndTime = c.OffDuty,
+        //                 RequestTime = c.RequestDate,
+        //                 ReviewStatus = r.ReviewStatus1,
+        //                 ReviewStatusID = int.Parse(c.ReviewStatusID),
+        //                 LeaveRequestID = c.LeaveRequestID
 
-                     };
+        //             };
 
-            return PartialView("_LeavePartial", q1);
+        //    return PartialView("_LeavePartial", q1);
 
-        }
+        //}
 
 
         public IEnumerable<AMS.Models.OverTimeReviewViewModels> ReadOverTimeRequests(int id)
