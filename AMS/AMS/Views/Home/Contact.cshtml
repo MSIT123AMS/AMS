@@ -1,17 +1,132 @@
 ﻿@{
     ViewBag.Title = "Contact";
+    Layout = null;
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+<head>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+            * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    @*<link rel="stylesheet" href="~/assets/css/atlantis.min.css">*@
+    <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK8UP_RL_nVi7Mec8Azju2sKkwdD3j4H8&callback=initMap"
+            async defer></script>
+    <script>
+        var map, marker, lat, lng;
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+        //$(document).ready(initMap)
+        document.addEventListener('DOMContentLoaded', initMap)
 
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+            function initMap() {
+
+                navigator.geolocation.getCurrentPosition((position) => {
+                    console.log(position.coords);
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    // 初始化地圖
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 18,
+                        center: { lat: lat, lng: lng }
+                    });
+                    marker = new google.maps.Marker({
+                        position: { lat: lat, lng: lng },
+                        map: map
+                    });
+              var postData = { Lat: position.coords.latitude, Long: position.coords.longitude };
+
+            $.ajax(
+                {
+                    type: "Put",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.RouteUrl("DefaultApi", new { httproute="",controller= "LineWebHookSample" })",
+                    //dataType: "json",
+                    data: JSON.stringify(postData),
+                    success: function (data, status) {
+                        //alert("Pass" + data);
+                    },
+                    error: function (ex) {
+                        //alert("Fail" + ex);
+                    }
+                });
+                });
+
+        }
+
+    </script>
+</head>
+<body>
+    <div class="page-inner">
+        @*<div class="container">   
+            <input type="button" value="Close this window" onclick="self.close()">
+                <button id="Button1" type="button" class="btn btn-search col-md-12" style="background-color:#787D7B;color:#FFFFFB;line-height:50px" onclick="">
+                    <i class="fa fa-search fa-fw"></i><span>
+                        <strong>關閉</strong>
+                    </span>
+                </button>         
+        </div>*@
+        <div class="container" id="map">
+        </div>
+    </div>
+    <script src="~/assets/js/core/jquery.3.2.1.min.js"></script>
+    <script src="~/assets/js/core/popper.min.js"></script>
+    <script src="~/assets/js/core/bootstrap.min.js"></script>
+    <script src="~/Scripts/main.js"></script>
+</body>
+@section scripts1{
+
+
+    <script>
+        var map, marker, lat, lng;
+
+        //$(document).ready(initMap)
+        document.addEventListener('DOMContentLoaded', initMap)
+
+            function initMap() {
+
+                navigator.geolocation.getCurrentPosition((position) => {
+                    console.log(position.coords);
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    // 初始化地圖
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 18,
+                        center: { lat: lat, lng: lng }
+                    });
+                    marker = new google.maps.Marker({
+                        position: { lat: lat, lng: lng },
+                        map: map
+                    });
+              var postData = { Lat: position.coords.latitude, Long: position.coords.longitude };
+
+            $.ajax(
+                {
+                    type: "Put",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.RouteUrl("DefaultApi", new { httproute="",controller= "LineWebHookSample" })",
+                    //dataType: "json",
+                    data: JSON.stringify(postData),
+                    success: function (data, status) {
+                        //alert("Pass" + data);
+                    },
+                    error: function (ex) {
+                        //alert("Fail" + ex);
+                    }
+                });
+                });
+
+        }
+
+    </script>
+
+
+}

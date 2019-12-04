@@ -5,12 +5,24 @@
 }
 
 @section styles{
-    <style>
-        #calendar {
-            /*font-size: 30px;*/
-        }
-    </style>
-
+    @*<style>
+            #calendar {
+                /*font-size: 30px;*/
+            }
+        </style>*@
+    @*<style>
+            /* Always set the map height explicitly to define the size of the div
+            * element that contains the map. */
+            #map {
+                height: 100%;
+            }
+            /* Optional: Makes the sample page fill the window. */
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+        </style>*@
 }
 
 <!-- Sidebar -->
@@ -180,66 +192,206 @@
 </div>
 
 <!-- End Sidebar -->
+<body>
+    <div class="main-panel">
+        <div class="content" id="mainpanel" style="background-color:#fffefa">
+            @*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*@
+            @*行事曆*@
+            <div class="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card" id="mmmmmm">
+                            <div class="row">
+                                <div class="card col-md-7" id="calendar"></div>
+                                <button type="button" class="btn btn-secondary" onclick=" getLocation()">測試</button>
+                                <div class="card col-md-7" id="map" style="height:500px;width:500px" ></div>
+                            </div>
 
-<div class="main-panel">
-    <div class="content" id="mainpanel" style="background-color:#fffefa">
-        @*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*@
-        @*行事曆*@
-        <div class="page-inner">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card" id="mmmmmm">
-                        <div class="row">
-                            <div class="card col-md-7" id="calendar"></div>
-                            <div class="card col-md-2" id="calendar_open"></div>
+
+
+                            @*行事曆*@
+
                         </div>
-
-
-
-                        @*行事曆*@
-
                     </div>
                 </div>
             </div>
         </div>
+        <div id="aaaa"></div>
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul class="nav"></ul>
+                </nav>
+                <div class="copyright ml-auto">
+                    MSIT123。AMS差勤專題
+                </div>
+            </div>
+        </footer>
     </div>
-    <div id="aaaa"></div>
-    <footer class="footer">
-        <div class="container-fluid">
-            <nav class="pull-left">
-                <ul class="nav"></ul>
-            </nav>
-            <div class="copyright ml-auto">
-                MSIT123。AMS差勤專題
+
+    <!-- Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Shipper
+                        <span></span>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addForm">
+                        <div class="card" id="calendar_open"></div>
+                    </form>
+                </div>
+                @*<div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+                        <button type="button" class="btn btn-primary" id="buttonSend">送出</button>
+                    </div>*@
             </div>
         </div>
-    </footer>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                    Shipper
-                    <span></span>
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="addForm">
-                    <div class="card" id="calendar_open"></div>
-                </form>
-            </div>
-
-        </div>
     </div>
-</div>
+</body>
+<!-- Sidebar -->
+@section scripts1{
+
+
+    <script>
+        var map, marker, lat, lng;
+
+        //$(document).ready(initMap)  
+        document.addEventListener('DOMContentLoaded', initMap)
+       
+            function initMap() {
+
+                navigator.geolocation.getCurrentPosition((position) => {
+                    console.log(position.coords);
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    // 初始化地圖
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 18,
+                        center: { lat: lat, lng: lng }
+                    });
+                    marker = new google.maps.Marker({
+                        position: { lat: lat, lng: lng },
+                        map: map
+                    });
+              var postData = { Lat: position.coords.latitude, Long: position.coords.longitude };
+            
+            $.ajax(
+                {
+                    type: "Put",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.RouteUrl("DefaultApi", new { httproute="",controller= "LineWebHookSample" })",
+                    //dataType: "json",
+                    data: JSON.stringify(postData),
+                    success: function (data, status) {
+                        alert("Pass" + data);
+                    },
+                    error: function (ex) {
+                        alert("Fail" + ex);
+                    }
+                });
+                });  
+                
+        }
+         @*function showPosition(position) {
+            var postData = { Lat: position.coords.latitude, Long: position.coords.longitude };
+            
+            $.ajax(
+                {
+                    type: "Put",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.RouteUrl("DefaultApi", new { httproute="",controller= "LineWebHookSample" })",
+                    //dataType: "json",
+                    data: JSON.stringify(postData),
+                    success: function (data, status) {
+                        alert("Pass" + data);
+                    },
+                    error: function (ex) {
+                        alert("Fail" + ex);
+                    }
+                });
+        };*@      
+        
+        //var geolocation ='https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyBK8UP_RL_nVi7Mec8Azju2sKkwdD3j4H8';
+        //(function () {
+        //    xhr = new XMLHttpRequest();
+        //    xhr.open('POST', geolocation);
+        //    xhr.onload = function () {
+        //        var response = JSON.parse(this.responseText);
+        //        console.log(response);
+        //    }
+        //    xhr.send();
+        //})();
+        ////////////定位功能//////
+       
+       
+        
+        //function getLocation() {
+        //    if (navigator.geolocation) {
+        //        navigator.geolocation.getCurrentPosition(showPosition);
+        //    } else {
+        //        console.log("Geolocation is not supported by this browser.");
+        //    }
+        //}
+        @*function showPosition(position) {
+            console.log("Latitude: " + position.coords.latitude +
+                "Longitude: " + position.coords.longitude);
+            $.ajax({
+                url: "@Url.Action("POST", "LineWebHookSample")",
+                type: 'POST',
+                data: 'latitude=' + position.coords.latitude + '&longitude=' + position.coords.longitude,
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (e) {
+                    //called when there is an error
+                    //console.log(e.message);
+                }
+            });
+        }*@
+        @* function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            }
+        };
+
+        function showPosition(position) {
+            var postData = { Lat: position.coords.latitude, Long: position.coords.longitude };
+            $.ajax(
+                {
+                    type: "Get",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.RouteUrl("DefaultApi", new { httproute="",controller= "LineWebHookSample" })",
+                    //dataType: "json",
+                    data: JSON.stringify(postData),
+                    success: function (data, status) {
+                        alert("Pass" + data);
+                    },
+                    error: function (ex) {
+                        alert("Fail" + ex);
+                    }
+                });
+        }*@
+        //////////普通地圖顯示//////
+        //var map;
+        //function initMap() {
+        //    map = new google.maps.Map(document.getElementById('map'), {
+        //        center: { lat: -34.397, lng: 150.644 },
+        //        zoom: 15
+        //    });
+        //}
+    </script>
+
+
+}
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
@@ -301,7 +453,13 @@
             //    }
             //    });
 
+    }
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
         }
+    };
+       
 
         function zeroPadded(val) {
             if (val >= 10)
