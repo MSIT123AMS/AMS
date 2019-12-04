@@ -1,7 +1,6 @@
 using AMS.Controllers;
 using AMS.Models;
 using isRock.LineBot;
-using Line.Messaging;
 using Newtonsoft.Json;
 using isRock.LineBot.Conversation;
 using Quartz;
