@@ -2,19 +2,18 @@
 
 @if (Model.Attachment != null)
 {
-    <img  src='@Url.Action("ShowPhoto","LeaveRequests",new { id=Model.LeaveRequestID})' style="width:100px;height:100px"/>
+    <img src='@Url.Action("ShowPhoto","LeaveRequests",new { id=Model.LeaveRequestID})' style="width:100px;height:100px" />
 }
 else
 {
-    <img src="@Url.Content("~/Img/upload.png")"  style="width:100px;height:100px"/>
+    <img src="@Url.Content("~/Img/upload.png")" style="width:100px;height:100px" />
 }
 
 
 
-@*圖片放大用,但換圖即時更改會失效
-    <style>
+@*圖片放大用,但換圖即時更改會失效*@
+@*<style>
     .zoom {
-  
         transition: transform .2s; /* Animation */
         width: 200px;
         height: 200px;

@@ -10,12 +10,8 @@
     <div class="card">
         <div class="card-head-row">
             <p>
-                @*<input type="button" value="請假申請" onclick="funLeaveCreate()" class="btn btn-outline-primary" />
-                    @Html.ActionLink("URL轉換PDF", "ToPdf", "ToPdf", new { @class = "btn btn-outline-primary" })
-                    @*<input type="button" value="匯出PDF" onclick="outPDF()" class="btn btn-outline-primary" />*@
-                @*<input type="button" value="匯出Excel" onclick="Export()" class="btn btn-outline-primary" />*@
 
-                <div class="form-group">
+                <div class="form-group noprint">
                     <label class=" control-label" style="font-size:20px;margin-left:20px">篩選假別:</label>
                     <div class="selectgroup selectgroup-pills">
                         <label class="selectgroup-item">
@@ -78,7 +74,7 @@
             <div id="ddlemp" class="col-sm-2">
                 <input id="EndTime" name="EndTime" type="date" class="form-control" />
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2  noprint">
                 <button id="Search" name="Search" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
                     <i class="fa fa-search fa-fw"></i><span>
                         <strong>搜尋</strong>
@@ -87,9 +83,8 @@
             </div>
         </div>      
 
-        <div class="card-body">
-            <div class="form-group">
-
+        <div class="card-body" >
+            <div class="form-group noprint">
                 <div class="float-left">
                     <button type="button" onclick="funLeaveCreate()" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226;margin-left:10px">
                         <i class="icon-pencil icon-white"></i>
@@ -97,25 +92,21 @@
                             <strong>請假申請</strong>
                         </span>
                     </button>
-                    <a href="@Url.Action("ToPdf", "ToPdf")" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226">
+                    <button type="button" onclick="EmployeePrint()" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226">
                         <i class="icon-doc"></i>
                         <span>
-                            <strong>URL轉換PDF</strong>
+                            <strong>列印轉換PDF</strong>
                         </span>
-                    </a>
+                    </button>
                     <button type="button" onclick="Export()" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226">
                         <i class="icon-logout"></i> <span>
                             <strong>匯出Excel</strong>
                         </span>
                     </button>
                 </div>
-
-                @*<input type="button" value="匯出Excel" onclick="Export()" class="btn btn-sm " style="background-color:#f1f0ed;color:#91989F" />*@
             </div>
             <div class="table-responsive" id="LeaveTable">
                 @Html.Partial("_LeaveIndexPartialView", Model)
-
-
             </div>
         </div>
     </div>

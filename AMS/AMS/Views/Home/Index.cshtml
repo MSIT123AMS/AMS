@@ -36,34 +36,10 @@
                 <div class="info">
                     <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
                         <span style="font-family:'Microsoft JhengHei'">
-                            @*謝惠婷*@
                             @Session["UserFullName"]
-                            @*<span class="user-level">@User.Identity.GetUserName()</span>*@
-                           
-                            <span class="caret"></span>
                         </span>
                     </a>
                     <div class="clearfix"></div>
-
-                    <div class="collapse in" id="collapseExample">
-                        <ul class="nav">
-                            <li>
-                                <a href="#profile">
-                                    <span class="link-collapse">My Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#edit">
-                                    <span class="link-collapse">Edit Profile</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#settings">
-                                    <span class="link-collapse">Settings</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
             <ul class="nav nav-primary">
@@ -173,8 +149,6 @@
                             <li>
                                 <a href="#" onclick='PageAjax("@Url.Action("SerchOverTime", "Employees")","加班明細查詢")'>
                                     <span class="sub-item" style="font-family:'Microsoft JhengHei'">加班明細查詢</span>
-
-
                                 </a>
                             </li>
                             <li>
@@ -720,28 +694,17 @@
 
 
      //////////////////////睿//////////////////////////////////
-        @*function outPDF() {
-            let valuearray = new Array()
-            for (let item of $("input[name='value']:checked")) {  //判斷是否combobox checked
-                valuearray.push(item.value)
-            }
-            var param = {
-                "value": valuearray,
-                "id": $("#StartTime").val(),
-                "id2": $("#EndTime").val(),
+    function LeaveDetails(requestid) {
+    $.ajax({
+    type: "GET",
+        url: "@Url.Action("Details", "LeaveRequests")",
+        data: { "id": requestid},
+    dataType: "html",
+    }).done(function (result) {
+        $("#mainpanel").html(result);
 
-            };
-            $.ajax({
-                url: "@Url.Action("ToPdf", "LeaveRequests")",
-                type: "POST",
-                data: param,
-                dataType: "json",
-            }).done(function (response) {
-
-                window.location = "/home/DownloadInvoice" + "?fName=" + response.fName;
-                }).fail(function (error) {
-                alert(error.statusText)});
-        }*@
+    }).fail(function (e) { alert(e.responseText) });
+    }
 
         function Export() {  //匯出excel方法
             let valuearray = new Array()
@@ -754,7 +717,7 @@
                 "id": $("#StartTime").val(),
                 "id2": $("#EndTime").val(),
 
-            }.done();
+            }
             $.ajax({
                 url:"@Url.Action("DownLoadExcel", "LeaveRequests")", /*'/LeaveRequests/DownLoadExcel',*/ //Controller名稱和方法名
                 type: "POST",
