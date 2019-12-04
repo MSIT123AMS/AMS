@@ -34,14 +34,15 @@
     }
 
     table.table-striped td {
-        font-size: 16px;
+        font-size: 20px;
     }
     table.table-striped th {
         background-color: #6E75A4
     }
     table.table-striped th, td {
-        font-size: 16px;
+        font-size: 20px;
         font-family: 'Microsoft JhengHei';
+       
         text-align: center;
     }
     table.table-striped td:before {
