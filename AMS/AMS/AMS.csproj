@@ -792,8 +792,11 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Img\BICACHU-icon.png" />
     <Content Include="Img\icons-search.png" />
     <Content Include="Img\kouji_rammer.png" />
+    <Content Include="Img\lineicon.png" />
+    <Content Include="Img\linelocatiom.png" />
     <Content Include="Img\logo.png" />
     <Content Include="Img\logo2.png" />
     <Content Include="Img\logo3.png" />
