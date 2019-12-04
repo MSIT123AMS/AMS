@@ -1,7 +1,7 @@
 using AMS.Controllers;
 using AMS.Models;
 using isRock.LineBot;
-using Line.Messaging;
+
 using Newtonsoft.Json;
 using isRock.LineBot.Conversation;
 using Quartz;
@@ -277,7 +277,7 @@ namespace WebApplication5.Controllers
 
                                 case "假別":
                                     {
-                                        TextMessage msg = new TextMessage("請問你要請什麼假?");
+                                        isRock.LineBot.TextMessage msg = new isRock.LineBot.TextMessage("請問你要請什麼假?");
                                         msg.quickReply.items.Add(new QuickReplyMessageAction("事假", "事假"));
                                         msg.quickReply.items.Add(new QuickReplyMessageAction("病假", "病假"));
                                         msg.quickReply.items.Add(new QuickReplyMessageAction("公假", "公假"));
