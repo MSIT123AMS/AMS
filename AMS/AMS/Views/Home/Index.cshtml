@@ -1056,22 +1056,28 @@ function UpdateEmployeesByDepartment() {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                plugins: ['dayGrid'],
+                plugins: ['interaction', 'dayGrid', 'timeGrid'],
+                defaultView: 'dayGridMonth',
+                showNonCurrentDates: false,
                 events: "@Url.Action("LoadCalender", "Home")",
                 lazyFetching: false,
+                locale: "zh-tw",
+                droppable: true,
+                editable: true,
             });
-
+          
             calendar.render();
+            //new Draggable(EventItem);
             //$('#fc-prev-button fc-button fc-button-primary').bind('click',)
             //////////////////////////////////////////////////
 
-            var calendarEl_open = document.getElementById('calendar_open');
+            @*var calendarEl_open = document.getElementById('calendar_open');
             var calendar_opne = new FullCalendar.Calendar(calendarEl_open, {
                 plugins: ['dayGrid'],
                 events: "@Url.Action("LoadCalender", "Home")",
                 lazyFetching: false,
             });
-            calendar_opne.render();
+            calendar_opne.render();*@
 
 
 
@@ -1079,10 +1085,10 @@ function UpdateEmployeesByDepartment() {
 
         });
 
-        $("#calendar").click(function () {
-            $('#addModal').modal('show');
+        //$("#calendar").click(function () {
+        //    $('#addModal').modal('show');
 
-        })
+        //})
 
 
 

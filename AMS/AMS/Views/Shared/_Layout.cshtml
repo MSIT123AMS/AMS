@@ -33,24 +33,26 @@
     <link href="~/Content/basictable.css" rel="stylesheet" />
     <link href="~/Content/phone.css" rel="stylesheet" />
 
- 
+
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
 
-
+    @*行事曆*@
     <link href="~/Content/main.css" rel="stylesheet" />
     <link href="~/Content/daygrid-main.css" rel="stylesheet" />
+   
+    @*行事曆*@
     @RenderSection("styles", required: false)
     @*@RenderSection("css", required: false)*@
 
 </head>
 <body>
-    <div class="wrapper" >
-        <div class="main-header noprint" >
+    <div class="wrapper">
+        <div class="main-header noprint">
             <!-- Logo Header -->
             <div class="logo-header" style="background-color:#434343;padding-left:0px">
 
-                <a href=@Url.Action("Index","Home") class="logo" >
+                <a href=@Url.Action("Index","Home") class="logo">
 
 
                     <img src=@Url.Content("~/Img/logo3.png") alt="navbar brand" class="navbar-brand" width="200" height="56" style="margin-left:0px">
@@ -93,7 +95,7 @@
                                 <div class="dropdown-user-scroll scrollbar-outer">
                                     <li>
                                         <div class="user-box">
-                                     
+
                                             <div class="avatar-lg"><img src="~/assets/img/woman.jpg" alt="image profile" class="avatar-img rounded"></div>
                                             <div class="u-text">
                                                 <p class="text-muted">@Session["UserName"]</p>@*<a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>*@
@@ -115,7 +117,7 @@
             <!-- End Navbar -->
         </div>
 
-        <div >
+        <div>
 
             @RenderBody()
         </div>
@@ -235,8 +237,11 @@
     <script src="~/assets/js/demo.js"></script>
     <script src="~/Scripts/jquery.basictable.min.js"></script>
 
+    <!-- 行事曆 -->
     <script src="~/Scripts/main.js"></script>
     <script src="~/Scripts/day-gridmain.js"></script>
+    <script src="~/Scripts/interaction_main.js"></script>
+    <!-- 行事曆 -->
 
     <script>
         Circles.create({
