@@ -22,8 +22,8 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK8UP_RL_nVi7Mec8Azju2sKkwdD3j4H8&callback=initMap"
             async defer></script>
     <script>
-        var map, marker, lat, lng;
-
+        var map, lat, lng;
+        var markers = [];
         //$(document).ready(initMap)
         document.addEventListener('DOMContentLoaded', initMap)
 
@@ -38,12 +38,27 @@
                         zoom: 21,
                         center: { lat: lat, lng: lng }
                     });
-                    marker = new google.maps.Marker({
-                        position: { lat: lat, lng: lng },
-                        map: map,
-                        //icon: 'http://www.oxxostudio.tw/img/articles/201801/google-maps-3-marker-icon.png',
-                        animation: google.maps.Animation.BOUNCE
-                    });
+                    var position = [
+                        { label: '資策會', lat: 25.033765, lng: 121.543412 },
+                        { label: '現在位置', lat: lat, lng: lng}];
+
+                    for (var i = 0; i < position.length; i++) {
+                        markers[i] = new google.maps.Marker({
+                            position: {
+                                lat: position[i].lat,
+                                lng: position[i].lng
+                            },
+                            map: map,
+                            label: position[i].label,
+                            animation: google.maps.Animation.BOUNCE
+                        });
+                    }
+                    //marker = new google.maps.Marker({
+                    //    position: { lat: lat, lng: lng },
+                    //    map: map,
+                    //    //icon: 'http://www.oxxostudio.tw/img/articles/201801/google-maps-3-marker-icon.png',
+                    //    animation: google.maps.Animation.BOUNCE
+                    //});
               var postData = { Lat: position.coords.latitude, Long: position.coords.longitude };
 
             $.ajax(

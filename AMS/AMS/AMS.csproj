@@ -60,7 +60,7 @@
       <HintPath>..\packages\Line.Messaging.1.4.5\lib\netstandard1.3\Line.Messaging.dll</HintPath>
     </Reference>
     <Reference Include="LineBot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LineBotSDK.2.0.1\lib\net45\LineBot.dll</HintPath>
+      <HintPath>..\packages\LineBotSDK.2.0.3\lib\net45\LineBot.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Cognitive.LUIS, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Cognitive.LUIS.2.0.2\lib\portable45-net45+win8+wpa81\Microsoft.Cognitive.LUIS.dll</HintPath>
