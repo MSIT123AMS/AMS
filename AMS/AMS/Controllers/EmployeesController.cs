@@ -230,25 +230,25 @@ namespace AMS.Controllers
 
         public ActionResult SerchAttendances()
         {
-            //var query = (from ot in db.Attendances.AsEnumerable()
-            //             join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
-            //             select new SerchAttendancesViewModel
-            //             {                            
-            //                 EmployeeName = emp.EmployeeName,
-            //                 Date = ot.Date.ToString("yyyy/MM/dd"),
-            //                 StartTime = ot.OnDuty,
-            //                 EndTime = ot.OffDuty,
-            //             });
-            var query = (from e in db.Employees.AsEnumerable()
-                         join a in db.Attendances.AsEnumerable() on e.EmployeeID equals a.EmployeeID into g
-                         from a in g.DefaultIfEmpty()
+            var query = (from ot in db.Attendances.AsEnumerable()
+                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
                          select new SerchAttendancesViewModel
                          {
-                             EmployeeName = e.EmployeeName,
-                             Date = a == null ? "沒打卡" : a.Date.ToString("yyyy/MM/dd"),
-                             StartTime = a == null ? null : a.OnDuty,
-                             EndTime = a == null ? null : a.OffDuty,
+                             EmployeeName = emp.EmployeeName,
+                             Date = ot.Date.ToString("yyyy/MM/dd"),
+                             StartTime = ot.OnDuty,
+                             EndTime = ot.OffDuty,
                          });
+            //var query = (from e in db.Employees.AsEnumerable()
+            //             join a in db.Attendances.AsEnumerable() on e.EmployeeID equals a.EmployeeID into g
+            //             from a in g.DefaultIfEmpty()
+            //             select new SerchAttendancesViewModel
+            //             {
+            //                 EmployeeName = e.EmployeeName,
+            //                 Date = a == null ? "沒打卡" : a.Date.ToString("yyyy/MM/dd"),
+            //                 StartTime = a == null ? null : a.OnDuty,
+            //                 EndTime = a == null ? null : a.OffDuty,
+            //             });
 
             return PartialView("_SerchAttendances", query);
     
@@ -532,7 +532,7 @@ namespace AMS.Controllers
 
 
 
-                //employees.DepartmentID = db.Departments.Where(e => e.DepartmentName == emp.DepartmentName).First().DepartmentID;
+                employees.DepartmentID = db.Departments.Where(e => e.DepartmentName == emp.DepartmentName).First().DepartmentID;
                 employees.JobStaus = "在職";
 
                 db.Employees.Add(employees);
