@@ -123,32 +123,6 @@ namespace AMS.Controllers
             public string text { get; set; }
         }
 
-        public ActionResult Create()
-        {
-            ViewBag.LeaveType = new SelectList(new List<LeaveCombobox> {
-                new LeaveCombobox {comtext="事假",text="事假" },
-                new LeaveCombobox {comtext="病假",text="病假"},
-                new LeaveCombobox {comtext="公假",text="公假"},
-                new LeaveCombobox {comtext="喪假",text="喪假"},
-                new LeaveCombobox {comtext="特休假",text="特休假"},
-                new LeaveCombobox {comtext="產假",text="產假"},
-                new LeaveCombobox {comtext="陪產假",text="陪產假"},
-                new LeaveCombobox {comtext="生理假",text="生理假"},
-                new LeaveCombobox {comtext="補休假",text="補休假"},
-                new LeaveCombobox {comtext="家庭照顧假",text="家庭照顧假"},
-            }, "text", "comtext");
-
-           ViewBag.on = remleave();  //剩餘特休天數
-           ViewBag.Off= Days();      //特休天數共幾天
-           ViewBag.over = SumoverTime();//計算當年度補修申時數
-            removertime();
-            return PartialView("_Create");
-        }
-
-        // POST: LeaveRequests/Create
-        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-
 
         #region 算補修時數總和
         public int SumoverTime()
@@ -165,7 +139,7 @@ namespace AMS.Controllers
 
         #endregion
 
-        #region 算剩餘的補修時數
+        #region 算剩餘的補修時數 目前沒用到
         public int removertime()
         {
             var a = DateTime.Parse("2019/12/04 08:00:00");
@@ -183,7 +157,25 @@ namespace AMS.Controllers
         }
         #endregion
 
-        #region 判斷是否為工作天
+
+        #region 判斷是否為補休假
+        public int SumLeave()
+        {
+            string User = Convert.ToString(Session["UserName"]);
+
+
+            var aa = db.LeaveRequests.AsEnumerable().Where(n => n.EmployeeID == User && n.LeaveType == "補休假").ToList().Sum(n=> GetLeaveDay(n.StartTime,n.EndTime));
+            //foreach(var item in aa)
+            //{
+            //    sumleave+=GetLeaveDay(item.StartTime, item.EndTime);
+                
+            //}
+            return aa;
+        }
+        #endregion
+
+
+        #region 判斷是否為工作天  套用在GetLeaveDay中
         /// 判断是否是工作日| true：工作 | flase：休息
         /// </summary>
         /// <param name="date">時間</param>
@@ -191,9 +183,9 @@ namespace AMS.Controllers
         public bool IsWorkDay(DateTime date)
         {
 
-             var Workday = db.WorkingDaySchedule.AsEnumerable().Where(n => n.Date == date).Select(n=>n.WorkingDay).FirstOrDefault();//今年的工作假期table
+            var Workday = db.WorkingDaySchedule.AsEnumerable().Where(n => n.Date == date).Select(n => n.WorkingDay).FirstOrDefault();//今年的工作假期table
 
-            if (Workday =="工作日")
+            if (Workday == "工作日")
             {
                 return true;
             }
@@ -205,24 +197,24 @@ namespace AMS.Controllers
         }
         #endregion
 
-        #region 任何計算時數方法
+        #region 任何計算時數方法 排除假日
         ///上班時間 08:00~17:00
         ///中午時間 12:00~13:00
 
         public int GetLeaveDay(DateTime dtStart, DateTime dtEnd)
         {
 
-            DateTime dtFirstDayGoToWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day,08,00,0);//請假第一天的上班時間
-            DateTime dtFirstDayGoOffWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day,17,00,0);//請假第一天的下班時間
+            DateTime dtFirstDayGoToWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 08, 00, 0);//請假第一天的上班時間
+            DateTime dtFirstDayGoOffWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 17, 00, 0);//請假第一天的下班時間
 
-            DateTime dtLastDayGoToWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day,08,00,0);//請假最後一天的上班時間
-            DateTime dtLastDayGoOffWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day,17,00,0);//請假最後一天的下班時間
+            DateTime dtLastDayGoToWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 08, 00, 0);//請假最後一天的上班時間
+            DateTime dtLastDayGoOffWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 17, 00, 0);//請假最後一天的下班時間
 
-            DateTime dtFirstDayRestStart = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day,12,00,0);//請假第一天的午休開始時間
-            DateTime dtFirstDayRestEnd = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day,13,00,0);//請假第一天的午休結束時間
+            DateTime dtFirstDayRestStart = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 12, 00, 0);//請假第一天的午休開始時間
+            DateTime dtFirstDayRestEnd = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 13, 00, 0);//請假第一天的午休結束時間
 
-            DateTime dtLastDayRestStart = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day,12,00,0);//請假最後一天的午休开始时间
-            DateTime dtLastDayRestEnd = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day,13,00,0);//請假最後一天的午休结束时间
+            DateTime dtLastDayRestStart = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 12, 00, 0);//請假最後一天的午休开始时间
+            DateTime dtLastDayRestEnd = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 13, 00, 0);//請假最後一天的午休结束时间
 
             if (dtStart < dtFirstDayGoToWork)//開始時間早於請假第一天上班时间(當天還沒上班就請假)
             {
@@ -330,9 +322,9 @@ namespace AMS.Controllers
             var dm = db.Employees.Find(User).Hireday.Month;
             var dd = db.Employees.Find(User).Hireday.Day;
             DateTime t1 = DateTime.Parse($"{t}-{dm}-{dd}");
-            DateTime t2 = DateTime.Parse($"{t+1}-{dm}-{dd}");
-            var a = (db.LeaveRequests.AsEnumerable().Where(n => (n.StartTime >= t1 && n.EndTime <= t2 && n.EmployeeID == User && n.LeaveType == "特休假")).Sum(x => (x.EndTime.Date- x.StartTime.Date).Days-1));
-            int Remain = Days()+a;
+            DateTime t2 = DateTime.Parse($"{t + 1}-{dm}-{dd}");
+            var a = (db.LeaveRequests.AsEnumerable().Where(n => (n.StartTime >= t1 && n.EndTime <= t2 && n.EmployeeID == User && n.LeaveType == "特休假")).Sum(x => (x.EndTime.Date - x.StartTime.Date).Days - 1));
+            int Remain = Days() + a;
             return Remain;
         }
         #endregion
@@ -426,6 +418,39 @@ namespace AMS.Controllers
             }
         }
         #endregion
+
+
+
+        public ActionResult Create()
+        {
+
+            string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
+            ViewBag.LeaveType = new SelectList(new List<LeaveCombobox> {
+                new LeaveCombobox {comtext="事假",text="事假" },
+                new LeaveCombobox {comtext="病假",text="病假"},
+                new LeaveCombobox {comtext="公假",text="公假"},
+                new LeaveCombobox {comtext="喪假",text="喪假"},
+                new LeaveCombobox {comtext="特休假",text="特休假"},
+                new LeaveCombobox {comtext="產假",text="產假"},
+                new LeaveCombobox {comtext="陪產假",text="陪產假"},
+                new LeaveCombobox {comtext="生理假",text="生理假"},
+                new LeaveCombobox {comtext="補休假",text="補休假"},
+                new LeaveCombobox {comtext="家庭照顧假",text="家庭照顧假"},
+            }, "text", "comtext");
+
+           ViewBag.on = remleave();  //剩餘特休天數
+           ViewBag.Off= Days();      //特休天數共幾天
+           ViewBag.over = SumoverTime()- SumLeave();//計算當年度需補修時數
+           ViewBag.Leave = SumLeave();//計算當年度補修申時數
+
+            return PartialView("_Create");
+        }
+
+        // POST: LeaveRequests/Create
+        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
+        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -711,7 +736,3 @@ namespace AMS.Controllers
 
     }
 }
-
-
-
-
