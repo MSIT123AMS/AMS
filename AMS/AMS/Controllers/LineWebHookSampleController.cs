@@ -298,6 +298,7 @@ namespace WebApplication5.Controllers
                                     //TextMessage msgs = new TextMessage("我看不懂");
                                     //bots.PushMessage(AdminUserId, msgs);
                                     break;
+
                             }
 
 
@@ -338,6 +339,7 @@ namespace WebApplication5.Controllers
                                         responseMsg += result.ResponseMessageCandidate;
                                         responseMsg += $"\n您申請的請假資訊為\n~~~~以下~~~~~\n";
                                         responseMsg += $"請假申請時間:\n{DateTime.Now}\n請假假別:\n{Linetext.假別}\n請假結束日期:\n{ Linetext.請假開始日期}\n請假開始日期\n{Linetext.請假結束日期}\n~~~~~~~~~~\n以為您送出待審核" ;
+                                        LeaveRequests Leave = new LeaveRequests();
                                         break;
                                     case ProcessResultStatus.Pass:
                                         responseMsg = $"你說的 '{ReceivedMessage.events[0].message.text}' 我看不懂，如果想要請假，請跟我說 : 『我要請假』";
@@ -360,7 +362,7 @@ namespace WebApplication5.Controllers
                                         responseMsg += result.ResponseMessageCandidate;
                                         break;
                                 }
-
+                                
                                 //回覆用戶訊息
                                 isRock.LineBot.Utility.ReplyMessage(ReceivedMessage.events[0].replyToken, responseMsg, ChannelAccessToken);
                                 //回覆API OK
