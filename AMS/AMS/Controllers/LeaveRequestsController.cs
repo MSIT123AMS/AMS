@@ -313,7 +313,7 @@ namespace AMS.Controllers
 
         #endregion
 
-        #region 算剩餘的特休天數
+        #region 算剩餘的特休天數(已審核)
         public int remleave()
         {
             string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
@@ -323,7 +323,7 @@ namespace AMS.Controllers
             var dd = db.Employees.Find(User).Hireday.Day;
             DateTime t1 = DateTime.Parse($"{t}-{dm}-{dd}");
             DateTime t2 = DateTime.Parse($"{t + 1}-{dm}-{dd}");
-            var a = (db.LeaveRequests.AsEnumerable().Where(n => (n.StartTime >= t1 && n.EndTime <= t2 && n.EmployeeID == User && n.LeaveType == "特休假")).Sum(x => (x.EndTime.Date - x.StartTime.Date).Days - 1));
+            var a = (db.LeaveRequests.AsEnumerable().Where(n => (n.StartTime >= t1 && n.EndTime <= t2 && n.EmployeeID == User && n.LeaveType == "特休假"&&n.ReviewStatusID==2)).Sum(x => (x.EndTime.Date - x.StartTime.Date).Days - 1));
             int Remain = Days() + a;
             return Remain;
         }
@@ -723,16 +723,6 @@ namespace AMS.Controllers
             DownLoadHelper.RemoveAllCache(guid);
         }
    
-
-
-
-
-
-
-
-
-
-
 
     }
 }
