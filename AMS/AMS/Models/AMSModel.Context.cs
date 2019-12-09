@@ -25,7 +25,6 @@ namespace AMS.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Annouuncements> Annouuncements { get; set; }
         public virtual DbSet<ClockInApply> ClockInApply { get; set; }
         public virtual DbSet<Departments> Departments { get; set; }
         public virtual DbSet<OverTimeRequest> OverTimeRequest { get; set; }
@@ -35,5 +34,6 @@ namespace AMS.Models
         public virtual DbSet<Attendances> Attendances { get; set; }
         public virtual DbSet<LeaveRequests> LeaveRequests { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
+        public virtual DbSet<Annouuncements> Annouuncements { get; set; }
     }
 }

@@ -284,9 +284,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AjaxTestController.cs" />
+    <Compile Include="Controllers\AnnouuncementsController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\AttendancesSearchController.cs" />
     <Compile Include="Controllers\Position.cs" />
+    <Compile Include="Models\AnnouncementtViewModel.cs" />
     <Compile Include="Models\calendar.cs" />
     <Compile Include="Controllers\ClockInApplyController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
@@ -780,6 +782,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\daygrid-main.css" />
+    <Content Include="Content\FCBS4main.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\main.css" />
     <Content Include="Content\PagedList.css" />
@@ -954,6 +957,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\FCBS4main.min.js" />
     <Content Include="Scripts\home.js" />
     <Content Include="Scripts\interaction_main.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -1094,6 +1098,9 @@
     <Content Include="Views\Employees\_DailyStatisticsPartial.cshtml" />
     <Content Include="Views\Employees\DailyStatistics1111.cshtml" />
     <Content Include="Views\Home\_DayDutyList.cshtml" />
+    <Content Include="Views\Annouuncements\IndexTakeFive.cshtml" />
+    <Content Include="Views\Annouuncements\Index.cshtml" />
+    <Content Include="Views\Annouuncements\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d4d029ab77674244971dbbf617d8770c" Name="Diagram1">
-        <EntityTypeShape EntityType="Model.Annouuncements" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.ClockInApply" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.Departments" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Model.OverTimeRequest" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
@@ -15,6 +14,7 @@
         <EntityTypeShape EntityType="Model.Attendances" Width="1.5" PointX="7.375" PointY="7.75" />
         <EntityTypeShape EntityType="Model.LeaveRequests" Width="1.5" PointX="7.375" PointY="0.75" />
         <EntityTypeShape EntityType="Model.Employees" Width="1.5" PointX="5" PointY="0.625" />
+        <EntityTypeShape EntityType="Model.Annouuncements" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

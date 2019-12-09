@@ -170,25 +170,32 @@
     <div class="main-panel">
         <div class="content" id="mainpanel" style="background-color:#fffefa">
             @*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*@
-            @*行事曆*@
+          
+
             <div class="page-inner">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card" id="mmmmmm">
                             <div class="row">
+                                @*行事曆*@
                                 <div class="card col-md-7" id="calendar"></div>
-                                
+                                @*行事曆*@
+                                @*公告*@
+                                <div class="card col-md-3">
+                                    <div id="Announcement"></div>
+                                    @*公告*@
+                                </div>
                             </div>
 
-
-
-                            @*行事曆*@
-
                         </div>
+
                     </div>
                 </div>
             </div>
         </div>
+
+
+
         <div id="aaaa"></div>
         <footer class="footer">
             <div class="container-fluid">
@@ -973,7 +980,7 @@
         $("#statisticsnum2").text(`${datas[0].未到}`)
         $("#statisticsnum3").text(`${datas[0].請假}`)
 
-    }).fail(function (e) { alert(e.responseText) });
+        }).fail(function (e) { SweetAlert(e.responseText) });
 }
     function GetDailyStatisticsByDepartment(DepartmentId) {
     $.ajax({
@@ -984,7 +991,7 @@
         $("#Employeestable").html(result);
         changeT();
 
-    }).fail(function (e) { alert(e.responseText) });
+        }).fail(function (e) { SweetAlert(e.responseText) });
 }
 function Updateddl() {
     $.ajax({
@@ -995,7 +1002,7 @@ function Updateddl() {
         $("#Employees").bind("change", function () {
             UpdateEmployeesByEmployee();
         });
-    }).fail(function (e) { alert(e.responseText) });
+        }).fail(function (e) { SweetAlert(e.responseText) });
 }
 
 function UpdateEmployeesByEmployee() {
@@ -1006,7 +1013,7 @@ function UpdateEmployeesByEmployee() {
         $("#Employeestable").html(result);
         changeT();
 
-    }).fail(function (e) { alert(e.responseText) });
+        }).fail(function (e) { SweetAlert(e.responseText) });
 }
 
 function UpdateEmployeesByDepartment() {
@@ -1017,7 +1024,7 @@ function UpdateEmployeesByDepartment() {
         $("#Employeestable").html(result);
         changeT();
 
-    }).fail(function (e) { alert(e.responseText) });
+        }).fail(function (e) { SweetAlert(e.responseText) });
 
 }
 
@@ -1039,7 +1046,7 @@ function UpdateEmployeesByDepartment() {
             });
 
         SetTimePicker($("#StartTime"), $("#EndTime"));
-    }).fail(function (e) { alert(e.responseText) });
+        }).fail(function (e) { SweetAlert(e.responseText) });
         }
 
          function OTsearch() {
@@ -1059,7 +1066,7 @@ function UpdateEmployeesByDepartment() {
                 });
                 $("#basic-datatables_filter").hide();
                 }).fail(function(e){
-                alert(e.responseText);
+                    SweetAlert(e.responseText);
                 });
         }
 
@@ -1078,7 +1085,7 @@ function UpdateEmployeesByDepartment() {
         $("#EndTime_wu_creat").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "19" + ":" + "00");
         TimeErrorProof($("#StartTime_wu_creat"), $("#EndTime_wu_creat"));      
 
-    }).fail(function (e) { alert(e.responseText) });
+        }).fail(function (e) { SweetAlert(e.responseText) });
         }
 
 
@@ -1103,7 +1110,7 @@ function UpdateEmployeesByDepartment() {
         alert('已送出申請');
         OverTimeIndex();
         }).fail(function (e) {
-            alert(e.responseJSON.Message);
+            SweetAlert(e.responseJSON.Message);
 
         });
         }
@@ -1131,17 +1138,22 @@ function UpdateEmployeesByDepartment() {
     dataType: "html",
     }).done(function (result) {
         $("#mainpanel").html(result);
-
-    }).fail(function (e) { alert(e.responseText) });
+        }).fail(function (e) { SweetAlert(e.responseText) });
     }
 
 
-        //Calendar
+        //=============================Calendar==========================================
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                plugins: ['interaction', 'dayGrid', 'timeGrid'],
+                plugins: ['interaction', 'dayGrid', 'timeGrid', 'bootstrap'],
+                themeSystem: 'bootstrap',
+                header: {
+                    left: '',
+                    center: 'title',
+                    right: 'prev,next'
+                },
                 defaultView: 'dayGridMonth',
                 showNonCurrentDates: false,
                 events: "@Url.Action("LoadCalender", "Home")",
@@ -1213,35 +1225,50 @@ function UpdateEmployeesByDepartment() {
             });
         }
         else if (title.indexOf("請假") > 0) {
-      
-
             var data = new FormData();
             data.append("id", date.getFullYear() + "-" + zeroPadded(date.getMonth() + 1) + "-" + zeroPadded(date.getDate()));
-
-
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("DayDutyList", "Home")",
                 contentType: false,         // 告诉jQuery不要去這置Content-Type
                 processData: false,         // 告诉jQuery不要去處理發送的數據
-                data: data,
-                
+                data: data,                
             }).done(function (result) {
                 $("#aaaa").html(result);
-                $('#addModal').modal('show');
-                
-             
+                $('#addModal').modal('show');          
                 }).fail(function (err) {
-                    alert(err.statusText)
+                    SweetAlert(err.statusText)
                 })
         }
-
-
-
     }
+            //=============================Calendar==========================================
+            //=============================Announcement==========================================
+    document.addEventListener("DOMContentLoaded", function () {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("IndexTakeFive", "Annouuncements")",
+            datetype:'html',
+        }).done(function (result) {
+            $("#Announcement").html(result);
+        }).fail(function (err) {
+            SweetAlert(err.statusText);
+        });
+    })
 
-
-
+    function AnnouncementIndex() {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("Index", "Annouuncements")",
+            dataType: "html",
+        }).done(function (result) {
+            $("#mainpanel").html(result);
+            $('#basic-datatables').DataTable({
+            });
+            $("#basic-datatables_filter").hide();
+        }).fail(function (err) {
+            SweetAlert(err.statusText);
+        })
+    }
 
     </script>
 }

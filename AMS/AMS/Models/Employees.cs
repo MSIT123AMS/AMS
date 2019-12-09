@@ -25,7 +25,7 @@ namespace AMS.Models
         public Nullable<System.DateTime> Leaveday { get; set; }
         public System.DateTime Hireday { get; set; }
         public string Address { get; set; }
-        public int? DepartmentID { get; set; }
+        public int DepartmentID { get; set; }
         public string Phone { get; set; }
         public byte[] Photo { get; set; }
         public string JobStaus { get; set; }
@@ -35,5 +35,6 @@ namespace AMS.Models
         public string Notes { get; set; }
         public string LineID { get; set; }
         public string Education { get; set; }
+        public string FaceID { get; set; }
     }
 }
