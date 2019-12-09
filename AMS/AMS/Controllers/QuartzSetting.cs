@@ -52,9 +52,7 @@ namespace AMS.Controllers
     public class ExecuteTaskServiceCallJob : IJob
     {
         internal Entities db = new Entities();
-        public const string channelAccessToken = @"wJvLiDuDsJpYsgTqSPXQwu35UoXbtmVPXn8Q1/oWN8REU5mbLG0qBffnpgSlNWH3yncYUa3OAgyWoe8gPb8F1nFveUGakkBJ2UHqUKSXElkHhypyGWz7Ndhojww+2P0+ikiFbIIkz6nhMQwetqG1gwdB04t89/1O/w1cDnyilFU=
-";
-
+        public const string channelAccessToken = @"ehC2bzsC2xmmwK5J59gcEK4ihHfRlYfb8kQFxVR2jn0B9vlAtMfvAwXXn5KfJfeQlC+5Higk86SmFJkwGn3bwDHH1uvL2X4vwahMbdMCeIFJttH9jNekMNBw6RHL0hJaQq2oEDSKKf0ocx3CQTFaO1GUYhWQfeY8sLGRXgo3xvw=";
         public static readonly string SchedulingStatus = ConfigurationManager.AppSettings["ExecuteTaskServiceCallSchedulingStatus"];
         public Task Execute(IJobExecutionContext context)
         {
@@ -62,20 +60,23 @@ namespace AMS.Controllers
             {
                 if (SchedulingStatus.Equals("ON"))
                 {
-                    LineBotWebHookController LineBot = new LineBotWebHookController();
-                    string EmployeeID = "MSIT1230005";
-                    DateTime d = new DateTime();
-                    //var query=db.Attendances.Any(p=>p.)
-                    //設定ChannelAccessToken(或抓取Web.Config)
+                    LineBotWebHookController LineBot = new LineBotWebHookController();                   
+                    DateTime d = new DateTime();                    
                     LineBot.ChannelAccessToken = channelAccessToken;
+                    var bot = new Bot(channelAccessToken);
                     //var query = db.Attendances.Where(p => p.Date == d.Date && p.EmployeeID == EmployeeID).First();
+                    
                     try
                     {
 
-                        var bot = new Bot(channelAccessToken);
-                        //var LineEvent = LineBot.ReceivedMessage.events.FirstOrDefault();
-                        bot.PushMessage("U169cd14d449bd344525284f52fec1d6b", $"現在時間{DateTime.Now.AddHours(8)}");
-                        //if(query.station!=null)
+                        var search_uncheck = db.Attendances.Where(p => p.OffDuty == null );
+                        foreach(var save_uncheck in search_uncheck)
+                        {
+
+                            save_uncheck.station = "未打卡";
+
+                        }
+                        db.SaveChanges();
                         using (var message = new MailMessage("wingrovepank@gmail.com", "hauwei.pong@gmail.com"))
                         {
                             message.Subject = "未打卡通知信";
