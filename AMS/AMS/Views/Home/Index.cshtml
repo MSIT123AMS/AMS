@@ -180,8 +180,6 @@
                                 
                             </div>
 
-
-
                             @*行事曆*@
 
                         </div>
@@ -597,6 +595,7 @@
         }
 
 
+
     function funLeaveIndex() {  //到搜尋頁面
     $.ajax({
     type: "GET",
@@ -605,8 +604,6 @@
     }).done(function (result) {
         $("#mainpanel").html(result);
         changeT();
-
-
           $(document).ready(function () {
               changeT();
             $("#CheckAll").click(cAll);                //全選功能

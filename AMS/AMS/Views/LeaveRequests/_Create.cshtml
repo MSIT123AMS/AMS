@@ -4,9 +4,6 @@
     ViewBag.Title = "Create";
 }
 
-<label class=" control-label" style="font-size:35px;margin:10px">請假申請</label>
-
-
 @using (Html.BeginForm("Create", "LeaveRequests", FormMethod.Post, new { @enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -42,7 +39,9 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <label class="badge badge-info" style="background-color:#A8D8B9">特休天數:@ViewBag.Off</label>
-                                        <label class="badge badge-info" style="background-color:#A8D8B9">剩餘特休天數:@ViewBag.on</label>
+                                        <label class="badge badge-info" style="background-color:#A8D8B9">剩餘特休天數:@ViewBag.on</label><br />
+                                        <label class="badge badge-info" style="background-color:#A8D8B9">補修已修時數:@ViewBag.Leave</label>
+                                        <label class="badge badge-info" style="background-color:#A8D8B9">剩餘補修時數:@ViewBag.over</label>
                                     </div>
                                 </div>
                             </div>
@@ -85,125 +84,7 @@
             </div>
         </div>
 
-        <div class="form-horizontal">
-            <div class="page-inner">
-                <div class="card">
-                    <hr />
-                    @*<div class="form-group">
-                            @Html.LabelFor(model => model.RequestTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.RequestTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
-                                @Html.ValidationMessageFor(model => model.RequestTime, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
-                            @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
-                        <div class="col-md-10">
-                            @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })
-                            @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2" style="text-align:left">特休天數:@ViewBag.Off</label>
-                        <br />
-                        <label class="control-label col-md-2" style="text-align:left">剩餘特休天數:@ViewBag.on</label>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
-                        <div class="col-md-10">
-                            @Html.DropDownList("LeaveType", null, "--請選擇--", new { @class = "form-control" })
-                            @*@Html.EditorFor(model => model.LeaveType, new { htmlAttributes = new { @class = "form-control" } })*@
-                            @Html.ValidationMessageFor(model => model.LeaveType, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.LeaveReason, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
-                        <div class="col-md-10">
-                            @Html.TextAreaFor(model => model.LeaveReason, 5, 187, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.LeaveReason, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-
-
-
-                    @*<div class="form-group">
-                            @Html.LabelFor(model => model.ReviewStatusID, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ReviewStatusID, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ReviewStatusID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
-
-                    @*<div class="form-group">
-                            @Html.LabelFor(model => model.ReviewTime, htmlAttributes: new { @class = "control-label col-md-2",@style= "text-align:left" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.ReviewTime, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ReviewTime, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
-
-                    <div class="form-group ">
-                        @Html.LabelFor(model => model.Attachment, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
-                        <div class="col-md-10">
-                            <img id="imgPreview" src="@Url.Content("~/Img/upload.png")" style="width:240px;height:180px" />
-                            <input type="file" name="LeaveFile" id="LeaveFile" accept="image/*" />
-                            @*@Html.EditorFor(model => model.Attachment, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Attachment, "", new { @class = "text-danger" })*@
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-
-
-
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                送出
-                            </button>
-
-                            <!-- Modal -->
-                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">取消</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                            確定要送出嗎
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <input type="submit" value="送出" class="btn btn-default" />   @*送出的功能*@
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-
-                            <button class="btn btn-primary" onclick='funLeaveIndex()' type="button">取消</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+     
 
     </body>
 }
