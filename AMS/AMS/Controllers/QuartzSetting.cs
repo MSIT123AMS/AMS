@@ -54,29 +54,45 @@ namespace AMS.Controllers
         internal Entities db = new Entities();
         public const string channelAccessToken = @"ehC2bzsC2xmmwK5J59gcEK4ihHfRlYfb8kQFxVR2jn0B9vlAtMfvAwXXn5KfJfeQlC+5Higk86SmFJkwGn3bwDHH1uvL2X4vwahMbdMCeIFJttH9jNekMNBw6RHL0hJaQq2oEDSKKf0ocx3CQTFaO1GUYhWQfeY8sLGRXgo3xvw=";
         public static readonly string SchedulingStatus = ConfigurationManager.AppSettings["ExecuteTaskServiceCallSchedulingStatus"];
+        LineBotWebHookController lineBot = new LineBotWebHookController();   
+                     
         public Task Execute(IJobExecutionContext context)
         {
             var task = Task.Run(() =>
             {
                 if (SchedulingStatus.Equals("ON"))
                 {
-                    LineBotWebHookController LineBot = new LineBotWebHookController();                   
-                    DateTime d = new DateTime();                    
-                    LineBot.ChannelAccessToken = channelAccessToken;
+                    Entities d = new Entities();                 
+                    Attendances a = new Attendances();                   
+                    lineBot.ChannelAccessToken = channelAccessToken;
+                    //取得Line Event(範例，只取第一個)
+                    //var LineEvent = lineBot.ReceivedMessage.events.FirstOrDefault();
+                    //配合Line verify 
+                    DateTime today = DateTime.Now.Date;//今天的日期  
+                    DateTime yesterday = today.AddDays(-1);//////前天日期
                     var bot = new Bot(channelAccessToken);
-                    //var query = db.Attendances.Where(p => p.Date == d.Date && p.EmployeeID == EmployeeID).First();
-                    
                     try
                     {
-
-                        var search_uncheck = db.Attendances.Where(p => p.OffDuty == null );
-                        foreach(var save_uncheck in search_uncheck)
+                        var day_uncheck = (from e in d.Employees.AsEnumerable()/////////判斷前有無打卡
+                                           join att in d.Attendances.AsEnumerable().Where(p => p.Date == yesterday) on e.EmployeeID equals att.EmployeeID into g
+                                           from att in g.DefaultIfEmpty()
+                                           select new SerchAttendancesViewModel
+                                           {
+                                               EmployeeName = e.EmployeeName,
+                                               Date = att == null ? null : att.Date.ToString("yyyy/MM/dd"),
+                                               StartTime = att == null ? null : att.OnDuty,
+                                               EndTime = att == null ? null : att.OffDuty,
+                                               LineID=e.LineID
+                                           });
+                        var fund_uncheck_emp = day_uncheck.Where(p => p.Date == null&&p.LineID!=null);
+                        foreach (var all_emp_uncheck in fund_uncheck_emp)
                         {
-
-                            save_uncheck.station = "未打卡";
+                            bot.PushMessage(all_emp_uncheck.LineID, "哈哈哈哈哈哈哈阿");
 
                         }
-                        db.SaveChanges();
+
+
+
                         using (var message = new MailMessage("wingrovepank@gmail.com", "hauwei.pong@gmail.com"))
                         {
                             message.Subject = "未打卡通知信";
