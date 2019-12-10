@@ -1,0 +1,45 @@
+﻿@model IEnumerable<AMS.Controllers.Daily>
+
+@{
+    ViewBag.Title = "DailyStatistics1111";
+}
+
+<h2>DailyStatistics1111</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.人數)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.請假)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.未到)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.人數)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.請假)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.未到)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

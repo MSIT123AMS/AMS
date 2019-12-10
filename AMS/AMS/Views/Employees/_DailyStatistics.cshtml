@@ -1,0 +1,142 @@
+﻿@model IEnumerable<AMS.Controllers.DailyStatisticsViewModel1>
+
+
+<div class="page-inner">
+    <div style="background-color:#91989F">
+        <h1>
+            <span class="badge" style="color:#FFFFFB">日期員工出勤統計</span>
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" id="mmmmmm">
+                <form style="margin-left:10px;" method="post" action="/Employees/SerchLeave">
+                    <div class="card-header row form-group">
+                        <label class=" control-label" style="font-size:20px;margin-left:20px">查詢時間</label>
+                        <div class="col-md-2 col-sm-4">
+                            <input name="time1" id="time1" class="form-control" type="date" />
+
+                        </div>
+                        @*<label class=" control-label" style="font-size:20px;margin-left:20px">到</label>
+                        <div id="ddlemp" class="col-md-2 col-sm-4">
+                            <input name="time2" id="time2" class="form-control" type="date" />
+                        </div>*@
+                        <div class="col-md-2 col-sm-4 noprint">
+                            <button id="Button1" type="submit" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                                <i class="fa fa-search fa-fw"></i><span>
+                                    <strong>搜尋</strong>
+                                </span>
+                            </button>
+
+                        </div>
+                    </div>
+                </form>
+                <div class="form-group noprint">
+
+                    <div class="float-left">
+
+                        <button type="button" onclick="EmployeePrint()" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226">
+                            <i class="icon-logout"></i> <span>
+                                <strong>轉換PDF</strong>
+                            </span>
+                        </button>
+                    </div>
+
+                    @*<input type="button" value="匯出Excel" onclick="Export()" class="btn btn-sm " style="background-color:#f1f0ed;color:#91989F" />*@
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-8">
+                            <canvas id="myChart" ></canvas>
+
+                        </div>
+                        @*<div class="col-sm-1 col-md-0">
+
+                        </div>*@
+                        <div class="  col-lg-5 col-sm-4 " style="vertical-align: middle">
+                            <h2 id="StatisticsDepartmentName">人資部</h2>
+                            <hr />
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    應到人數
+                                    <span class="badge badge-dark badge-pill" id="statisticsnum1">14</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    未到人數
+                                    <span class="badge badge-dark badge-pill" id="statisticsnum2">2</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    請假人數
+                                    <span class="badge badge-dark badge-pill" id="statisticsnum3">1</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="table-responsive" id="Employeestable">
+                        @*@Html.Partial("_DailyStatisticsPartial", Model);*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script>
+        function zeroPadded(val) {
+            if (val >= 10)
+                return val;
+            else
+                return '0' + val;
+        }
+
+
+        $(document).ready(function () {
+            $('#basic-datatables').DataTable({
+            });
+            $("#basic-datatables_filter").hide();
+            d = new Date();
+            $("#time1").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
+            $("#time2").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
+
+
+
+
+        });
+        $("#time1").bind("change", function () {
+            if ($("#time1").val() > $("#time2").val()) {
+                timechange();
+                $("#time1").val($("#time2").val());
+            }
+
+        });
+
+
+
+        function timechange() {
+            swal("起始時間不可大於最後時間!", "", {
+                icon: "info",
+                buttons: {
+                    confirm: {
+                        className: 'btn btn-info'
+                    }
+                },
+            });
+        }
+
+        $("#time2").bind("change", function () {
+            if ($("#time2").val() < $("#time1").val()) {
+                timechange();
+                $("#time2").val($("#time1").val());
+            }
+
+        });
+
+
+
+    </script>
+
+
+}

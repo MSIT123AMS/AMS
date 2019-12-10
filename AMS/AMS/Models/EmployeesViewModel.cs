@@ -4,6 +4,31 @@ using System.Web;
 
 namespace AMS.Controllers
 {
+    public class Daily
+    {
+        public int 人數 { get; set; }
+        public int 請假 { get; set; }
+        public int 未到 { get; set; }
+        public int? 部門 { get; internal set; }
+    }
+    public class DailyStatisticsViewModel1
+    {
+        [Display(Name = "姓名")]
+        public string EmployeeName { get; set; }
+        [Display(Name = "請假類別")]
+        public string LeaveType { get; set; }
+        [DataType(DataType.DateTime), Display(Name = "上班時間")]
+        [DisplayFormat(DataFormatString = "{0: HH:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime? StartTime { get; set; }
+
+        [DataType(DataType.DateTime), Display(Name = "下班時間")]
+        [DisplayFormat(DataFormatString = "{0: HH:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime? EndTime { get; set; }
+    }
+
+
+
+
     public class LineIdBindViewModel
     {
         [Key]
