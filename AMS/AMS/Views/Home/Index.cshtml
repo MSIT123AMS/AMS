@@ -1091,8 +1091,8 @@ function UpdateEmployeesByDepartment() {
 
       function CreateNewOT() {
     var data = new FormData();
-          data.append("StartTime", StartTime.value);
-          data.append("EndTime", EndTime.value);
+          data.append("StartTime", StartTime_wu_creat.value);
+          data.append("EndTime", EndTime_wu_creat.value);
           data.append("OverTimePay", OverTimePay.value);
           data.append("OverTimeReason", OverTimeReason.value);
 
@@ -1106,9 +1106,9 @@ function UpdateEmployeesByDepartment() {
 
     }).done(function (result) {
 
-
-        alert('已送出申請');
         OverTimeIndex();
+        SweetAlert('已送出申請');
+        
         }).fail(function (e) {
             SweetAlert(e.responseJSON.Message);
 
@@ -1268,6 +1268,60 @@ function UpdateEmployeesByDepartment() {
         }).fail(function (err) {
             SweetAlert(err.statusText);
         })
+    }
+    function AnnouuncementsCreate() {
+                $.ajax({
+            type: "GET",
+            url: "@Url.Action("Create", "Annouuncements")",
+            dataType: "html",
+        }).done(function (result) {
+            $("#mainpanel").html(result);
+            $('#basic-datatables').DataTable({
+            });
+            $("#basic-datatables_filter").hide();
+        }).fail(function (err) {
+            SweetAlert(err.statusText);
+        })
+    }
+
+    function AnnouuncementsDetail(id) {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("Details", "Annouuncements")/"+id,
+            dataType: "html",
+            
+        }).done(function (result) {
+            $("#mainpanel").html(result);
+            $('#basic-datatables').DataTable({
+            });
+            $("#basic-datatables_filter").hide();
+        }).fail(function (err) {
+            SweetAlert(err.statusText);
+        })
+    }
+
+    function AnnouuncementsSubmit() {
+        var data = new FormData();
+        data.append("Title", Title.value);
+        data.append("Detail", Detail.value);
+        data.append("Importance", $("[name='Importance']:checked").val());
+   
+    $.ajax({
+        url: "@Url.Action("CreateNew", "Annouuncements")",
+        type: "POST",
+        contentType: false,         // 告诉jQuery不要去這置Content-Type
+        processData: false,         // 告诉jQuery不要去處理發送的數據
+        dataType: "json",
+        data: data,
+
+    }).done(function (result) {
+
+        SweetAlert('已發布');
+        AnnouncementIndex();
+        }).fail(function (e) {
+            SweetAlert(e.responseJSON.Message);
+
+        });
     }
 
     </script>

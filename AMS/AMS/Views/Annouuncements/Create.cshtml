@@ -1,10 +1,10 @@
 ﻿@model AMS.Models.AnnouncementViewModel
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
+
+    @*<div class="form-horizontal">
         <h4>AnnouncementViewModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -19,7 +19,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Detail, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -27,19 +27,70 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Importance, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Importance, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Importance, "", new { @class = "text-danger" })
+                <input type="radio" name="Importance" value="低">低
+                <input type="radio" name="Importance" value="中">中
+                <input type="radio" name="Importance" value="高">高
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="button" value="發布" class="btn btn-default" onclick="AnnouuncementsSubmit()" />
+                <input type="button" value="回到清單" class="btn btn-default" onclick="AnnouncementIndex()" />
+            </div>
+        </div>
+    </div>*@
+    //=====================================================================================================
+
+            <div class="page-inner">
+                <div style="background-color:#91989F">
+                    <h1>
+                        <span class="badge" style="color:#FFFFFB">公告</span>
+                    </h1>
+                </div>
+                <div class="card">
+                    <div class="card-head-row">
+                        <div class="form-group col-md-12 row">
+                            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2 text-center " })
+                            <div class="col-md-4">
+                                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                            </div>
+                        </div>
+                            <div class="form-group col-md-12 row">
+                                @Html.LabelFor(model => model.Detail, htmlAttributes: new { @class = "control-label col-md-2 text-center " })
+                                <div class="col-md-4">
+                                    @Html.EditorFor(model => model.Detail, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 row">
+                                @Html.LabelFor(model => model.Importance, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="btn-group btn-group-toggle col-md-4" data-toggle="buttons">
+                                    <label class="btn btn-light active">
+                                        <input type="radio" name="Importance" autocomplete="off" value="低" checked> 低
+                                    </label>
+                                    <label class="btn btn-light">
+                                        <input type="radio" name="Importance"  autocomplete="off" value="中"> 中
+                                    </label>
+                                    <label class="btn btn-light">
+                                        <input type="radio" name="Importance"  autocomplete="off"  value="高"> 高
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 row">
+                                 <div class="col-md-offset-3 col-md-12">
+                                    <div class="float-right">
+                                        <input type="button" value="發布" class="btn btn-default" onclick="AnnouuncementsSubmit()" />
+                                        <button class="btn btn-search" style="background-color:#FFFFFB;color:#3A3226;border-color:#91989F" onclick='AnnouncementIndex()' type="button">
+                                            <i class="flaticon-back"></i><span>
+                                                <strong>返回</strong>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                       
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

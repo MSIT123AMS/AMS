@@ -14,51 +14,57 @@
 
                     <div class="card-body">
                         <div class="table-responsive" id="OverTimeTable">
-                            <button type="button" class="btn btn-secondary" >新增公告</button>
+                            <button type="button" class="btn btn-secondary" onclick="AnnouuncementsCreate()" >新增公告</button>
                             <table class="table" id="basic-datatables">
-                                <tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.EmployeeID)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.AnnounceTime)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Title)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Detail)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Importance)
-                                    </th>
-                                    <th></th>
-                                </tr>
+                                <thead>
 
-                                @foreach (var item in Model)
-                                {
+
                                     <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EmployeeID)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.AnnounceTime)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Title)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Detail)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Importance)
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-info">檢視</button>
-                                        </td>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.EmployeeID)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.AnnounceTime)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Title)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Detail)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Importance)
+                                        </th>
+                                        <th></th>
                                     </tr>
-                                }
+                                </thead>
+                                <tbody>
 
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.EmployeeID)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.AnnounceTime)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Title)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Detail)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Importance)
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-info" onclick="AnnouuncementsDetail(@item.AnnouuncementID)">檢視</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
                             </table>
 
 

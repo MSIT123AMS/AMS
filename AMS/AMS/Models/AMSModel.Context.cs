@@ -31,9 +31,9 @@ namespace AMS.Models
         public virtual DbSet<ReviewStatus> ReviewStatus { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<WorkingDaySchedule> WorkingDaySchedule { get; set; }
-        public virtual DbSet<Attendances> Attendances { get; set; }
         public virtual DbSet<LeaveRequests> LeaveRequests { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
         public virtual DbSet<Annouuncements> Annouuncements { get; set; }
+        public virtual DbSet<Attendances> Attendances { get; set; }
     }
 }
