@@ -45,6 +45,7 @@ namespace AMS.Controllers
                                         Attachment = lt.Attachment
                                     });
             
+
             return PartialView("LeaveIndexView", LeaveTimeRequest);
 
         }
