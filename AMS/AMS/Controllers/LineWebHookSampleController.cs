@@ -52,6 +52,8 @@ namespace WebApplication5.Controllers
         public IHttpActionResult POST()
         {
 
+
+
             Entities d = new Entities();
             this.AdminUserId = this.ReceivedMessage.events.FirstOrDefault().source.userId;
             //var FindEmpID = d.Employees.Where(p => p.LineID == AdminUserId).First().EmployeeID;
@@ -572,66 +574,66 @@ namespace WebApplication5.Controllers
 
                                         bot1.PushMessageWithJSON(AdminUserId, flextakefive);
                                     }
-                                    break;                                  
+                                    break;
                                 #region Line請假回訊息區
-                                case "請假":
-                                    {
-                                        var bot2 = new Bot(channelAccessToken);
-                                        List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
+                                //case "請假":
+                                //    {
+                                //        var bot2 = new Bot(channelAccessToken);
+                                //        List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
 
-                                        actions2.Add(new MessageAction() { label = "請假申請", text = "請假申請" });
-                                        actions2.Add(new MessageAction() { label = "請假查詢", text = "請假查詢" });
-                                        actions2.Add(new MessageAction() { label = "text請假", text = "我要請假" });
-                                        var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
-                                        {
-                                            text = "請假",
-                                            altText = "請在手機上檢視",
-                                            thumbnailImageUrl = new Uri("https://imgs.fun1shot.com/21d825754c12110fc0b5cc2778e7bc99.jpg"),
-                                            actions = actions2
-                                        };
-                                        bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                                //        actions2.Add(new MessageAction() { label = "請假申請", text = "請假申請" });
+                                //        actions2.Add(new MessageAction() { label = "請假查詢", text = "請假查詢" });
+                                //        actions2.Add(new MessageAction() { label = "text請假", text = "我要請假" });
+                                //        var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
+                                //        {
+                                //            text = "請假",
+                                //            altText = "請在手機上檢視",
+                                //            thumbnailImageUrl = new Uri("https://imgs.fun1shot.com/21d825754c12110fc0b5cc2778e7bc99.jpg"),
+                                //            actions = actions2
+                                //        };
+                                //        bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
 
 
-                                        break;
+                                //        break;
 
-                                    }
-                                case "請假申請":
-                                    {
-                                        var bot2 = new Bot(channelAccessToken);
-                                        List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
+                                //    }
+                                //case "請假申請":
+                                //    {
+                                //        var bot2 = new Bot(channelAccessToken);
+                                //        List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
 
-                                        //actions2.Add(new UriAction() { label = "請假", uri = new Uri("line://app/1612776942-bm461AoW") });
-                                        //actions2.Add(new UriAction() { label = "查詢", uri = new Uri("line://app/1612776942-9MbWYMog") });
-                                        actions2.Add(new DateTimePickerAction() { label = "請假開始時間", mode = "datetime" });
-                                        actions2.Add(new DateTimePickerAction() { label = "請假開始結束", mode = "datetime" });
-                                        actions2.Add(new MessageAction() { label = "假別", text = "假別" });
-                                        var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
-                                        {
-                                            text = "請假申請",
-                                            altText = "請在手機上檢視",
-                                            thumbnailImageUrl = new Uri("https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2019/01/26/99/5848687.jpg&x=0&y=0&sw=0&sh=0&exp=3600"),
-                                            actions = actions2
-                                        };
-                                        bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
-                                        break;
+                                //        //actions2.Add(new UriAction() { label = "請假", uri = new Uri("line://app/1612776942-bm461AoW") });
+                                //        //actions2.Add(new UriAction() { label = "查詢", uri = new Uri("line://app/1612776942-9MbWYMog") });
+                                //        actions2.Add(new DateTimePickerAction() { label = "請假開始時間", mode = "datetime" });
+                                //        actions2.Add(new DateTimePickerAction() { label = "請假開始結束", mode = "datetime" });
+                                //        actions2.Add(new MessageAction() { label = "假別", text = "假別" });
+                                //        var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
+                                //        {
+                                //            text = "請假申請",
+                                //            altText = "請在手機上檢視",
+                                //            thumbnailImageUrl = new Uri("https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2019/01/26/99/5848687.jpg&x=0&y=0&sw=0&sh=0&exp=3600"),
+                                //            actions = actions2
+                                //        };
+                                //        bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                                //        break;
 
-                                    }
-                                case "假別":
-                                    {
-                                        TextMessage msg = new TextMessage("請問你要請什麼假?");
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("事假", "事假"));
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("病假", "病假"));
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("公假", "公假"));
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("喪假", "喪假"));
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("特休假", "特休假"));
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("產假", "產假"));
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("陪產假", "陪產假"));
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("生理假", "生理假"));
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("補休假", "補休假"));
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("家庭照顧假", "家庭照顧假"));                                       
-                                        bot.PushMessage(AdminUserId, msg);
-                                        break;
-                                    }
+                                //    }
+                                //case "假別":
+                                //    {
+                                //        TextMessage msg = new TextMessage("請問你要請什麼假?");
+                                //        msg.quickReply.items.Add(new QuickReplyMessageAction("事假", "事假"));
+                                //        msg.quickReply.items.Add(new QuickReplyMessageAction("病假", "病假"));
+                                //        msg.quickReply.items.Add(new QuickReplyMessageAction("公假", "公假"));
+                                //        msg.quickReply.items.Add(new QuickReplyMessageAction("喪假", "喪假"));
+                                //        msg.quickReply.items.Add(new QuickReplyMessageAction("特休假", "特休假"));
+                                //        msg.quickReply.items.Add(new QuickReplyMessageAction("產假", "產假"));
+                                //        msg.quickReply.items.Add(new QuickReplyMessageAction("陪產假", "陪產假"));
+                                //        msg.quickReply.items.Add(new QuickReplyMessageAction("生理假", "生理假"));
+                                //        msg.quickReply.items.Add(new QuickReplyMessageAction("補休假", "補休假"));
+                                //        msg.quickReply.items.Add(new QuickReplyMessageAction("家庭照顧假", "家庭照顧假"));
+                                //        bot.PushMessage(AdminUserId, msg);
+                                //        break;
+                                //    }
                                 #endregion
                                 default:
                                     //Bot bots = new Bot(ChannelAccessToken);
@@ -640,6 +642,51 @@ namespace WebApplication5.Controllers
                                     break;
 
                             }
+                        }
+
+
+
+
+                        var LineMsg = LineEvent.message.text;
+                        if (LineMsg == "事假"|| LineMsg == "病假" || LineMsg == "公假" || LineMsg == "喪假" || LineMsg == "特休假" || LineMsg == "產假" || LineMsg == "陪產假" || LineMsg == "生理假" || LineMsg == "補休假" || LineMsg == "家庭照顧假")
+                        {
+
+                            var bot2 = new Bot(channelAccessToken);
+                            List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
+
+                            actions2.Add(new DateTimePickerAction() { label = "請假開始時間", mode = "datetime" ,data="data"});
+                            actions2.Add(new DateTimePickerAction() { label = "請假開始結束", mode = "datetime" ,data="data1"});
+                            var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
+                            {
+                                text = "請假申請",
+                                altText = "請在手機上檢視",
+                                thumbnailImageUrl = new Uri("https://i.imgur.com/n19hgxT.gif"),//https://i.imgur.com/Hl9Is3f.gif
+                                actions = actions2
+                            };
+                            bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                            
+                        }
+  
+                    
+                 
+                        
+
+
+                        if (LineEvent.message.text == "假別")
+                        {
+                            TextMessage msg = new TextMessage("請問你要請什麼假?");
+                            msg.quickReply.items.Add(new QuickReplyMessageAction("事假", "事假"));
+                            msg.quickReply.items.Add(new QuickReplyMessageAction("病假", "病假"));
+                            msg.quickReply.items.Add(new QuickReplyMessageAction("公假", "公假"));
+                            msg.quickReply.items.Add(new QuickReplyMessageAction("喪假", "喪假"));
+                            msg.quickReply.items.Add(new QuickReplyMessageAction("特休假", "特休假"));
+                            msg.quickReply.items.Add(new QuickReplyMessageAction("產假", "產假"));
+                            msg.quickReply.items.Add(new QuickReplyMessageAction("陪產假", "陪產假"));
+                            msg.quickReply.items.Add(new QuickReplyMessageAction("生理假", "生理假"));
+                            msg.quickReply.items.Add(new QuickReplyMessageAction("補休假", "補休假"));
+                            msg.quickReply.items.Add(new QuickReplyMessageAction("家庭照顧假", "家庭照顧假"));
+                            bot.PushMessage(AdminUserId, msg);
+                  
                         }
 
                         if (LineEvent.message.text == "我要請假")
@@ -655,6 +702,74 @@ namespace WebApplication5.Controllers
                             ProcessResult<LeaveRequstLine> result;
                             try
                             {
+                                switch (LineEvent.message.text)
+                                {
+                                    #region Line請假回訊息區
+                                    case "我要請假":
+                                        {
+                                            var bot2 = new Bot(channelAccessToken);
+                                            List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
+
+                                            actions2.Add(new MessageAction() { label = "假別", text = "假別" });
+                                            var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
+                                            {
+                                                text = "請假",
+                                                altText = "請在手機上檢視",
+                                                thumbnailImageUrl = new Uri("https://i.imgur.com/LrT45vi.gif"),//https://i.imgur.com/n19hgxT.gif
+                                                actions = actions2
+                                            };
+                                            bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+
+
+                                            break;
+
+                                        }
+                                    case "請假申請":
+                                        {
+                                            //var bot2 = new Bot(channelAccessToken);
+                                            //List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
+
+                                            //actions2.Add(new UriAction() { label = "請假", uri = new Uri("line://app/1612776942-bm461AoW") });
+                                            //actions2.Add(new UriAction() { label = "查詢", uri = new Uri("line://app/1612776942-9MbWYMog") });
+                                            //////////////////
+                                            //actions2.Add(new DateTimePickerAction() { label = "請假開始時間", mode = "datetime" });
+                                            //actions2.Add(new DateTimePickerAction() { label = "請假開始結束", mode = "datetime" });
+                                            //actions2.Add(new MessageAction() { label = "假別", text = "假別" });
+                                            //var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
+                                            //{
+                                            //    text = "請假申請",
+                                            //    altText = "請在手機上檢視",
+                                            //    thumbnailImageUrl = new Uri("https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2019/01/26/99/5848687.jpg&x=0&y=0&sw=0&sh=0&exp=3600"),
+                                            //    actions = actions2
+                                            //};
+                                            //bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                                            break;
+
+                                        }
+                                    case "假別":
+                                        {
+                                            TextMessage msg = new TextMessage("請問你要請什麼假?");
+                                            msg.quickReply.items.Add(new QuickReplyMessageAction("事假", "事假"));
+                                            msg.quickReply.items.Add(new QuickReplyMessageAction("病假", "病假"));
+                                            msg.quickReply.items.Add(new QuickReplyMessageAction("公假", "公假"));
+                                            msg.quickReply.items.Add(new QuickReplyMessageAction("喪假", "喪假"));
+                                            msg.quickReply.items.Add(new QuickReplyMessageAction("特休假", "特休假"));
+                                            msg.quickReply.items.Add(new QuickReplyMessageAction("產假", "產假"));
+                                            msg.quickReply.items.Add(new QuickReplyMessageAction("陪產假", "陪產假"));
+                                            msg.quickReply.items.Add(new QuickReplyMessageAction("生理假", "生理假"));
+                                            msg.quickReply.items.Add(new QuickReplyMessageAction("補休假", "補休假"));
+                                            msg.quickReply.items.Add(new QuickReplyMessageAction("家庭照顧假", "家庭照顧假"));
+                                            bot.PushMessage(AdminUserId, msg);
+                                            break;
+                                        }
+
+                                  
+                                        #endregion
+
+
+                                }
+
+
 
                                 if (ReceivedMessage.events[0].message.text == "我要請假")
                                 {
@@ -668,43 +783,50 @@ namespace WebApplication5.Controllers
                                     result = CIC.Process(ReceivedMessage.events[0]);
                                 }
 
-                                //處理 CIC回覆的結果
-                                switch (result.ProcessResultStatus)
+
+                                if (ReceivedMessage.events[0].postback != null)
                                 {
-                                    case ProcessResultStatus.Processed:
-                                        //取得候選訊息發送
-                                        responseMsg += result.ResponseMessageCandidate;
-                                        break;
-                                    case ProcessResultStatus.Done:
-                                        var Linetext = result.ConversationState.ConversationEntity;
-
-                                        responseMsg += result.ResponseMessageCandidate;
-                                        responseMsg += $"\n您申請的請假資訊為\n~~~~以下~~~~~\n";
-                                        responseMsg += $"請假申請時間:\n{DateTime.Now}\n請假假別:\n{Linetext.假別}\n請假結束日期:\n{ Linetext.請假開始日期}\n請假開始日期\n{Linetext.請假結束日期}\n~~~~~~~~~~\n以為您送出待審核" ;
-                                        LeaveRequests Leave = new LeaveRequests();
-                                        break;
-                                    case ProcessResultStatus.Pass:
-                                        responseMsg = $"你說的 '{ReceivedMessage.events[0].message.text}' 我看不懂，如果想要請假，請跟我說 : 『我要請假』";
-                                        break;
-                                    case ProcessResultStatus.Exception:
-                                        //取得候選訊息發送
-                                        responseMsg += result.ResponseMessageCandidate;
-                                        break;
-                                    case ProcessResultStatus.Break:
-                                        //取得候選訊息發送
-                                        responseMsg += result.ResponseMessageCandidate;
-                                        break;
-                                    case ProcessResultStatus.InputDataFitError:
-                                        responseMsg += result.ResponseMessageCandidate;
-                                        responseMsg += "\n時間資料型態請以24h制為準\nex:2020/12/25 18:00";
-
-                                        break;
-                                    default:
-                                        //取得候選訊息發送
-                                        responseMsg += result.ResponseMessageCandidate;
-                                        break;
+                                    bot.PushMessage(AdminUserId, ReceivedMessage.events[0].postback.Params.datetime);
                                 }
-                                
+
+
+                                //處理 CIC回覆的結果
+                                //switch (result.ProcessResultStatus)
+                                //{
+                                //    case ProcessResultStatus.Processed:
+                                //        //取得候選訊息發送
+                                //        responseMsg += result.ResponseMessageCandidate;
+                                //        break;
+                                //    case ProcessResultStatus.Done:
+                                //        var Linetext = result.ConversationState.ConversationEntity;
+
+                                //        responseMsg += result.ResponseMessageCandidate;
+                                //        responseMsg += $"\n您申請的請假資訊為\n~~~~以下~~~~~\n";
+                                //        responseMsg += $"請假申請時間:\n{DateTime.Now}\n請假假別:\n{Linetext.假別}\n請假結束日期:\n{ Linetext.請假開始日期}\n請假開始日期\n{Linetext.請假結束日期}\n~~~~~~~~~~\n以為您送出待審核" ;
+                                //        LeaveRequests Leave = new LeaveRequests();
+                                //        break;
+                                //    case ProcessResultStatus.Pass:
+                                //        responseMsg = $"你說的 '{ReceivedMessage.events[0].message.text}' 我看不懂，如果想要請假，請跟我說 : 『我要請假』";
+                                //        break;
+                                //    case ProcessResultStatus.Exception:
+                                //        //取得候選訊息發送
+                                //        responseMsg += result.ResponseMessageCandidate;
+                                //        break;
+                                //    case ProcessResultStatus.Break:
+                                //        //取得候選訊息發送
+                                //        responseMsg += result.ResponseMessageCandidate;
+                                //        break;
+                                //    case ProcessResultStatus.InputDataFitError:
+                                //        responseMsg += result.ResponseMessageCandidate;
+                                //        responseMsg += "\n時間資料型態請以24h制為準\nex:2020/12/25 18:00";
+
+                                //        break;
+                                //    default:
+                                //        //取得候選訊息發送
+                                //        responseMsg += result.ResponseMessageCandidate;
+                                //        break;
+                                //        }
+
                                 //回覆用戶訊息
                                 isRock.LineBot.Utility.ReplyMessage(ReceivedMessage.events[0].replyToken, responseMsg, ChannelAccessToken);
                                 //回覆API OK
@@ -723,7 +845,22 @@ namespace WebApplication5.Controllers
                         }
 
 
+     
+                    if (LineEvent.type == "postback")//回傳datetimepickper的值
+                    {
+                        if (LineEvent.postback.data == "data")
+                        {
+                            string aa =$"開始時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
+                            this.ReplyMessage(LineEvent.replyToken, aa);
+                        }
+                        if (LineEvent.postback.data == "data1")
+                        {
+                            string aa = $"結束時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
+                            this.ReplyMessage(LineEvent.replyToken, aa);
+                        }
                     }
+
+                }
                 
                 catch(Exception ex )
                 {
@@ -743,31 +880,11 @@ namespace WebApplication5.Controllers
     //line 請假回復的順序
     public class LeaveRequstLine : ConversationEntity
     {
-        //private string _假別= "";
-        //string[] 種類 =new string[] { "事假", "病假" };
 
         [Question("請問您要請假的假別是?\nex:事假.病假...等等")]
         [Order(1)]
         public string 假別
-        {
-            get; set;
-            //get
-            //{
-
-            //    return _假別;
-            //}
-            //set
-            //{
-            //    if (種類.Contains(value))
-            //    {
-            //        _假別 = value;
-            //    }
-            //    else
-            //    {
-            //        throw new FormatException();
-            //    }
-            //}
-        }
+        {get; set;}
 
         [Question("請問您要請假開始日期是?")]
         [Order(2)]
