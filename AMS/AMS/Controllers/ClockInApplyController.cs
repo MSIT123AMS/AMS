@@ -15,11 +15,10 @@ namespace AMS.Controllers
     {
         private Entities db = new Entities();
 
-        // GET: ClockInApply
-    
+        // GET: ClockInApply       
         public ActionResult ClockInApplyView()
         {
-            string EmployeeID = "MSIT1230005";////////要再更改id參數////////////////
+            string EmployeeID = Convert.ToString(Session["UserName"]);////////要再更改id參數////////////////
             var query = db.ClockInApply.Join(
                 db.ReviewStatus, ClockIn => ClockIn.ReviewStatusID,
                 Review => Review.ReviewStatusID,
@@ -80,10 +79,11 @@ namespace AMS.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult ClockInApply([Bind(Include = "EmployeeID,OnDuty,OffDuty,ReviewStatusID,RequestDate,ReviewTime")] ClockInApply clockInApply)
         {
+            string EmployeeID = Convert.ToString(Session["UserName"]);
             if (ModelState.IsValid)
             {
                 
-               clockInApply.EmployeeID= "MSIT1230005";
+               clockInApply.EmployeeID= EmployeeID;
                clockInApply.ReviewStatusID = 1;
                 db.ClockInApply.Add(clockInApply);
                 try

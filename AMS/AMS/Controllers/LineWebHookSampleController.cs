@@ -90,167 +90,27 @@ namespace WebApplication5.Controllers
 
                         if (LineEvent.message.type == "text")
                         {
-                            if (LineEvent.message.text == "打卡")
-                            {
-                              
-                                //var actions1 = new List<isRock.LineBot.TemplateActionBase>();
-                                //actions1.Add(new isRock.LineBot.UriAction() { label = "請先確認地點", uri = new Uri("line://app/1653574503-YJW285kB") });
-                                //////////////////////////////發行後要更改網址////////////////////////////////////////
-                                ////actions1.Add(new isRock.LineBot.MessageAction() { label = "上班", text = "上班" });
-                                ////actions1.Add(new isRock.LineBot.MessageAction() { label = "下班", text = "下班" });
-
-
-                                //this.ReplyMessage(LineEvent.replyToken, $"你好,{q.EmployeeName}");
-                                ////isRock.LineBot.Utility.PushMessage(
-                                //////  AdminUserId, "" + Liff, channelAccessToken);/////
-                                //List<Column> c = new List<Column>();
-                                //c.Add(new Column() { title = "請先確認地點", text = "請先確認地點後打卡", thumbnailImageUrl = new Uri("https://2c8b2c81.ngrok.io/Img/linelocatiom.png"), actions = actions1 });
-                                //var CarouselTemplate = new isRock.LineBot.CarouselTemplate()
-                                //{
-                                //    columns = c
-                                //};
-                                //bot.PushMessage(AdminUserId, CarouselTemplate);
-                                var flex =$@"[{{ ""type"": ""flex"",
-""altText"":""打卡"",
-""contents"":
-{{
-  ""type"": ""bubble"",
-  ""hero"": {{
-                                    ""type"": ""image"",
-    ""url"": ""https://43a545f8.ngrok.io/Img/linelocatiom.png"",
-    ""size"": ""full"",
-    ""aspectRatio"": ""20:13"",
-    ""aspectMode"": ""cover""
-  }},
-    ""footer"": {{
-    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""spacer"",
-        ""size"": ""xxl""
-      }},
-      {{
-        ""type"": ""button"",
-        ""style"": ""primary"",
-        ""color"": ""#D75455"",
-        ""action"": {{
-          ""type"": ""uri"",
-          ""label"": ""請先確認定地點"",
-          ""uri"": ""line://app/1653574503-YJW285kB""
-        }}
-      }}
-    ]
-  }}
-}}
-}}]";
-                                bot.PushMessageWithJSON(AdminUserId, flex);
-                            }
-                           
-                            if (LineEvent.message.text == "定位成功")
-                            {
-                                //List<TemplateActionBase> actions = new List<TemplateActionBase>();
-                                //actions.Add(new MessageAction() { label = "上班", text = "上班" });
-                                //actions.Add(new MessageAction() { label = "下班", text = "下班" });
-                                //var ButtonTempalteMsg = new isRock.LineBot.ConfirmTemplate()
-                                //{
-                                //    text = "打卡",
-                                //    altText = "請在手機上檢視",
-                                //    actions = actions
-
-                                //};
-
-                                ////bot.ReplyMessage(channelAccessToken, new isRock.LineBot.TemplateMessage(CarouselTemplate));
-
-                                //bot.PushMessage(AdminUserId, ButtonTempalteMsg);
-                                var flex = $@"[{{ 
-""type"": ""flex"",
-""altText"":""簽到"",
-""contents"":
-{{
-  ""type"": ""bubble"",
-  ""body"": {{
-                                    ""type"": ""box"",
-    ""layout"": ""horizontal"",
-    ""contents"": [
-      {{
-        ""type"": ""text"",
-        ""text"": ""目前時間:"",
-        ""size"": ""md"",
-        ""weight"": ""bold"",
-        ""color"": ""#FFFFFB""
-      }},
-      {{
-        ""type"": ""text"",
-        ""text"": ""{DateTime.Now.ToShortTimeString().ToString()}"",
-        ""color"": ""#FFFFFB"",
-        ""size"": ""md"",
-        ""weight"": ""bold"",
-        ""align"": ""start""
-      }}
-    ],
-    ""backgroundColor"": ""#464F69""
-  }},
-  ""footer"": {{
-    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""button"",
-        ""style"": ""primary"",
-        ""color"": ""#3A8FB7"",
-        ""action"": {{
-          ""type"": ""message"",
-          ""label"": ""上班"",
-          ""text"": ""上班""
-        }}
-      }},
-      {{
-        ""type"": ""button"",
-        ""action"": {{
-          ""type"": ""message"",
-          ""label"": ""下班"",
-          ""text"": ""下班""
-        }},
-        ""style"": ""primary"",
-        ""color"": ""#5DAC81""
-      }}
-    ],
-    ""spacing"": ""sm""
-  }}
-}}
-
-
-
-
-
-                                    }}]";
-                                bot.PushMessageWithJSON(AdminUserId, flex);
-
-                            }
-                            //if (LineEvent.message.text == "請假")//新增MessageAction請假
-                            //{
-                                
-                            //    var bot = new Bot(channelAccessToken);
-                            //    List<TemplateActionBase> actions = new List<TemplateActionBase>();
-                            //    this.ReplyMessage(LineEvent.replyToken, $"你好,{q.EmployeeName}");
-                            //    actions.Add(new MessageAction() { label = "請假", text = "請假" });
-
-                            //    var ButtonTempalteMsg = new isRock.LineBot.ConfirmTemplate()
-                            //    {
-                            //        text = "請假",
-                            //        altText = "請在手機上檢視",
-                            //        actions = actions
-                            //    };
-                            //    bot.PushMessage(AdminUserId, ButtonTempalteMsg);
-                            //}
-
                             switch (LineEvent.message.text)
                             {
-                         
+                                case "打卡":
+                                    {
 
+                                        var flex = $@"[{{ ""type"": ""flex"",""altText"":""打卡"",""contents"":{{""type"": ""bubble"",""hero"": {{""type"": ""image"",""url"": ""https://43a545f8.ngrok.io/Img/linelocatiom.png"",
+                                                   ""size"": ""full"",""aspectRatio"": ""20:13"",""aspectMode"": ""cover""}},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""spacer"",""size"": ""xxl""
+                                                   }},{{""type"": ""button"",""style"": ""primary"",""color"": ""#D75455"",""action"": {{""type"": ""uri"",""label"": ""請先確認定地點"",""uri"": ""line://app/1653574503-YJW285kB""}}}}]}}}}}}]";
+                                        bot.PushMessageWithJSON(AdminUserId, flex);
+                                        break;
+                                    }
+                                case "定位成功":
+                                    {
+                                        var flex_check = $@"[{{""type"": ""flex"",""altText"":""簽到"",""contents"":{{""type"": ""bubble"",""body"": {{""type"": ""box"",""layout"": ""horizontal"",""contents"": [{{""type"": ""text"",""text"": ""目前時間:"",""size"": ""md"",""weight"": ""bold"",
+                                                         ""color"": ""#FFFFFB""}},{{""type"": ""text"",""text"": ""{DateTime.Now.ToShortTimeString().ToString()}"",""color"": ""#FFFFFB"",""size"": ""md"",""weight"": ""bold"",""align"": ""start""}}],""backgroundColor"": ""#464F69""
+                                                         }},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""button"",""style"": ""primary"",""color"": ""#3A8FB7"",""action"": {{""type"": ""message"",""label"": ""上班"",""text"": ""上班""
+                                                         }}}},{{""type"": ""button"",""action"": {{""type"": ""message"",""label"": ""下班"",""text"": ""下班""}},""style"": ""primary"",""color"": ""#5DAC81""}}],""spacing"": ""sm""}}}}}}]";
+                                        bot.PushMessageWithJSON(AdminUserId, flex_check);
+                                        break;
+                                    }
                                 case "上班":
-
                                     try
                                     {
                                         if (flaglocation())
@@ -264,152 +124,35 @@ namespace WebApplication5.Controllers
                                                 try
                                                 {
                                                     d.SaveChanges();
-                                                    var flex_checkin = $@"[{{
-
-""type"": ""flex"",
-""altText"":""上班打卡成功"",
-""contents"":
-{{
-  ""type"": ""bubble"",
-  ""body"": {{
-                                                        ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""box"",
-        ""layout"": ""vertical"",
-        ""contents"": [
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""contents"": [],
-                ""size"": ""xl"",
-                ""wrap"": true,
-                ""text"": ""上班打卡成功"",
-                ""color"": ""#ffffff"",
-                ""weight"": ""bold""
-              }}
-            ],
-            ""spacing"": ""sm""
-          }},
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""box"",
-                ""layout"": ""vertical"",
-                ""contents"": [
-                  {{
-                    ""type"": ""text"",
-                    ""contents"": [],
-                    ""size"": ""sm"",
-                    ""wrap"": true,
-                    ""margin"": ""lg"",
-                    ""color"": ""#ffffffde"",
-                    ""text"": ""{DateTime.Now.AddHours(8).ToString()}""
-                  }}
-                ]
-              }}
-            ],
-            ""paddingAll"": ""13px"",
-            ""backgroundColor"": ""#ffffff1A"",
-            ""cornerRadius"": ""2px"",
-            ""margin"": ""xl""
-          }}
-        ]
-      }}
-    ],
-    ""paddingAll"": ""20px"",
-    ""backgroundColor"": ""#464F69""
-  }}
-}}
-
-
-
-
-}}]
-                                                        ";
+                                                    var flex_checkin = $@"[{{""type"": ""flex"",""altText"":""上班打卡成功"",""contents"":{{""type"": ""bubble"",""body"": {{""type"": ""box"",""layout"": ""vertical"",
+                                                                       ""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",
+                                                                       ""contents"": [],""size"": ""xl"",""wrap"": true,""text"": ""上班打卡成功"",""color"": ""#ffffff"",""weight"": ""bold""}}],""spacing"": ""sm""}},
+                                                                       {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",
+                                                                       ""contents"": [],""size"": ""sm"",""wrap"": true,""margin"": ""lg"",""color"": ""#ffffffde"",""text"": ""{DateTime.Now.AddHours(8).ToString()}""
+                                                                       }}]}}],""paddingAll"": ""13px"",""backgroundColor"": ""#ffffff1A"",""cornerRadius"": ""2px"",""margin"": ""xl""}}]}}],""paddingAll"": ""20px"",
+                                                                       ""backgroundColor"": ""#464F69""}}}}}}]";
                                                     //this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.AddHours(8).ToString()}");
                                                     this.ReplyMessageWithJSON(LineEvent.replyToken, flex_checkin);
                                                 }
                                                 catch
                                                 {
-                                                    var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).First();
-                                                var flex_errormsg=$@"[{{
-
-""type"": ""flex"",
-""altText"":""打卡失敗"",
-""contents"":
-{{
-  ""type"": ""bubble"",
-  ""body"": {{
-                                                        ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""box"",
-        ""layout"": ""vertical"",
-        ""contents"": [
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""contents"": [],
-                ""size"": ""xl"",
-                ""wrap"": true,
-                ""text"": ""打卡失敗"",
-                ""color"": ""#ffffff"",
-                ""weight"": ""bold""
-              }}
-            ],
-            ""spacing"": ""sm""
-          }},
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""box"",
-                ""layout"": ""vertical"",
-                ""contents"": [
-                  {{
-                    ""type"": ""text"",
-                    ""contents"": [],
-                    ""size"": ""sm"",
-                    ""wrap"": true,
-                    ""margin"": ""lg"",
-                    ""color"": ""#ffffffde"",
-                    ""text"": ""本日已在{query.OnDuty}打過上班卡""
-                  }}
-                ]
-              }}
-            ],
-            ""paddingAll"": ""13px"",
-            ""backgroundColor"": ""#ffffff1A"",
-            ""cornerRadius"": ""2px"",
-            ""margin"": ""xl""
-          }}
-        ]
-      }}
-    ],
-    ""paddingAll"": ""20px"",
-    ""backgroundColor"": ""#D75455""
-  }}
-}}
-
-
-
-
-}}]
-";
-                                                    //this.ReplyMessage(LineEvent.replyToken, "已經在" + $"{query.OnDuty}打過卡了");
-                                                    this.ReplyMessageWithJSON(LineEvent.replyToken, flex_errormsg);
+                                                    var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).FirstOrDefault();
+                                                    if (query == null)
+                                                    {
+                                                        this.ReplyMessage(LineEvent.replyToken, "11111111111111");
+                                                    }
+                                                    else
+                                                    {
+                                                        var flex_errormsg = $@"[{{""type"": ""flex"",""altText"":""打卡失敗"",""contents"":{{""type"": ""bubble"",""body"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{
+                                                                            ""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""contents"": [],""size"": ""xl"",
+                                                                            ""wrap"": true,""text"": ""打卡失敗"",""color"": ""#ffffff"",""weight"": ""bold""}}],""spacing"": ""sm""}},{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{
+                                                                            ""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""contents"": [],""size"": ""sm"",""wrap"": true,""margin"": ""lg"",""color"": ""#ffffffde"",
+                                                                            ""text"": ""本日已在{query.OnDuty}打過上班卡""}}]}}],""paddingAll"": ""13px"",""backgroundColor"": ""#ffffff1A"",""cornerRadius"": ""2px"",""margin"": ""xl""}}]}}],""paddingAll"": ""20px"",
+                                                                            ""backgroundColor"": ""#D75455""}}}}}}]";
+                                                        //this.ReplyMessage(LineEvent.replyToken, "已經在" + $"{query.OnDuty}打過卡了");
+                                                        this.ReplyMessageWithJSON(LineEvent.replyToken, flex_errormsg);
+                                                    }
+                                                    
                                                 }
 
 
@@ -595,8 +338,8 @@ namespace WebApplication5.Controllers
 
                                         a.EmployeeID = EmpID;
                                         a.Date = todate;
-                                        a.OffDuty= DateTime.Now.AddHours(8);
-                                        a.station = "未打卡";
+                                        a.OffDuty = DateTime.Now.AddHours(8);
+                                        a.station = "上班未打卡";
                                         d.Attendances.Add(a);
                                         try
                                         {
@@ -620,32 +363,70 @@ namespace WebApplication5.Controllers
                                         //};
                                         //bot.PushMessage(AdminUserId, ButtonTempalteMsg);
                                     }
-
                                     break;
+                                case "補打卡申請":
+                                    {
 
+                                        var flexsubmit = @"[{""type"": ""flex"",
+""altText"":""缺勤紀錄"",
+""contents"":
+{
+  ""type"": ""bubble"",
+  ""body"": {
+                                    ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {
+        ""type"": ""text"",
+        ""text"": ""hello, world""
+      },
+      {
+        ""type"": ""button"",
+        ""action"": {
+          ""type"": ""datetimepicker"",
+          ""label"": ""action"",
+          ""data"": ""hello"",
+          ""mode"": ""date""
+        }
+      }
+    ],
+    ""action"": {
+      ""type"": ""datetimepicker"",
+      ""label"": ""action"",
+      ""data"": ""hello"",
+      ""mode"": ""date""
+    }
+  }
+}
+}]";
+                                        bot.PushMessageWithJSON(AdminUserId, flexsubmit);
+
+
+                                    }
+                                    break;
                                 case "出勤":
                                     {
                                         var bot1 = new Bot(channelAccessToken);
                                         int count = 0;
                                         string[] record = new string[5] { "無紀錄", "無紀錄", "無紀錄", "無紀錄", "無紀錄" };
                                         var searchfive = d.Attendances.Where(p => p.EmployeeID == EmpID && p.station == "未打卡");
-                                        int takefive;                                     
+                                        int takefive;
 
-                                            if (searchfive.Count() <= 5)
-                                            {
-                                                takefive = searchfive.Count();
-                                            }
-                                            else
-                                            {
-                                                takefive = 5;
-                                            }
+                                        if (searchfive.Count() <= 5)
+                                        {
+                                            takefive = searchfive.Count();
+                                        }
+                                        else
+                                        {
+                                            takefive = 5;
+                                        }
                                         foreach (var xxxx in searchfive.Take(takefive))
                                         {
                                             record[count] = xxxx.Date.ToLongDateString().ToString();
                                             count++;
                                         };
-                                        
-                                          var flextakefive =$@"[{{
+
+                                        var flextakefive = $@"[{{
 
 ""type"": ""flex"",
 ""altText"":""缺勤紀錄"",
@@ -789,49 +570,9 @@ namespace WebApplication5.Controllers
 }}]
 ";
 
-                                        bot1.PushMessageWithJSON(AdminUserId,flextakefive);
+                                        bot1.PushMessageWithJSON(AdminUserId, flextakefive);
                                     }
-                                    break;
-
-
-                            }
-                            if (LineEvent.message.text == "補打卡申請")
-                            {
-                                var flexsubmit = @"[{""type"": ""flex"",
-""altText"":""缺勤紀錄"",
-""contents"":
-{
-  ""type"": ""bubble"",
-  ""body"": {
-                                    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {
-        ""type"": ""text"",
-        ""text"": ""hello, world""
-      },
-      {
-        ""type"": ""button"",
-        ""action"": {
-          ""type"": ""datetimepicker"",
-          ""label"": ""action"",
-          ""data"": ""hello"",
-          ""mode"": ""date""
-        }
-      }
-    ],
-    ""action"": {
-      ""type"": ""datetimepicker"",
-      ""label"": ""action"",
-      ""data"": ""hello"",
-      ""mode"": ""date""
-    }
-  }
-}
-}]";
-                                bot.PushMessageWithJSON(AdminUserId, flexsubmit);
-                                
-                            }
+                                    break;                                  
                                 #region Line請假回訊息區
                                 case "請假":
                                     {
@@ -854,7 +595,6 @@ namespace WebApplication5.Controllers
                                         break;
 
                                     }
-
                                 case "請假申請":
                                     {
                                         var bot2 = new Bot(channelAccessToken);
@@ -876,9 +616,6 @@ namespace WebApplication5.Controllers
                                         break;
 
                                     }
-
-
-
                                 case "假別":
                                     {
                                         isRock.LineBot.TextMessage msg = new isRock.LineBot.TextMessage("請問你要請什麼假?");
@@ -891,8 +628,7 @@ namespace WebApplication5.Controllers
                                         msg.quickReply.items.Add(new QuickReplyMessageAction("陪產假", "陪產假"));
                                         msg.quickReply.items.Add(new QuickReplyMessageAction("生理假", "生理假"));
                                         msg.quickReply.items.Add(new QuickReplyMessageAction("補休假", "補休假"));
-                                        msg.quickReply.items.Add(new QuickReplyMessageAction("家庭照顧假", "家庭照顧假"));
-                                        Bot bot = new Bot(ChannelAccessToken);
+                                        msg.quickReply.items.Add(new QuickReplyMessageAction("家庭照顧假", "家庭照顧假"));                                       
                                         bot.PushMessage(AdminUserId, msg);
                                         break;
                                     }
@@ -903,8 +639,10 @@ namespace WebApplication5.Controllers
                                     //bots.PushMessage(AdminUserId, msgs);
                                     break;
                             }
+                        }
 
-
+                        if (LineEvent.message.text == "我要請假")
+                        {                                                                              
                             //定義資訊蒐集者
                             InformationCollector<LeaveRequstLine> CIC = new InformationCollector<LeaveRequstLine>(ChannelAccessToken);
 
@@ -941,7 +679,7 @@ namespace WebApplication5.Controllers
 
                                         responseMsg += result.ResponseMessageCandidate;
                                         responseMsg += $"\n您申請的請假資訊為\n~~~~以下~~~~~\n";
-                                        responseMsg += $"請假申請時間:\n{DateTime.Now}\n請假假別:\n{Linetext.假別}\n請假結束日期:\n{ Linetext.請假開始日期}\n請假開始日期\n{Linetext.請假結束日期}\n~~~~~~~~~~\n以為您送出待審核" ;
+                                        responseMsg += $"請假申請時間:\n{DateTime.Now}\n請假假別:\n{Linetext.假別}\n請假結束日期:\n{ Linetext.請假開始日期}\n請假開始日期\n{Linetext.請假結束日期}\n~~~~~~~~~~\n以為您送出待審核";
                                         break;
                                     case ProcessResultStatus.Pass:
                                         responseMsg = $"你說的 '{ReceivedMessage.events[0].message.text}' 我看不懂，如果想要請假，請跟我說 : 『我要請假』";
@@ -957,7 +695,7 @@ namespace WebApplication5.Controllers
                                     case ProcessResultStatus.InputDataFitError:
                                         responseMsg += result.ResponseMessageCandidate;
                                         responseMsg += "\n時間資料型態請以24h制為準\nex:2020/12/25 18:00";
-                                        
+
                                         break;
                                     default:
                                         //取得候選訊息發送
@@ -976,13 +714,15 @@ namespace WebApplication5.Controllers
                                 this.ReplyMessage(LineEvent.replyToken, ex.Message + ""); //回傳錯誤之後須刪除
                                 return Ok();
                             }
-                            //break;
+                            
+                        }
+
 
                         }
 
 
                     }
-                }
+                
                 catch(Exception ex )
                 {
                     this.ReplyMessage(LineEvent.replyToken, $"{ex.Message}....您不是本公司員工,無法使用打卡功能!");
@@ -1037,5 +777,6 @@ namespace WebApplication5.Controllers
 
         }
 
-    }
 }
+
+

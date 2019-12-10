@@ -36,14 +36,14 @@
             $("#OffDuty").val($("#OnDuty").val());
             //}
 
-            if (searchstr > 12 || searchstr < 06) {
-                timechange();
-                $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
-            }
-            else if (str >= Today) {
-                Datechange();
-                $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
-            }
+            //if (searchstr > 12 || searchstr < 06) {
+            //    timechange();
+            //    $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
+            //}
+            //else if (str >= Today) {
+            //    Datechange();
+            //    $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
+            //}
 
 
         });
@@ -69,41 +69,25 @@
             //    end.stepUp(hours);
             //});
         }
-        $("input[name='inlineDefaultRadiosExample']").bind("change", function () {
-
-            var ele = $("input[name='inlineDefaultRadiosExample']:checked").val()
-            switch (ele) {
-
-                case "1":
-                    sethours(60)
-                    break;
-                case "2":
-                    sethours(120)
-                    break;
-                case "3":
-                    sethours(180)
-                    break;
-                case "4":
-                    sethours(240)
-                    break;
-                case "5":
-                    sethours(300)
-                    break;
-                case "6":
-                    sethours(360)
-                    break;
-                case "7":
-                    sethours(420)
-                    break;
-                case "8":
-                    sethours(480)
-                    break;
-
-            }
-
-
+        $("#defaultInline4").bind("change", function () {
+            $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
+            var ele = $("#defaultInline4").val()
+            sethours(ele * 60);
         });
-
+        $("#defaultInline8").bind("change", function () {
+            $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
+            var ele = $("#defaultInline8").val()
+            sethours(ele * 60);
+        });
+        $("#defaultInline7").bind("change", function () {
+            $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "13" + ":" + "00");
+            var ele = $("#defaultInline4").val()
+            sethours(ele * 60);
+        });
+        $("#submitButton").bind("click", function () {
+            Clockinsave();
+            test();
+        })
 
 
         function timechange() {
