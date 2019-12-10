@@ -622,6 +622,7 @@ namespace WebApplication5.Controllers
                 catch(Exception ex )
                 {
                     this.ReplyMessage(LineEvent.replyToken, $"{ex.Message}....您不是本公司員工,無法使用打卡功能!");
+
                 }
             }
             else//正
