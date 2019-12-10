@@ -14,11 +14,11 @@ namespace AMS.Models
     
     public partial class Annouuncements
     {
+        public int AnnouuncementID { get; set; }
         public string EmployeeID { get; set; }
-        public Nullable<System.DateTime> AnnounceTime { get; set; }
         public string Title { get; set; }
         public string Detail { get; set; }
         public string Importance { get; set; }
-        public string AnnouuncementID { get; set; }
+        public Nullable<System.DateTime> AnnounceTime { get; set; }
     }
 }

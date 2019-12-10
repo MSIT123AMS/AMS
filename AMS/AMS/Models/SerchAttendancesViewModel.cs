@@ -17,5 +17,7 @@ namespace AMS.Controllers
         [DataType(DataType.DateTime), Display(Name = "下班時間")]
         [DisplayFormat(DataFormatString = "{0: HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime? EndTime { get; set; }
+
+        public string LineID { get; set; }
     }
 }

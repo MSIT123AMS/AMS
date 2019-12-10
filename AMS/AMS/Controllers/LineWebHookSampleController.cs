@@ -87,7 +87,8 @@ namespace WebApplication5.Controllers
                         string st2 = "13:00";//設定最早打卡的下班時間(可以擺到人事) ///要再做每日統計上班時數功能  
                         DateTime dt1 = Convert.ToDateTime(st1);
                         DateTime dt2 = Convert.ToDateTime(st2);
-                        DateTime todate = DateTime.Now.Date;//今天的日期  
+                        DateTime today = DateTime.Now.Date;//今天的日期  
+                        DateTime yesterday = today.AddDays(-1);//////前天日期
                         var bot = new Bot(channelAccessToken);
 
                         if (LineEvent.message.type == "text")
@@ -95,12 +96,54 @@ namespace WebApplication5.Controllers
                             switch (LineEvent.message.text)
                             {
                                 case "打卡":
-                                    {
+                                    {  var judgeleave_today = d.LeaveRequests.Where(p => p.EmployeeID == EmpID && p.StartTime <=today && p.EndTime >= today&& p.ReviewStatusID == 2);
+                                        if (judgeleave_today.FirstOrDefault() == null)
+                                        {
+                                            var day_uncheck = (from e in d.Employees.AsEnumerable()/////////判斷前有無打卡
+                                                               join att in d.Attendances.AsEnumerable().Where(p => p.Date == yesterday && p.EmployeeID == EmpID) on e.EmployeeID equals att.EmployeeID into g
+                                                               from att in g.DefaultIfEmpty()
+                                                               select new SerchAttendancesViewModel
+                                                               {
+                                                                   EmployeeName = e.EmployeeName,
+                                                                   Date = att == null ? null : att.Date.ToString("yyyy/MM/dd"),
+                                                                   StartTime = att == null ? null : att.OnDuty,
+                                                                   EndTime = att == null ? null : att.OffDuty,
 
-                                        var flex = $@"[{{ ""type"": ""flex"",""altText"":""打卡"",""contents"":{{""type"": ""bubble"",""hero"": {{""type"": ""image"",""url"": ""https://43a545f8.ngrok.io/Img/linelocatiom.png"",
+                                                               });
+                                            var judgeleave_yesterday = d.LeaveRequests.Where(p => p.EmployeeID == EmpID && p.StartTime <= yesterday && p.EndTime >= yesterday && p.ReviewStatusID == 2);
+                                            var workdays = d.WorkingDaySchedule.Where(p => p.Date == yesterday);///判定是否為假日
+                                            var wholeday = day_uncheck.FirstOrDefault().Date;/////判定前日有無值
+                                            var afternoon = day_uncheck.FirstOrDefault().EndTime;/////判定前日下班有無值
+                                            var morning = day_uncheck.FirstOrDefault().StartTime;/////判定前日上班有無值
+                                            if (wholeday == null && workdays.FirstOrDefault().WorkingDay == "工作日"&&judgeleave_yesterday.FirstOrDefault()==null)
+                                            {
+                                                a.EmployeeID = EmpID;
+                                                a.Date = today.AddDays(-1);
+                                                a.station = "全天未打卡";
+                                                a.savehours = 0;
+                                                d.Attendances.Add(a);
+                                                this.ReplyMessage(LineEvent.replyToken, $"前日全天未打卡");
+                                                d.SaveChanges();
+                                            }
+                                            if (morning != null && afternoon == null)
+                                            {
+                                                var check_yesterday = d.Attendances.Where(p => p.Date == yesterday && p.EmployeeID == EmpID);
+                                                check_yesterday.FirstOrDefault().station = "下午未打卡";
+                                                check_yesterday.FirstOrDefault().savehours = 4;
+                                                this.ReplyMessage(LineEvent.replyToken, $"前日下午未打卡");
+                                                d.SaveChanges();
+                                            }
+
+                                            var flex = $@"[{{ ""type"": ""flex"",""altText"":""打卡"",""contents"":{{""type"": ""bubble"",""hero"": {{""type"": ""image"",""url"": ""https://ba3c6ba2.ngrok.io/Img/linelocatiom.png"",
                                                    ""size"": ""full"",""aspectRatio"": ""20:13"",""aspectMode"": ""cover""}},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""spacer"",""size"": ""xxl""
                                                    }},{{""type"": ""button"",""style"": ""primary"",""color"": ""#D75455"",""action"": {{""type"": ""uri"",""label"": ""請先確認定地點"",""uri"": ""line://app/1653574503-YJW285kB""}}}}]}}}}}}]";
-                                        bot.PushMessageWithJSON(AdminUserId, flex);
+                                            bot.PushMessageWithJSON(AdminUserId, flex);
+                                            
+                                        }
+                                        else
+                                        {
+                                            this.ReplyMessage(LineEvent.replyToken, $"您在{judgeleave_today.FirstOrDefault().StartTime}-{judgeleave_today.FirstOrDefault().EndTime}申請的請假已審核通過");
+                                        }
                                         break;
                                     }
                                 case "定位成功":
@@ -120,8 +163,9 @@ namespace WebApplication5.Controllers
                                             if (DateTime.Now < dt1)/////判斷最後可以打卡的上班時間
                                             {
                                                 a.EmployeeID = EmpID;
-                                                a.Date = todate;
+                                                a.Date = today;
                                                 a.OnDuty = DateTime.Now.AddHours(8);
+                                                a.savehours = 4;////打半天卡給四小時
                                                 d.Attendances.Add(a);
                                                 try
                                                 {
@@ -138,7 +182,7 @@ namespace WebApplication5.Controllers
                                                 }
                                                 catch
                                                 {
-                                                    var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).FirstOrDefault();
+                                                    var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == today && p.OnDuty != null).FirstOrDefault();
                                                     if (query == null)
                                                     {
                                                         this.ReplyMessage(LineEvent.replyToken, "11111111111111");
@@ -181,72 +225,17 @@ namespace WebApplication5.Controllers
                                     {
                                         if (DateTime.Now > dt2)
                                         {
-                                            var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == todate && p.OnDuty != null).First();
+                                            var query = d.Attendances.Where(p => p.EmployeeID == EmpID && p.Date == today && p.OnDuty != null).First();
                                             query.OffDuty = DateTime.Now.AddHours(8);
+                                            query.savehours = 8;
                                             //this.ReplyMessage(LineEvent.replyToken, $"已打卡\n時間:{DateTime.Now.AddHours(8).ToString()}");
                                             d.SaveChanges();
-                                            var flex_checkout = $@"[{{
-                                           ""type"": ""flex"",
-                                           ""altText"":""下班打卡成功"",
-                                           ""contents"":
-                                           {{
-                                              ""type"": ""bubble"",
-                                              ""body"": {{
-                                              ""type"": ""box"",
-                                              ""layout"": ""vertical"",
-                                              ""contents"": [
-                                           {{
-                                              ""type"": ""box"",
-                                              ""layout"": ""vertical"",
-                                              ""contents"": [
-                                           {{
-                                              ""type"": ""box"",
-                                              ""layout"": ""vertical"",
-                                              ""contents"": [
-                                           {{
-                                              ""type"": ""text"",
-                                              ""contents"": [],
-                                              ""size"": ""xl"",
-                                              ""wrap"": true,
-                                              ""text"": ""下班打卡成功"",
-                                              ""color"": ""#ffffff"",
-                                              ""weight"": ""bold""
-                                           }}],
-                                              ""spacing"": ""sm""
-                                           }},
-                                           {{
-                                              ""type"": ""box"",
-                                              ""layout"": ""vertical"",
-                                              ""contents"": [
-                                           {{
-                                              ""type"": ""box"",
-                                              ""layout"": ""vertical"",
-                                              ""contents"": [
-                                           {{
-                                              ""type"": ""text"",
-                                              ""contents"": [],
-                                              ""size"": ""sm"",
-                                              ""wrap"": true,
-                                              ""margin"": ""lg"",
-                                              ""color"": ""#ffffffde"",
-                                              ""text"": ""{DateTime.Now.AddHours(8).ToString()}""
-                                           }}
-                                            ]
-                                           }}
-                                            ],
-                                              ""paddingAll"": ""13px"",
-                                              ""backgroundColor"": ""#ffffff1A"",
-                                              ""cornerRadius"": ""2px"",
-                                              ""margin"": ""xl""
-                                           }}
-                                            ]
-                                           }}
-                                            ],
-                                              ""paddingAll"": ""20px"",
-                                              ""backgroundColor"": ""#464F69""
-                                           }}
-                                           }}
-                                           }}]";
+                                            var flex_checkout = $@"[{{""type"": ""flex"",""altText"":""下班打卡成功"",""contents"":{{""type"": ""bubble"",""body"": {{""type"": ""box"",""layout"": ""vertical"",
+                                                                ""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""contents"": [],
+                                                                ""size"": ""xl"",""wrap"": true,""text"": ""下班打卡成功"",""color"": ""#ffffff"",""weight"": ""bold""}}],""spacing"": ""sm""}},{{""type"": ""box"",
+                                                                ""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""contents"": [],""size"": ""sm"",
+                                                                ""wrap"": true,""margin"": ""lg"",""color"": ""#ffffffde"",""text"": ""{DateTime.Now.AddHours(8).ToString()}""}}]}}],""paddingAll"": ""13px"",""backgroundColor"": ""#ffffff1A"",
+                                                                ""cornerRadius"": ""2px"",""margin"": ""xl""}}]}}],""paddingAll"": ""20px"",""backgroundColor"": ""#464F69""}}}}}}]";
                                             this.ReplyMessageWithJSON(LineEvent.replyToken, flex_checkout);
                                         }
                                         else
@@ -259,87 +248,17 @@ namespace WebApplication5.Controllers
                                     {
                                         //this.ReplyMessage(LineEvent.replyToken, "小幫手提醒您,今天上班未打卡,請申請補打卡!");
                                         //var bot = new Bot(channelAccessToken);
-                                        var flex_nonecheck = @"[{
-                                                                 ""type"": ""flex"",
-                                                                 ""altText"":""打卡失敗"",
-                                                                 ""contents"":
-                                                                {
-                                                                 ""type"": ""carousel"",
-                                                                 ""contents"": [
-                                                                {      
-                                                                 ""type"": ""bubble"",
-                                                                 ""body"": {
-                                                                 ""type"": ""box"",
-                                                                 ""layout"": ""vertical"",
-                                                                 ""contents"": [
-                                                                {            
-                                                                 ""type"": ""box"",
-                                                                 ""layout"": ""vertical"",
-                                                                 ""contents"": [
-              {
-                ""type"": ""box"",
-                ""layout"": ""vertical"",
-                ""contents"": [
-                  {
-                    ""type"": ""text"",
-                    ""text"": ""打卡失敗"",
-                    ""size"": ""xl"",
-                    ""color"": ""#ffffff"",
-                    ""weight"": ""bold"",
-                    ""wrap"": true
-                  },
-                  {
-                    ""type"": ""box"",
-                    ""layout"": ""vertical"",
-                    ""contents"": [
-                      {
-                        ""type"": ""text"",
-                        ""text"": ""小幫手提醒您,今天上班未打卡,請申請補打卡!"",
-                        ""margin"": ""lg"",
-                        ""color"": ""#ffffffde"",
-                        ""size"": ""sm"",
-                        ""wrap"": true
-                      }
-                    ],
-                    ""margin"": ""xl"",
-                    ""backgroundColor"": ""#ffffff1A"",
-                    ""cornerRadius"": ""2px"",
-                    ""paddingAll"": ""13px""
-                  }
-                ],
-                ""spacing"": ""sm""
-              }
-            ]
-          }
-        ],
-        ""paddingAll"": ""20px"",
-        ""backgroundColor"": ""#D75455""
-      },
-      ""footer"": {
-        ""type"": ""box"",
-        ""layout"": ""vertical"",
-        ""contents"": [
-          {
-            ""type"": ""button"",
-            ""action"": {
-              ""type"": ""uri"",
-              ""label"": ""補打卡申請"",
-              ""uri"": ""line://app/1653574503-ljRK1nJ8""
-            },
-            ""style"": ""primary"",
-            ""color"": ""#5DAC81""
-          }
-        ]
-      }
-    }
-  ]
-}
-                                                             }]";
-
+                                        var flex_nonecheck = @"[{""type"": ""flex"",""altText"":""打卡失敗"",""contents"":{""contents"": [{""type"": ""bubble"",""body"": {""type"": ""box"",""layout"": ""vertical"",
+                                                             ""contents"": [{ ""type"": ""box"",""layout"": ""vertical"",""contents"": [{""type"": ""box"",""layout"": ""vertical"",""contents"": [{""type"": ""text"",
+                                                             ""text"": ""打卡失敗"",""size"": ""xl"",""color"": ""#ffffff"",""weight"": ""bold"",""wrap"": true},{""type"": ""box"",""layout"": ""vertical"",""contents"": [
+                                                             {""type"": ""text"",""text"": ""小幫手提醒您,今天上班未打卡,請申請補打卡!"",""margin"": ""lg"",""color"": ""#ffffffde"",""size"": ""sm"",""wrap"": true}],""margin"": ""xl"",
+                                                             ""backgroundColor"": ""#ffffff1A"",""cornerRadius"": ""2px"",""paddingAll"": ""13px""}],""spacing"": ""sm""}]}],""paddingAll"": ""20px"",""backgroundColor"": ""#D75455""
+                                                             },""footer"": {""type"": ""box"",""layout"": ""vertical"",""contents"": [{""type"": ""button"",""action"": {""type"": ""uri"",""label"": ""補打卡申請"",
+                                                             ""uri"": ""line://app/1653574503-ljRK1nJ8""},""style"": ""primary"",""color"": ""#5DAC81""}]}}]}}]";
 
 
                                         a.EmployeeID = EmpID;
-                                        a.Date = todate;
+                                        a.Date = today;
                                         a.OffDuty = DateTime.Now.AddHours(8);
                                         a.station = "上班未打卡";
                                         d.Attendances.Add(a);
@@ -369,41 +288,11 @@ namespace WebApplication5.Controllers
                                 case "補打卡申請":
                                     {
 
-                                        var flexsubmit = @"[{""type"": ""flex"",
-""altText"":""缺勤紀錄"",
-""contents"":
-{
-  ""type"": ""bubble"",
-  ""body"": {
-                                    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {
-        ""type"": ""text"",
-        ""text"": ""hello, world""
-      },
-      {
-        ""type"": ""button"",
-        ""action"": {
-          ""type"": ""datetimepicker"",
-          ""label"": ""action"",
-          ""data"": ""hello"",
-          ""mode"": ""date""
-        }
-      }
-    ],
-    ""action"": {
-      ""type"": ""datetimepicker"",
-      ""label"": ""action"",
-      ""data"": ""hello"",
-      ""mode"": ""date""
-    }
-  }
-}
-}]";
+                                        var flexsubmit = @"[{""type"": ""flex"",""altText"":""缺勤紀錄"",""contents"":{""type"": ""bubble"",""body"": {""type"": ""box"",
+                                                         ""layout"": ""vertical"",""contents"": [{""type"": ""text"",""text"": ""hello, world""},{""type"": ""button"",
+                                                         ""action"": {""type"": ""datetimepicker"",""label"": ""action"",""data"": ""hello"",""mode"": ""date""}}],
+                                                         ""action"": {""type"": ""datetimepicker"",""label"": ""action"",""data"": ""hello"",""mode"": ""date""}}}}]";
                                         bot.PushMessageWithJSON(AdminUserId, flexsubmit);
-
-
                                     }
                                     break;
                                 case "出勤":
@@ -428,149 +317,17 @@ namespace WebApplication5.Controllers
                                             count++;
                                         };
 
-                                        var flextakefive = $@"[{{
-
-""type"": ""flex"",
-""altText"":""缺勤紀錄"",
-""contents"":
-{{
-  ""type"": ""bubble"",
-  ""header"": {{
-                                            ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""text"",
-        ""text"": ""缺勤紀錄"",
-        ""size"": ""xxl"",
-        ""weight"": ""bold"",
-        ""align"": ""center"",
-        ""color"": ""#FFFFFB""
-      }}
-    ],
-    ""backgroundColor"": ""#464F69""
-  }},
-  ""body"": {{
-    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""box"",
-        ""layout"": ""vertical"",
-        ""margin"": ""xxl"",
-        ""spacing"": ""sm"",
-        ""contents"": [
-          {{
-            ""type"": ""box"",
-            ""layout"": ""horizontal"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""text"": ""未打卡紀錄(最近五筆)"",
-                ""size"": ""lg"",
-                ""weight"": ""bold""
-              }}
-            ]
-          }},
-          {{
-            ""type"": ""separator""
-          }},
-          {{
-            ""type"": ""box"",
-            ""layout"": ""horizontal"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""text"": ""{ record[0]}""
-              }}
-            ]
-          }},
-          {{
-            ""type"": ""separator""
-          }},
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""text"": ""{record[1]}""
-              }}
-            ]
-          }},
-          {{
-            ""type"": ""separator""
-          }},
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""text"": ""{record[2]}""
-              }}
-            ]
-          }},
-          {{
-            ""type"": ""separator""
-          }},
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""text"": ""{record[3]} ""
-              }}
-            ]
-          }},
-          {{
-            ""type"": ""separator""
-          }},
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""text"": ""{record[4]} ""
-              }}
-            ]
-          }}
-        ]
-      }},
-      {{
-        ""type"": ""separator""
-      }}
-    ]
-  }},
-  ""footer"": {{
-    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""button"",
-        ""action"": {{
-          ""type"": ""uri"",
-          ""label"": ""補打卡申請"",
-          ""uri"": ""line://app/1653574503-ljRK1nJ8""
-        }},
-        ""height"": ""sm"",
-        ""style"": ""primary"",
-        ""color"": ""#D75455""
-      }}
-    ]
-  }},
-  ""styles"": {{
-    ""footer"": {{
-      ""separator"": true
-    }}
-  }}
-}}
-
-
-}}]
-";
+                                        var flextakefive = $@"[{{""type"": ""flex"",""altText"":""缺勤紀錄"",""contents"":{{""type"": ""bubble"",""header"": {{""type"": ""box"",""layout"": ""vertical"",
+                                                           ""contents"": [{{""type"": ""text"",""text"": ""缺勤紀錄"",""size"": ""xxl"",""weight"": ""bold"",""align"": ""center"",""color"": ""#FFFFFB""
+                                                           }}],""backgroundColor"": ""#464F69""}},""body"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",
+                                                           ""margin"": ""xxl"",""spacing"": ""sm"",""contents"": [{{""type"": ""box"",""layout"": ""horizontal"",""contents"": [{{""type"": ""text"",""text"": ""未打卡紀錄(最近五筆)"",
+                                                           ""size"": ""lg"",""weight"": ""bold""}}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""horizontal"",""contents"": [{{""type"": ""text"",
+                                                           ""text"": ""{ record[0]}""}}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""text"": ""{record[1]}""
+                                                           }}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""text"": ""{record[2]}""}}]}},{{""type"": ""separator""
+                                                           }}, {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""text"": ""{record[3]} ""}}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""vertical"",
+                                                           ""contents"": [{{""type"": ""text"",""text"": ""{record[4]} ""}}]}}]}},{{""type"": ""separator""}}]}},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [
+                                                           {{""type"": ""button"",""action"": {{""type"": ""uri"",""label"": ""補打卡申請"",""uri"": ""line://app/1653574503-ljRK1nJ8""}},""height"": ""sm"",""style"": ""primary"",""color"": ""#D75455""
+                                                           }}]}},""styles"": {{""footer"": {{""separator"": true}}}}}}}}]";
 
                                         bot1.PushMessageWithJSON(AdminUserId, flextakefive);
                                     }

@@ -17,8 +17,8 @@ namespace AMS.Models
         public string EmployeeID { get; set; }
         public System.DateTime Date { get; set; }
         public Nullable<System.DateTime> OnDuty { get; set; }
-        public string location { get; set; }
         public string station { get; set; }
         public Nullable<System.DateTime> OffDuty { get; set; }
+        public Nullable<int> savehours { get; set; }
     }
 }
