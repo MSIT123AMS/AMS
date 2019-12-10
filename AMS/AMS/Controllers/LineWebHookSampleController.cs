@@ -526,7 +526,19 @@ namespace WebApplication5.Controllers
 
                                 }
 
-
+                                if (LineEvent.type == "postback")//回傳datetimepickper的值
+                                {
+                                    if (LineEvent.postback.data == "data")
+                                    {
+                                        string aa = $"開始時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
+                                        this.ReplyMessage(LineEvent.replyToken, aa);
+                                    }
+                                    if (LineEvent.postback.data == "data1")
+                                    {
+                                        string aa = $"結束時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
+                                        this.ReplyMessage(LineEvent.replyToken, aa);
+                                    }
+                                }
 
                                 if (ReceivedMessage.events[0].message.text == "我要請假")
                                 {
@@ -541,10 +553,10 @@ namespace WebApplication5.Controllers
                                 }
 
 
-                                if (ReceivedMessage.events[0].postback != null)
-                                {
-                                    bot.PushMessage(AdminUserId, ReceivedMessage.events[0].postback.Params.datetime);
-                                }
+                                //if (ReceivedMessage.events[0].postback != null)
+                                //{
+                                //    bot.PushMessage(AdminUserId, ReceivedMessage.events[0].postback.Params.datetime);
+                                //}
 
 
                                 //處理 CIC回覆的結果
@@ -599,22 +611,6 @@ namespace WebApplication5.Controllers
                         }
 
 
-                        }
-
-
-     
-                    if (LineEvent.type == "postback")//回傳datetimepickper的值
-                    {
-                        if (LineEvent.postback.data == "data")
-                        {
-                            string aa =$"開始時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
-                            this.ReplyMessage(LineEvent.replyToken, aa);
-                        }
-                        if (LineEvent.postback.data == "data1")
-                        {
-                            string aa = $"結束時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
-                            this.ReplyMessage(LineEvent.replyToken, aa);
-                        }
                     }
 
                 }
