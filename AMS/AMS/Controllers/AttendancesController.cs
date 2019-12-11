@@ -41,36 +41,6 @@ namespace AMS.Controllers
             });
             return View(query);
         }
-        public int monthlyhours()////統計本月應到天數
-        {
-            string EmployeeID = Convert.ToString(Session["UserName"]);
-            DateTime FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);//////取每月第一天
-            DateTime LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);//////取每月最後一天
-            var monthly = db.WorkingDaySchedule.Where(p => p.Date >= FirstDay && p.Date <= LastDay && p.WorkingDay == "工作日");
-            var CountLeaveDays = db.LeaveRequests.Where(p => p.EmployeeID == EmployeeID && p.StartTime >= FirstDay && p.EndTime <= LastDay && p.ReviewStatusID == 2);       
-            int sum = monthly.Count();
-            return sum;
-        }
-        public int totalhours()////統計本月出勤時數
-        {
-
-            string EmployeeID = Convert.ToString(Session["UserName"]);
-            //int hours = 0;
-            DateTime FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);//////取每月第一天
-            DateTime LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);//////取每月最後一天
-            var monthly = db.Attendances.Where(p => p.EmployeeID == EmployeeID && p.Date >= FirstDay && p.Date <= LastDay).Select(n=>new {n.EmployeeID,n.savehours });
-            int sum =0;
-            foreach (var test in monthly)
-            {
-                if (test.savehours.HasValue)
-                {
-                    sum += test.savehours.Value;
-                }
-
-
-            }
-            return sum;
-        }
         public ActionResult SerchAttendances()
         {
             string EmployeeID = Convert.ToString(Session["UserName"]);
@@ -84,21 +54,20 @@ namespace AMS.Controllers
                 station = Attendances.station
             });
 
-            ViewBag.showtowal = totalhours();
-            ViewBag.showmonthly = monthlyhours();
+
+
 
 
             return PartialView("_SerchAttendances", query);
 
             //return View();
         }
-     
-        
+
+      
         [HttpPost]
         public ActionResult SerchAttendances(DateTime time1,DateTime time2)
         {
-            string EmployeeID = Convert.ToString(Session["UserName"]);           
-         
+            string EmployeeID = Convert.ToString(Session["UserName"]);
             var query = db.Attendances.Join(db.Employees, Attendances => Attendances.EmployeeID, Employees => Employees.EmployeeID, (Attendances, Employees) => new AttendancesViewModel
             {
                 EmployeeID = Attendances.EmployeeID,

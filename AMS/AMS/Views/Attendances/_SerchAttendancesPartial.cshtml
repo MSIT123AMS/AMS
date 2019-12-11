@@ -1,18 +1,16 @@
 ﻿@model IEnumerable<AMS.Models.AttendancesViewModel>
-    <div class="form-group">
+
+<div class="form-group">
+    <div class="row">
         <div class="col-12 col-md-2 ">
-            <button id="buttonAdd" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226;" onclick="funClockInApplyCreat()">
+            <button id="buttonAdd" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226;margin-left:10px" onclick="funClockInApplyCreat()">
                 <i class="fas fa-plus-square"></i><span>
                     <strong>補打卡申請</strong>
                 </span>
             </button>
         </div>
-        <div class="float-right">
-            <label class="badge badge-info " style="background-color:#A8D8B9">本月出勤時數: @ViewBag.showtowal 小時</label>
-            <label class="badge badge-info " style="background-color:#A8D8B9">本月應到天數: @ViewBag.showmonthly 天</label>
-        </div>
     </div>
-
+</div>
 <table id="basic-datatables" class="display table table-striped table-hover">
     <thead class="text-light">
         <tr>
