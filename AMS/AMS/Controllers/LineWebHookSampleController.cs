@@ -402,13 +402,12 @@ namespace WebApplication5.Controllers
                             }
                         }
 
-
+                        string Lineallstring = "";//設定空字串給最後要回傳的全部資訊
 
 
                         var LineMsg = LineEvent.message.text;
                         if (LineMsg == "事假" || LineMsg == "病假" || LineMsg == "公假" || LineMsg == "喪假" || LineMsg == "特休假" || LineMsg == "產假" || LineMsg == "陪產假" || LineMsg == "生理假" || LineMsg == "補休假" || LineMsg == "家庭照顧假")
                         {
-
                             var bot2 = new Bot(channelAccessToken);
                             List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
 
@@ -422,6 +421,8 @@ namespace WebApplication5.Controllers
                                 actions = actions2
                             };
                             bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+
+                            Lineallstring += $"申請時間:{DateTime.Now}\n假別:{LineMsg}\n";//把假別加入最後要回傳的字串中
 
                         }
 
@@ -446,6 +447,29 @@ namespace WebApplication5.Controllers
                             bot.PushMessage(AdminUserId, msg);
 
                         }
+
+                        if (LineEvent.type == "postback")//回傳datetimepickper的值
+                        {
+                            if (LineEvent.postback.data == "data")
+                            {
+                                string aa = $"開始時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
+                                this.ReplyMessage(LineEvent.replyToken, aa);
+                                Lineallstring += $"開始時間{this.ReceivedMessage.events[0].postback.Params.datetime}\n";//把開始時間加入最後要回傳的字串中
+                            }
+                            if (LineEvent.postback.data == "data1")
+                            {
+                                string aa = $"結束時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
+                                this.ReplyMessage(LineEvent.replyToken, aa);
+                                Lineallstring += $"結束時間{this.ReceivedMessage.events[0].postback.Params.datetime}\n";//把結束時間加入最後要回傳的字串中
+
+
+
+
+
+                            }
+                        }
+
+
 
                         if (LineEvent.message.text == "我要請假")
                         {
@@ -604,19 +628,7 @@ namespace WebApplication5.Controllers
 
 
 
-                    if (LineEvent.type == "postback")//回傳datetimepickper的值
-                    {
-                        if (LineEvent.postback.data == "data")
-                        {
-                            string aa = $"開始時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
-                            this.ReplyMessage(LineEvent.replyToken, aa);
-                        }
-                        if (LineEvent.postback.data == "data1")
-                        {
-                            string aa = $"結束時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
-                            this.ReplyMessage(LineEvent.replyToken, aa);
-                        }
-                    }
+
 
                 }
 
