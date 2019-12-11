@@ -14,4 +14,13 @@ namespace AMS.Models
 
         public string backgroundColor { get; set; }
     }
+
+    public class CalendarAttendance
+    {
+        public string AbsenceType { get; set; }
+
+        public string Name { get; set; }
+
+    }
+
 }

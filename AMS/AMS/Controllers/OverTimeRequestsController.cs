@@ -199,7 +199,7 @@ namespace AMS.Controllers
                 
                 db.OverTimeRequest.Add(overTimeRequest);
                 db.SaveChanges();
-                return Content("Home");
+                return Json(new { Success = false, Message = "成功" }, JsonRequestBehavior.AllowGet);
             }
 
             return RedirectToAction("Index", "Home");
