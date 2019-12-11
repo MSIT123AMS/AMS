@@ -17,12 +17,27 @@ namespace AMS.Controllers
         // GET: Annouuncements
         public ActionResult Index()
         {
-            return PartialView("Index", db.Annouuncements);
+            var IDtoName = db.Employees.ToDictionary(n => n.EmployeeID, n => n.EmployeeName);
+            var query = db.Annouuncements.AsEnumerable().Select(n => new AnnouncementIndexViewModel
+            {
+                EmployeeID = IDtoName[n.EmployeeID],
+                AnnounceTime = n.AnnounceTime,
+                Detail = n.Detail,
+                Importance = n.Importance,
+                Title = n.Title,
+                AnnouuncementID = n.AnnouuncementID
+            });
+
+            return PartialView("Index", query);
         }
 
         public ActionResult IndexTakeFive()
         {
-            var ann = db.Annouuncements.OrderByDescending(n => n.AnnouuncementID).Take(5);
+            var ann = db.Annouuncements.OrderByDescending(n => n.AnnouuncementID).Take(5).Select(n => new AnnouncementDisplayViewModel {
+                AnnounceTime = n.AnnounceTime,
+                 Importance= n.Importance,
+                  Title=n.Title
+            });
             return PartialView("IndexTakeFive", ann);
         }
 
@@ -34,11 +49,21 @@ namespace AMS.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Annouuncements annouuncements = db.Annouuncements.Find(id);
+            var IDtoName = db.Employees.ToDictionary(n => n.EmployeeID, n => n.EmployeeName);
+            AnnouncementIndexViewModel target = new AnnouncementIndexViewModel();
+
+            target.Title = annouuncements.Title;
+            target.AnnounceTime = annouuncements.AnnounceTime;
+            target.AnnouuncementID = annouuncements.AnnouuncementID;
+            target.Detail = annouuncements.Detail;
+            target.EmployeeID = IDtoName[annouuncements.EmployeeID];
+            target.Importance = annouuncements.Importance;
+
             if (annouuncements == null)
             {
                 return HttpNotFound();
             }
-            return PartialView(annouuncements);
+            return PartialView(target);
         }
 
         // GET: Annouuncements/Create
