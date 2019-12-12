@@ -8,52 +8,51 @@
                     <strong>補打卡申請</strong>
                 </span>
             </button>
+
+        </div>
+        <div class="col-12 col-md-9 text-md-right">
+            <label class="badge badge-info" style="background-color:#A8D8B9">本月未打卡天數:@ViewBag.show_uncheck</label>
+            <label class="badge badge-info" style="background-color:#A8D8B9">本月出勤天數:@ViewBag.show_dutyDays</label>
         </div>
     </div>
 </div>
-<table id="basic-datatables" class="display table table-striped table-hover">
-    <thead class="text-light">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OnDuty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OffDuty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.station)
-            </th>
+            <table class="display table table-striped table-hover compact" id="basic-datatables">
+                <thead class="text-light">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OnDuty)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.OffDuty)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.station)
+                        </th>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OnDuty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OffDuty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.station)
-                </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>                            
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OnDuty)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OffDuty)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.station)
+                            </td>
 
-
-            </tr>
-        }
-    </tbody>
-</table>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+  

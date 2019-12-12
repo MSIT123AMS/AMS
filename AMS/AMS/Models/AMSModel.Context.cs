@@ -35,5 +35,7 @@ namespace AMS.Models
         public virtual DbSet<Employees> Employees { get; set; }
         public virtual DbSet<Annouuncements> Annouuncements { get; set; }
         public virtual DbSet<Attendances> Attendances { get; set; }
+
+        public System.Data.Entity.DbSet<AMS.Models.AttendancesViewModel> AttendancesViewModels { get; set; }
     }
 }

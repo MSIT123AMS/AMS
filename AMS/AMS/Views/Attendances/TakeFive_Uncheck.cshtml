@@ -1,0 +1,37 @@
+﻿@model IEnumerable<AMS.Models.AttendancesViewModel>
+
+@if (@ViewBag.flag)
+{
+    //這裡設計無缺勤紀錄
+    <div class="container">
+        <div class="form-group text-lg-center" >            
+            <span>
+                <strong>目前無缺勤紀錄</strong>
+            </span>
+              
+        </div>
+    </div>
+}
+
+<table class="table">
+    @*<tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.station)
+            </th>
+        </tr>*@
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.station)
+            </td>
+        </tr>
+    }
+
+</table>

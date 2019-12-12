@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<AMS.Models.AnnouncementDisplayViewModel>
 
 
-<table class="table table-sm">
+<table class="table">
     <tr>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.Title)
         </th>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.AnnounceTime)
         </th>
-        <th>
+        <th class="text-center">
             @Html.DisplayNameFor(model => model.Importance)
         </th>
     </tr>
@@ -17,18 +17,21 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.AnnounceTime)
             </td>
-            <td>
+            <td class="text-center">
                 @Html.DisplayFor(modelItem => item.Importance)
             </td>
         </tr>
     }
 
 </table>
-<button type="button" class="btn btn-primary btn-lg btn-block" onclick="AnnouncementIndex()">更多資訊...</button>
-
+<button  class="btn  btn-lg btn-search btn-lg btn-block" style="background-color:#f1f0ed;color:#3A3226" onclick="AnnouncementIndex()">
+    <i class="icon-list"></i><span>
+         <strong>更多資訊...</strong>
+    </span>
+</button>
