@@ -1,99 +1,94 @@
 ﻿@model IEnumerable<AMS.Models.LeaveReviewViewModels>
-@using (Html.BeginForm("Edit2", "Review"))
+<p hidden>TempData["ReviewStatus"]</p>
+@if (TempData["ReviewStatus"].ToString() == "2")
 {
-    <div class="form-group">       
-            <div class="row">
-                <div class="col-12 col-md-2 ">                    
-                        <button type="submit" class="btn btn-search md-3" style="background-color:#5DAC81;color:#FFFFFB;margin-left:10px">
-                            <i class="icon-check"></i><span>
-                                <strong>核准</strong>
-                            </span>
-                        </button>                                     
-                </div>                
-            </div>
-        </div>
-    <table id="basic-datatables" class="display table table-striped table-hover">
-
-        <thead class="bg-primary text-light">
-            <tr>
-                <td>
-                    @Html.CheckBox("CheckBox", false, new { id = "CheckAll", })
-                    <span>
-                        <strong>全選</strong>
-                    </span>
-                </td>
-                <th>
-                    @Html.DisplayNameFor(model => model.EmployeeName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LeaveType)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.StartTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EndTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RequestTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LeaveReason)
-                </th>
-                @*<th>
-                        @Html.DisplayNameFor(model => model.ReviewStatusID)
-                    </th>*@
-                <th>
-                    @Html.DisplayNameFor(model => model.ReviewStatus)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr class="table-light">
-                    <td>
-                        @Html.CheckBox("Checkboxxx", false, new { style = "background-color:#6E75A4", id = "Checkboxxx", value = item.LeaveRequestID })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EmployeeName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LeaveType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EndTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RequestTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LeaveReason)
-                    </td>
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.ReviewStatusID)
-                        </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReviewStatus)
-                    </td>
-                    <td>
-
-                        <button class="btn btn-sm" type="button" style="background-color:#DAC9A6;color:#3A3226" onclick="ReviewPageAjax(('@Url.Action("Details", "Review" )/'+'@item.LeaveRequestID'),'details')">
-                            <i class="icon-list"></i><span>
-                                <strong>明細</strong>
-                            </span>
-                        </button>
-                        @*@Html.ActionLink("Edit", "Edit", new { id=item.LeaveRequestID }) |*@
-                        @*@Html.ActionLink("Details", "Details", new { id = item.LeaveRequestID }, new { @class = "btn btn-outline-primary" })*@
-                        @*@Html.ActionLink("Delete", "Delete", new { id=item.LeaveRequestID })*@
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @Html.Partial("_ChartView");
 }
+
+    @using (Html.BeginForm("EditLeave", "Review"))
+    {
+        <p hidden id="type"></p>
+        <table id="basic-datatables" class="display table table-striped table-hover">
+
+            <thead class="bg-primary text-light">
+                <tr>
+                    <td>
+                        @Html.CheckBox("CheckBox", false, new { id = "CheckAll", })
+                        <span>
+                            <strong>全選</strong>
+                        </span>
+                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EmployeeName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LeaveType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EndTime)
+                    </th>
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.RequestTime)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.LeaveReason)
+                        </th>*@
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.ReviewStatus)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="table-light">
+                        <td>
+                            @Html.CheckBox("Checkboxxx", false, new { style = "background-color:#6E75A4", id = "Checkboxxx", value = item.LeaveRequestID })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmployeeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LeaveType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndTime)
+                        </td>
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.RequestTime)
+                            </td>*@
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.LeaveReason)
+                            </td>*@
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.ReviewStatusID)
+                            </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReviewStatus)
+                        </td>
+                        <td style="white-space:nowrap">
+                            @if (@TempData["ReviewStatus"].ToString() == "1")
+                            {
+                                <a id="approve" style="margin: 10px" href="@Url.Action("Approve",new { id = item.LeaveRequestID })"><i style="color:#71BF50" class="far fa-check-circle fa-2x"></i></a>
+                                <a id="reject" style="margin: 10px" href="@Url.Action("Reject",new { id = item.LeaveRequestID })"><i style="color:#D46934" class="far fa-times-circle fa-2x"></i></a>
+                                <a id="detail" style="margin: 10px" value=item.LeaveRequestID><i class="far fa-list-alt fa-2x"></i></a>
+                            }
+                            else
+                            {
+                                <a id="detail" style="margin: 10px" value=item.LeaveRequestID><i class="far fa-list-alt fa-2x"></i></a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 

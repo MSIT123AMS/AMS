@@ -1,0 +1,136 @@
+﻿<p hidden id="RequestType">@TempData["RequestType"]</p>
+
+<canvas id="myChart">
+    圖表區
+</canvas>
+<script>
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+   // chartForOvertime();
+   // chartForLeaveRequest();
+    var type=$('#RequestType').text();
+    if (type == 1) {
+        chartForLeaveRequest();
+    } else {
+        debugger;
+        chartForOvertime();
+    }
+
+    
+
+    var labels = []
+    var data = []
+    var datasets = []
+    function createChart() {
+        var chart = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: {
+                labels: labels,datasets: datasets
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {min: 0, suggestedMin: 0,stepSize: 1, }, stacked: true
+                    }],
+                    xAxes: [{stacked: true}]
+                },
+                title: {
+                    display: true, text: text,fontColor: 'black',fontSize: '22',position: 'top'
+                },
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        })
+    }
+
+    function chartForOvertime() {
+        var k = []; var v = [];
+        $.get({
+            url: '@Url.Action("OverTimeRequestForChart")',
+            async: false
+        }).done(function (result) {
+            $.each(result, function (i, c) {
+                k.push(c.Key);
+                v.push(c.cou);
+            })
+            labels = k;
+
+            datasets = [{
+                label: '總加班時數',
+                data: v//borderColor: 'blue', //backgroundColor: ['red', 'blue']//可以個別定義顏色
+            }]
+            text = '加班統計圖';
+            createChart();
+        })
+    }
+
+    function GetEmployee() {
+      return  $.get({ url: '@Url.Action("FindEmployeeByDepartment")', async: false })
+    }
+
+
+    async function chartForLeaveRequest() {
+        var a = [];
+        var b = [];
+        var c = [];
+        var all = [];
+        d = await GetEmployee();
+        $.get('@Url.Action("ReadLeaveRequestsForChart")')
+            .then(function (result) {
+                console.log(result);
+                $.each(d, function (i, c) {
+                    var leave = [0, 0, 0, 0, 0]//病假,特休,事假,公假,其他
+                    var p = { Name: c, LeaveDays: leave };
+                    $.each(result, function (j, v) {
+                        if (c == v.Key.EmployeeName) {
+                            switch (v.Key.LeaveType) {
+                                case '病假':
+                                    p.LeaveDays[0] = v.sum
+                                    break;
+                                case '特休':
+                                    p.LeaveDays[1] = v.sum
+                                    break;
+                                case '事假':
+                                    p.LeaveDays[2] = v.sum
+                                    break;
+                                case '公假':
+                                    p.LeaveDays[3] = v.sum
+                                    break;
+                                default:
+                                    p.LeaveDays[4] += v.sum
+                                    break;
+                            }
+                        }
+                    })
+                    all.push(p);
+                })
+                return all;
+            }).then(function(all) {
+                var backgroundColorList = ['#529DCB', '#ECA063', '#ECA063', '#F3CC4F', '#D46934'];
+                var leaveName = ['病假', '特休', '事假', '公假', '其他']
+                $.each(all, (i, d) => {
+                    labels.push(d.Name)//全列表的名字
+                })
+                for (var i = 0; i < 5; i++) {
+                    innerLabel = leaveName[i]
+                    var data = [];
+                    $.each(all, (j, e) => {
+                       data.push(e.LeaveDays[i])
+                    })
+
+                    backgroundColor=backgroundColorList[i];
+                    var datasetTemplate = {
+                        label: innerLabel,
+                        data: data,
+                        backgroundColor: backgroundColor//可以個別定義顏色
+                    }
+                   datasets.push(datasetTemplate);
+                   console.log(datasetTemplate);
+                }
+                text = '休假統計圖';
+                createChart();
+            })
+    }
+
+</script>

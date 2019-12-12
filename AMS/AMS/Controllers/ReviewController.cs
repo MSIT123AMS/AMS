@@ -14,83 +14,58 @@ namespace AMS.Controllers
     public class ReviewController : Controller
     {
         private Entities db = new Entities();
+        [AllowAnonymous]
+        public ActionResult ReviewIndexForMobile()
+        {
+            return View(ReadLeaveRequests(1));
+        }
 
-        // GET: Review
-        //public ActionResult Index5()
-        //{
-        //    var q = db.LeaveRequests.AsEnumerable().Join(db.Employees, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new LeaveReviewViewModels
-        //    {
-        //        EmployeeID = d.EmployeeID,
-        //        EmployeeName = d.EmployeeName,
-        //        LeaveType = e.LeaveType,
-        //        StartTime = e.StartTime,
-        //        EndTime=e.EndTime,
-        //        RequestTime = e.RequestTime,
-        //        LeaveReason = e.LeaveReason,
-        //        ReviewStatusID = e.ReviewStatusID
+        public ActionResult FindEmployeeByDepartment(int departmentID=1)
+        {
+            var result = db.Employees.Where(e => e.DepartmentID == departmentID).Select(e=>e.EmployeeName);
+            var k= result.ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
 
-        //    });
+        public int calLeaveTime(DateTime end, DateTime start)
+        {
+            var spread = (end - start);
+            if (end.Date == start.Date)
+            {
+               return(spread.Hours - 1);
+            }
+            else
+            {
+                return (spread.Days * 8* 24) - (spread.Days * 16);
+            }
+        }
 
-        //    return View(db.LeaveRequests);
-        //}
+        public ActionResult ReadLeaveRequestsForChart(int id=1)
+        {
+            var result = from l in db.LeaveRequests.AsEnumerable()
+                         join e in db.Employees.AsEnumerable() on l.EmployeeID equals e.EmployeeID
+                         join r in db.ReviewStatus.AsEnumerable() on l.ReviewStatusID equals r.ReviewStatusID
+                         where l.ReviewStatusID == id
+                         select new
+                         {
+                             EmployeeName = e.EmployeeName,
+                             LeaveType = l.LeaveType,
+                             Spread =calLeaveTime(l.EndTime, l.StartTime),
+                         };
+            var y = result.ToList();
+            var group = from r in result
+                        group r by new { r.EmployeeName,r.LeaveType } into g
+                        select new
+                        {
+                            g.Key,
+                            sum = g.Sum(k => k.Spread)
+                        };
 
-        //public ActionResult Index22()
-        //{
-        //    var q1=from l in db.LeaveRequests
-        //    join e in db.Employees on l.EmployeeID equals e.EmployeeID
-        //    join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
+            var h = group.ToList();
+            return Json(group, JsonRequestBehavior.AllowGet);
 
-
-        //           select new LeaveReviewViewModels
-        //    {
-        //        EmployeeID = l.EmployeeID,
-        //        EmployeeName = e.EmployeeName,
-        //        LeaveType = l.LeaveType,
-        //        StartTime = l.StartTime,
-        //        EndTime = l.EndTime,
-        //        RequestTime = l.RequestTime,
-        //        LeaveReason = l.LeaveReason,
-        //        ReviewStatus = r.ReviewStatus1,
-        //        ReviewStatusID = l.ReviewStatusID,
-        //        LeaveRequestID = l.LeaveRequestID
-
-        //    };
-        //    return View(q1);
-        //}
-
-
-        //public ActionResult Index3(string id)
-        //{
-        //    LeaveRequests r = db.LeaveRequests.Find(id);
-        //    return PartialView("_LeavePartial", r);
-        //}
-        //public ActionResult Index22(string id="2")
-        //{
-        //    int i = int.Parse(id);
-        //    var q1 = from l in db.LeaveRequests
-        //             join e in db.Employees on l.EmployeeID equals e.EmployeeID
-        //             join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
-        //             where l.ReviewStatusID == i
-        //             select new LeaveReviewViewModels
-        //             {
-        //                 EmployeeID = l.EmployeeID,
-        //                 EmployeeName = e.EmployeeName,
-        //                 LeaveType = l.LeaveType,
-        //                 StartTime = l.StartTime,
-        //                 EndTime = l.EndTime,
-        //                 RequestTime = l.RequestTime,
-        //                 LeaveReason = l.LeaveReason,
-        //                 ReviewStatus = r.ReviewStatus1,
-        //                 ReviewStatusID = l.ReviewStatusID,
-        //                 LeaveRequestID = l.LeaveRequestID
-
-        //             };
-        //    return View(q1);
-        //}
-
-
-
-        public ActionResult Json()
+        }
+        public ActionResult OverTimeRequestForChart()
         {
             var result = ReadLeaveRequests(1);
             result.Select(r => r.EmployeeName);
@@ -98,85 +73,141 @@ namespace AMS.Controllers
             var a = from e in result
                     where e.LeaveType == "病假" && e.EmployeeID == "MIST0001"
                     select e;
-            a.Count();
 
+            var overTimeRequest = (from ot in db.OverTimeRequest.AsEnumerable()
+                                   join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                                   join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                                   join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                                   where ot.ReviewStatusID == 1
+                                   select new
+                                   {
+                                       EmployeeName = emp.EmployeeName,
+                                       SummaryTime = double.Parse(OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay)),
+                                   });
 
-            var R = ReadOverTimeRequests(1).Select(r => r.EmployeeName, );
-            var k= from l in ReadOverTimeRequests(1)
-                   group l by l.EmployeeName
-                   select new
-                   {
-                       l.EmployeeName,
-                       l.
-                   }
+            var b = from o in overTimeRequest
+                    group o by o.EmployeeName into g
+                    select new
+                    {
+                        g.Key,
+                        cou = g.Sum(k => k.SummaryTime)
+                    };
 
-                          var overTimeRequest = (from ot in db.OverTimeRequest.AsEnumerable()
-                                                 join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
-                                                 join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
-                                                 join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
-                                                 //where ot.EmployeeID == User
-                                                
-                                                 where ot.ReviewStatusID==1
-                                                        
-                                                 select new OverTimeViewModel
-                                                 {
-                                                     //RequestID = ot.OverTimeRequestID,
-                                                     EmployeeName = emp.EmployeeName,
-                                                   //  RequestTime = ot.RequestTime,
-                                                    // StartTime = ot.StartTime,
-                                                    // EndTime = ot.EndTime,
-                                                   //  PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
-                                                   //  OTDateType = date.WorkingDay,
-                                                     SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
-                                                   //  Reason = ot.OverTimeReason,
-                                                    // Review = rev.ReviewStatus1,
-                                                   //  ReviewTime = ot.ReviewTime
-                                                 });
-            var b = overTimeRequest.GroupBy(o => o.SummaryTime);
-
-           foreach(var i in b)
-            {
-                i.Key;
-            }
-
-
-            //姓名,累計時數 
-            //篩選日期區間
-            var b=from k in R
-                  select k. 
-            foreach(var item in R)
-            {
-                item.
-      
-            }
-
-            //如何計算假總計
-            //計算總加班時數
-            //補打卡次數
-
-
-
+            return Json(b,JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
-        public ActionResult Index(string id = "1")
-        {
-            string User = Convert.ToString(Session["UserName"]);
-            if (User != "")
+        public ActionResult Index(string id = "1",string id2="1")
+        {//id=>1 休假; id=3加班 
+         // ie2=>reviewStatus 1=未審核,2已審核
+            //string User = Convert.ToString(Session["UserName"]);
+            //if (User != "")
+            //{
+            //    db.Employees.Where(e => e.EmployeeName == User);
+            //    var departID = from e in db.Employees
+            //                   join d in db.Departments on e.DepartmentID equals d.DepartmentID
+            //                   where e.EmployeeID == User
+            //                   select d.DepartmentID;
+            //}
+            int i = int.Parse(id);
+            int i2 = int.Parse(id2);
+            IEnumerable result = null;
+            switch (i)
             {
-                db.Employees.Where(e => e.EmployeeName == User);
-                var departID = from e in db.Employees
-                               join d in db.Departments on e.DepartmentID equals d.DepartmentID
-                               where e.EmployeeID == User
-                               select d.DepartmentID;
+                case 3:
+                    result = (IEnumerable)ReadOverTimeRequests(i2);
+                    break;
+                case 1:
+                    result = (IEnumerable)ReadLeaveRequests(i2);
+                    break;
+
+                default:
+                    break;
             }
 
-            int i = int.Parse(id);
-            var result=ReadLeaveRequests(i);
-            ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
+            TempData["RequestType"] = id;
+            TempData["ReviewStatus"] = id2;
             return PartialView("_ReviewIndex", result);
         }
 
+        public ActionResult AjaxLeave(string id = "1")
+        {
+            int i = int.Parse(id);
+            TempData["RequestType"] = 1;
+            TempData["ReviewStatus"] = id;
+            return PartialView("_LeavePartial", ReadLeaveRequests(i));
+        }
+
+        //public ActionResult AjaxClockInApply(string id = "1")
+        //{//todo
+        //    int i = int.Parse(id);
+        //    return PartialView("_LeavePartial", ReadClockInApply(i));
+
+        //}
+
+        public ActionResult AjaxOvertime(string id = "1")
+        {
+            int i = int.Parse(id);
+            TempData["RequestType"] = 3;
+            TempData["ReviewStatus"] = id;
+            return PartialView("_OverTimePartial", ReadOverTimeRequests(i));
+        }
+
+        //public ActionResult ClockInForChart()
+        //{
+        //    var result=ReadClockInApply(1);
+        //    var s = from r in result
+        //            group r by r.EmployeeName into g
+        //            select new
+        //            {
+        //                g.Key,
+        //                count = g.Count()
+        //            };
+        //    return Json(s, JsonRequestBehavior.AllowGet);
+        //}
+        //public IEnumerable<AMS.Models.ClockInApplyViewModel> ReadClockInApply(int id)
+        //{
+        //    var result = from c in db.ClockInApply
+        //                 join e in db.Employees on c.EmployeeID equals e.EmployeeID
+        //                 join r in db.ReviewStatus on c.ReviewStatusID equals r.ReviewStatusID
+        //                 where c.ReviewStatusID == id
+        //                 select new ClockInApplyViewModel
+        //                 {
+        //                     EmployeeID = c.EmployeeID,
+        //                     EmployeeName = e.EmployeeName,
+        //                     OnDuty = c.OnDuty,
+        //                     OffDuty = c.OffDuty,
+        //                     RequestDate = c.RequestDate,
+        //                     ReviewStatus1 = c.ReviewStatusID.ToString()
+
+        //                 };
+        //    return result;
+        //}
+
+
+        public IEnumerable<AMS.Models.OverTimeReviewViewModels> ReadOverTimeRequests(int id)
+        {
+            var result = from l in db.OverTimeRequest
+                         join e in db.Employees on l.EmployeeID equals e.EmployeeID
+                         join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
+                         where l.ReviewStatusID == id
+                         select new OverTimeReviewViewModels
+                         {
+                             EmployeeID = l.EmployeeID,
+                             EmployeeName = e.EmployeeName,
+                             OverTimePay = l.OverTimePay,
+                             StartTime = l.StartTime,
+                             EndTime = l.EndTime,
+                             RequestTime = l.RequestTime,
+                             OverTimeReason = l.OverTimeReason,
+                             ReviewStatus = r.ReviewStatus1,
+                             ReviewStatusID = l.ReviewStatusID,
+                             OverTimeRequestID = l.OverTimeRequestID
+                         };
+            return result;
+        }
+
+        [AllowAnonymous]
         public IEnumerable<AMS.Models.LeaveReviewViewModels> ReadLeaveRequests(int id)
         {
             var result = from l in db.LeaveRequests
@@ -199,86 +230,8 @@ namespace AMS.Controllers
             return result;
         }
 
-        public ActionResult Ajax(string id = "1")
-        {
-            int i = int.Parse(id);
-            ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
-            var result = ReadLeaveRequests(i);
-            return PartialView("_LeavePartial", result);
-
-        }
 
 
-
-        public ActionResult AjaxLeave(string id = "1")
-        {
-            int i = int.Parse(id);
-            ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
-            var result = ReadLeaveRequests(i);
-            return PartialView("_LeavePartial", result);
-
-        }
-
-        public ActionResult AjaxClockInApply(string id = "1")
-        {//todo
-            int i = int.Parse(id);
-            //Entities db = new Entities();
-            ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
-            var q1 = from c in db.ClockInApply
-                     join e in db.Employees on c.EmployeeID equals e.EmployeeID
-                     join r in db.ReviewStatus on c.ReviewStatusID equals r.ReviewStatusID
-                     where c.ReviewStatusID == i
-                     select new LeaveReviewViewModels
-                     {
-                         EmployeeID = c.EmployeeID,
-                         EmployeeName = e.EmployeeName,
-                         StartTime = c.OnDuty,
-                         EndTime = c.OffDuty,
-                         RequestTime = c.RequestDate,
-                         ReviewStatus = r.ReviewStatus1,
-                         ReviewStatusID = int.Parse(c.ReviewStatusID),
-                         LeaveRequestID = c.LeaveRequestID
-
-                     };
-
-            return PartialView("_LeavePartial", q1);
-
-        }
-
-
-        public IEnumerable<AMS.Models.OverTimeReviewViewModels> ReadOverTimeRequests(int id)
-        {
-            var result = from l in db.OverTimeRequest
-                         join e in db.Employees on l.EmployeeID equals e.EmployeeID
-                         join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
-                         where l.ReviewStatusID == id
-                         select new OverTimeReviewViewModels
-                         {
-                             EmployeeID = l.EmployeeID,
-                             EmployeeName = e.EmployeeName,
-                             OverTimePay = l.OverTimePay,
-                             StartTime = l.StartTime,
-                             EndTime = l.EndTime,
-                             RequestTime = l.RequestTime,
-                             OverTimeReason = l.OverTimeReason,
-                             ReviewStatus = r.ReviewStatus1,
-                             ReviewStatusID = l.ReviewStatusID,
-                             OverTimeRequestID = l.OverTimeRequestID
-
-
-                         };
-            return result;
-        }
-
-        public ActionResult AjaxOvertime(string id = "1")
-        {
-            int i = int.Parse(id);
-            ViewBag.Customers = new SelectList(db.ReviewStatus, "ReviewStatusID", "ReviewStatus1");
-
-            var result=ReadOverTimeRequests(i);
-            return PartialView("_OverTimePartial", result);
-
-        }
         private OverTimeClassLibrary.OverTime OvertimeObj = new OverTimeClassLibrary.OverTime();
         public ActionResult OverTimeDetails(string id)
         {
@@ -286,8 +239,6 @@ namespace AMS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
-
             var overTimeRequest = (from ot in db.OverTimeRequest.AsEnumerable()
                                    join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
                                    join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
@@ -319,7 +270,6 @@ namespace AMS.Controllers
         // GET: Review/Details/5
         public ActionResult Details(string id)
         {
-
             LeaveRequests leaveRequests = db.LeaveRequests.Find(id);
             if (leaveRequests == null)
             {
@@ -328,14 +278,19 @@ namespace AMS.Controllers
             return PartialView("_ReviewDetails", leaveRequests);
         }
 
-        // GET: Review/Create
-        public ActionResult Create()
+        public ActionResult DetailsJson(string id)
         {
-            return View();
+            LeaveRequests leaveRequests = db.LeaveRequests.Find(id);
+            if (leaveRequests == null)
+            {
+                return HttpNotFound();
+            }
+            return Json(leaveRequests,JsonRequestBehavior.AllowGet);
         }
 
+
         [HttpPost]
-        public ActionResult Edit2(string[] Checkboxxx)
+        public ActionResult EditOverTime(string[] Checkboxxx)
         {
 
             foreach (var item in Checkboxxx)
@@ -349,10 +304,10 @@ namespace AMS.Controllers
                 }
             }
             TempData["Status"] ="UpdateSuccess";
-            return RedirectToAction("Index");
+            return RedirectToAction("Index",new { id = 3, id2 = 1 });
         }
 
-        public ActionResult Edit3(string[] Checkboxxx)
+        public ActionResult EditLeave(string[] Checkboxxx)
         {
 
             foreach (var item in Checkboxxx)
@@ -366,82 +321,8 @@ namespace AMS.Controllers
                 }
             }
             ViewBag.Status = "updatesuccess";
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { id = 1, id2 = 1 });
         }
-
-        //// POST: Review/Create
-        //// 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        //// 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "LeaveRequestID,EmployeeID,RequestTime,StartTime,EndTime,LeaveType,LeaveReason,ReviewStatusID,ReviewTime,Attachment")] LeaveRequests leaveRequests)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.LeaveRequests.Add(leaveRequests);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(leaveRequests);
-        //}
-
-        //// GET: Review/Edit/5
-        //public ActionResult Edit(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    LeaveRequests leaveRequests = db.LeaveRequests.Find(id);
-        //    if (leaveRequests == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(leaveRequests);
-        //}
-
-        //// POST: Review/Edit/5
-        //// 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        //// 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "LeaveRequestID,EmployeeID,RequestTime,StartTime,EndTime,LeaveType,LeaveReason,ReviewStatusID,ReviewTime,Attachment")] LeaveRequests leaveRequests)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(leaveRequests).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(leaveRequests);
-        //}
-
-        //// GET: Review/Delete/5
-        //public ActionResult Delete(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    LeaveRequests leaveRequests = db.LeaveRequests.Find(id);
-        //    if (leaveRequests == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(leaveRequests);
-        //}
-
-        //// POST: Review/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(string id)
-        //{
-        //    LeaveRequests leaveRequests = db.LeaveRequests.Find(id);
-        //    db.LeaveRequests.Remove(leaveRequests);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
 
         protected override void Dispose(bool disposing)
         {

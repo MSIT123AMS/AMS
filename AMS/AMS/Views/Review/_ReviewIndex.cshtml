@@ -1,80 +1,72 @@
-﻿@*@model IEnumerable<AMS.Controllers.EmployeesViewModel>*@
-@model IEnumerable<AMS.Models.LeaveReviewViewModels>
+﻿@model IEnumerable<AMS.Models.LeaveReviewViewModels>
 
 @{
     ViewBag.Title = "Index";
+
 }
-@*@Html.DropDownList("Customers", null, "-- 請選擇 --", new { @class = "col-sm-11 form-control" })*@
-@*<div id="Container"></div>*@
-
-
-
-<p>@TempData["Status"]</p>
-
+<p hidden id="ReviewStatus">@TempData["ReviewStatus"]</p>
 <div class="page-inner">
     <div style="background-color:#91989F">
-        <h1><span class="badge" style="color:#FFFFFB">個人刷卡明細查詢</span></h1>
+        <h1>
+            <span class="badge" style="color:#FFFFFB">審核明細查詢</span>
+        </h1>
+
     </div>
+
+    <div id="ddlemp" class="col-sm-2">
+
+    </div>
+
+    @if (TempData["ReviewStatus"].ToString() == "2")
+    {
+        <div class="form-control " style="display: flex;width:100%;justify-content: space-between;font-size:20px">
+            <span style="margin:10px">
+                <span>申請項目:</span>
+                <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked/><label for="1">休假</label>
+                <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
+            </span>
+            <span>
+                <button style="background-color:#5DAC81;color:#FFFFFB;margin:10px">&laquo;上個月</button>
+                <button style="background-color:#5DAC81;color:#FFFFFB;margin:10px">下個月&raquo;	</button>
+            </span>
+        </div>
+
+
+    }
+    else
+    {
+        <div class="form-control " style="display: flex;width:100%;justify-content: space-between;font-size:20px">
+            <span style="margin:10px">
+                <span>申請項目:</span>
+                <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked/><label for="1">休假</label>
+                <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
+            </span>
+            <button type="submit" class="btn btn-search md-3" style="background-color:#5DAC81;color:#FFFFFB;margin-left:10px">
+                <i class="icon-check"></i><span>
+                    <strong>勾選核准</strong>
+                </span>
+            </button>
+        </div>
+    }
+
     <div class="row">
         <div class="col-md-12">
             <div class="card" id="mmmmmm">
                 <div class="card-header row form-group">
-                    @*<label class=" control-label" style="font-size:20px;margin-left:20px">部門:</label>*@
-                    @*<div class="col-sm-2">
-                        @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })
-                        @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })*@
-
-
-                    <label class=" control-label" style="font-size:20px;margin-left:20px">審核狀態:</label>
-                    <div class="col-sm-2">
-                        @Html.DropDownList("Customers", null, new { @class = " form-control" })
-                    </div>
-                    <label class=" control-label" style="font-size:20px;margin-left:20px">申請項目:</label>
-                    <div id="ddlemp" class="col-sm-2">
-                        @Html.DropDownList(
-                         "url",
-                         new SelectList(new[]
-                         {
-                             new SelectListItem { Text = "休假", Value ="1"},
-                             //new SelectListItem { Text = "補刷卡", Value ="2"},
-                             new SelectListItem { Text = "加班", Value = "3" },
-                         }, "Value", "Text"),
-
-                         new { id = "urlddl", @class = " form-control" }
-                        )
-
-                    </div>
-
-                    @*@Html.DropDownList(
-                         "url",
-                         new SelectList(new[]
-                         {
-                             new SelectListItem { Text = "休假", Value = Url.Action("Index", "Review",new{ id="1"}) },
-                             new SelectListItem { Text = "補刷卡", Value = Url.Action("Index", "Review",new{ id="2"}) },
-                             new SelectListItem { Text = "加班", Value = Url.Action("Index", "Review",new{ id="3"}) },
-                         }, "Value", "Text"),
-
-                         new { id = "urlddl", @class = " form-control" }
-                        )*@
-
-
-
-
-
-                    @*</div>*@
-                    @*<label class=" control-label" style="font-size:20px;margin-left:20px">員工:</label>
-                        <div id="ddlemp" class="col-sm-2">
-                            @Html.DropDownList("Employees", null, "-請選擇-", new { @class = " form-control" })
-                        </div>
-                        <div class="col-sm-2">
-                            <input id="Button1" type="button" value="新增員工" class="btn btn-outline-primary" />
-                        </div>*@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive" id="Employeestable">
-                        @Html.Partial("_LeavePartial", Model);
-                        @*<div id="Content"></div>*@
-                        @*<p id="Content"></p>*@
+                        @if (@TempData["RequestType"].ToString() == "1")
+                        {
+                            @Html.Partial("_LeavePartial", Model);
+                        }
+                        else if (TempData["RequestType"].ToString() == "3")
+                        {
+                            @Html.Partial("_OverTimePartial", Model);
+                        }
+
+
+
                     </div>
                 </div>
             </div>
@@ -82,120 +74,85 @@
     </div>
 </div>
 
-@section scripts
-{
-    <script>
-        $(document).ready(function () {
-        
-            $("#Customers").bind("change", function () {
-                Switch();
-            });
+<script>
+    $("input[name='RequestType']").change(Switch);
+    $("#CheckAll").click(cAll);
 
-            $("#ddlemp").bind("change", function () {
-                Switch();
-            });
+        $("a#detail").click(detailAjax);
 
-            @*if (@TempData["Status"]!="") {
-                timechange();
-            };*@
+        function detailAjax() {
+            var table = $('table').DataTable();
+            var tr = $(this).closest('tr');
+            var queryID=tr.find('input').val();
+            console.log(queryID);
+            var row = table.row(tr);
+            $.get({ url: '@Url.Action("DetailsJson")/'+queryID, async: false })
+                .done(function (d) {
+                    var day = new Date(d.RequestTime);
 
-            $('#basic-datatables').DataTable({});
-            $("#basic-datatables_filter").hide();
-            $("#CheckAll").click(cAll);
-
-        });
-
-        function cAll() {
-            if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
-                $("input[name='Checkboxxx']").each(function () {
-                    $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                   b=parseInt(d.RequestTime.substr(6)), 10;
+                   var c=new Date(b);
+                    var template = `<table style="margin:'center'">
+                        <tr><td>員工編號:${d.EmployeeID}</td></tr>
+                        <tr><td>申請時間:${c}</td></tr>
+                        <tr><td>事由:${d.LeaveReason}</td></tr>
+                        </table>`;
+                    if (row.child.isShown()) {
+                        row.child.hide();
+                    }
+                    else {
+                        row.child(template).show();
+                    }
                 })
-            } else {
-                $("input[name='Checkboxxx']").each(function () {
-                    $(this).prop("checked", false);//把所有的核方框的property都取消勾選
-                })
-            }
-        }
+    }
 
-        function Switch() {
 
-            switch ($('#urlddl').val()) {
+    function Switch() {
+         var selectedRadio = $("input[type='radio']:checked").val()
+         var reviewStatus =$('p#ReviewStatus').text();
+
+         switch (selectedRadio) {
                 case '1':
-                   var u = "@Url.Action("AjaxLeave","Review")/"
-                    break;
-                case '2':
-                   var u = "@Url.Action("Ajax","Review")/"
+                 typeUrl = "@Url.Action("AjaxLeave","Review")/"+reviewStatus
                     break;
                 case '3':
-                   var u = "@Url.Action("AjaxOverTime","Review")/"
+                 typeUrl = "@Url.Action("AjaxOverTime","Review")/" +reviewStatus
                     break;
-
                 default:
             }
 
-            UpdateEmployeesByDepartment(u)
+        $("#Employeestable").load(typeUrl, () => {
+                changeT();
+                $("#CheckAll").click(cAll);
+            })
+    }
+
+    function cAll() {
+        if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+            $("input[name='Checkboxxx']").each(function () {
+                $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+            })
+        } else {
+            $("input[name='Checkboxxx']").each(function () {
+                $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+            })
         }
+    }
+    //function UpdateEmployeesByDepartment22(u) {
+    //    $.ajax({
+    //    type: "GET",
+    //    url: u + Customers.value
+    //}).done(function (result) {
+    //    $("#Employeestable").html(result);
+    //    changeT();
+    //    $("#CheckAll").click(cAll);
+    //}).fail(function (e) { alert(e.responseText) });
 
-          function UpdateEmployeesByDepartment(u) {
-            $.ajax({
-                type: "GET",
-                @*url: "@Url.RouteUrl("Default", new { controller = "Review", action = "Ajax" })/" + "null/" + Customers.value,*@
-               url: u+ Customers.value
-               }).done(function (result) {
-                    $("#Employeestable").html(result);
-                    $('#basic-datatables').DataTable({
-                    });
-                   $("#basic-datatables_filter").hide();
-                   $("#CheckAll").click(cAll);
-                  }).fail(function (e) { alert(e.responseText) });
+    //    }
 
-              //$("#CheckAll").click(cAll);
-              //$("#CheckAll").click(a());
-              //$("#CheckAll").click(cAll);
-        }
-        function a() {
-            alert('a');
-        }
+    //function a() {
+    //    alert('a');
+    //}
 
-        function UpdateSuccess() {
-            swal("審核完成", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
+</script>
 
-        function UpdateOrders() {
-            @*$.ajax({
-                type: "Get",
-                url: "@Url.Action("Ajax","Review")/" + Customers.value
-                //url:"/Review/Index2/2"
-            }).done((result) => {
-                $("#Employeestable").html(result);
-
-
-            }).fail((e) => {
-                $("#Employeestable").html(e);
-
-            });*@
-        }
-
-        function timechange() {
-            swal("起始時間不可大於最後時間!", "", {
-                icon: "info",
-                buttons: {
-                confirm: { className: 'btn btn-info'}
-                },
-            });
-
-
-        }
-
-
-    </script>
-
-
-}

@@ -1,0 +1,105 @@
+﻿<canvas id="myChart">
+    圖表區
+</canvas>
+
+<script>
+   
+    //var k = [];
+    //var v = [];
+    @*function c2() {
+        $.get('@Url.Action("ReadLeaveRequestsForChart")')
+            .done(function (result) {
+                console.log(result);
+                $('#result').html(result);
+            $.each(result, function (i, c) {
+                k.push(c.Key);
+                v.push(c.cou);
+            });
+           
+            //creatChart();
+        })
+    }
+
+    function pushToDataset(data) {
+        var leaveName = ['病假', '特休', '事假', '公假', '其他']//
+        var p = { Name: c, LeaveDays: leave };
+
+        $.each(data, function (i, c) {
+            datasetTemplate.label = leaveName[0];
+            datasetTemplate.data =data.LeaveDays;
+            datasets.push(datasetTemplate);
+
+        })
+
+    }
+    var datasets=[]
+    var datasetTemplate = {
+        label: '總加班時數',
+        data: v,
+        borderColor: 'blue',
+        borderWidth: '3',
+        LineTension: 0,//直線非曲線
+        pointRadious: 8,
+        pointStyle: 'triangle',
+        //fill:false
+        //backgroundColor:'skyblue'
+        backgroundColor: ['red', 'blue']//可以個別定義顏色
+    }*@
+    //================
+        var type = 'horizontalBar';//line,bar,horizontalBar
+        var data = {
+            labels: leaveName,
+            datasets: datasets
+        }
+
+        var options = {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        //max: 1200,
+                        suggestedMin: 0,
+                        //suggestedMax: 2000,
+                        stepSize: 1,
+                        callback: function (value, index, values) {
+                            return value + '天';
+                        }
+                    },stacked:true
+                }],
+                xAxes:[{
+                    stacked:true
+                }]
+            },
+
+            title: {
+                display: true,
+                text: 'helloWorld',
+                fontColor: 'red',
+                fontSize: '22',
+                position: 'bottom'
+
+            },
+            legend: {
+                position: 'bottom'
+            },
+            animation: {
+                duration: 2000,
+
+            }
+
+        }
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+    function creatChart() {
+        var chart = new Chart(ctx, {
+            type: type,
+            data: data,
+            options: options
+        })
+    }
+
+
+
+
+
+</script>

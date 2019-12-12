@@ -119,10 +119,16 @@
                     <div class="collapse" id="sidebarLayout2">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")","審核")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">審核</span>
+                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")/1/1","未審核")'>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">未審核</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")/1/2","已審核")'>
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">已審核</span>
+                                </a>
+                            </li>
+
                         </ul>
                     </div>
                 </li>
@@ -341,15 +347,15 @@
                 case '員工管理':
                     IndexEventFunction();
                     break;
-                case '審核':
+                case '未審核':
+                case '已審核':
                     {
                         changeT();
-                        $("#Customers").bind("change", Switch);
-                        $("#ddlemp").bind("change", Switch);
-                        $("#CheckAll").click(cAll);
-                        $("input[name*='Le']").bind("click", function () {
-                            Reviewfunbtndetails(event.target.name.substr(2));
-                        });
+                        //$("#Customers").bind("change", Switch);
+                        //$("#ddlemp").bind("change", Switch);
+                        //$("input[name*='Le']").bind("click", function () {
+                        //    Reviewfunbtndetails(event.target.name.substr(2));
+                        //});
 
                         break;
                     }
@@ -853,50 +859,6 @@
     }).fail(function (e) { alert(e.responseText) });
 }
 
-     function Switch() {
-
-            switch ($('#urlddl').val()) {
-                case '1':
-                   var u = "@Url.Action("AjaxLeave","Review")/"
-                    break;
-                case '2':
-                   var u = "@Url.Action("Ajax","Review")/"
-                    break;
-                case '3':
-                   var u = "@Url.Action("AjaxOverTime","Review")/"
-                    break;
-
-                default:
-            }
-
-            UpdateEmployeesByDepartment22(u)
-        }
-    function cAll() {
-        if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
-            $("input[name='Checkboxxx']").each(function () {
-                $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
-            })
-        } else {
-            $("input[name='Checkboxxx']").each(function () {
-                $(this).prop("checked", false);//把所有的核方框的property都取消勾選
-            })
-        }
-    }
-    function UpdateEmployeesByDepartment22(u) {
-        $.ajax({
-        type: "GET",
-        url: u + Customers.value
-    }).done(function (result) {
-        $("#Employeestable").html(result);
-        changeT();
-        $("#CheckAll").click(cAll);
-    }).fail(function (e) { alert(e.responseText) });
-
-        }
-
-    function a() {
-        alert('a');
-    }
 
 
     ///////////////////////正//////////////////////
