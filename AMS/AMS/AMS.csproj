@@ -60,7 +60,7 @@
       <HintPath>..\packages\Line.Messaging.1.4.5\lib\netstandard1.3\Line.Messaging.dll</HintPath>
     </Reference>
     <Reference Include="LineBot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\LineBotSDK.2.0.1\lib\net45\LineBot.dll</HintPath>
+      <HintPath>..\packages\LineBotSDK.2.0.3\lib\net45\LineBot.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -818,8 +818,11 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Img\BICACHU-icon.png" />
     <Content Include="Img\icons-search.png" />
     <Content Include="Img\kouji_rammer.png" />
+    <Content Include="Img\lineicon.png" />
+    <Content Include="Img\linelocatiom.png" />
     <Content Include="Img\logo.png" />
     <Content Include="Img\logo2.png" />
     <Content Include="Img\logo3.png" />

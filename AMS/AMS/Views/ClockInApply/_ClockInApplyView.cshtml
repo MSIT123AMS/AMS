@@ -18,58 +18,73 @@
 
     </script>
 }
-<h2>打卡申覆統計表</h2>
+
 
 @*<p>
         @Html.ActionLink("Create New", "Create")
     </p>*@
-<table id="basic-datatables" class="display table table-striped table-hover">
-    <thead class="bg-primary text-light">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EmployeeName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OnDuty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OffDuty)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RequestDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReviewStatus1)
-            </th>
+<body>
+    <div class="page-inner">
+        <div style="background-color:#91989F">
+            <h1>
+                <span class="badge" style="color:#FFFFFB">打卡申覆統計表</span>
+            </h1>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" id="mmmmmm">
+                    <table id="basic-datatables" class="display table table-striped table-hover">
+                        <thead class="bg-primary text-light">
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EmployeeName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OnDuty)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OffDuty)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.RequestDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ReviewStatus1)
+                                </th>
 
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmployeeName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OnDuty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OffDuty)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RequestDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ReviewStatus1)
-                </td>
-                @*<td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeID }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.EmployeeID }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeID })
-                    </td>*@
-            </tr>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EmployeeName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OnDuty)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OffDuty)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RequestDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReviewStatus1)
+                                    </td>
+                                    @*<td>
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeID }) |
+                                            @Html.ActionLink("Details", "Details", new { id = item.EmployeeID }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeID })
+                                        </td>*@
+                                </tr>
 
-        }
-    </tbody>
-</table>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
