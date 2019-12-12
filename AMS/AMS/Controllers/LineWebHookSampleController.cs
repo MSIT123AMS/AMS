@@ -347,17 +347,53 @@ namespace WebApplication5.Controllers
                         if (LineEvent.message.text == "我要請假")
                         {
                             var bot2 = new Bot(channelAccessToken);
-                            List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
-                            actions2.Add(new MessageAction() { label = "假別", text = "假別" });
-                            var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
-                            {
-                                text = "請假",
-                                altText = "請在手機上檢視",
-                                thumbnailImageUrl = new Uri("https://i.imgur.com/LrT45vi.gif"),//https://i.imgur.com/n19hgxT.gif
-                                actions = actions2
-                            };
+                            var Lea = $@"[{{""type"": ""flex"",""altText"":""請假"",""contents"":
+{{
+  ""type"": ""bubble"",
+  ""body"": {{
+                                ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""text"",
+        ""text"": ""請假程序開始"",
+        ""color"": ""#ffffff""
+      }}
+    ],
+    ""paddingAll"": ""20px"",
+    ""backgroundColor"": ""#464F69""
+  }},
+  ""footer"": {{
+    ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""button"",
+        ""action"": {{
+          ""type"": ""message"",
+          ""label"": ""假別"",
+          ""text"": ""假別""
+        }},
+        ""style"": ""primary"",
+        ""color"": ""#81C7D4"",
+        ""height"": ""md""
+      }}
+    ]
+  }}
+}}
+}}]";
+
+                            //List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
+                            //actions2.Add(new MessageAction() { label = "假別", text = "假別" });
+                            //var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
+                            //{
+                            //    text = "請假",
+                            //    altText = "請在手機上檢視",
+                            //    thumbnailImageUrl = new Uri("https://i.imgur.com/LrT45vi.gif"),//https://i.imgur.com/n19hgxT.gif
+                            //    actions = actions2
+                            //};
                             
-                            bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                            bot2.PushMessageWithJSON(AdminUserId, Lea);
                             d.LeaveRequests.Add(LeaveLine);
 
                             if (dbLeaveLine == null)  
@@ -386,8 +422,60 @@ namespace WebApplication5.Controllers
                         var LineMsg = LineEvent.message.text;
                         if (LineMsg == "事假" || LineMsg == "病假" || LineMsg == "公假" || LineMsg == "喪假" || LineMsg == "特休假" || LineMsg == "產假" || LineMsg == "陪產假" || LineMsg == "生理假" || LineMsg == "補休假" || LineMsg == "家庭照顧假")
                         {
+
+                            var LineReason = $@"[{{""type"": ""flex"",""altText"":""打卡失敗"",""contents"":{{
+  ""type"": ""bubble"",
+  ""body"": {{
+                                ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""box"",
+        ""layout"": ""vertical"",
+        ""contents"": [
+          {{
+            ""type"": ""box"",
+            ""layout"": ""vertical"",
+            ""contents"": [
+              {{
+                ""type"": ""text"",
+                ""contents"": [],
+                ""size"": ""xl"",
+                ""wrap"": true,
+                ""text"": ""事由"",
+                ""color"": ""#ffffff"",
+                ""weight"": ""bold""
+              }}
+            ],
+            ""spacing"": ""sm""
+          }}
+        ]
+      }}
+    ],
+    ""paddingAll"": ""20px"",
+    ""backgroundColor"": ""#464F69""
+  }},
+  ""footer"": {{
+    ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""text"",
+        ""text"": ""請直接輸入請假理由，輸入時請用\""事由\""開頭"",
+        ""margin"": ""lg"",
+        ""size"": ""lg"",
+        ""wrap"": true,
+        ""position"": ""relative""
+      }}
+    ]
+  }}
+}}
+}}]";
+
+
+
                             var bot2 = new Bot(channelAccessToken);
-                            bot2.PushMessage(AdminUserId, "請假事由:\n(起頭文字請用[事由]開頭):");
+                            bot2.PushMessageWithJSON(AdminUserId, LineReason);
 
                             if (dbLeaveLine.EndTime == Time1)
                             {
@@ -413,19 +501,59 @@ namespace WebApplication5.Controllers
                         if (LineMsg.Substring(0, 2) == "事由")
                         {
                             var bot2 = new Bot(channelAccessToken);
-                            List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
 
-                            actions2.Add(new DateTimePickerAction() { label = "請假開始時間", mode = "datetime", data = "data" });
-                            actions2.Add(new DateTimePickerAction() { label = "請假開始結束", mode = "datetime", data = "data1" });
-                            var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
-                            {
-                                text = "請假申請",
-                                altText = "請在手機上檢視",
-                                thumbnailImageUrl = new Uri("https://i.imgur.com/n19hgxT.gif"),//https://i.imgur.com/Hl9Is3f.gif
-                                actions = actions2
-                            };
+                            var times=$@"[{{""type"": ""flex"",""altText"":""時間選擇"",""contents"":{{
+  ""type"": ""bubble"",
+  ""body"": {{
+                                ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""text"",
+        ""text"": ""選擇請假日期與時間"",
+        ""color"": ""#ffffff""
+      }}
+    ],
+    ""paddingAll"": ""20px"",
+    ""backgroundColor"": ""#464F69""
+  }},
+  ""footer"": {{
+    ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""button"",
+        ""action"": {{
+          ""type"": ""datetimepicker"",
+          ""label"": ""請假開始時間"",
+          ""data"": ""data"",
+          ""mode"": ""datetime""
+        }},
+        ""style"": ""primary"",
+        ""color"": ""#EEA9A9"",
+        ""height"": ""md""
+      }},
+      {{
+        ""type"": ""button"",
+        ""action"": {{
+          ""type"": ""datetimepicker"",
+          ""label"": ""請假結束時間"",
+          ""data"": ""data1"",
+          ""mode"": ""datetime""
+        }},
+        ""style"": ""primary"",
+        ""height"": ""md"",
+        ""margin"": ""sm"",
+        ""color"": ""#A8D8B9""
+      }}
+    ]
+  }}
+ }}
+}}]";
 
-                            bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+
+
+                            bot2.PushMessageWithJSON(AdminUserId, times);
                             if (dbLeaveLine.EndTime == Time1)
                             {
                                 dbLeaveLine.LeaveReason = LineMsg;
@@ -491,12 +619,86 @@ namespace WebApplication5.Controllers
 
                 if (LineEvent.type == "postback")//回傳datetimepickper的值
                 {
+
+
                     if (LineEvent.postback.data == "data")
                     {
-                        string aa = $"開始時間:{this.ReceivedMessage.events[0].postback.Params.datetime}";
-                        this.ReplyMessage(LineEvent.replyToken, aa);
 
-                        if (dbLeaveLine1.EndTime == Time2)
+                        var starttime = Convert.ToDateTime(this.ReceivedMessage.events[0].postback.Params.datetime).ToString("yyyy-MM-dd HH:mm");
+                        var startjson = $@"[{{""type"": ""flex"",""altText"":""開始時間"",""contents"":{{
+  ""type"": ""bubble"",
+  ""body"": {{
+                            ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""box"",
+        ""layout"": ""vertical"",
+        ""contents"": [
+          {{
+            ""type"": ""box"",
+            ""layout"": ""vertical"",
+            ""contents"": [
+              {{
+                ""type"": ""text"",
+                ""contents"": [],
+                ""size"": ""xl"",
+                ""wrap"": true,
+                ""text"": ""開始時間"",
+                ""color"": ""#ffffff"",
+                ""weight"": ""bold""
+              }}
+            ],
+            ""spacing"": ""sm""
+          }},
+          {{
+            ""type"": ""box"",
+            ""layout"": ""vertical"",
+            ""contents"": [
+              {{
+                ""type"": ""box"",
+                ""layout"": ""vertical"",
+                ""contents"": [
+                  {{
+                    ""type"": ""text"",
+                    ""contents"": [],
+                    ""size"": ""sm"",
+                    ""wrap"": true,
+                    ""margin"": ""lg"",
+                    ""color"": ""#ffffffde"",
+                    ""text"": ""{starttime}""
+                  }}
+                ]
+              }}
+            ],
+            ""paddingAll"": ""13px"",
+            ""backgroundColor"": ""#ffffff1A"",
+            ""cornerRadius"": ""2px"",
+            ""margin"": ""xl""
+          }}
+        ]
+      }}
+    ],
+    ""paddingAll"": ""20px"",
+    ""backgroundColor"": ""#464F69""
+  }},
+  ""action"": {{
+    ""type"": ""message"",
+    ""label"": ""action"",
+    ""text"": ""hello""
+}}
+  }}
+}}]";
+
+
+        
+                        var bot5 = new Bot(channelAccessToken);
+
+                        bot5.PushMessageWithJSON(AdminUserId, startjson);
+
+
+
+                        if (dbLeaveLine1.StartTime == Time2)
                         {
                             dbLeaveLine1.StartTime =DateTime.Parse( this.ReceivedMessage.events[0].postback.Params.datetime);
                             try
@@ -511,12 +713,125 @@ namespace WebApplication5.Controllers
                         }
 
                     }
+
+
+
+
+
                     if (LineEvent.postback.data == "data1")
                     {
-                        string end = $"結束時間:{this.ReceivedMessage.events[0].postback.Params.datetime}\n以上訊息確認無誤後請輸入確認，有誤請重新填寫";
-                        this.ReplyMessage(LineEvent.replyToken, end);
+                        var endtime = Convert.ToDateTime(this.ReceivedMessage.events[0].postback.Params.datetime).ToString("yyyy-MM-dd HH:mm");
+                        var endjson = $@"[{{""type"": ""flex"",""altText"":""結束時間"",""contents"":{{
+  ""type"": ""bubble"",
+  ""body"": {{
+                            ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""box"",
+        ""layout"": ""vertical"",
+        ""contents"": [
+          {{
+            ""type"": ""box"",
+            ""layout"": ""vertical"",
+            ""contents"": [
+              {{
+                ""type"": ""text"",
+                ""contents"": [],
+                ""size"": ""xl"",
+                ""wrap"": true,
+                ""text"": ""結束時間"",
+                ""color"": ""#ffffff"",
+                ""weight"": ""bold""
+              }}
+            ],
+            ""spacing"": ""sm""
+          }},
+          {{
+            ""type"": ""box"",
+            ""layout"": ""vertical"",
+            ""contents"": [
+              {{
+                ""type"": ""box"",
+                ""layout"": ""vertical"",
+                ""contents"": [
+                  {{
+                    ""type"": ""text"",
+                    ""contents"": [],
+                    ""size"": ""sm"",
+                    ""wrap"": true,
+                    ""margin"": ""lg"",
+                    ""color"": ""#ffffffde"",
+                    ""text"": ""{endtime}""
+                  }}
+                ]
+              }}
+            ],
+            ""paddingAll"": ""13px"",
+            ""backgroundColor"": ""#ffffff1A"",
+            ""cornerRadius"": ""2px"",
+            ""margin"": ""xl""
+          }}
+        ]
+      }},
+      {{
+        ""type"": ""text"",
+        ""text"": ""請確認以上輸入資料是否正確!"",
+        ""size"": ""lg"",
+        ""color"": ""#FFFFFF"",
+        ""margin"": ""lg""
+      }}
+    ],
+    ""paddingAll"": ""20px"",
+    ""backgroundColor"": ""#464F69""
+  }},
+  ""footer"": {{
+    ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""button"",
+        ""action"": {{
+          ""type"": ""message"",
+          ""label"": ""正確送出"",
+          ""text"": ""確認""
+        }},
+        ""style"": ""primary"",
+        ""color"": ""#81C7D4""
+      }},
+      {{
+        ""type"": ""button"",
+        ""action"": {{
+          ""type"": ""message"",
+          ""label"": ""取消"",
+          ""text"": ""取消""
+        }},
+        ""style"": ""primary"",
+        ""color"": ""#EEA9A9""
+      }},
+      {{
+        ""type"": ""button"",
+        ""action"": {{
+          ""type"": ""message"",
+          ""label"": ""重新申請"",
+          ""text"": ""我要請假""
+        }},
+        ""style"": ""primary"",
+        ""color"": ""#A8D8B9""
+      }}
+    ],
+    ""spacing"": ""sm""
+  }}
+}}
+}}]";
 
-                        if (dbLeaveLine1.EndTime == Time2)
+
+                        string end = $"結束時間:{this.ReceivedMessage.events[0].postback.Params.datetime}\n以上訊息確認無誤後請輸入確認，有誤請重新填寫";
+
+                        var bot3 = new Bot(channelAccessToken);
+                        bot3.PushMessageWithJSON(AdminUserId,endjson);
+
+                        if (dbLeaveLine1.EndTime == Time2)//判斷後存資料庫
                         {
                             dbLeaveLine1.EndTime = DateTime.Parse(this.ReceivedMessage.events[0].postback.Params.datetime);
                             try
