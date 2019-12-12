@@ -427,6 +427,7 @@
     <Content Include="assets\img\Alarm_bell_reminder_4732019.png" />
     <Content Include="assets\img\Alarm_bell_reminder_notification_4732023.png" />
     <Content Include="assets\img\arashmil.jpg" />
+    <Content Include="assets\img\bell-48.png" />
     <Content Include="assets\img\bg-404.jpeg" />
     <Content Include="assets\img\bg-abstract.png" />
     <Content Include="assets\img\bg-abstract2.png" />
@@ -719,6 +720,7 @@
     <Content Include="assets\img\icon.ico" />
     <Content Include="assets\img\icon.png" />
     <Content Include="assets\img\icon.svg" />
+    <Content Include="assets\img\icons8-sugar-cube-40.png" />
     <Content Include="assets\img\img-shadow.png" />
     <Content Include="assets\img\jm_denis.jpg" />
     <Content Include="assets\img\logo.svg" />

@@ -1318,6 +1318,8 @@ function UpdateEmployeesByDepartment() {
 
         SweetAlert('已發布');
         AnnouncementIndex();
+        }).then(function () {
+            ttt();
         }).fail(function (e) {
             SweetAlert(e.responseJSON.Message);
 

@@ -89,11 +89,30 @@
                                 <i class="fa fa-search"></i>
                             </a>
                         </li>
-                        <li id="Notification" onclick="clickNotification()">
+
                             @*公告通知*@
-                               
-                            @*公告通知*@
+                        <li class="nav-item dropdown hidden-caret" >
+                            <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+                                <img src="~/assets/img/icons8-sugar-cube-40.png" ::before />
+                                <span class="notification" id="NotificationNum">0</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                    <li>
+                                        <div class="user-box">
+                                            <div class="u-text">
+                                                <p>未讀公告</p>
+                                                <div id="newAnnonucementBox">
+                                                    @*<p>公告提醒</p>*@
+                                                </div>
+                                                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="ClearAfterClick()">更多公告...</button>
+                                                <button hidden type="button" id="sendmessage" value="@Session["UserName"]"></button>
+                                            </div>
+                                        </div>
+                                    </li>
+                            </ul>
                         </li>
+                        @*公告通知*@
+
 
                         <li class="nav-item dropdown hidden-caret">
                             <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -108,15 +127,12 @@
                                             <div class="avatar-lg"><img src="~/assets/img/woman.jpg" alt="image profile" class="avatar-img rounded"></div>
                                             <div class="u-text">
                                                 <p class="text-muted">@Session["UserName"]</p>@*<a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>*@
-                                                <div id="test">AAA</div>
                                                 <h4>@Session["UserFullName"]</h4>
-
                                             </div>
                                         </div>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="@Url.Action("Login","Account")">Logout</a>
-
                                     </li>
                                 </div>
                             </ul>
@@ -199,8 +215,8 @@
                 </div>
             </div>
             @*<div class="custom-toggle">
-                    <i class="flaticon-settings"></i>
-                </div>*@
+                <i class="flaticon-settings"></i>
+            </div>*@
         </div>
         <!-- End Custom template -->
     </div>
@@ -261,16 +277,38 @@
 
 
     <script>
+        @* 公告通知 *@
         $(function () {
             var mypush = $.connection.myHub;
 
-            mypush.client.sendTest1 = function (message) {
-                $("#test").text(message);
-                console.log(message);
+            //mypush.client.sendTest1 = function (message) {
+            //    $("#test").text(message);
+            //    console.log(message);
+            //};
+            mypush.client.broadcastMessage = function (name, message) {
+                //SweetAlert(name + message);                
+                $("#newAnnonucementBox").append(`<p>${name}有發布一則新公告喔<p>`)
+                $("#NotificationNum").text("!")
             };
-
-            $.connection.hub.start();
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    mypush.server.send($('#sendmessage').val(),"剛剛發出一則公告，快去看吧");
+                });
+            });
         });
+        @* 公告通知 *@
+        function ttt() {
+            $('#sendmessage').trigger('click');
+        }
+        function ClearAfterClick() {
+            AnnouncementIndex();
+            $("#newAnnonucementBox").empty();
+            $("#NotificationNum").text("0");
+        }
+
+
+
         Circles.create({
             id: 'circles-1',
             radius: 45,
@@ -364,10 +402,6 @@
             fillColor: 'rgba(255, 165, 52, .14)'
         });
 
-    @* 公告通知 *@
-
-        //var HaveNew = "~/assets/img/Alarm_bell_reminder_notification_4732023.png"
-        //var NoNew = "~/assets/img/Alarm_bell_reminder_4732019.png" 
 
 
 
@@ -375,7 +409,10 @@
 
 
 
-     @* 公告通知 *@
+
+
+
+
     </script>
 
 
