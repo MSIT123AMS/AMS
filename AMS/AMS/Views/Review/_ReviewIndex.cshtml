@@ -26,8 +26,8 @@
                 <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
             </span>
             <span>
-                <button style="background-color:#5DAC81;color:#FFFFFB;margin:10px">&laquo;上個月</button>
-                <button style="background-color:#5DAC81;color:#FFFFFB;margin:10px">下個月&raquo;	</button>
+                <button  id="prevMonth" style="background-color:#5DAC81;color:#FFFFFB;margin:10px">&laquo;上個月</button>
+                <button id="nextMonth" style="background-color:#5DAC81;color:#FFFFFB;margin:10px">下個月&raquo;	</button>
             </span>
         </div>
 
@@ -77,6 +77,8 @@
 <script>
     $("input[name='RequestType']").change(Switch);
     $("#CheckAll").click(cAll);
+    $("#prevMonth").click(movePrevMonth);
+
 
         $("a#detail").click(detailAjax);
 
@@ -106,6 +108,13 @@
                 })
     }
 
+    function movePrevMonth() {
+        var startDate = $('#basic-datatables>tbody>tr').eq(0).children().eq(3).text().trim();
+        var lastSlashPosition = startDate.lastIndexOf('/');
+        var monthNow = startDate.substring(5, lastSlashPosition);
+
+
+    }
 
     function Switch() {
          var selectedRadio = $("input[type='radio']:checked").val()

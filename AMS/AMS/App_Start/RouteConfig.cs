@@ -27,6 +27,12 @@ namespace AMS
               defaults: new { controller = "Employees", action = "Listemp", id = UrlParameter.Optional, id2 = UrlParameter.Optional }
           );
 
+            routes.MapRoute(
+              name: "Default2",
+              url: "{controller}/{action}/{id}/{id2}/{month}",
+              defaults: new { controller = "Employees", action = "Listemp", id = UrlParameter.Optional, id2 = UrlParameter.Optional,month=DateTime.Now.Month }
+            );
+
 
 
 

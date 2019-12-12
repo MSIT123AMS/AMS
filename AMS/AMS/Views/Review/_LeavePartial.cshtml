@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<AMS.Models.LeaveReviewViewModels>
-<p hidden>TempData["ReviewStatus"]</p>
+<p hidden>@TempData["ReviewStatus"]</p>
+<p id="Month" >@TempData["Month"]</p>
 @if (TempData["ReviewStatus"].ToString() == "2")
 {
     @Html.Partial("_ChartView");

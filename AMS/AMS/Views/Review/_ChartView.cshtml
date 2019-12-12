@@ -76,9 +76,9 @@
         var c = [];
         var all = [];
         d = await GetEmployee();
-        $.get('@Url.Action("ReadLeaveRequestsForChart")')
+        var m = $('#Month').text();
+        $.get('@Url.Action("ReadLeaveRequestsForChart")/'+m)
             .then(function (result) {
-                console.log(result);
                 $.each(d, function (i, c) {
                     var leave = [0, 0, 0, 0, 0]//病假,特休,事假,公假,其他
                     var p = { Name: c, LeaveDays: leave };
@@ -126,7 +126,6 @@
                         backgroundColor: backgroundColor//可以個別定義顏色
                     }
                    datasets.push(datasetTemplate);
-                   console.log(datasetTemplate);
                 }
                 text = '休假統計圖';
                 createChart();

@@ -14,16 +14,16 @@ namespace AMS.Controllers
     public class ReviewController : Controller
     {
         private Entities db = new Entities();
-        [AllowAnonymous]
-        public ActionResult ReviewIndexForMobile()
-        {
-            return View(ReadLeaveRequests(1));
-        }
+        //[AllowAnonymous]
+        //public ActionResult ReviewIndexForMobile()
+        //{
+        //   // return View(ReadLeaveRequests(1));
+        //}
 
         public ActionResult FindEmployeeByDepartment(int departmentID=1)
         {
             var result = db.Employees.Where(e => e.DepartmentID == departmentID).Select(e=>e.EmployeeName);
-            var k= result.ToList();
+            //var k= result.ToList();
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
@@ -40,19 +40,20 @@ namespace AMS.Controllers
             }
         }
 
-        public ActionResult ReadLeaveRequestsForChart(int id=1)
+        public ActionResult ReadLeaveRequestsForChart(string id)
         {
+            int month=int.Parse(id);
             var result = from l in db.LeaveRequests.AsEnumerable()
                          join e in db.Employees.AsEnumerable() on l.EmployeeID equals e.EmployeeID
                          join r in db.ReviewStatus.AsEnumerable() on l.ReviewStatusID equals r.ReviewStatusID
-                         where l.ReviewStatusID == id
+                         where l.ReviewStatusID == 1 && l.StartTime.Month == month
                          select new
                          {
                              EmployeeName = e.EmployeeName,
                              LeaveType = l.LeaveType,
                              Spread =calLeaveTime(l.EndTime, l.StartTime),
                          };
-            var y = result.ToList();
+            //var y = result.ToList();
             var group = from r in result
                         group r by new { r.EmployeeName,r.LeaveType } into g
                         select new
@@ -61,13 +62,14 @@ namespace AMS.Controllers
                             sum = g.Sum(k => k.Spread)
                         };
 
-            var h = group.ToList();
+            //var h = group.ToList();
             return Json(group, JsonRequestBehavior.AllowGet);
 
         }
-        public ActionResult OverTimeRequestForChart()
+        public ActionResult OverTimeRequestForChart(string id)
         {
-            var result = ReadLeaveRequests(1);
+            int month=int.Parse(id);
+            var result = ReadLeaveRequests(month,1);
             result.Select(r => r.EmployeeName);
             var leaveType = result.Select(r => r.LeaveType);
             var a = from e in result
@@ -111,14 +113,15 @@ namespace AMS.Controllers
             //}
             int i = int.Parse(id);
             int i2 = int.Parse(id2);
+            int month = DateTime.Now.Month;
             IEnumerable result = null;
             switch (i)
             {
                 case 3:
-                    result = (IEnumerable)ReadOverTimeRequests(i2);
+                    result = (IEnumerable)ReadOverTimeRequests(month,i2);
                     break;
                 case 1:
-                    result = (IEnumerable)ReadLeaveRequests(i2);
+                    result = (IEnumerable)ReadLeaveRequests(month,i2);
                     break;
 
                 default:
@@ -130,12 +133,25 @@ namespace AMS.Controllers
             return PartialView("_ReviewIndex", result);
         }
 
-        public ActionResult AjaxLeave(string id = "1")
+
+        public ActionResult AjaxLeave( string id = "1")
         {
             int i = int.Parse(id);
+            int m =DateTime.Now.Month;
             TempData["RequestType"] = 1;
             TempData["ReviewStatus"] = id;
-            return PartialView("_LeavePartial", ReadLeaveRequests(i));
+            TempData["Month"] = m;
+            return PartialView("_LeavePartial", ReadLeaveRequests(m, i));
+        }
+
+        public ActionResult AjaxLeave( string month,string id = "1")
+        {
+            int i = int.Parse(id);
+            int m=int.Parse(month);
+            TempData["RequestType"] = 1;
+            TempData["ReviewStatus"] = id;
+            TempData["Month"] = m;
+            return PartialView("_LeavePartial", ReadLeaveRequests(m,i));
         }
 
         //public ActionResult AjaxClockInApply(string id = "1")
@@ -145,12 +161,24 @@ namespace AMS.Controllers
 
         //}
 
-        public ActionResult AjaxOvertime(string id = "1")
+        public ActionResult AjaxOvertime( string id = "1")
         {
             int i = int.Parse(id);
+            int m = DateTime.Now.Month;
             TempData["RequestType"] = 3;
             TempData["ReviewStatus"] = id;
-            return PartialView("_OverTimePartial", ReadOverTimeRequests(i));
+            TempData["Month"] = m;
+            return PartialView("_OverTimePartial", ReadOverTimeRequests(m, i));
+        }
+
+        public ActionResult AjaxOvertime(string month, string id = "1")
+        {
+            int i = int.Parse(id);
+            int m = int.Parse(month);
+            TempData["RequestType"] = 3;
+            TempData["ReviewStatus"] = id;
+            TempData["Month"] = m;
+            return PartialView("_OverTimePartial", ReadOverTimeRequests(m, i));
         }
 
         //public ActionResult ClockInForChart()
@@ -185,12 +213,12 @@ namespace AMS.Controllers
         //}
 
 
-        public IEnumerable<AMS.Models.OverTimeReviewViewModels> ReadOverTimeRequests(int id)
+        public IEnumerable<AMS.Models.OverTimeReviewViewModels> ReadOverTimeRequests(int month, int reviewStatus)
         {
             var result = from l in db.OverTimeRequest
                          join e in db.Employees on l.EmployeeID equals e.EmployeeID
                          join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
-                         where l.ReviewStatusID == id
+                         where l.ReviewStatusID == reviewStatus
                          select new OverTimeReviewViewModels
                          {
                              EmployeeID = l.EmployeeID,
@@ -208,12 +236,12 @@ namespace AMS.Controllers
         }
 
         [AllowAnonymous]
-        public IEnumerable<AMS.Models.LeaveReviewViewModels> ReadLeaveRequests(int id)
+        public IEnumerable<AMS.Models.LeaveReviewViewModels> ReadLeaveRequests(int month,int reviewStatus)
         {
             var result = from l in db.LeaveRequests
                          join e in db.Employees on l.EmployeeID equals e.EmployeeID
                          join r in db.ReviewStatus on l.ReviewStatusID equals r.ReviewStatusID
-                         where l.ReviewStatusID == id
+                         where l.ReviewStatusID == reviewStatus
                          select new LeaveReviewViewModels
                          {
                              EmployeeID = l.EmployeeID,
