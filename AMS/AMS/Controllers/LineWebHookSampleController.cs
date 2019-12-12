@@ -66,7 +66,6 @@ namespace WebApplication5.Controllers
             if (LineEvent.replyToken == "00000000000000000000000000000000") return Ok();
             //回覆訊息
 
-            string Lineallstring="";//設定空字串給最後要回傳的全部資訊
 
             //var Liff = isRock.LIFF.Utility.AddLiffApp(channelAccessToken, new Uri("https://1380f17d.ngrok.io/Home/Contact"), isRock.LIFF.ViewType.full);            
 
@@ -342,13 +341,13 @@ namespace WebApplication5.Controllers
                         }
 
                         #region Line請假回訊息區 因為文字所以只能放裡面
-
+                        LeaveRequests LeaveLine = new LeaveRequests();
+                        var Time1 = DateTime.Parse("1888-01-01 00:00:00.000");
+                        var dbLeaveLine = d.LeaveRequests.Where(n => n.EmployeeID == EmpID&&n.EndTime== Time1).FirstOrDefault();//判斷裡面有沒有Time的值 如果沒有就新增一個之後要修改用
                         if (LineEvent.message.text == "我要請假")
                         {
-
                             var bot2 = new Bot(channelAccessToken);
                             List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
-
                             actions2.Add(new MessageAction() { label = "假別", text = "假別" });
                             var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
                             {
@@ -357,11 +356,61 @@ namespace WebApplication5.Controllers
                                 thumbnailImageUrl = new Uri("https://i.imgur.com/LrT45vi.gif"),//https://i.imgur.com/n19hgxT.gif
                                 actions = actions2
                             };
+                            
                             bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                            d.LeaveRequests.Add(LeaveLine);
+
+                            if (dbLeaveLine == null)  
+                            {
+                                LeaveLine.LeaveRequestID = d.LeaveRequests.Count().ToString();
+                                LeaveLine.EmployeeID = EmpID;
+                                LeaveLine.RequestTime = DateTime.Now;
+                                LeaveLine.StartTime = DateTime.Parse("1888/01/01T00:00:00");
+                                LeaveLine.EndTime = DateTime.Parse("1888/01/01T00:00:00");
+                                LeaveLine.LeaveType = "事假";
+                                LeaveLine.LeaveReason = "空白";
+                                LeaveLine.ReviewStatusID = 1;
+                                try
+                                {
+                                    d.SaveChanges();
+                                }
+                                catch
+                                {
+                                    this.ReplyMessage(LineEvent.replyToken, "請假功能異常，請聯繫系統管理員");
+
+                                }
+
+                            }
                         }
 
                         var LineMsg = LineEvent.message.text;
                         if (LineMsg == "事假" || LineMsg == "病假" || LineMsg == "公假" || LineMsg == "喪假" || LineMsg == "特休假" || LineMsg == "產假" || LineMsg == "陪產假" || LineMsg == "生理假" || LineMsg == "補休假" || LineMsg == "家庭照顧假")
+                        {
+                            var bot2 = new Bot(channelAccessToken);
+                            bot2.PushMessage(AdminUserId, "請假事由:\n(起頭文字請用[事由]開頭):");
+
+                            if (dbLeaveLine.EndTime == Time1)
+                            {
+                                dbLeaveLine.LeaveType = LineMsg;
+                                try
+                                {
+                                    d.SaveChanges();
+                                }
+                                catch
+                                {
+                                    this.ReplyMessage(LineEvent.replyToken, "假別異常!請聯繫系統管理員。");
+
+                                }
+                            }
+                            else
+                            {
+
+                            }
+                        }
+
+
+
+                        if (LineMsg.Substring(0, 2) == "事由")
                         {
                             var bot2 = new Bot(channelAccessToken);
                             List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
@@ -375,14 +424,29 @@ namespace WebApplication5.Controllers
                                 thumbnailImageUrl = new Uri("https://i.imgur.com/n19hgxT.gif"),//https://i.imgur.com/Hl9Is3f.gif
                                 actions = actions2
                             };
-                            bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
 
-                            Lineallstring += $"申請時間:{DateTime.Now}\n假別:{LineMsg}\n";//把假別加入最後要回傳的字串中
+                            bot2.PushMessage(AdminUserId, ButtonTempalteMsg2);
+                            if (dbLeaveLine.EndTime == Time1)
+                            {
+                                dbLeaveLine.LeaveReason = LineMsg;
+                                try
+                                {
+                                    d.SaveChanges();
+                                }
+                                catch
+                                {
+                                    this.ReplyMessage(LineEvent.replyToken, "假別異常!請聯繫系統管理員。");
+
+                                }
+                            }
+                            else
+                            {
+
+                            }
 
                         }
 
-
-                        if (LineEvent.message.text == "假別")
+                        if (LineMsg == "假別")
                         {
                             TextMessage msg = new TextMessage("請問你要請什麼假?");
                             msg.quickReply.items.Add(new QuickReplyMessageAction("事假", "事假"));
@@ -398,46 +462,80 @@ namespace WebApplication5.Controllers
                             bot.PushMessage(AdminUserId, msg);
 
                         }
+
+                        if (LineMsg == "確認")
+                        {
+                            var dbLineyes = d.LeaveRequests.AsEnumerable().Where(n => n.EmployeeID == EmpID).OrderBy(n=>n.LeaveRequestID).LastOrDefault();//判斷裡面有沒有Time的值 如果沒有就新增一個之後要修改用
+
+                            bot.PushMessage(AdminUserId, $"假單編號:{dbLineyes.LeaveRequestID}\n請假申請時間:{dbLineyes.RequestTime}\n請假假別:{dbLineyes.LeaveType}\n請假開始時間:{dbLineyes.StartTime}\n請假結束時間:{dbLineyes.EndTime}\n事由:{dbLineyes.LeaveReason}");
+
+                        }
+
+
                         #endregion
 
                     }
                 }
                 catch (Exception ex)
                 {
-                    this.ReplyMessage(LineEvent.replyToken, $"{ex.Message}....您不是本公司員工,無法使用打卡功能!");
+                    this.ReplyMessage(LineEvent.replyToken, $"{ex.Message}....您不是本公司員工,無法使用{LineEvent.message.text}功能!");
                 }
 
 
-                
+                var q1 = d.Employees.Where(p => p.LineID == AdminUserId).First();
+                var EmpID1 = q1.EmployeeID;
+
+
+                var Time2 = DateTime.Parse("1888-01-01 00:00:00.000");
+                var dbLeaveLine1 = d.LeaveRequests.Where(n => n.EmployeeID == EmpID1 && n.EndTime == Time2).FirstOrDefault();
 
                 if (LineEvent.type == "postback")//回傳datetimepickper的值
                 {
                     if (LineEvent.postback.data == "data")
                     {
-                        string aa = $"開始時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
+                        string aa = $"開始時間:{this.ReceivedMessage.events[0].postback.Params.datetime}";
                         this.ReplyMessage(LineEvent.replyToken, aa);
-                        Lineallstring += $"開始時間{this.ReceivedMessage.events[0].postback.Params.datetime}\n";//把開始時間加入最後要回傳的字串中
+
+                        if (dbLeaveLine1.EndTime == Time2)
+                        {
+                            dbLeaveLine1.StartTime =DateTime.Parse( this.ReceivedMessage.events[0].postback.Params.datetime);
+                            try
+                            {
+                                d.SaveChanges();
+                            }
+                            catch
+                            {
+                                this.ReplyMessage(LineEvent.replyToken, "開始時間異常!請聯繫系統管理員。");
+
+                            }
+                        }
+
                     }
                     if (LineEvent.postback.data == "data1")
                     {
-                        string aa = $"結束時間{this.ReceivedMessage.events[0].postback.Params.datetime}";
-                        this.ReplyMessage(LineEvent.replyToken, aa);
-                        Lineallstring += $"結束時間{this.ReceivedMessage.events[0].postback.Params.datetime}\n";//把結束時間加入最後要回傳的字串中
+                        string end = $"結束時間:{this.ReceivedMessage.events[0].postback.Params.datetime}\n以上訊息確認無誤後請輸入確認，有誤請重新填寫";
+                        this.ReplyMessage(LineEvent.replyToken, end);
 
-
-                        
+                        if (dbLeaveLine1.EndTime == Time2)
+                        {
+                            dbLeaveLine1.EndTime = DateTime.Parse(this.ReceivedMessage.events[0].postback.Params.datetime);
+                            try
+                            {
+                                d.SaveChanges();
+                            }
+                            catch
+                            {
+                                this.ReplyMessage(LineEvent.replyToken, "結束時間異常!請聯繫系統管理員。");
+                            }
+                        }
                     }
+
+
+
+
+
+
                 }
-
-
-
-                var az = Lineallstring;
-
-
-
-
-
-
 
 
             }
