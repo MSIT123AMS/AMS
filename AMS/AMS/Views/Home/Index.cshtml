@@ -1162,6 +1162,20 @@
     }).fail(function (e) { alert(e.responseText) });
     }
 
+        function GetSerchList(SerchUrl) {
+            $.ajax({
+                type: "POST",
+                url: SerchUrl,
+                data: { "time1": time1.value, "time2": time2.value },
+                dataType: 'html',
+            }).done(function (result) {
+                $("#Employeestable").html(result);
+                changeT();
+
+            }).fail(function (e) { alert(e.responseText) });
+        }
+
+
     function GetSerchList(SerchUrl) {
     $.ajax({
         type: "POST",
