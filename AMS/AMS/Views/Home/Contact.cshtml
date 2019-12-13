@@ -18,7 +18,7 @@
     </style>
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
     @*<link rel="stylesheet" href="~/assets/css/atlantis.min.css">*@
-    <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+    
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBK8UP_RL_nVi7Mec8Azju2sKkwdD3j4H8&callback=initMap"
             async defer></script>
     <script>
@@ -84,8 +84,8 @@
 <body>
 
     @*<div class="container">
-            @*<input type="button" value="Close this window" onclick="self.close()">*@
-                @*<button id="Button1" type="button" class="btn btn-search col-md-12" style="background-color:#787D7B;color:#FFFFFB;line-height:50px">
+        @*<input type="button" value="Close this window" onclick="self.close()">*@
+    @*<button id="Button1" type="button" class="btn btn-search col-md-12" style="background-color:#787D7B;color:#FFFFFB;line-height:50px">
                     <i class="fa fa-search fa-fw"></i><span>
                         <strong>關閉</strong>
                     </span>
@@ -94,14 +94,15 @@
     <div id="map">
     </div>
     @*<button id="Button1" type="button" class="btn btn-search" style="background-color:#787D7B;color:#FFFFFB">
-        <i class="fa fa-search fa-fw"></i><span>
-            <strong>搜尋</strong>
-        </span>
-    </button>*@
+            <i class="fa fa-search fa-fw"></i><span>
+                <strong>搜尋</strong>
+            </span>
+        </button>*@
     <script src="~/assets/js/core/jquery.3.2.1.min.js"></script>
     <script src="~/assets/js/core/popper.min.js"></script>
     <script src="~/assets/js/core/bootstrap.min.js"></script>
     <script src="~/Scripts/main.js"></script>
+    <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <script>
         //init LIFF
         function initializeApp(data) {
@@ -121,12 +122,12 @@
                         type: 'text',
                         text: '定位成功'
                     }
-                ])                  
+                ])
             });
-         
-          
+
+
             //$("#Button1").click(function () {
-          
+
             //liff.closeWindow();
 
             //});

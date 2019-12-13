@@ -21,10 +21,19 @@ namespace WebApplication5.Controllers
 {
     public class LineBotWebHookController : isRock.LineBot.LineWebHookControllerBase
     {
-        public const string channelAccessToken = @"ehC2bzsC2xmmwK5J59gcEK4ihHfRlYfb8kQFxVR2jn0B9vlAtMfvAwXXn5KfJfeQlC+5Higk86SmFJkwGn3bwDHH1uvL2X4vwahMbdMCeIFJttH9jNekMNBw6RHL0hJaQq2oEDSKKf0ocx3CQTFaO1GUYhWQfeY8sLGRXgo3xvw=";
+        public const string channelAccessToken = @"RtEJui2f/Ks+t6cbPart9XZFjRexoyPj4IctMkIzd0WFeRh6NTD7AKXbKewGdV5A1R44By3Ij5dTqHofyQA9Dg9KDEON893Isff3290QoewsiREGNVMbsgP8je5DbDKZb1DMWqyrkJEt/lcTZfENNgdB04t89/1O/w1cDnyilFU=";
         public string AdminUserId;
         public static string Lat;//緯度
         public static string Long;//經度
+        public string GetEmpId()
+        {
+            string id;
+            id = AdminUserId;
+            return id;
+
+        }
+
+
         [Route("api/LineWebHookSample")]
         [HttpPut]
         public IHttpActionResult Put(Position position)
@@ -134,11 +143,60 @@ namespace WebApplication5.Controllers
                                                 d.SaveChanges();
                                             }
 
-                                            var flex = $@"[{{ ""type"": ""flex"",""altText"":""打卡"",""contents"":{{""type"": ""bubble"",""hero"": {{""type"": ""image"",""url"": ""https://ba3c6ba2.ngrok.io/Img/linelocatiom.png"",
-                                                   ""size"": ""full"",""aspectRatio"": ""20:13"",""aspectMode"": ""cover""}},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""spacer"",""size"": ""xxl""
-                                                   }},{{""type"": ""button"",""style"": ""primary"",""color"": ""#D75455"",""action"": {{""type"": ""uri"",""label"": ""請先確認定地點"",""uri"": ""line://app/1653574503-YJW285kB""}}}}]}}}}}}]";
-                                            bot.PushMessageWithJSON(AdminUserId, flex);
-                                            
+                                            var flex = $@"[{{
+ ""type"": ""flex"",
+""altText"":""定位確認"",
+""contents"":
+{{
+  ""type"": ""bubble"",
+  ""header"": {{
+   ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""text"",
+        ""text"": ""你好,{q.EmployeeName}"",
+        ""color"": ""#FFFFFB"",
+        ""size"": ""md"",
+        ""weight"": ""bold""
+      }}
+    ],
+    ""backgroundColor"": ""#464F69""
+  }},
+  ""hero"": {{
+    ""type"": ""image"",
+    ""url"": ""https://1736ee02.ngrok.io/Img/linelocatiom.png"",
+    ""size"": ""full"",
+    ""aspectRatio"": ""20:13"",
+    ""aspectMode"": ""cover"",
+    ""action"": {{
+      ""type"": ""uri"",
+      ""uri"": ""line://app/1653604306-L0528Yaq""
+    }}
+  }},
+  ""footer"": {{
+    ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""spacing"": ""sm"",
+    ""contents"": [
+      {{
+        ""type"": ""button"",
+        ""style"": ""primary"",
+        ""height"": ""sm"",
+        ""action"": {{
+          ""type"": ""uri"",
+          ""label"": ""請先確認定地點"",
+          ""uri"": ""line://app/1653604306-L0528Yaq""
+        }},
+        ""color"": ""#3A8FB7""
+      }}
+    ],
+    ""flex"": 0,
+    ""backgroundColor"": ""#464F69""
+  }}
+}}}}]";
+                                            //bot.PushMessageWithJSON(AdminUserId, flex);
+                                            this.ReplyMessageWithJSON(LineEvent.replyToken, flex);
                                         }
                                         else
                                         {
@@ -148,11 +206,77 @@ namespace WebApplication5.Controllers
                                     }
                                 case "定位成功":
                                     {
-                                        var flex_check = $@"[{{""type"": ""flex"",""altText"":""簽到"",""contents"":{{""type"": ""bubble"",""body"": {{""type"": ""box"",""layout"": ""horizontal"",""contents"": [{{""type"": ""text"",""text"": ""目前時間:"",""size"": ""md"",""weight"": ""bold"",
-                                                         ""color"": ""#FFFFFB""}},{{""type"": ""text"",""text"": ""{DateTime.Now.ToShortTimeString().ToString()}"",""color"": ""#FFFFFB"",""size"": ""md"",""weight"": ""bold"",""align"": ""start""}}],""backgroundColor"": ""#464F69""
-                                                         }},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""button"",""style"": ""primary"",""color"": ""#3A8FB7"",""action"": {{""type"": ""message"",""label"": ""上班"",""text"": ""上班""
-                                                         }}}},{{""type"": ""button"",""action"": {{""type"": ""message"",""label"": ""下班"",""text"": ""下班""}},""style"": ""primary"",""color"": ""#5DAC81""}}],""spacing"": ""sm""}}}}}}]";
-                                        bot.PushMessageWithJSON(AdminUserId, flex_check);
+                                        var flex_check = $@"[{{
+ ""type"": ""flex"",
+""altText"":""This is a Flex Message"",
+""contents"":
+{{
+  ""type"": ""bubble"",
+  ""header"": {{
+                                            ""type"": ""box"",
+    ""layout"": ""horizontal"",
+    ""contents"": [
+      {{
+        ""type"": ""text"",
+        ""text"": ""目前時間:"",
+        ""color"": ""#FFFFFB"",
+        ""size"": ""md"",
+        ""weight"": ""bold""
+      }},
+      {{
+        ""type"": ""text"",
+        ""text"": ""{DateTime.Now.ToShortTimeString().ToString()}"",
+        ""size"": ""md"",
+        ""color"": ""#FFFFFB"",
+        ""weight"": ""bold"",
+        ""align"": ""start""
+      }}
+    ],
+    ""backgroundColor"": ""#464F69""
+  }},
+  ""footer"": {{
+    ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""spacing"": ""sm"",
+    ""contents"": [
+      {{
+        ""type"": ""button"",
+        ""style"": ""primary"",
+        ""height"": ""md"",
+        ""action"": {{
+          ""type"": ""message"",
+          ""label"": ""上班"",
+          ""text"": ""上班""
+        }},
+        ""color"": ""#3A8FB7""
+      }},
+      {{
+        ""type"": ""button"",
+        ""action"": {{
+          ""type"": ""message"",
+          ""label"": ""下班"",
+          ""text"": ""下班""
+        }},
+        ""style"": ""primary"",
+        ""margin"": ""md"",
+        ""height"": ""md"",
+        ""color"": ""#5DAC81""
+      }}
+    ],
+    ""flex"": 0,
+    ""backgroundColor"": ""#464F69""
+  }}
+}}
+
+
+}}]";
+ 
+
+                                                                                //var flex_check = $@"[{{""type"": ""flex"",""altText"":""簽到"",""contents"":{{""type"": ""bubble"",""body"": {{""type"": ""box"",""layout"": ""horizontal"",""contents"": [{{""type"": ""text"",""text"": ""目前時間:"",""size"": ""md"",""weight"": ""bold"",
+                                                                                //                 ""color"": ""#FFFFFB""}},{{""type"": ""text"",""text"": ""{DateTime.Now.ToShortTimeString().ToString()}"",""color"": ""#FFFFFB"",""size"": ""md"",""weight"": ""bold"",""align"": ""start""}}],""backgroundColor"": ""#464F69""
+                                                                                //                 }},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""button"",""style"": ""primary"",""color"": ""#3A8FB7"",""action"": {{""type"": ""message"",""label"": ""上班"",""text"": ""上班""
+                                                                                //                 }}}},{{""type"": ""button"",""action"": {{""type"": ""message"",""label"": ""下班"",""text"": ""下班""}},""style"": ""primary"",""color"": ""#5DAC81""}}],""spacing"": ""sm""}}}}}}]";
+                                                                                bot.PushMessageWithJSON(AdminUserId, flex_check);
                                         break;
                                     }
                                 case "上班":
@@ -329,7 +453,7 @@ namespace WebApplication5.Controllers
                                                            {{""type"": ""button"",""action"": {{""type"": ""uri"",""label"": ""補打卡申請"",""uri"": ""line://app/1653574503-ljRK1nJ8""}},""height"": ""sm"",""style"": ""primary"",""color"": ""#D75455""
                                                            }}]}},""styles"": {{""footer"": {{""separator"": true}}}}}}}}]";
 
-                                        bot1.PushMessageWithJSON(AdminUserId, flextakefive);
+                                        bot1.ReplyMessageWithJSON(LineEvent.replyToken, flextakefive);
                                     }
                                     break;
                                 #region Line請假回訊息區
