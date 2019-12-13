@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using AMS.Models;
 
 using System.IO;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AMS.Controllers
 {
@@ -17,6 +19,69 @@ namespace AMS.Controllers
         private Entities db = new Entities();
         private OverTimeClassLibrary.OverTime OvertimeObj = new OverTimeClassLibrary.OverTime();
 
+         public async Task<ActionResult> GetFaceapi()
+        {
+             var q = db.Employees.Select(emp => new { emp.EmployeeID, emp.Photo });
+            foreach (var item in q)
+            {
+                if (item.Photo != null)
+                {
+
+                    await class1.MakeAnalysisRequest(item.Photo, item.EmployeeID);
+
+                }
+            }
+
+            //if (!await class1.MakeRequest())
+            //{
+            //    Debug.WriteLine("XXXX");
+
+            //}
+
+
+            return Json("",JsonRequestBehavior.AllowGet);
+        }
+
+        //public async Task<ActionResult> GetFaceapiVerify(string id)
+        //{
+
+        //    if (await class1.MakeRequest(id))
+        //    {
+        //        return Json(new {msg = "同一人"}, JsonRequestBehavior.AllowGet);
+
+        //    }
+        //    else
+        //    {
+        //        return Json(new { msg="XX" }, JsonRequestBehavior.AllowGet);
+        //    }
+
+
+            
+        //}
+        [HttpPost]
+        public async Task<ActionResult> LoginFace(string imageData)
+        {
+            byte[] data = Convert.FromBase64String(imageData);
+            var q = db.Employees.Select(emp => new { emp.EmployeeID, emp.EmployeeName, emp.FaceID});
+            foreach (var item in q)
+            {
+                if (item.FaceID != null)
+                {
+                  
+                    if (await class1.MakeRequest(item.FaceID, await class1.MakeAnalysisRequest(data, "")))
+                    {
+                        //return Json(new { EmployeeID = item.EmployeeID, }, JsonRequestBehavior.AllowGet);
+                        //Session["UserFullName"] = db.Employees.Find(item.EmployeeID).EmployeeName;
+                        //Session["UserName"] = item.EmployeeID;
+                        return RedirectToAction("Index", "Home");
+                    }
+                   
+
+                }
+            }
+
+                return Json(new { msg = "XX" }, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult LineIdBindView()
         {
             return View();
@@ -44,34 +109,7 @@ namespace AMS.Controllers
             return  Json(new { msg = result }, JsonRequestBehavior.AllowGet);
 
         }
-        public ActionResult SerchOverTime()
-        {
-            var query = (from ot in db.OverTimeRequest.AsEnumerable()
-                                   join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
-                                   join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
-                                   join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
-                                   select new OverTimeViewModel
-                                   {
-                                       RequestID = ot.OverTimeRequestID,
-                                       EmployeeName = emp.EmployeeName,
-                                       RequestTime = ot.RequestTime,
-                                       StartTime = ot.StartTime,
-                                       EndTime = ot.EndTime,
-                                       PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
-                                       OTDateType = date.WorkingDay,
-                                       SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
-                                       Reason = ot.OverTimeReason,
-                                       Review = rev.ReviewStatus1,
-                                       ReviewTime = ot.ReviewTime
-                                   });
 
-
-
-
-            return PartialView("_SerchOverTime", query);
-
-            //return View();
-        }
         public ActionResult GetDailyStatistics()
         {
             DateTime dateTime = DateTime.Parse("2019/09/24");
@@ -226,36 +264,109 @@ namespace AMS.Controllers
 
             //return View();
         }
+        [HttpGet]
+        public ActionResult SerchOverTime()
+        {
+            var query = (from ot in db.OverTimeRequest.AsEnumerable()
+                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                         join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                         join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                         select new OverTimeViewModel
+                         {
+                             RequestID = ot.OverTimeRequestID,
+                             EmployeeName = emp.EmployeeName,
+                             RequestTime = ot.RequestTime,
+                             StartTime = ot.StartTime,
+                             EndTime = ot.EndTime,
+                             PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
+                             OTDateType = date.WorkingDay,
+                             SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                             Reason = ot.OverTimeReason,
+                             Review = rev.ReviewStatus1,
+                             ReviewTime = ot.ReviewTime
+                         });
 
 
+
+
+            return PartialView("_SerchOverTime", query);
+
+            //return View();
+        }
+        [HttpPost]
+        public ActionResult SerchOverTime(DateTime time1, DateTime time2)
+        {
+            var query = (from ot in db.OverTimeRequest.AsEnumerable().Where(q => q.RequestTime >= time1 && q.RequestTime <= time2)
+                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                         join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                         join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                         select new OverTimeViewModel
+                         {
+                             RequestID = ot.OverTimeRequestID,
+                             EmployeeName = emp.EmployeeName,
+                             RequestTime = ot.RequestTime,
+                             StartTime = ot.StartTime,
+                             EndTime = ot.EndTime,
+                             PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
+                             OTDateType = date.WorkingDay,
+                             SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                             Reason = ot.OverTimeReason,
+                             Review = rev.ReviewStatus1,
+                             ReviewTime = ot.ReviewTime
+                         });
+
+
+
+
+            return PartialView("_SerchOverTimePartial", query);
+
+            //return View();
+        }
+        [HttpGet]
         public ActionResult SerchAttendances()
         {
-            //var query = (from ot in db.Attendances.AsEnumerable()
-            //             join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
-            //             select new SerchAttendancesViewModel
-            //             {                            
-            //                 EmployeeName = emp.EmployeeName,
-            //                 Date = ot.Date.ToString("yyyy/MM/dd"),
-            //                 StartTime = ot.OnDuty,
-            //                 EndTime = ot.OffDuty,
-            //             });
-            var query = (from e in db.Employees.AsEnumerable()
-                         join a in db.Attendances.AsEnumerable() on e.EmployeeID equals a.EmployeeID into g
-                         from a in g.DefaultIfEmpty()
+            var query = (from ot in db.Attendances.AsEnumerable()
+                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
                          select new SerchAttendancesViewModel
                          {
-                             EmployeeName = e.EmployeeName,
-                             Date = a == null ? "沒打卡" : a.Date.ToString("yyyy/MM/dd"),
-                             StartTime = a == null ? null : a.OnDuty,
-                             EndTime = a == null ? null : a.OffDuty,
+                             EmployeeName = emp.EmployeeName,
+                             Date = ot.Date.ToString("yyyy/MM/dd"),
+                             StartTime = ot.OnDuty,
+                             EndTime = ot.OffDuty,
                          });
+            //var query = (from e in db.Employees.AsEnumerable()
+            //             join a in db.Attendances.AsEnumerable() on e.EmployeeID equals a.EmployeeID into g
+            //             from a in g.DefaultIfEmpty()
+            //             select new SerchAttendancesViewModel
+            //             {
+            //                 EmployeeName = e.EmployeeName,
+            //                 Date = a == null ? "沒打卡" : a.Date.ToString("yyyy/MM/dd"),
+            //                 StartTime = a == null ? null : a.OnDuty,
+            //                 EndTime = a == null ? null : a.OffDuty,
+            //             });
 
             return PartialView("_SerchAttendances", query);
     
 
             //return View();
         }
+        [HttpPost]
+        public ActionResult SerchAttendances(DateTime time1, DateTime time2)
+        {
+            var query = (from ot in db.Attendances.AsEnumerable().Where(q => q.Date >= time1 && q.Date <= time2)
+                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+                         select new SerchAttendancesViewModel
+                         {
+                             EmployeeName = emp.EmployeeName,
+                             Date = ot.Date.ToString("yyyy/MM/dd"),
+                             StartTime = ot.OnDuty,
+                             EndTime = ot.OffDuty,
+                         });
 
+            return PartialView("_SerchAttendancesPartial", query);
+
+        }
+        [HttpGet]
         public ActionResult SerchLeave()
         {
             var query = (from ot in db.LeaveRequests.AsEnumerable()
@@ -281,24 +392,23 @@ namespace AMS.Controllers
         [HttpPost]
         public ActionResult SerchLeave(DateTime time1, DateTime time2)
         {
-            var query = (from ot in db.LeaveRequests.AsEnumerable()
+            var query = (from ot in db.LeaveRequests.AsEnumerable().Where(q => q.RequestTime >= time1 && q.RequestTime <= time2)
                          join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
                          join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
                          select new SerchLeaveViewModel
                          {
                              LeaveRequestID = ot.LeaveRequestID,
                              EmployeeName = emp.EmployeeName,
+                             LeaveType = ot.LeaveType,
                              RequestTime = ot.RequestTime,
                              StartTime = ot.StartTime,
                              EndTime = ot.EndTime,
                              Review = rev.ReviewStatus1
 
-                         }).Where(q=>q.RequestTime >= time1 && q.RequestTime<= time2);
+                         });
 
-            Entities dc = new Entities();
-            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
-            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
-            return View(query);
+            return PartialView("_SerchLeaveListPartial", query);
+
 
             //return View();
         }
@@ -327,7 +437,7 @@ namespace AMS.Controllers
             //return View();
         }
 
-
+     
 
 
         public ActionResult GetDdlandListemp(int? id)
@@ -487,7 +597,7 @@ namespace AMS.Controllers
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName,empFile")] EmployeesCreateViewModel emp)
+        public ActionResult Create([Bind(Include = "EmployeeID,Password,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName,empFile")] EmployeesCreateViewModel emp)
         {
             if (ModelState.IsValid)
             {
@@ -532,36 +642,14 @@ namespace AMS.Controllers
 
 
 
-                //employees.DepartmentID = db.Departments.Where(e => e.DepartmentName == emp.DepartmentName).First().DepartmentID;
+                employees.DepartmentID = db.Departments.Where(e => e.DepartmentName == emp.DepartmentName).First().DepartmentID;
                 employees.JobStaus = "在職";
 
                 db.Employees.Add(employees);
                 db.SaveChanges();
-                var dropdownlist = new List<Gender>
-            {
-                new Gender{ text="男生",value=true},
-                new Gender{ text="女生",value=false}
-
-            };
-                ViewBag.gender = new SelectList(dropdownlist, "value", "text");
-
-                var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-                {
-
-                    EmployeeID = e.EmployeeID,
-                    EmployeeName = e.EmployeeName,
-                    DepartmentName = d.DepartmentName,
-                    JobTitle = e.JobTitle,
-                    Manager = d.Manager,
-                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                    JobStaus = e.JobStaus
-                });
-
-                Entities dc = new Entities();
-                ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
-                ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
-
-                return PartialView("_emplistPartial", query);
+                return RedirectToAction("Register", "Account",new { User= emp.EmployeeID , Password=emp.Password, ConfirmPassword=emp.Password});
+              
+                //return PartialView("_emplistPartial", query);
                 //return Content("<script>alert('測試文字');</script>");
             }
             //throw new InvalidOperationException("Something went wrong");
@@ -700,48 +788,10 @@ namespace AMS.Controllers
 
                 db.Entry(employees).State = EntityState.Modified;
                 db.SaveChanges();
-
-                var dropdownlist = new List<Gender>
-            {
-                new Gender{ text="男生",value=true},
-                new Gender{ text="女生",value=false}
-
-            };
-                ViewBag.gender = new SelectList(dropdownlist, "value", "text");
-
-                var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new EmployeesViewModel
-                {
-
-                    EmployeeID = e.EmployeeID,
-                    EmployeeName = e.EmployeeName,
-                    DepartmentName = d.DepartmentName,
-                    JobTitle = e.JobTitle,
-                    Manager = d.Manager,
-                    Hireday = e.Hireday.ToString("yyyy/MM/dd"),
-                    JobStaus = e.JobStaus
-                });
-
-                Entities dc = new Entities();
-                ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
-                ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
-
-                return PartialView("_emplistPartial", query);
-
-
-
-
-
-
-
-
-
+                return RedirectToAction("Index");
 
             }
             return View(emp);
-
-
-
-
 
         }
 

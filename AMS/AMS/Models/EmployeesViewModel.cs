@@ -116,6 +116,11 @@ namespace AMS.Controllers
         [Display(Name = "照片")]
         public HttpPostedFileBase Photo { get; set; }  
     }
+    public class LoginFaceModel
+    {
+        [Display(Name = "照片")]
+        public HttpPostedFileBase Photo { get; set; }
+    }
     public class EmployeesDetailsViewModel
     {
         [Key]

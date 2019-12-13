@@ -60,7 +60,13 @@ namespace AMS.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
+        [AllowAnonymous]
+        public ActionResult Login1(string returnUrl)
+        {
+           
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
         //
         // POST: /Account/Login
         private Entities db = new Entities();
@@ -77,7 +83,42 @@ namespace AMS.Controllers
 
             // 這不會計算為帳戶鎖定的登入失敗
             // 若要啟用密碼失敗來觸發帳戶鎖定，請變更為 shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            //長度判斷是否FACE辨識跳過認證
+            var result = SignInStatus.Failure;
+            if (model.imageData!=null)
+            {
+                byte[] data = Convert.FromBase64String(model.imageData);
+                var q = db.Employees.Select(emp => new { emp.EmployeeID, emp.EmployeeName, emp.FaceID });
+                foreach (var item in q)
+                {
+                    if (item.FaceID != null)
+                    {
+
+                        if (await class1.MakeRequest(item.FaceID, await class1.MakeAnalysisRequest(data, "")))
+                        {
+                            result = SignInStatus.Success;
+                            model.UserName = item.EmployeeID;
+                            returnUrl = null;
+                           
+                            break;
+
+                          
+
+                        }
+
+
+                    }
+                }
+
+
+            }
+            else
+            {
+                result = await SignInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: false);
+            }
+            
+
+           
             switch (result)
             {
                 case SignInStatus.Success:
@@ -96,6 +137,9 @@ namespace AMS.Controllers
                     return View(model);
             }
         }
+
+
+
 
         //
         // GET: /Account/VerifyCode
@@ -142,22 +186,22 @@ namespace AMS.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
-        public ActionResult Register()
-        {
-            return View();
-        }
+        //[AllowAnonymous]
+        //public ActionResult Register()
+        //{
+        //    return View();
+        //}
 
         //
         // POST: /Account/Register
-        [HttpPost]
+        //[HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.User, Email = $"{model.User}@gmail.com" };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -169,7 +213,7 @@ namespace AMS.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "確認您的帳戶", "請按一下此連結確認您的帳戶 <a href=\"" + callbackUrl + "\">這裏</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Employees");
                 }
                 AddErrors(result);
             }

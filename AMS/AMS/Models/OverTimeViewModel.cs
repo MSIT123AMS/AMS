@@ -46,6 +46,8 @@ namespace AMS.Models
         [Display(Name = "審核時間")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime? ReviewTime { get; set; }
+                
+
     }
 
     public class OverTimeCreateViewModel

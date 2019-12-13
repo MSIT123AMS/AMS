@@ -144,16 +144,35 @@ namespace AMS.Controllers
             ViewBag.OverTimePay = new SelectList(dropdownlist, "value", "text");
             return PartialView("_Create");
         }
+        //For Line
+        public ActionResult CreateLine()
+        {
+            
+            var dropdownlist = new List<PayOff>
+            {
+                new PayOff{ text="加班費",value=true},
+                new PayOff{ text="補休",value=false}
 
+            };
+            ViewBag.OverTimePay = new SelectList(dropdownlist, "value", "text");
+            return View("CreateLine");
+        }
         // POST: OverTimeRequests/Create
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StartTime,EndTime,OverTimePay,OverTimeReason")] OverTimeRequest overTimeRequest)
+        public ActionResult Create([Bind(Include = "EmployeeID,StartTime,EndTime,OverTimePay,OverTimeReason")] OverTimeRequest overTimeRequest)
         {
-
+            DateTime today = DateTime.Now;
             string User = Convert.ToString(Session["UserName"]);
+            if (overTimeRequest.EmployeeID != null)
+            {
+                var FromLineID = db.Employees.Where(n => n.LineID == overTimeRequest.EmployeeID).Select(n => n.EmployeeID).First();
+                User = FromLineID;
+            }
+
+
             if (ModelState.IsValid)
             {
                 var Query = (from ot in db.OverTimeRequest.AsEnumerable()
@@ -170,7 +189,7 @@ namespace AMS.Controllers
                                            EndTime = ot.EndTime,
                                            PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
                                            OTDateType = date.WorkingDay,
-                                           SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                                           SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),                                           
                                            Reason = ot.OverTimeReason,
                                            Review = rev.ReviewStatus1,
                                            ReviewTime = ot.ReviewTime
@@ -185,21 +204,34 @@ namespace AMS.Controllers
                     return Json(new { Success = false, Message = "今天已經申請過加班" },JsonRequestBehavior.AllowGet);
 
                 }
-                if(LeaveQuery.Any(n=>n.StartTime== overTimeRequest.StartTime.Date &&!(n.ReviewStatusID==3)))
+
+              var MonthCount=  Query.AsEnumerable().Where(n => n.StartTime.Year == today.Year && n.StartTime.Month == today.Month && !(n.Review == "3")).ToList().Sum(n => (n.EndTime-n.StartTime).Hours);
+
+                if ((MonthCount+(overTimeRequest.EndTime-overTimeRequest.StartTime).Hours)>=46)
+                {
+                    Response.StatusCode = 500;
+                    return Json(new { Success = false, Message = "月加班超過46小時囉" }, JsonRequestBehavior.AllowGet);
+
+                }
+
+                if (LeaveQuery.Any(n=>n.StartTime== overTimeRequest.StartTime.Date &&!(n.ReviewStatusID==3)))
                 {
                     Response.StatusCode = 500;
                     return Json(new { Success = false, Message = "今天已經申請過請假" }, JsonRequestBehavior.AllowGet);
                 }
 
-
+                //var LineIDtoEmpID = db.Employees.ToDictionary(n => n.LineID, n => n.EmployeeID);
+                
                 overTimeRequest.OverTimeRequestID = Convert.ToString(db.OverTimeRequest.Count()+1);
+
+
                 overTimeRequest.EmployeeID = User;
                 overTimeRequest.RequestTime = DateTime.Now;
                 overTimeRequest.ReviewStatusID = 1;
                 
                 db.OverTimeRequest.Add(overTimeRequest);
                 db.SaveChanges();
-                return Content("Home");
+                return Json(new { Success = false, Message = "成功" }, JsonRequestBehavior.AllowGet);
             }
 
             return RedirectToAction("Index", "Home");

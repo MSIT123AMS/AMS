@@ -17,7 +17,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card" id="mmmmmm">
-                    <form style="margin-left:10px;font-family:'Microsoft JhengHei'" method="post" action="/Attendances/SerchAttendances">
+                    @*<form style="margin-left:10px;font-family:'Microsoft JhengHei'" method="post" action="/Attendances/SerchAttendances">*@
 
                         <div class="card-header row form-group">
                             <label class=" control-label pt-1" style="font-size:20px;margin-left:20px;">開始時間:</label>
@@ -40,20 +40,16 @@
 
                             </div>
                         </div>
-                    </form>
+                    @*</form>*@
                     <div class="card-body">
-                        <div class="form-group">
-                            <label class="badge badge-info" style="background-color:#A8D8B9">特休天數:@ViewBag.Off</label>
-                            <label class="badge badge-info" style="background-color:#A8D8B9">剩餘特休天數:@ViewBag.on</label><br />
-                            <label class="badge badge-info" style="background-color:#A8D8B9">補修已修時數:@ViewBag.Leave</label>
-                            <label class="badge badge-info" style="background-color:#A8D8B9">剩餘補修時數:@ViewBag.over</label>
+                        <div class="table-responsive">
+                            @Html.Partial("_SerchAttendancesPartial", Model)
                         </div>
-                        <div class="table-responsive" id="Employeestable">
-                            @Html.Partial("_SerchAttendancesPartial", Model);
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </body>

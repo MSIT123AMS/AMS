@@ -34,13 +34,13 @@
     }
 
     table.table-striped td {
-        font-size: 20px;
+        font-size: 16px;
     }
     table.table-striped th {
         background-color: #6E75A4
     }
     table.table-striped th, td {
-        font-size: 20px;
+        font-size: 16px;
         font-family: 'Microsoft JhengHei';
        
         text-align: center;

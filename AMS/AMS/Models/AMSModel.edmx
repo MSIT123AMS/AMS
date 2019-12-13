@@ -258,6 +258,17 @@
           <Property Name="Education" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FaceID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Annouuncements">
+          <Key>
+            <PropertyRef Name="AnnouuncementID" />
+          </Key>
+          <Property Name="AnnouuncementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Importance" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="AnnounceTime" Type="DateTime" Precision="3" />
+        </EntityType>
         <EntityType Name="Attendances">
           <Key>
             <PropertyRef Name="EmployeeID" />
@@ -269,17 +280,6 @@
           <Property Name="station" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="OffDuty" Type="DateTime" Precision="3" />
           <Property Name="savehours" Type="Int32" />
-        </EntityType>
-        <EntityType Name="Annouuncements">
-          <Key>
-            <PropertyRef Name="AnnouuncementID" />
-          </Key>
-          <Property Name="AnnouuncementID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Importance" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="AnnounceTime" Type="DateTime" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -395,18 +395,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Attendances">
-            <EntityTypeMapping TypeName="Model.Attendances">
-              <MappingFragment StoreEntitySet="Attendances">
-                <ScalarProperty Name="savehours" ColumnName="savehours" />
-                <ScalarProperty Name="OffDuty" ColumnName="OffDuty" />
-                <ScalarProperty Name="station" ColumnName="station" />
-                <ScalarProperty Name="OnDuty" ColumnName="OnDuty" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Annouuncements">
             <EntityTypeMapping TypeName="Model.Annouuncements">
               <MappingFragment StoreEntitySet="Annouuncements">
@@ -416,6 +404,18 @@
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
                 <ScalarProperty Name="AnnouuncementID" ColumnName="AnnouuncementID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="Model.Attendances">
+              <MappingFragment StoreEntitySet="Attendances">
+                <ScalarProperty Name="savehours" ColumnName="savehours" />
+                <ScalarProperty Name="OffDuty" ColumnName="OffDuty" />
+                <ScalarProperty Name="station" ColumnName="station" />
+                <ScalarProperty Name="OnDuty" ColumnName="OnDuty" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

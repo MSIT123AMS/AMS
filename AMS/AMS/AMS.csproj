@@ -62,6 +62,12 @@
     <Reference Include="LineBot, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\LineBotSDK.2.0.3\lib\net45\LineBot.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Cognitive.LUIS, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Cognitive.LUIS.2.0.2\lib\portable45-net45+win8+wpa81\Microsoft.Cognitive.LUIS.dll</HintPath>
     </Reference>
@@ -100,11 +106,20 @@
     <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.4.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlClient, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.3.0\lib\net46\System.Data.SqlClient.dll</HintPath>
+    </Reference>
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -204,6 +219,9 @@
     <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
     </Reference>
+    <Reference Include="TableDependency.SqlClient, Version=8.5.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SqlTableDependency.8.5.6\lib\net451\TableDependency.SqlClient.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -284,9 +302,16 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AjaxTestController.cs" />
+    <Compile Include="Controllers\AnnouuncementsController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\AttendancesSearchController.cs" />
+    <Compile Include="Controllers\Class1.cs" />
+    <Compile Include="Controllers\Class2.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\Position.cs" />
+    <Compile Include="Metadata\Announcement.cs" />
+    <Compile Include="Metadata\AnnouncementMetadata.cs" />
+    <Compile Include="Models\AnnouncementtViewModel.cs" />
     <Compile Include="Models\calendar.cs" />
     <Compile Include="Controllers\ClockInApplyController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
@@ -371,6 +396,7 @@
     <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
     <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignalR\MyHub1.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -401,7 +427,10 @@
     <Content Include="assets\fonts\fontawesome\fa-regular-400.svg" />
     <Content Include="assets\fonts\fontawesome\fa-solid-900.svg" />
     <Content Include="assets\fonts\simple-line-icons\Simple-Line-Icons.svg" />
+    <Content Include="assets\img\Alarm_bell_reminder_4732019.png" />
+    <Content Include="assets\img\Alarm_bell_reminder_notification_4732023.png" />
     <Content Include="assets\img\arashmil.jpg" />
+    <Content Include="assets\img\bell-48.png" />
     <Content Include="assets\img\bg-404.jpeg" />
     <Content Include="assets\img\bg-abstract.png" />
     <Content Include="assets\img\bg-abstract2.png" />
@@ -694,6 +723,7 @@
     <Content Include="assets\img\icon.ico" />
     <Content Include="assets\img\icon.png" />
     <Content Include="assets\img\icon.svg" />
+    <Content Include="assets\img\icons8-sugar-cube-40.png" />
     <Content Include="assets\img\img-shadow.png" />
     <Content Include="assets\img\jm_denis.jpg" />
     <Content Include="assets\img\logo.svg" />
@@ -712,6 +742,7 @@
     <Content Include="assets\img\productimg\product7.jpeg" />
     <Content Include="assets\img\productimg\product8.jpeg" />
     <Content Include="assets\img\productimg\product9.jpeg" />
+    <Content Include="assets\img\wheat_grey_50x50.png" />
     <Content Include="assets\img\profile.jpg" />
     <Content Include="assets\img\profile2.jpg" />
     <Content Include="assets\img\sauro.jpg" />
@@ -780,6 +811,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\daygrid-main.css" />
+    <Content Include="Content\FCBS4main.min.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\main.css" />
     <Content Include="Content\PagedList.css" />
@@ -791,6 +823,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Img\BICACHU-icon.png" />
     <Content Include="Img\icons-search.png" />
+    <Content Include="Img\imagegif.gif" />
+    <Content Include="Img\imagegif1.gif" />
     <Content Include="Img\kouji_rammer.png" />
     <Content Include="Img\lineicon.png" />
     <Content Include="Img\linelocatiom.png" />
@@ -946,6 +980,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="App_Data\NationalHoliday.json" />
     <None Include="Properties\PublishProfiles\ams123 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\AMS20191108010909 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy.pubxml" />
@@ -957,6 +992,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\FCBS4main.min.js" />
     <Content Include="Scripts\home.js" />
     <Content Include="Scripts\interaction_main.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
@@ -966,6 +1002,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.basictable.js" />
     <Content Include="Scripts\jquery.basictable.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.1.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -1018,7 +1056,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login1.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -1060,7 +1098,6 @@
     <Content Include="Views\Employees\_SerchOverTimePartial.cshtml" />
     <Content Include="Views\Employees\_SerchAttendances.cshtml" />
     <Content Include="Views\Employees\_SerchAttendancesPartial.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\LeaveRequests\LeaveIndexView.cshtml" />
     <Content Include="Views\Review\Ajax.cshtml" />
     <Content Include="Views\Review\Indexxx.cshtml" />
@@ -1096,6 +1133,19 @@
     <Content Include="Views\Employees\_DailyStatistics.cshtml" />
     <Content Include="Views\Employees\_DailyStatisticsPartial.cshtml" />
     <Content Include="Views\Employees\DailyStatistics1111.cshtml" />
+    <Content Include="Views\Departments\_Create.cshtml" />
+    <Content Include="Views\Departments\Delete.cshtml" />
+    <Content Include="Views\Departments\Details.cshtml" />
+    <Content Include="Views\Departments\Edit.cshtml" />
+    <Content Include="Views\Departments\_Index.cshtml" />
+    <Content Include="Views\Departments\_DepartmentsPartial.cshtml" />
+    <Content Include="Views\Home\_DayDutyList.cshtml" />
+    <Content Include="Views\Annouuncements\IndexTakeFive.cshtml" />
+    <Content Include="Views\Annouuncements\Index.cshtml" />
+    <Content Include="Views\Annouuncements\Create.cshtml" />
+    <Content Include="Views\Annouuncements\Details.cshtml" />
+    <Content Include="Views\OverTimeRequests\CreateLine.cshtml" />
+    <Content Include="Views\Attendances\TakeFive_Uncheck.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

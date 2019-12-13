@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace AMS.Models
 {
@@ -31,4 +32,21 @@ namespace AMS.Models
         [Display(Name = "附件")]
         public byte[] Attachment { get; set; }
     }
+
+
+    public partial class LeaveRequestsViewModel
+    {
+        public string LeaveRequestID { get; set; }
+        public string EmployeeID { get; set; }
+        public System.DateTime RequestTime { get; set; }
+        public System.DateTime StartTime { get; set; }
+        public System.DateTime EndTime { get; set; }
+        public string LeaveType { get; set; }
+        public string LeaveReason { get; set; }
+        public int ReviewStatusID { get; set; }
+        public Nullable<System.DateTime> ReviewTime { get; set; }
+        public HttpPostedFileBase Attachment { get; set; }
+    }
+
+
 }
