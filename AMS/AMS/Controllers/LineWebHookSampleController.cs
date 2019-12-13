@@ -595,8 +595,56 @@ namespace WebApplication5.Controllers
                         {
                             var dbLineyes = d.LeaveRequests.AsEnumerable().Where(n => n.EmployeeID == EmpID).OrderBy(n=>n.LeaveRequestID).LastOrDefault();//判斷裡面有沒有Time的值 如果沒有就新增一個之後要修改用
 
-                            bot.PushMessage(AdminUserId, $"假單編號:{dbLineyes.LeaveRequestID}\n請假申請時間:{dbLineyes.RequestTime}\n請假假別:{dbLineyes.LeaveType}\n請假開始時間:{dbLineyes.StartTime}\n請假結束時間:{dbLineyes.EndTime}\n事由:{dbLineyes.LeaveReason}");
 
+
+                            var returnLine = $@"[{{""type"": ""flex"",""altText"":""確認"",""contents"":{{""type"": ""bubble"",""body"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{
+        ""type"": ""box"",
+        ""layout"": ""vertical"",
+        ""contents"": [
+          {{
+            ""type"": ""box"",
+            ""layout"": ""vertical"",
+            ""contents"": [
+              {{
+                ""type"": ""text"",
+                ""contents"": [],
+                ""size"": ""xl"",
+                ""wrap"": true,
+                ""color"": ""#ffffff"",
+                ""weight"": ""bold"",
+                ""text"": ""送出申請待審核""
+              }}
+            ],
+            ""spacing"": ""sm""
+          }}
+        ]
+      }}
+    ],
+    ""paddingAll"": ""20px"",
+    ""backgroundColor"": ""#464F69""
+  }},
+  ""footer"": {{
+    ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""text"",
+        ""text"": ""假單編號:{dbLineyes.LeaveRequestID}\n申請時間:{dbLineyes.RequestTime}\n假別:{dbLineyes.LeaveType}\n開始時間:{dbLineyes.StartTime}\n結束時間:{dbLineyes.EndTime}\n事由:{dbLineyes.LeaveReason}"",
+        ""size"": ""md"",
+        ""margin"": ""lg"",
+        ""wrap"": true
+      }}
+    ]
+  }}
+}}
+}}]";
+
+
+
+
+
+                            //bot.PushMessage(AdminUserId, $"假單編號:{dbLineyes.LeaveRequestID}\n請假申請時間:{dbLineyes.RequestTime}\n請假假別:{dbLineyes.LeaveType}\n請假開始時間:{dbLineyes.StartTime}\n請假結束時間:{dbLineyes.EndTime}\n事由:{dbLineyes.LeaveReason}");
+                            bot.PushMessageWithJSON(AdminUserId, returnLine);
                         }
 
 
