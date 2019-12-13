@@ -60,14 +60,16 @@ namespace AMS.Models
 
         [Display(Name = "記住我?")]
         public bool RememberMe { get; set; }
+
+        
+        public string imageData { get; set; }
     }
 
     public class RegisterViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name = "電子郵件")]
-        public string Email { get; set; }
+        [Display(Name = "帳號")]
+        public string User { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "{0} 的長度至少必須為 {2} 個字元。", MinimumLength = 6)]

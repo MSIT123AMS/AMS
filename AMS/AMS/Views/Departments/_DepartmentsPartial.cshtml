@@ -1,0 +1,45 @@
+﻿@model IEnumerable<AMS.Models.Departments>
+
+<table id="basic-datatables" class="display table table-striped table-hover">
+    <thead class="bg-primary text-light">
+        <tr>
+            <th>
+                部門名稱
+            </th>
+            <th>
+                經理
+            </th>
+            <th>
+                功能
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.DepartmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Manager)
+            </td>
+            <td>
+                <button type="button" class="btn btn-sm" style="background-color:#787D7B;color:#FFFFFB">
+                
+                    <i class="icon-pencil"></i><span>
+                        <strong>編輯</strong>
+                    </span>
+                </button>
+                <button type="button" class="btn btn-sm" style="background-color:#ff0000;color:#FFFFFB" onclick="ConfirmSweetAlert(a11)">
+                    <i class="icon-trash"></i><span>
+                        <strong>刪除</strong>
+                    </span>
+                </button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

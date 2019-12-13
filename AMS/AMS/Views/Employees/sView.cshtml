@@ -7,6 +7,8 @@
 
 <video id="player" controls autoplay></video>
 <button id="capture">Capture</button>
+<button id="btn1" onclick="aaa()">btn1</button>
+<button id="btn2" onclick="aaaaa()">btn111</button>
 <canvas id="snapshot" width=320 height=240></canvas>
 <h1>Detect Faces:</h1>
 Enter the URL to an image that includes a face or faces, then click
@@ -28,19 +30,34 @@ Image to analyze: <input type="text" name="inputImage" id="inputImage"
 @section scripts
 {
     <script>
-        var player = document.getElementById('player');
-        var snapshotCanvas = document.getElementById('snapshot');
-        var captureButton = document.getElementById('capture');
-        var videoTracks;
+        function aaa() {
+         $.ajax({
+         type: "GET",
+         url: "@Url.Action("GetFaceapi", "Employees")",
+         }).done(function (result) {
+      }).fail(function (e) { alert(e.responseText) });
 
+
+
+        };
+
+
+
+
+      
+        var snapshotCanvas = document.getElementById('snapshot');
+        
+        var videoTracks;
+        var player = document.getElementById('player');
         var handleSuccess = function (stream) {
             // Attach the video stream to the video element and autoplay.
             player.srcObject = stream;
             videoTracks = stream.getVideoTracks();
         };
 
+        var captureButton = document.getElementById('capture');
         captureButton.addEventListener('click', function () {
-            
+
             var context = snapshot.getContext('2d');
             context.drawImage(player, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
 
@@ -54,8 +71,8 @@ Image to analyze: <input type="text" name="inputImage" id="inputImage"
 
         function xxx() {
             var sCanvas = document.getElementById('snapshot');
-            var dataURL = sCanvas.toDataURL(); 
-    
+            var dataURL = sCanvas.toDataURL();
+
             var params = {
                 // Request parameters
                 "returnFaceId": "true",
@@ -88,152 +105,201 @@ Image to analyze: <input type="text" name="inputImage" id="inputImage"
                 });
         }
     </script>
- 
-        <script>
-            var sourceImageUrl = document.getElementById("inputImage").value;
-            var sourceImageUrl2 = "https://upload.wikimedia.org/wikipedia/commons/6/6a/%E9%AB%98%E9%9B%84%E5%B8%82%E9%95%B7_%E9%9F%93%E5%9C%8B%E7%91%9C.jpg";
 
-            function processImage() {
+    <script>
+        function aaaaa() {
+            var canvas = document.getElementById('snapshot');
+            canvas.getContext('2d');
+            pdata = canvas.toDataURL('image/png');
+            image = pdata.replace('data:image/png;base64,', '');
 
-               processImage1(sourceImageUrl);
-
-
-
-
-            }
-            function processImage2(purl) {
-                // Replace <Subscription Key> with your valid subscription key.
-                var subscriptionKey = "8f11a9ed05c54441b203f86a5d54cbba";
-
-                var uriBase =
-                    "https://msitfaceams.cognitiveservices.azure.com/face/v1.0/detect";
-
-                // Request parameters.
-                var params = {
-                    "returnFaceId": "true",
-                };
-
-                // Display the image.
-
-                document.querySelector("#sourceImage").src = purl;
-
-                // Perform the REST API call.
-                $.ajax({
-                    url: uriBase + "?" + $.param(params),
-
-                    // Request headers.
-                    beforeSend: function (xhrObj) {
-                        xhrObj.setRequestHeader("Content-Type", "application/json");
-                        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
-                    },
-
-                    type: "POST",
-
-                    // Request body.
-                    data: '{"url": ' + '"' + purl + '"}',
-                })
-
-                    .done(function (data) {
-                        console.log(data);
-                        console.log(data[0].faceId);
-                     
+            let data = new FormData();
+            //data.append("DepartmentID","2");
 
 
-                    })
+            data.append("Photo", pdata);
 
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        // Display error message.
-                        var errorString = (errorThrown === "") ?
-                            "Error. " : errorThrown + " (" + jqXHR.status + "): ";
-                        errorString += (jqXHR.responseText === "") ?
-                            "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
-                                jQuery.parseJSON(jqXHR.responseText).message :
-                                jQuery.parseJSON(jqXHR.responseText).error.message;
-                        alert(errorString);
-                    });
+            $.ajax({
+                url: "@Url.Action("LoginFace", "Employees")",
+                type: "POST",
+                contentType: false,         // 告诉jQuery不要去這置Content-Type
+                processData: false,         // 告诉jQuery不要去處理發送的數據
+                data: '{ "imageData" : "' + image + '" }',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                //data: {"EmployeeID": EmployeeID.value,},
+            }).done(function (result) {
+                alert(result.msg);
+                //aaaaa2(result.faceid);
+
+            }).fail(function (e) { SweetAlert("驗證失敗") });
+        }
+        function aaaaa2(faceid) {
+            
+
+            $.ajax({
+                url: "@Url.Action("GetFaceapiVerify", "Employees")/"+faceid,
+                type: "GET",
+                dataType: 'json',
+
+            }).done(function (result) {
+
+                alert(result.msg);
+
+            }).fail(function (e) { SweetAlert("驗證失敗") });
+        }
+
+
+        var sourceImageUrl2 = "https://upload.wikimedia.org/wikipedia/commons/6/6a/%E9%AB%98%E9%9B%84%E5%B8%82%E9%95%B7_%E9%9F%93%E5%9C%8B%E7%91%9C.jpg";
+
+        function processImage() {
+            //var sourceImageUrl = document.getElementById("snapshot").value;
+            var canvas = document.getElementById('snapshot');
+            canvas.getContext('2d');
+            data = canvas.toDataURL('image/jpeg', 1.0);
+
+            processImage1(data);
+
+
+
+
+        }
+        function processImage2(purl) {
+            // Replace <Subscription Key> with your valid subscription key.
+            var subscriptionKey = "8f11a9ed05c54441b203f86a5d54cbba";
+
+            var uriBase =
+                "https://msitfaceams.cognitiveservices.azure.com/face/v1.0/detect";
+
+            // Request parameters.
+            var params = {
+                "returnFaceId": "true",
             };
 
-            function processImage1(purl) {
-                // Replace <Subscription Key> with your valid subscription key.
-                var subscriptionKey = "8f11a9ed05c54441b203f86a5d54cbba";
+            // Display the image.
 
-                var uriBase =
-                    "https://msitfaceams.cognitiveservices.azure.com/face/v1.0/detect";
+            //document.querySelector("#sourceImage").src = purl;
 
-                // Request parameters.
-                var params = {
-                    "returnFaceId": "true",
-                };
+            // Perform the REST API call.
+            $.ajax({
+                url: uriBase + "?" + $.param(params),
 
-                // Display the image.
-                
-                document.querySelector("#sourceImage").src = purl;
+                // Request headers.
+                beforeSend: function (xhrObj) {
+                    xhrObj.setRequestHeader("Content-Type", "application/json");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+                },
 
-                // Perform the REST API call.
-                $.ajax({
-                    url: uriBase + "?" + $.param(params),
+                type: "POST",
 
-                    // Request headers.
-                    beforeSend: function (xhrObj) {
-                        xhrObj.setRequestHeader("Content-Type", "application/json");
-                        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
-                    },
+                // Request body.
+                data: '{"url": ' + '"' + purl + '"}',
+            })
 
-                    type: "POST",
+                .done(function (data) {
+                    console.log(data);
+                    console.log(data[0].faceId);
 
-                    // Request body.
-                    data: '{"url": ' + '"' + purl + '"}',
+
+
                 })
 
-                    .done(function (data) {
-                        console.log(data);
-                        console.log(data[0].faceId);
-                        processImage2(sourceImageUrl2);
-                       
-                    })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    // Display error message.
+                    var errorString = (errorThrown === "") ?
+                        "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+                    errorString += (jqXHR.responseText === "") ?
+                        "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+                            jQuery.parseJSON(jqXHR.responseText).message :
+                            jQuery.parseJSON(jqXHR.responseText).error.message;
+                    alert(errorString);
+                });
+        };
 
-                    .fail(function (jqXHR, textStatus, errorThrown) {
-                        // Display error message.
-                        var errorString = (errorThrown === "") ?
-                            "Error. " : errorThrown + " (" + jqXHR.status + "): ";
-                        errorString += (jqXHR.responseText === "") ?
-                            "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
-                                jQuery.parseJSON(jqXHR.responseText).message :
-                                jQuery.parseJSON(jqXHR.responseText).error.message;
-                        alert(errorString);
-                    });
+        function processImage1(purl) {
+            // Replace <Subscription Key> with your valid subscription key.
+            var subscriptionKey = "8f11a9ed05c54441b203f86a5d54cbba";
+
+            var uriBase =
+                "https://msitfaceams.cognitiveservices.azure.com/face/v1.0/detect";
+
+            // Request parameters.
+            var params = {
+                "returnFaceId": "true",
             };
-            $(function () {
-                var subscriptionKey = "8f11a9ed05c54441b203f86a5d54cbba";
-                var uriBase1 =
-                    "https://msitfaceams.cognitiveservices.azure.com/face/v1.0/verify";
-                var params = {
-                    // Request parameters
-                };
-                purl = "1ed5d1a0-4d22-4dd0-b1fe-f927e18ec0cd";
-                pur2 = "bf53a179-38a5-4033-bc78-4809baec0429";
-                $.ajax({
-                    url: uriBase1 + "?" + $.param(params),
 
-                    // Request headers.
-                    beforeSend: function (xhrObj) {
-                        xhrObj.setRequestHeader("Content-Type", "application/json");
-                        xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
-                    },
-                    
-                    type: "POST",
-                    // Request body
-                  
-                    data: `{"faceId1":"${purl}","faceId2":"${pur2}"}`,
+            // Display the image.
+            var canvas = document.getElementById('snapshot');
+            canvas.getContext('2d');
+            let data = canvas.toDataURL('image/jpeg');
+
+
+            // Perform the REST API call.
+            $.ajax({
+                url: uriBase + "?" + $.param(params),
+
+                // Request headers.
+                beforeSend: function (xhrObj) {
+                    xhrObj.setRequestHeader("Content-Type", "application / octet-stream");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+                },
+
+                type: "POST",
+                processData: false,
+                //data: data ,
+                // Request body.
+                data: '{"url": ' + '"' + data + '"}',
+            })
+
+                .done(function (data) {
+                    console.log(data);
+                    console.log(data[0].faceId);
+                    //processImage2(sourceImageUrl2);
 
                 })
-                    .done(function (data) {
-                        console.log(data.confidence);
-                        alert("success");
-                    })
-                    .fail(function () {
-                        alert("error");
-                    });
-            });
+
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    // Display error message.
+                    var errorString = (errorThrown === "") ?
+                        "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+                    errorString += (jqXHR.responseText === "") ?
+                        "" : (jQuery.parseJSON(jqXHR.responseText).message) ?
+                            jQuery.parseJSON(jqXHR.responseText).message :
+                            jQuery.parseJSON(jqXHR.responseText).error.message;
+                    alert(errorString);
+                });
+        };
+        $(function () {
+            var subscriptionKey = "8f11a9ed05c54441b203f86a5d54cbba";
+            var uriBase1 =
+                "https://msitfaceams.cognitiveservices.azure.com/face/v1.0/verify";
+            var params = {
+                // Request parameters
+            };
+            purl = "1ed5d1a0-4d22-4dd0-b1fe-f927e18ec0cd";
+            pur2 = "bf53a179-38a5-4033-bc78-4809baec0429";
+            $.ajax({
+                url: uriBase1 + "?" + $.param(params),
+
+                // Request headers.
+                beforeSend: function (xhrObj) {
+                    xhrObj.setRequestHeader("Content-Type", "application/json");
+                    xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+                },
+
+                type: "POST",
+                // Request body
+
+                data: `{"faceId1":"${purl}","faceId2":"${pur2}"}`,
+
+            })
+                .done(function (data) {
+                    console.log(data.confidence);
+                    alert("success");
+                })
+                .fail(function () {
+                    alert("error");
+                });
+        });
     </script>
 }

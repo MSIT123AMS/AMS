@@ -286,6 +286,9 @@
     <Compile Include="Controllers\AjaxTestController.cs" />
     <Compile Include="Controllers\AttendancesController.cs" />
     <Compile Include="Controllers\AttendancesSearchController.cs" />
+    <Compile Include="Controllers\Class1.cs" />
+    <Compile Include="Controllers\Class2.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\Position.cs" />
     <Compile Include="Models\calendar.cs" />
     <Compile Include="Controllers\ClockInApplyController.cs" />
@@ -790,6 +793,8 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Img\icons-search.png" />
+    <Content Include="Img\imagegif.gif" />
+    <Content Include="Img\imagegif1.gif" />
     <Content Include="Img\kouji_rammer.png" />
     <Content Include="Img\logo.png" />
     <Content Include="Img\logo2.png" />
@@ -1093,6 +1098,12 @@
     <Content Include="Views\Employees\_DailyStatistics.cshtml" />
     <Content Include="Views\Employees\_DailyStatisticsPartial.cshtml" />
     <Content Include="Views\Employees\DailyStatistics1111.cshtml" />
+    <Content Include="Views\Departments\_Create.cshtml" />
+    <Content Include="Views\Departments\Delete.cshtml" />
+    <Content Include="Views\Departments\Details.cshtml" />
+    <Content Include="Views\Departments\Edit.cshtml" />
+    <Content Include="Views\Departments\_Index.cshtml" />
+    <Content Include="Views\Departments\_DepartmentsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

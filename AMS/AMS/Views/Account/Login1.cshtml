@@ -3,55 +3,319 @@
 @{
     ViewBag.Title = "登入";
 }
-
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>使用本機帳戶登入。</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="登入" class="btn btn-primary" />
-                    </div>
-                </div>
-              
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@{
+    Layout = null;
 }
+
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <!-- meta data -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <!--font-family-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;subset=devanagari,latin-ext" rel="stylesheet">
+
+    <!-- title of site -->
+    <title>Sign in</title>
+
+    <!-- For favicon png -->
+    <link rel="shortcut icon" type="image/icon" href="assets/logo/favicon.png" />
+
+    <!--font-awesome.min.css-->
+    <link rel="stylesheet" href="~/assets/css/font-awesome.min.css">
+
+    <!--animate.css-->
+    <link rel="stylesheet" href="~/assets/css/animate.css">
+
+    <!--bootstrap.min.css-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- bootsnav -->
+    <link rel="stylesheet" href="~/assets/css/bootsnav.css">
+
+    <!--style.css-->
+    <link rel="stylesheet" href="~/assets/css/style.css">
+
+    <!--responsive.css-->
+    <link rel="stylesheet" href="~/assets/css/responsive.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            background-image: url('../../assets/img/背景.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            background-size: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+    <!-- signin end -->
+    <section id="loginForm" ">
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form",@id="form1" }))
+        {
+            @Html.AntiForgeryToken()
+        <div class="container">
+           
+            <div class="sign-content popup-in-content" style="margin-bottom:100px;margin-top:100px;width:60%;height:60%">
+                <div class="popup-in-txt">
+                    @*<h2>登入</h2>*@
+                    <ul class="nav nav-pills nav-justified">
+                        <li class="active"><a data-toggle="tab" href="#home">帳號登入</a></li>
+                        <li><a data-toggle="tab" href="#menu1">臉部登入</a></li>
+                    </ul>
+                    <br />
+                    <br />
+                    <div id="loadingIMG" style="display:none">
+                        <img src="~/Img/imagegif1.gif" />
+                    </div>
+                    <br />
+                    <div class="tab-content">
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="signin-form">
+                                        <form action="signin.html">
+                                            <div class="form-group">
+                                                <label for="signin_form">員工編號</label>
+                                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "UserName", @placeholder = "請輸入員工編號" })
+                                                @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                            </div><!--/.form-group -->
+                                            <br />
+                                            <div class="form-group">
+                                                <label for="signin_form">password</label>
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "Password", @placeholder = "請輸入密碼" })
+                                                <input id="imageData" name="imageData" type="text"  style="display:none"/>
+                                            </div><!--/.form-group -->
+                                        </form><!--/form -->
+                                    </div><!--/.signin-form -->
+                                </div><!--/.col -->
+                            </div><!--/.row -->
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="signin-password">
+                                        <div class="awesome-checkbox-list">
+                                            <ul class="unstyled centered">
+
+                                                <li>
+                                                    <input class="styled-checkbox" id="styled-checkbox-2" type="checkbox" value="value2">
+                                                    <label for="styled-checkbox-2">remember password</label>
+                                                </li>
+
+                                                <li>
+                                                    <a href="#">Forgot email or password ?</a>
+                                                </li>
+
+                                            </ul>
+                                        </div><!--/.awesome-checkbox-list -->
+                                    </div><!--/.signin-password -->
+                                </div><!--/.col -->
+                            </div><!--/.row -->
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="signin-footer">
+
+                                        <input type="submit" value="登入" class="btn signin_btn">
+
+
+                                        <p>
+                                            Don’t have an Account ?
+                                            <a href="signup.html">register</a>
+                                        </p>
+                                    </div><!--/.signin-footer -->
+                                </div><!--/.col-->
+                            </div><!--/.row -->
+                        </div>
+
+                        <div id="menu1" class="tab-pane fade">
+                            <div id="divimg" style="width:490px;height:370px">
+                                <video id="player" controls autoplay style="width:490px"></video>
+                                <canvas id="snapshot" width=320 height=240 style="display:none"></canvas>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="signin-footer">
+
+                                        <input id="btnlogin" type="button" value="登入" class="btn signin_btn">
+
+
+                                        <p>
+                                            Don’t have an Account ?
+                                            <a href="signup.html">register</a>
+                                        </p>
+                                    </div><!--/.signin-footer -->
+                                </div><!--/.col-->
+                            </div><!--/.row -->
+                        </div>
+
+                    </div>
+
+                    @*<div class="row">
+                    <div class="col-sm-12">
+                        <div class="signin-form">
+                            <form action="signin.html">
+                                <div class="form-group">
+                                    <label for="signin_form">員工編號</label>
+                                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @id = "signin_form ", @placeholder = "請輸入員工編號" })
+                                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                                </div><!--/.form-group -->
+                                <div class="form-group">
+                                    <label for="signin_form">password</label>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", @id = "signin_form", @placeholder = "請輸入密碼" })
+
+                                </div><!--/.form-group -->
+                            </form><!--/form -->
+                        </div><!--/.signin-form -->
+                    </div><!--/.col -->
+                </div><!--/.row -->
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="signin-password">
+                            <div class="awesome-checkbox-list">
+                                <ul class="unstyled centered">
+
+                                    <li>
+                                        <input class="styled-checkbox" id="styled-checkbox-2" type="checkbox" value="value2">
+                                        <label for="styled-checkbox-2">remember password</label>
+                                    </li>
+
+                                    <li>
+                                        <a href="#">Forgot email or password ?</a>
+                                    </li>
+
+                                </ul>
+                            </div><!--/.awesome-checkbox-list -->
+                        </div><!--/.signin-password -->
+                    </div><!--/.col -->
+                </div><!--/.row -->*@
+
+                    @*<div class="row">
+                    <div class="col-sm-12">
+                        <div class="signin-footer">
+
+                            <input type="submit" value="登入" class="btn signin_btn">
+
+
+                            <p>
+                                Don’t have an Account ?
+                                <a href="signup.html">register</a>
+                            </p>
+                        </div><!--/.signin-footer -->
+                    </div><!--/.col-->
+                </div><!--/.row -->*@
+                </div><!-- .popup-in-txt -->
+            </div><!--/.sign-content -->
+        </div><!--/.container -->
+        }
+    </section><!--/.signin -->
+    <!-- signin end -->
+    <!--footer copyright start -->
+    <footer class="footer-copyright">
+        <div id="scroll-Top">
+            <i class="fa fa-angle-double-up return-to-top" id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+        </div><!--/.scroll-Top-->
+
+    </footer><!--/.hm-footer-copyright-->
+    <!--footer copyright  end -->
+    <!-- Include all js compiled plugins (below), or include individual files as needed -->
+    <!--modernizr.min.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+
+    <!--bootstrap.min.js-->
+
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <!-- bootsnav js -->
+    <script src="~/assets/js/bootsnav.js"></script>
+
+    <!-- jquery.sticky.js -->
+    <script src="~/assets/js/jquery.sticky.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+
+    <!--Custom JS-->
+    <script src="~/assets/js/custom.js"></script>
+    <script src="~/assets/js/jquery.js"></script>
+    <script>
+        var player = document.getElementById('player');
+        var videoTracks;
+        var handleSuccess = function (stream) {
+            // Attach the video stream to the video element and autoplay.
+            player.srcObject = stream;
+            videoTracks = stream.getVideoTracks();
+        };
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(handleSuccess);
+
+
+        var captureButton = document.getElementById('btnlogin');
+        captureButton.addEventListener('click', function () {
+
+            var snapshotCanvas = document.getElementById('snapshot');
+            var context = snapshot.getContext('2d');
+            context.drawImage(player, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
+
+           
+           
+            aaaaa();
+        });
+          function aaaaa() {
+            var canvas = document.getElementById('snapshot');
+            canvas.getContext('2d');
+            pdata = canvas.toDataURL('image/png');
+              image = pdata.replace('data:image/png;base64,', '');
+              $("#imageData").val(image);
+              $("#form1").submit();
+              $("#loadingIMG").show();
+
+            //let data = new FormData();
+            //data.append("DepartmentID","2");
+
+
+              @*data.append("Photo", pdata);
+              $("#loadingIMG").show();
+            $.ajax({
+                url: "@Url.Action("LoginFace", "Home")",
+                type: "POST",
+                contentType: false,         // 告诉jQuery不要去這置Content-Type
+                processData: false,         // 告诉jQuery不要去處理發送的數據
+                data: '{ "imageData" : "' + image + '" }',
+                contentType: 'application/json; charset=utf-8',
+                dataType:"json",
+                //data: {"EmployeeID": EmployeeID.value,},
+            }).done(function (res) {
+                $.session.set('UserFullName', '謝惠婷');
+                $.session.set('UserName', 'MSIT1230001');
+                // Stop all video streams.
+                window.location.href = res.newUrl;
+                $("#loadingIMG").hide();
+                videoTracks.forEach(function (track) { track.stop() });
+                //alert(result.msg);
+                $("#UserName").val("XXXXX");
+                //aaaaa2(result.faceid);
+
+            }).fail(function (e) { SweetAlert("驗證失敗") });*@
+        }
+
+    </script>
+</body>
+
+</html>

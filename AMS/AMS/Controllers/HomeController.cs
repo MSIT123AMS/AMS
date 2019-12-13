@@ -2,21 +2,53 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace AMS.Controllers
 {
+    //[Authorize(Roles = "Employee,Leader,HR,FaceAccount")]
     public class HomeController : Controller
     {
         Entities db = new Entities();
 
         public ActionResult Index()
         {
-          
+            if (Session["UserName"]==null)
+            {
+                return RedirectToAction("Login1", "Account");
+            }
+            
             return View();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> LoginFace(string imageData)
+        {
+            byte[] data = Convert.FromBase64String(imageData);
+            var q = db.Employees.Select(emp => new { emp.EmployeeID, emp.EmployeeName, emp.FaceID });
+            foreach (var item in q)
+            {
+                if (item.FaceID != null)
+                {
+
+                    if (await class1.MakeRequest(item.FaceID, await class1.MakeAnalysisRequest(data, "")))
+                    {
+                        //return Json(new { EmployeeID = item.EmployeeID, }, JsonRequestBehavior.AllowGet);
+                        //Session["UserFullName"] = db.Employees.Find(item.EmployeeID).EmployeeName;
+                        //Session["UserName"] = item.EmployeeID;
+                        //return RedirectToAction("Index","Home");
+                        return Json(new { newUrl = Url.Action("Index", "Home") });
+                    }
+
+
+                }
+            }
+
+            return Json(new { msg = "XX" }, JsonRequestBehavior.AllowGet);
+        }
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
