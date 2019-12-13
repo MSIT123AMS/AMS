@@ -438,8 +438,8 @@ namespace AMS.Controllers
             var query2 = db.LeaveRequests.AsEnumerable().Where(lv => lv.EmployeeID == User).Select(lv => new calendar
             {
                 title=$"{lv.LeaveType}",
-                start=CalendarDate(lv.StartTime),
-                end=CalendarDate(lv.EndTime),
+                start=CalendarDate(lv.StartTime.Date),
+                end=CalendarDate(lv.EndTime.AddDays(1)),
                 backgroundColor= "#ECB88A"
             });
             queryA = queryA.Concat(query1);
