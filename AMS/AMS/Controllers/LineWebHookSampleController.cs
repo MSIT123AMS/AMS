@@ -119,7 +119,7 @@ namespace WebApplication5.Controllers
                                             {
                                                 a.EmployeeID = EmpID;
                                                 a.Date = today.AddDays(-1);
-                                                a.station = "全天未打卡";
+                                                a.station = "整日未打卡";
                                                 a.savehours = 0;
                                                 d.Attendances.Add(a);
                                                 this.ReplyMessage(LineEvent.replyToken, $"前日全天未打卡");

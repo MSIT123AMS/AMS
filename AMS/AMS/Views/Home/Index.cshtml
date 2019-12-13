@@ -166,35 +166,86 @@
 
 <!-- End Sidebar -->
 <body>
-    <div class="main-panel">
-        <div class="content" id="mainpanel" style="background-color:#fffefa">
-            @*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*@
-          
+    <div class="wrapper">
+        <div class="main-panel" style="background-color:#fffefa">
+            <div class="content" id="mainpanel" style="background-color:#fffefa">
+                @*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*@
+                <div class="panel-header bg-danger">
+                    <div class="page-inner py-5">
+                        <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                            <div>
+                                <h1 class="text-white pb-2 fw-bold">
+                                    首頁
+                                </h1>
+                            </div>
+                            <div class="ml-md-auto py-2 py-md-0">
+                                <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
+                                <a href="#" class="btn btn-secondary btn-round">Add Customer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-inner mt--5">
+                    <div class="row mt--2">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <div style="background-color:#91989F">
+                                            <h1>
+                                                <span class="badge" style="color:#FFFFFB;margin-bottom:5px;margin-top:5px">行事曆</span>
+                                            </h1>
+                                        </div>
+                                    </div>
+                                    <label class="badge badge-info" style="background-color:#A8D8B9">本月工作日天數: @ViewBag.show1 天</label>
 
-            <div class="page-inner">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card" id="mmmmmm">
-                            <div class="row">
-                                @*行事曆*@
-                                <div class="card col-md-7" id="calendar"></div>
-                                @*行事曆*@
-                                @*公告*@
-                                <div class="card col-md-3">
-                                    <div id="Announcement"></div>
-                                    @*公告*@
+                                    <label class="badge badge-info" style="background-color:#A8D8B9">目前出勤天數: @ViewBag.show2 天</label>
+
+                                    <label class="badge badge-info" style="background-color:#A8D8B9">特休天數: @ViewBag.Off 天</label>
+
+                                    <label class="badge badge-info" style="background-color:#A8D8B9">剩餘特休天數: @ViewBag.on 天</label>
+
+                                    <label class="badge badge-info" style="background-color:#A8D8B9">補修已修時數: @ViewBag.Leave 小時</label>
+
+                                    <label class="badge badge-info" style="background-color:#A8D8B9">剩餘補修時數: @ViewBag.over 小時</label>
+
+                                    <div class="chart-container" id="calendar" style="min-height: 375px">
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
-
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <div style="background-color:#91989F">
+                                            <h1>
+                                                <span class="badge" style="color:#FFFFFB;margin-bottom:5px;margin-top:5px">公佈欄</span>
+                                            </h1>
+                                        </div>
+                                        <div id="Announcement"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <div style="background-color:#91989F">
+                                            <h1>
+                                                <span class="badge" style="color:#FFFFFB;margin-bottom:5px;margin-top:5px">近五筆缺勤紀錄</span>
+                                            </h1>
+                                        </div>
+                                        <div id="TakeFive_Uncheck"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-
         <div id="aaaa"></div>
         <footer class="footer">
             <div class="container-fluid">
@@ -241,7 +292,9 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-<script>
+    <script>
+
+       
        //圖檔顯示
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -323,7 +376,7 @@
             navigator.geolocation.getCurrentPosition(showPosition);
         }
     };
-       
+
 
         function zeroPadded(val) {
             if (val >= 10)
@@ -399,6 +452,7 @@
         }).fail(function (e) { alert(e.responseText) });
         }
     ////換Table樣式
+       
     function changeT() {
         $("#basic-datatables").addClass("compact");
         //if (window.innerWidth >= 600) {
@@ -428,7 +482,7 @@
             paging: false,
             ordering: false,
             info: false,
-           
+
         });
         $("#basic-datatables_filter").hide();
         $('#basic-datatables').removeClass("table");
@@ -458,7 +512,7 @@
             $("#statisticsnum1").text(`${datas[4].人數}`)
             $("#statisticsnum2").text(`${datas[4].未到}`)
             $("#statisticsnum3").text(`${datas[4].請假}`)
-            
+
 
 
 
@@ -475,7 +529,7 @@
                                 'rgba(255, 99, 132, 0.2)',
                             'rgba(54, 162, 235, 0.2)',
                             'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 206, 86, 0.2)' 
+                            'rgba(255, 206, 86, 0.2)'
                         ],
                         borderColor: [
                             'rgba(255,99,132,1)',
@@ -646,9 +700,13 @@
     dataType: "html",
     }).done(function (result) {
         $("#mainpanel").html(result);
-        changeT();
-          $(document).ready(function () {
-              changeT();
+        //changeT();
+        $(document).ready(function () { 
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
+                //$('#example').DataTable();          
+              //changeT();
             $("#CheckAll").click(cAll);                //全選功能
             $('#Search').bind("click",
                 function () {
@@ -773,8 +831,13 @@
 
     }).done(function (result) {
         $("#mainpanel").html(result);
-
-        changeT();
+        //$(document).ready(function () {
+        //    $('#example').DataTable();
+        //});
+        //changeT();
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
         SetTimePicker($("#time1"), $("#time2"));
 
 
@@ -805,7 +868,7 @@
             var Today = $("#RequestDate").val();
             var searchstr = str.substring(11, 13);
             var searchstrmi = str.substring(14, 16);
-            $("#OffDuty").val($("#OnDuty").val());          
+            $("#OffDuty").val($("#OnDuty").val());
 
             //if (searchstr > 12 || searchstr < 06) {
             //    timechange1();
@@ -823,16 +886,16 @@
             $("#OffDuty").val($("#OnDuty").val());
             end.value = start.value;
             end.stepUp(hours);
-           
+
         }
         //$("input[name='inlineDefaultRadiosExample']").bind("change", function () {
 
-        //    var ele = $("input[name='inlineDefaultRadiosExample']:checked").val()          
+        //    var ele = $("input[name='inlineDefaultRadiosExample']:checked").val()
         //    sethours(ele * 60);
         //});
         $("#defaultInline4").bind("change", function () {
             $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
-            var ele = $("#defaultInline4").val()          
+            var ele = $("#defaultInline4").val()
             sethours(ele * 60);
         });
         $("#defaultInline8").bind("change", function () {
@@ -890,8 +953,10 @@
     dataType: "html",
     }).done(function (result) {
        $("#mainpanel").html(result);
-       changeT();
-
+       //changeT();
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
 
     }).fail(function (e) { alert(e.responseText) });
 
@@ -962,7 +1027,7 @@
         dataType: "html",
     }).done(function (result) {
         $("#mmmmmm").html(result);
-    
+
     }).fail(function (e) { alert(e.responseText) });
 }
 
@@ -1155,7 +1220,7 @@ function UpdateEmployeesByDepartment() {
         $('#addModal').modal('show');
         $("#StartTime_wu_creat").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
         $("#EndTime_wu_creat").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "19" + ":" + "00");
-        TimeErrorProof($("#StartTime_wu_creat"), $("#EndTime_wu_creat"));      
+        TimeErrorProof($("#StartTime_wu_creat"), $("#EndTime_wu_creat"));
 
         }).fail(function (e) { SweetAlert(e.responseText) });
         }
@@ -1180,7 +1245,7 @@ function UpdateEmployeesByDepartment() {
 
         OverTimeIndex();
         SweetAlert('已送出申請');
-        
+
         }).fail(function (e) {
             SweetAlert(e.responseJSON.Message);
 
@@ -1212,11 +1277,26 @@ function UpdateEmployeesByDepartment() {
         $("#mainpanel").html(result);
         }).fail(function (e) { SweetAlert(e.responseText) });
     }
+        //============================近五筆未打卡===================================
+        document.addEventListener('DOMContentLoaded', function () {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("TakeFive_Uncheck", "Attendances")",
+                datetype: 'html',
+            }).done(function (result) {
+                $("#TakeFive_Uncheck").html(result);
+            }).fail(function (err) {
+                SweetAlert(err.statusText);
+            });
+        });
+
+
 
 
         //=============================Calendar==========================================
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
+
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['interaction', 'dayGrid', 'timeGrid', 'bootstrap'],
@@ -1242,10 +1322,10 @@ function UpdateEmployeesByDepartment() {
                     info.el.style.borderColor = 'red';
                 },
             });
-          
+
             calendar.render();
         });
-    
+
     function CalendarEventModal(date, title) {
 
         if (title.indexOf("未打卡") > 0) {
@@ -1304,10 +1384,10 @@ function UpdateEmployeesByDepartment() {
                 url: "@Url.Action("DayDutyList", "Home")",
                 contentType: false,         // 告诉jQuery不要去這置Content-Type
                 processData: false,         // 告诉jQuery不要去處理發送的數據
-                data: data,                
+                data: data,
             }).done(function (result) {
                 $("#aaaa").html(result);
-                $('#addModal').modal('show');          
+                $('#addModal').modal('show');
                 }).fail(function (err) {
                     SweetAlert(err.statusText)
                 })
@@ -1361,7 +1441,7 @@ function UpdateEmployeesByDepartment() {
             type: "GET",
             url: "@Url.Action("Details", "Annouuncements")/"+id,
             dataType: "html",
-            
+
         }).done(function (result) {
             $("#mainpanel").html(result);
             $('#basic-datatables').DataTable({
@@ -1377,7 +1457,7 @@ function UpdateEmployeesByDepartment() {
         data.append("Title", Title.value);
         data.append("Detail", Detail.value);
         data.append("Importance", $("[name='Importance']:checked").val());
-   
+
     $.ajax({
         url: "@Url.Action("CreateNew", "Annouuncements")",
         type: "POST",

@@ -213,8 +213,8 @@
           <EntitySet Name="WorkingDaySchedule" EntityType="Self.WorkingDaySchedule" />
           <EntitySet Name="LeaveRequests" EntityType="Model.LeaveRequests" />
           <EntitySet Name="Employees" EntityType="Model.Employees" />
-          <EntitySet Name="Annouuncements" EntityType="Model.Annouuncements" />
           <EntitySet Name="Attendances" EntityType="Model.Attendances" />
+          <EntitySet Name="Annouuncements" EntityType="Model.Annouuncements" />
         </EntityContainer>
         <EntityType Name="LeaveRequests">
           <Key>
