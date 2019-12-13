@@ -421,13 +421,13 @@ namespace AMS.Controllers
                          from x in all.DefaultIfEmpty()
                          where workingday.WorkingDay== "工作日"&&workingday.Date<=today.Date
                          select new  calendar{
-                             title = $"上班: {(x!=null?x.OnDuty.Value.ToShortTimeString():"未打卡")}",
+                             title = $"上班: {(x!=null&&x.OnDuty!=null?x.OnDuty.Value.ToShortTimeString():"未打卡")}",
                              start = CalendarDate(workingday.Date),
-                             backgroundColor = (x != null ? "#A5DEE4" : "#F4A7B9")
+                             backgroundColor = (x != null && x.OnDuty != null ? "#A5DEE4" : "#F4A7B9")
                          };
 
             //下班
-            var query1 = db.Attendances.AsEnumerable().Where(att => att.EmployeeID == User).Select(att => new calendar
+            var query1 = db.Attendances.AsEnumerable().Where(att => att.EmployeeID == User&&att.OnDuty.HasValue).Select(att => new calendar
             {
                 title = $"下班: {((att.OffDuty.HasValue == true) ? (att.OffDuty.Value.ToShortTimeString()) : "未打卡")}",
                 start = CalendarDate(att.OnDuty.Value),
