@@ -165,22 +165,22 @@ namespace AMS.Controllers
                 return sum;
 
             }
-            //else if ((start.Month < DateTime.Now.Month) && (end.Month == DateTime.Now.Month))//開始時間小於當月份，結束時間等於當月
-            //{
-            //    var FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
-            //    var yesday = DateTime.Parse($"{FirstDay.Year}-{FirstDay.Month}-{FirstDay.Day} 08:00:00");
-            //    var sum = GetLeaveDay(yesday, end);
-            //    return sum;
+            else if ((start.Month < DateTime.Now.Month) && (end.Month == DateTime.Now.Month))//開始時間小於當月份，結束時間等於當月
+            {
+                var FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
+                var yesday = DateTime.Parse($"{FirstDay.Year}-{FirstDay.Month}-{FirstDay.Day} 08:00:00");
+                var sum = GetLeaveDay(yesday, end);
+                return sum;
 
-            //}
-            //else if ((start.Month == DateTime.Now.Month) && (end.Month > DateTime.Now.Month))//開始時間等於當月，結束時間大於當月份
-            //{
-            //    var LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);
-            //    var yesday = DateTime.Parse($"{LastDay.Year}-{LastDay.Month}-{LastDay.Day} 17:00:00");
-            //    var sum = GetLeaveDay(end,yesday);
+            }
+            else if ((start.Month == DateTime.Now.Month) && (end.Month > DateTime.Now.Month))//開始時間等於當月，結束時間大於當月份
+            {
+                var LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);
+                var yesday = DateTime.Parse($"{LastDay.Year}-{LastDay.Month}-{LastDay.Day} 17:00:00");
+                var sum = GetLeaveDay(end, yesday);
 
-            //    return sum;
-            //}
+                return sum;
+            }
             else//開始時間和結束時間都不等於當月
             {
                 return 0;
