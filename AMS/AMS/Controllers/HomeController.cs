@@ -426,6 +426,7 @@ namespace AMS.Controllers
                              backgroundColor = (x != null ? "#A5DEE4" : "#F4A7B9")
                          };
 
+
             //下班
             var query1 = db.Attendances.AsEnumerable().Where(att => att.EmployeeID == User).Select(att => new calendar
             {
