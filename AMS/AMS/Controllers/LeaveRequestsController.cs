@@ -137,7 +137,59 @@ namespace AMS.Controllers
 
             return time1;
         }
+        #endregion
 
+        #region 算當月請假時數總和
+        public int AllLeaveSun()
+        {
+            string User = Convert.ToString(Session["UserName"]);
+            LeaveRequests L = new LeaveRequests();
+            //var dbLeave = db.LeaveRequests;
+            var dbseday = db.LeaveRequests.AsEnumerable().ToList().Where(n => n.EmployeeID == User&&((n.StartTime.Month == DateTime.Now.Month)|| (n.EndTime.Month == DateTime.Now.Month))).Sum(n=> AllMonth(n.StartTime,n.EndTime));
+        
+            //var All = dbLeave.Where(n => n.EmployeeID == User&&DateTime.Now.Year==n.StartTime);
+
+
+
+            return dbseday;
+        }
+        #endregion
+
+        #region 算當月請假時數總和
+        public int AllMonth(DateTime start ,DateTime end)
+        {
+
+            if ((start.Month == DateTime.Now.Month) && (end.Month == DateTime.Now.Month))  //開始時間和結束時間的月份都等於當月份
+            {
+                var sum = GetLeaveDay(start, end);
+                return sum;
+
+            }
+            //else if ((start.Month < DateTime.Now.Month) && (end.Month == DateTime.Now.Month))//開始時間小於當月份，結束時間等於當月
+            //{
+            //    var FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
+            //    var yesday = DateTime.Parse($"{FirstDay.Year}-{FirstDay.Month}-{FirstDay.Day} 08:00:00");
+            //    var sum = GetLeaveDay(yesday, end);
+            //    return sum;
+
+            //}
+            //else if ((start.Month == DateTime.Now.Month) && (end.Month > DateTime.Now.Month))//開始時間等於當月，結束時間大於當月份
+            //{
+            //    var LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);
+            //    var yesday = DateTime.Parse($"{LastDay.Year}-{LastDay.Month}-{LastDay.Day} 17:00:00");
+            //    var sum = GetLeaveDay(end,yesday);
+
+            //    return sum;
+            //}
+            else//開始時間和結束時間都不等於當月
+            {
+                return 0;
+            }
+
+
+
+
+        }
         #endregion
 
         #region 算剩餘的補修時數 目前沒用到
@@ -217,6 +269,14 @@ namespace AMS.Controllers
             DateTime dtLastDayRestStart = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 12, 00, 0);//請假最後一天的午休开始时间
             DateTime dtLastDayRestEnd = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 13, 00, 0);//請假最後一天的午休结束时间
 
+            //if (!IsWorkDay(dtStart) && !IsWorkDay(dtEnd))
+            //    return 0;
+            //if (dtStart >= dtFirstDayGoOffWork && dtEnd <= dtLastDayGoToWork && (dtEnd - dtStart).TotalDays < 1)
+            //    return 0;
+            //if (dtStart >= dtFirstDayGoOffWork && !IsWorkDay(dtEnd) && (dtEnd - dtStart).TotalDays < 1)
+            //    return 0;
+
+
             if (dtStart < dtFirstDayGoToWork)//開始時間早於請假第一天上班时间(當天還沒上班就請假)
             {
                 dtStart = dtFirstDayGoToWork;
@@ -258,6 +318,9 @@ namespace AMS.Controllers
                 }
             }
 
+
+
+
             //計算請假第一天和最後一天的小时合計算並換成分鐘數           
             double iSumMinute = dtFirstDayGoOffWork.Subtract(dtStart).TotalMinutes + dtEnd.Subtract(dtLastDayGoToWork).TotalMinutes;//計算獲得剩餘的分鐘數   
 
@@ -298,7 +361,7 @@ namespace AMS.Controllers
 
             //去掉請假第一天和請假的最後一天，其餘時間全部已8小時計算。
             //SumMinute/60： 獨立計算 請假第一天和請假最後一天總共請了多少小時的假
-            double doubleSumHours = ((leaveday - 2) * 8) + iSumMinute / 60;
+            double doubleSumHours = ((leaveday-2) * 8) + iSumMinute / 60;
             int intSumHours = Convert.ToInt32(doubleSumHours);
 
             if (doubleSumHours > intSumHours)//如果請假時間不足1小时話自動算為1小时
@@ -443,7 +506,7 @@ namespace AMS.Controllers
            ViewBag.Off= Days();      //特休天數共幾天
            ViewBag.over = SumoverTime()- SumLeave();//計算當年度需補修時數
            ViewBag.Leave = SumLeave();//計算當年度補修申時數
-
+            ViewBag.Leave1 = AllLeaveSun();
             return PartialView("_Create");
         }
 
@@ -723,7 +786,7 @@ namespace AMS.Controllers
             }
             DownLoadHelper.RemoveAllCache(guid);
         }
-   
+
 
     }
 }
