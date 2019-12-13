@@ -21,7 +21,7 @@ namespace AMS.Controllers
            
             if (Session["UserName"]==null)
             {
-                return RedirectToAction("Login1", "Account");
+                return RedirectToAction("Login", "Account");
             }
             ViewBag.on = remleave();  //剩餘特休天數
             ViewBag.Off = Days();      //特休天數共幾天

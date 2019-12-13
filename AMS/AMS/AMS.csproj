@@ -1056,7 +1056,7 @@
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login1.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
@@ -1098,7 +1098,6 @@
     <Content Include="Views\Employees\_SerchOverTimePartial.cshtml" />
     <Content Include="Views\Employees\_SerchAttendances.cshtml" />
     <Content Include="Views\Employees\_SerchAttendancesPartial.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\LeaveRequests\LeaveIndexView.cshtml" />
     <Content Include="Views\Review\Ajax.cshtml" />
     <Content Include="Views\Review\Indexxx.cshtml" />
