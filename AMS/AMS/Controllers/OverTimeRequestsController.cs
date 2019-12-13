@@ -189,7 +189,7 @@ namespace AMS.Controllers
                                            EndTime = ot.EndTime,
                                            PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
                                            OTDateType = date.WorkingDay,
-                                           SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                                           SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),                                           
                                            Reason = ot.OverTimeReason,
                                            Review = rev.ReviewStatus1,
                                            ReviewTime = ot.ReviewTime
@@ -205,9 +205,9 @@ namespace AMS.Controllers
 
                 }
 
-              var MonthCount=  Query.Where(n => n.StartTime.Year == today.Year && n.StartTime.Month == today.Month && !(n.Review == "3")).Sum(n =>Convert.ToInt32(OvertimeObj.Summary(n.StartTime, n.EndTime, "工作日", false)));
+              var MonthCount=  Query.AsEnumerable().Where(n => n.StartTime.Year == today.Year && n.StartTime.Month == today.Month && !(n.Review == "3")).ToList().Sum(n => (n.EndTime-n.StartTime).Hours);
 
-                if (MonthCount+ Convert.ToInt32(OvertimeObj.Summary(overTimeRequest.StartTime, overTimeRequest.EndTime,"工作日",false))>=46)
+                if ((MonthCount+(overTimeRequest.EndTime-overTimeRequest.StartTime).Hours)>=46)
                 {
                     Response.StatusCode = 500;
                     return Json(new { Success = false, Message = "月加班超過46小時囉" }, JsonRequestBehavior.AllowGet);

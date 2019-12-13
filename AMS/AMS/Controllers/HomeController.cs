@@ -1,9 +1,12 @@
 ﻿using AMS.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace AMS.Controllers
 {
@@ -74,34 +77,53 @@ namespace AMS.Controllers
 
             //出勤 請假
             var Myname = db.Employees.Where(emp => emp.EmployeeID == User).Select(x => x.EmployeeName).First();
+
             var Department = db.Departments.Where(dep => dep.Manager == Myname).Select(x => x.DepartmentID).ToList();
             if (Department.Count() != 0)
             {
-
-
                 var member = db.Employees.AsEnumerable().Where(emp => emp.DepartmentID == Department[0]).Select(x => x.EmployeeID).ToList();
 
-                var attend = db.Attendances.Where(att => member.Contains(att.EmployeeID)).ToList();
-                var DayOff = db.LeaveRequests.Where(off => member.Contains(off.EmployeeID)).ToList();
-                var everyday = db.WorkingDaySchedule.Where(day=>day.WorkingDay=="工作日" && day.Date <= today.Date).Select(days => days.Date).ToList();
-                List<calendar> A = new List<calendar>();
-                foreach (var date in everyday)
-                {
-                    calendar a = new calendar();
-                    var duty = attend.Where(att => att.Date == date);
-                    var lve = DayOff.Where(lv => lv.StartTime.Date <= date && lv.EndTime.Date >= date);
-                    bool test = (duty.ToList().FirstOrDefault() != null);
-                    var Onduty = test ? duty.Count() : 0;
-                    var leave = lve.FirstOrDefault() != null ? lve.Count() : 0;
-                    a.title = $"上班{Onduty}人  請假{leave}人";
-                    a.start = CalendarDate(date);
-                    a.backgroundColor = "#B5CAA0";
-                    A.Add(a);
-                }
+                var attend = db.Attendances.Where(att => member.Contains(att.EmployeeID) ).Select(n=>n.Date ).ToList() ;
+                var DayOff = db.LeaveRequests.Where(off => member.Contains(off.EmployeeID)).Select(n=>n).ToList();
+                //var everyday = db.WorkingDaySchedule.Where(day=>day.WorkingDay=="工作日" && day.Date == today.Date).Select(days => days.Date).ToList();
+                //List<calendar> A = new List<calendar>();
+                //foreach (var date in everyday)
+                //{
+                //    calendar a = new calendar();
+                //    var aaa = attend.Where(att => att.Date == date).Select(n => n);
+                //    var Onduty = (aaa.FirstOrDefault() != null) ? aaa.Count() : 0;
+                //    var leave = DayOff.Where(lv => lv.StartTime.Date <= date && lv.EndTime.Date >= date).FirstOrDefault() != null ? DayOff.Where(lv => lv.StartTime.Date <= date && lv.EndTime.Date >= date).Count() : 0;
+                //    a.title = $"上班{Onduty}人  請假{leave}人";
+                //    a.start = CalendarDate(date);
+                //    a.backgroundColor = "#B5CAA0";
+                //    A.Add(a);
+                //}
+                //queryA = queryA.Concat(A);
 
-                queryA = queryA.Concat(A);
+                var everyday = db.WorkingDaySchedule.AsEnumerable().Where(day => day.WorkingDay == "工作日" && day.Date <= today.Date).Select(days => new calendar {
+                    title = $"上班{GetAttd(attend, days.Date)}人  請假{GetOff(DayOff, days.Date)}人",
+                    start = CalendarDate(days.Date),
+                    backgroundColor = "#B5CAA0"
+
+                });
+                queryA = queryA.Concat(everyday);
+
 
             }
+            string JsonPath = Server.MapPath("~/App_Data/NationalHoliday.json");
+            StreamReader ReadJson = new StreamReader(JsonPath);
+            string JsonString = ReadJson.ReadToEnd();
+
+            JavaScriptSerializer JS = new JavaScriptSerializer();
+
+            var MyJson = JS.Deserialize<HolidayFirst>(JsonString);
+            var NationalDays = MyJson.result.records.Where(n => n.isHoliday == "是").Select(n => new calendar
+            {
+                start = CalendarDate(Convert.ToDateTime(n.date)),
+                rendering = "background",
+                backgroundColor = "#F8C3CD"
+            });
+            queryA = queryA.Concat(NationalDays);
 
 
             return Json(queryA, JsonRequestBehavior.AllowGet);
@@ -114,8 +136,20 @@ namespace AMS.Controllers
             return getDate; 
         }
 
+        public int GetAttd(IEnumerable<DateTime> list, DateTime date )
+        {
+            var aaa = list.Where(att => att == date);
+            return (aaa.FirstOrDefault() != null) ? aaa.Count() : 0;
+        }
+
+        public int GetOff (IEnumerable<LeaveRequests> list, DateTime date)
+        {
+            return list.Where(lv => lv.StartTime.Date <= date && lv.EndTime.Date >= date).FirstOrDefault() != null ? list.Where(lv => lv.StartTime.Date <= date && lv.EndTime.Date >= date).Count() : 0;
+        }
+
+
         //缺勤明細
-        
+
         public ActionResult DayDutyList(string id)
         {
             DateTime date = DateTime.Parse(id);

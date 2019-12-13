@@ -975,6 +975,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="App_Data\NationalHoliday.json" />
     <None Include="Properties\PublishProfiles\ams123 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\AMS20191108010909 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy.pubxml" />

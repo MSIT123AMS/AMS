@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
+using AMS.Controllers;
 using AMS.Models;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -29,14 +30,12 @@ namespace AMS.SignalR
         //    _broadcaster = broadcaster;
 
         //}
-
         public void Send(string name, string message)
         {
             Dictionary<string,string> IDtoName = db.Employees.ToDictionary(n => n.EmployeeID, n => n.EmployeeName);
             // Call the broadcastMessage method to update clients.
             Clients.All.broadcastMessage(IDtoName[name], message);
         }
-
     }
 
 
