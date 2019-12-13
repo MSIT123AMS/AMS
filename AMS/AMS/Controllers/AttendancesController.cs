@@ -29,7 +29,7 @@ namespace AMS.Controllers
         
           public ActionResult LineSerchAttendances()
         {
-            string EmployeeID = "MSIT1230001";
+            string EmployeeID = Convert.ToString(Session["UserName"]);
             var query = db.Attendances.Where(Att => Att.EmployeeID == EmployeeID).Join(db.Employees, Attendances => Attendances.EmployeeID, Employees => Employees.EmployeeID, (Attendances, Employees) => new AttendancesViewModel
             {
                 EmployeeID = Attendances.EmployeeID,
@@ -43,7 +43,7 @@ namespace AMS.Controllers
         }
         public ActionResult SerchAttendances()
         {
-            string EmployeeID = "MSIT1230005";
+            string EmployeeID = Convert.ToString(Session["UserName"]);
             var query = db.Attendances.Where(Att => Att.EmployeeID == EmployeeID ).Join(db.Employees, Attendances => Attendances.EmployeeID, Employees => Employees.EmployeeID, (Attendances, Employees) => new AttendancesViewModel
             {
                 EmployeeID = Attendances.EmployeeID,
@@ -67,7 +67,7 @@ namespace AMS.Controllers
         [HttpPost]
         public ActionResult SerchAttendances(DateTime time1,DateTime time2)
         {
-            string EmployeeID = "MSIT1230005";
+            string EmployeeID = Convert.ToString(Session["UserName"]);
             var query = db.Attendances.Join(db.Employees, Attendances => Attendances.EmployeeID, Employees => Employees.EmployeeID, (Attendances, Employees) => new AttendancesViewModel
             {
                 EmployeeID = Attendances.EmployeeID,

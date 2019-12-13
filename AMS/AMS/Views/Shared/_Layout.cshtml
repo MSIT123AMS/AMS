@@ -37,7 +37,7 @@
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css">
 
 
@@ -45,7 +45,7 @@
     @*行事曆*@
     <link href="~/Content/main.css" rel="stylesheet" />
     <link href="~/Content/daygrid-main.css" rel="stylesheet" />
-   
+    <link href="~/Content/FCBS4main.min.css" rel="stylesheet" />
     @*行事曆*@
     @RenderSection("styles", required: false)
     @*@RenderSection("css", required: false)*@
@@ -90,6 +90,29 @@
                             </a>
                         </li>
 
+                            @*公告通知*@
+                        <li class="nav-item dropdown hidden-caret" >
+                            <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+                                <img src="~/assets/img/icons8-sugar-cube-40.png" ::before />
+                                <span class="notification" id="NotificationNum">0</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                    <li>
+                                        <div class="user-box">
+                                            <div class="u-text">
+                                                <p>未讀公告</p>
+                                                <div id="newAnnonucementBox">
+                                                    @*<p>公告提醒</p>*@
+                                                </div>
+                                                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="ClearAfterClick()">更多公告...</button>
+                                                <button hidden type="button" id="sendmessage" value="@Session["UserName"]"></button>
+                                            </div>
+                                        </div>
+                                    </li>
+                            </ul>
+                        </li>
+                        @*公告通知*@
+
 
                         <li class="nav-item dropdown hidden-caret">
                             <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -101,18 +124,15 @@
                                 <div class="dropdown-user-scroll scrollbar-outer">
                                     <li>
                                         <div class="user-box">
-
                                             <div class="avatar-lg"><img src="~/assets/img/woman.jpg" alt="image profile" class="avatar-img rounded"></div>
                                             <div class="u-text">
                                                 <p class="text-muted">@Session["UserName"]</p>@*<a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>*@
                                                 <h4>@Session["UserFullName"]</h4>
-
                                             </div>
                                         </div>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="@Url.Action("Login","Account")">Logout</a>
-
                                     </li>
                                 </div>
                             </ul>
@@ -247,11 +267,48 @@
     <script src="~/Scripts/main.js"></script>
     <script src="~/Scripts/day-gridmain.js"></script>
     <script src="~/Scripts/interaction_main.js"></script>
+    <script src="~/Scripts/FCBS4main.min.js"></script>
     <!-- 行事曆 -->
-
     <!--Chart -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+
+    <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
+    <script src="~/signalr/hubs"></script>
+
+
     <script>
+        @* 公告通知 *@
+        $(function () {
+            var mypush = $.connection.myHub;
+
+            //mypush.client.sendTest1 = function (message) {
+            //    $("#test").text(message);
+            //    console.log(message);
+            //};
+            mypush.client.broadcastMessage = function (name, message) {
+                //SweetAlert(name + message);                
+                $("#newAnnonucementBox").append(`<p>${name}有發布一則新公告喔<p>`)
+                $("#NotificationNum").text("!")
+            };
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    mypush.server.send($('#sendmessage').val(),"剛剛發出一則公告，快去看吧");
+                });
+            });
+        });
+        @* 公告通知 *@
+        function ttt() {
+            $('#sendmessage').trigger('click');
+        }
+        function ClearAfterClick() {
+            AnnouncementIndex();
+            $("#newAnnonucementBox").empty();
+            $("#NotificationNum").text("0");
+        }
+
+
+
         Circles.create({
             id: 'circles-1',
             radius: 45,
@@ -344,6 +401,18 @@
             lineColor: '#ffa534',
             fillColor: 'rgba(255, 165, 52, .14)'
         });
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
 
 
@@ -353,5 +422,6 @@
     @*@Scripts.Render("~/bundles/empview")*@
     //Aleart
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
 </body>
 </html>

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<AMS.Models.AnnouncementDisplayViewModel>
+
+
+<table class="table table-sm">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnnounceTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Importance)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnnounceTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Importance)
+            </td>
+        </tr>
+    }
+
+</table>
+<button type="button" class="btn btn-primary btn-lg btn-block" onclick="AnnouncementIndex()">更多資訊...</button>
+

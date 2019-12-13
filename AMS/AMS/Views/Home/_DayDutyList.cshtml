@@ -1,0 +1,47 @@
+﻿@model IEnumerable<AMS.Models.CalendarAttendance> 
+
+    <body>
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div>
+                            <h1>
+                                <span class="badge">出勤</span>
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+
+                       
+                            <table class="table table-striped">
+                                @*<tr>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.AbsenceType)
+                                    </th>
+                                    <th scope="col">
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </th>
+                                </tr>*@
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AbsenceType)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                    </tr>
+                                }
+                            </table>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-search" style="background-color:#FFFFFB;color:#91989F;border-color:#91989F" data-dismiss="modal" type="button">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
