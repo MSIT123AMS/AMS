@@ -648,7 +648,62 @@
             }
         });
        
-    }
+        }
+
+
+        ///post
+        function SaveFormDataUseAjaxPost2(AjaxUrl) {
+            swal({
+                title: '確定要送出這筆資料嗎?',
+                //text: "You won't be able to revert this!",
+                type: 'warning',
+                buttons: {
+                    confirm: {
+                        text: '確定',
+                        className: 'btn btn-success'
+                    },
+                    cancel: {
+                        text: '取消',
+                        visible: true,
+                        className: 'btn btn-danger'
+                    }
+                }
+            }).then((Delete) => {
+                if (Delete) {
+                    let myForm = document.querySelector("#FormData");
+                    var validator = $("#FormData").validate({
+                        debug: true
+                    }
+                    );
+                    console.log(validator);
+                    let data = new FormData(myForm);
+                    //data.append("DepartmentID","2");
+                    let files = $("#LeaveFile").get(0).files;
+                    if (files.length > 0) {
+                        data.append("Attachment", files[0]);
+                    }
+                    $.ajax({
+                        url: AjaxUrl,
+                        type: "POST",
+                        contentType: false,         // 告诉jQuery不要去這置Content-Type
+                        processData: false,         // 告诉jQuery不要去處理發送的數據
+                        dataType: "json",
+                        data: data,
+                        //data: {"EmployeeID": EmployeeID.value,},
+                    }).done(function (result) {
+                        
+                        //$("#mainpanel").html(result);
+                        SuccessSweetAlert('送出申請，待主管審核');
+                        funLeaveIndex()
+                        $('#addModal').modal('hide');
+                        }).fail(function (e) { SweetAlert("此日期已申請過, 請先確認日期") }
+                        );
+                } else {
+                    swal.close();
+                }
+            });
+
+        }
 
     /////////////////////正///////////////////////////////////
 
@@ -934,6 +989,8 @@
     //data: {"EmployeeID": EmployeeID.value,},
     }).done(function (result) {
         $("#mainpanel").html(result);
+        SuccessSweetAlert("成功");
+        $('#addModal').modal('hide');
        value='@TempData["Message"]';
 
 
@@ -1245,7 +1302,7 @@ function UpdateEmployeesByDepartment() {
 
         OverTimeIndex();
         SweetAlert('已送出申請');
-
+        $('#addModal').modal('hide');
         }).fail(function (e) {
             SweetAlert(e.responseJSON.Message);
 

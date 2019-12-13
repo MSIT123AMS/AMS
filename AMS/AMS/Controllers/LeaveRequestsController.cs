@@ -455,17 +455,23 @@ namespace AMS.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LeaveRequestID,EmployeeID,RequestTime,StartTime,EndTime,LeaveType,LeaveReason,ReviewStatusID,ReviewTime,Attachment")] LeaveRequests leaveRequests)
+        public ActionResult Create([Bind(Include = "LeaveFile,LeaveRequestID,EmployeeID,RequestTime,StartTime,EndTime,LeaveType,LeaveReason,ReviewStatusID,ReviewTime,Attachment")] LeaveRequestsViewModel leaveR)
         {
+            LeaveRequests leaveRequests = new LeaveRequests();
             if (ModelState.IsValid)
             {
                 string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
                 leaveRequests.LeaveRequestID = db.LeaveRequests.Count().ToString();
-                leaveRequests.EmployeeID = "MSIT1230001";
+                leaveRequests.EmployeeID = User;
                 leaveRequests.RequestTime = DateTime.Now;
                 leaveRequests.ReviewStatusID = 1;
+                leaveRequests.LeaveReason = leaveR.LeaveReason;
 
-               
+                leaveRequests.StartTime = leaveR.StartTime;
+                leaveRequests.EndTime = leaveR.EndTime;
+                leaveRequests.LeaveType = leaveR.LeaveType;
+
+
 
 
                 if (Request.Files["LeaveFile"].ContentLength != 0)
@@ -483,7 +489,8 @@ namespace AMS.Controllers
                 if (db.LeaveRequests.Any(n=>(n.StartTime<=leaveRequests.StartTime&&n.EndTime>=leaveRequests.StartTime) ||(n.StartTime <= leaveRequests.EndTime && n.EndTime>= leaveRequests.EndTime)))
                 {
                     //Response.Write("<script>alert('此日期已申請過');</script>");
-
+                    throw new Exception("此日期已申請過, 請先確認日期");
+                    return Json(new { msg = "此日期已申請過, 請先確認日期" }, JsonRequestBehavior.AllowGet);
                     return Content(("<script>alert('此日期已申請過,請先確認日期');window.location.href ='http://localhost:64643/Home/Index'</script>"));
                 
                 }
@@ -492,7 +499,8 @@ namespace AMS.Controllers
                     db.SaveChanges();
                 //return RedirectToAction("LeaveIndexView");
                 //return RedirectToAction("Index");
-                return Content(("<script>alert('送出申請，待主管審核');window.location.href ='http://localhost:64643/Home/Index'</script>"));
+                return Json(new { msg = "送出申請，待主管審核" }, JsonRequestBehavior.AllowGet);
+                return Content(("<script>alert();window.location.href ='http://localhost:64643/Home/Index'</script>"));
             }
 
             return View(leaveRequests);

@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-@using (Html.BeginForm("Create", "LeaveRequests", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "LeaveRequests", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "FormData" }))
 {
     @Html.AntiForgeryToken()
     <body>
@@ -76,7 +76,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-search" style="background-color:#FFFFFB;color:#91989F;border-color:#91989F" data-dismiss="modal" type="button">關閉</button>
-                        <button type="submit" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                        <button type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB" onclick="SaveFormDataUseAjaxPost2('@Url.Action("Create","LeaveRequests")')">
                             <i class="icon-docs"></i> 申請
                         </button>
                     </div>
