@@ -1,13 +1,17 @@
 ﻿@model AMS.Models.ClockInApply
 @{
-  
+
     Layout = "~/Views/Shared/_LineLayout.cshtml";
 }
 
-@Html.Partial("_ClockinApply", Model);
+@Html.Partial("_ClockinApply", Model)
+
 
 @section scripts1
 {
+
+    <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+
     <script>
         function zeroPadded(val) {
             if (val >= 10)
@@ -22,9 +26,9 @@
         $("#RequestDate").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
         $('#addModal').modal('show');
 
-       
-        
-      
+
+
+
 
         $("#OnDuty").bind("change", function () {
             var str = $("#OnDuty").val();
@@ -105,33 +109,48 @@
             Clockinsave();
             test();
         })
+         function initializeApp(data) {
+                //取得QueryString
+                //let urlParams = new URLSearchParams(window.location.search);
+                //顯示QueryString
+                //$('#QueryString').val(urlParams.toString());
+                //顯示UserId
+                $('#LineID').val(data.context.userId);
+            }
+        $(function () {
+            //init LIFF
+            liff.init(function (data) {
+                initializeApp(data);
+            });
+        });
+            function Clockinsave() {
+                var data = new FormData();
+                data.append("OnDuty", OnDuty.value);
+                data.append("OffDuty", OffDuty.value);
+                data.append("RequestDate", RequestDate.value);
+                data.append("EmployeeID", LineID.value);
+                $.ajax({
+                    url: "@Url.Action("ClockinApply", "ClockInApply")",
+                    type: "POST",
+                    contentType: false,         // 告诉jQuery不要去這置Content-Type
+                    processData: false,         // 告诉jQuery不要去處理發送的數據
+                    dataType: "json",
+                    data: data,
 
-         function Clockinsave() {
-            var data = new FormData();
-            data.append("OnDuty", OnDuty.value);
-            data.append("OffDuty", OffDuty.value);
-            data.append("RequestDate", RequestDate.value);
-      $.ajax({
-    url: "@Url.Action("ClockinApply", "ClockInApply")",
-    type: "POST",
-    contentType: false,         // 告诉jQuery不要去這置Content-Type
-    processData: false,         // 告诉jQuery不要去處理發送的數據
-    dataType: "html",
-    data: data,
-    
-    //data: {"EmployeeID": EmployeeID.value,},
-    }).done(function (result) {
-        $("#mainpanel").html(result);
-       value='@TempData["Message"]';     
-        
-    
+                    //data: {"EmployeeID": EmployeeID.value,},
+                }).done(function (result) {
+                    //$("#mainpanel").html(result);
+                    @*value = '@TempData["Message"]';*@
+                    alert(result.msg);
 
-        
-        
-    }).fail(function (e) { alert(e.responseText) });  
-      
 
-        }
+
+
+                }).fail(function (e) { alert(e.responseText) });
+
+
+            }
+
 
         function test() {
 

@@ -26,7 +26,7 @@
             </div>
             <div class="modal-body">
                 <form id="addForm">
-                    <input type="hidden" name="ShipperID" id="ShipperID">
+                    <input type="text" name="LineID" id="LineID" hidden>
                     <div class="form-group">
                         @Html.LabelFor(model => model.OnDuty, htmlAttributes: new { @class = "control-label ", @style = "text-align:left;font-size:20px" })
                         @Html.EditorFor(model => model.OnDuty, new { htmlAttributes = new { @class = "form-control", Type = "datetime-local" } })

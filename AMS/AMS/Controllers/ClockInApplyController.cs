@@ -8,13 +8,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using AMS.Models;
+using WebApplication5.Controllers;
 
 namespace AMS.Controllers
 {
     public class ClockInApplyController : Controller
     {
-        private Entities db = new Entities();
-
+        private Entities db = new Entities();          
         // GET: ClockInApply       
         public ActionResult ClockInApplyView()
         {
@@ -41,7 +41,7 @@ namespace AMS.Controllers
             
             return PartialView("_ClockInApplyView", query);
         }
-
+      
         // GET: ClockInApply/Details/5
         public ActionResult Details(string id)
         {
@@ -61,9 +61,7 @@ namespace AMS.Controllers
        
             public ActionResult LineClockinApply()
         {
-
-
-            return View();
+            return View();           
         }
         public ActionResult ClockInApply()
         {
@@ -78,8 +76,37 @@ namespace AMS.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]
         public ActionResult ClockInApply([Bind(Include = "EmployeeID,OnDuty,OffDuty,ReviewStatusID,RequestDate,ReviewTime")] ClockInApply clockInApply)
-        {
-            string EmployeeID = Convert.ToString(Session["UserName"]);
+        {     
+        //string EmployeeID;
+          string EmployeeID = Convert.ToString(Session["UserName"]);          
+           //AdminUserId= lineBotWebHook.ReceivedMessage.events.FirstOrDefault().source.userId;        
+            if (string.IsNullOrEmpty(EmployeeID))
+            {
+                EmployeeID = clockInApply.EmployeeID;
+                var GetLineId = db.Employees.Where(p => p.LineID == EmployeeID).FirstOrDefault();
+                EmployeeID = GetLineId.EmployeeID;
+                clockInApply.EmployeeID = EmployeeID;
+                clockInApply.ReviewStatusID = 1;
+                db.ClockInApply.Add(clockInApply);
+                try
+                {
+                    db.SaveChanges();
+                    return Json(new { msg = "申請成功" }, JsonRequestBehavior.AllowGet);
+                    //return PartialView("_ClockInApplyView", clockInApply);
+                }
+                catch
+                {
+
+                    //new AjaxOptions
+                    //{
+                    //    OnSuccess = "onSuccess"
+                    //};
+                    //TempData["message"] = $"已經有{clockInApply.RequestDate.Value.ToString("yyyy年MM月dd日")}的申請紀錄!";
+                    //return PartialView("_ClockInApplyView", clockInApply);
+                    return Json(new { msg = $"申請失敗:已經有{clockInApply.RequestDate.Value.ToString("yyyy年MM月dd日")}的申請紀錄!" }, JsonRequestBehavior.AllowGet);
+                }
+
+            }
             if (ModelState.IsValid)
             {
                 

@@ -178,10 +178,7 @@
                                     首頁
                                 </h1>
                             </div>
-                            <div class="ml-md-auto py-2 py-md-0">
-                                <a href="#" class="btn btn-white btn-border btn-round mr-2">Manage</a>
-                                <a href="#" class="btn btn-secondary btn-round">Add Customer</a>
-                            </div>
+                          
                         </div>
                     </div>
                 </div>
@@ -293,7 +290,6 @@
 {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-
        
        //圖檔顯示
         function readURL(input) {
@@ -886,9 +882,7 @@
 
     }).done(function (result) {
         $("#mainpanel").html(result);
-        //$(document).ready(function () {
-        //    $('#example').DataTable();
-        //});
+       
         //changeT();
         $('#basic-datatables').DataTable({
         });
@@ -969,15 +963,14 @@
         })
 
     }).fail(function (e) { alert(e.responseText) });
-    }
-
-
+        }
+                
 
         function Clockinsave() {
             var data = new FormData();
             data.append("OnDuty", OnDuty.value);
             data.append("OffDuty", OffDuty.value);
-            data.append("RequestDate", RequestDate.value);
+            data.append("RequestDate", RequestDate.value);           
       $.ajax({
     url: "@Url.Action("ClockinApply", "ClockInApply")",
     type: "POST",
@@ -994,7 +987,7 @@
         $('#addModal').modal('hide');
        value='@TempData["Message"]';
 
-
+      
 
 
 
