@@ -347,52 +347,9 @@ namespace WebApplication5.Controllers
                         if (LineEvent.message.text == "我要請假")
                         {
                             var bot2 = new Bot(channelAccessToken);
-                            var Lea = $@"[{{""type"": ""flex"",""altText"":""請假"",""contents"":
-{{
-  ""type"": ""bubble"",
-  ""body"": {{
-                                ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""text"",
-        ""text"": ""請假程序開始"",
-        ""color"": ""#ffffff""
-      }}
-    ],
-    ""paddingAll"": ""20px"",
-    ""backgroundColor"": ""#464F69""
-  }},
-  ""footer"": {{
-    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""button"",
-        ""action"": {{
-          ""type"": ""message"",
-          ""label"": ""假別"",
-          ""text"": ""假別""
-        }},
-        ""style"": ""primary"",
-        ""color"": ""#81C7D4"",
-        ""height"": ""md""
-      }}
-    ]
-  }}
-}}
-}}]";
+                            var Lea = $@"[{{""type"": ""flex"",""altText"":""請假"",""contents"":{{""type"":""bubble"",""body"":{{""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""text"",""text"":""請假程序開始"",""color"":""#ffffff""}}],""paddingAll"":""20px"",""backgroundColor"":""#464F69""}},""footer"":{{
+                            ""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""button"",""action"":{{""type"":""message"",""label"":""假別"",""text"":""假別""}},""style"":""primary"",""color"":""#81C7D4"",""height"":""md""}}]}}}}}}]";
 
-                            //List<TemplateActionBase> actions2 = new List<TemplateActionBase>();
-                            //actions2.Add(new MessageAction() { label = "假別", text = "假別" });
-                            //var ButtonTempalteMsg2 = new isRock.LineBot.ButtonsTemplate()
-                            //{
-                            //    text = "請假",
-                            //    altText = "請在手機上檢視",
-                            //    thumbnailImageUrl = new Uri("https://i.imgur.com/LrT45vi.gif"),//https://i.imgur.com/n19hgxT.gif
-                            //    actions = actions2
-                            //};
-                            
                             bot2.PushMessageWithJSON(AdminUserId, Lea);
                             d.LeaveRequests.Add(LeaveLine);
 
@@ -423,54 +380,9 @@ namespace WebApplication5.Controllers
                         if (LineMsg == "事假" || LineMsg == "病假" || LineMsg == "公假" || LineMsg == "喪假" || LineMsg == "特休假" || LineMsg == "產假" || LineMsg == "陪產假" || LineMsg == "生理假" || LineMsg == "補休假" || LineMsg == "家庭照顧假")
                         {
 
-                            var LineReason = $@"[{{""type"": ""flex"",""altText"":""打卡失敗"",""contents"":{{
-  ""type"": ""bubble"",
-  ""body"": {{
-                                ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""box"",
-        ""layout"": ""vertical"",
-        ""contents"": [
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""contents"": [],
-                ""size"": ""xl"",
-                ""wrap"": true,
-                ""text"": ""事由"",
-                ""color"": ""#ffffff"",
-                ""weight"": ""bold""
-              }}
-            ],
-            ""spacing"": ""sm""
-          }}
-        ]
-      }}
-    ],
-    ""paddingAll"": ""20px"",
-    ""backgroundColor"": ""#464F69""
-  }},
-  ""footer"": {{
-    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""text"",
-        ""text"": ""請直接輸入請假理由，輸入時請用\""事由\""開頭"",
-        ""margin"": ""lg"",
-        ""size"": ""lg"",
-        ""wrap"": true,
-        ""position"": ""relative""
-      }}
-    ]
-  }}
-}}
-}}]";
+                            var LineReason = $@"[{{""type"": ""flex"",""altText"":""事由"",""contents"":{{""type"": ""bubble"",  ""body"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{
+                             ""type"": ""text"",""contents"": [],""size"": ""xl"",""wrap"": true,""text"": ""事由"",""color"": ""#ffffff"",""weight"": ""bold""}}],""spacing"":""sm""}}]}}],""paddingAll"":""20px"",""backgroundColor"":""#464F69""}},""footer"":{{""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""text"",
+                             ""text"":""請直接輸入請假理由，輸入時請用\""事由\""開頭"",""margin"":""lg"",""size"":""lg"",""wrap"":true,""position"":""relative""}}]}}}}}}]";
 
 
 
@@ -502,54 +414,9 @@ namespace WebApplication5.Controllers
                         {
                             var bot2 = new Bot(channelAccessToken);
 
-                            var times=$@"[{{""type"": ""flex"",""altText"":""時間選擇"",""contents"":{{
-  ""type"": ""bubble"",
-  ""body"": {{
-                                ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""text"",
-        ""text"": ""選擇請假日期與時間"",
-        ""color"": ""#ffffff""
-      }}
-    ],
-    ""paddingAll"": ""20px"",
-    ""backgroundColor"": ""#464F69""
-  }},
-  ""footer"": {{
-    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""button"",
-        ""action"": {{
-          ""type"": ""datetimepicker"",
-          ""label"": ""請假開始時間"",
-          ""data"": ""data"",
-          ""mode"": ""datetime""
-        }},
-        ""style"": ""primary"",
-        ""color"": ""#EEA9A9"",
-        ""height"": ""md""
-      }},
-      {{
-        ""type"": ""button"",
-        ""action"": {{
-          ""type"": ""datetimepicker"",
-          ""label"": ""請假結束時間"",
-          ""data"": ""data1"",
-          ""mode"": ""datetime""
-        }},
-        ""style"": ""primary"",
-        ""height"": ""md"",
-        ""margin"": ""sm"",
-        ""color"": ""#A8D8B9""
-      }}
-    ]
-  }}
- }}
-}}]";
+                            var times=$@"[{{""type"": ""flex"",""altText"":""時間選擇"",""contents"":{{""type"":""bubble"",""body"":{{""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""text"",""text"":""選擇請假日期與時間"",""color"":""#ffffff""}}],""paddingAll"":""20px"",""backgroundColor"":""#464F69""}},""footer""
+                            :{{""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""button"",""action"":{{""type"":""datetimepicker"",""label"":""請假開始時間"",""data"":""data"",""mode"":""datetime""}},""style"":""primary"",""color"":""#EEA9A9"",""height"":""md""}},{{""type"":""button"",""action"":{{""type"":""datetimepicker"",""label"":""請假結束時間"",
+                            ""data"":""data1"",""mode"":""datetime""}},""style"":""primary"",""height"":""md"",""margin"":""sm"",""color"":""#A8D8B9""}}]}}}}}}]";
 
 
 
@@ -594,56 +461,9 @@ namespace WebApplication5.Controllers
                         if (LineMsg == "確認")
                         {
                             var dbLineyes = d.LeaveRequests.AsEnumerable().Where(n => n.EmployeeID == EmpID).OrderBy(n=>n.LeaveRequestID).LastOrDefault();//判斷裡面有沒有Time的值 如果沒有就新增一個之後要修改用
-
-
-
-                            var returnLine = $@"[{{""type"": ""flex"",""altText"":""確認"",""contents"":{{""type"": ""bubble"",""body"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{
-        ""type"": ""box"",
-        ""layout"": ""vertical"",
-        ""contents"": [
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""contents"": [],
-                ""size"": ""xl"",
-                ""wrap"": true,
-                ""color"": ""#ffffff"",
-                ""weight"": ""bold"",
-                ""text"": ""送出申請待審核""
-              }}
-            ],
-            ""spacing"": ""sm""
-          }}
-        ]
-      }}
-    ],
-    ""paddingAll"": ""20px"",
-    ""backgroundColor"": ""#464F69""
-  }},
-  ""footer"": {{
-    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""text"",
-        ""text"": ""假單編號:{dbLineyes.LeaveRequestID}\n申請時間:{dbLineyes.RequestTime}\n假別:{dbLineyes.LeaveType}\n開始時間:{dbLineyes.StartTime}\n結束時間:{dbLineyes.EndTime}\n事由:{dbLineyes.LeaveReason}"",
-        ""size"": ""md"",
-        ""margin"": ""lg"",
-        ""wrap"": true
-      }}
-    ]
-  }}
-}}
-}}]";
-
-
-
-
-
-                            //bot.PushMessage(AdminUserId, $"假單編號:{dbLineyes.LeaveRequestID}\n請假申請時間:{dbLineyes.RequestTime}\n請假假別:{dbLineyes.LeaveType}\n請假開始時間:{dbLineyes.StartTime}\n請假結束時間:{dbLineyes.EndTime}\n事由:{dbLineyes.LeaveReason}");
+                            var returnLine = $@"[{{""type"": ""flex"",""altText"":""確認"",""contents"":{{""type"": ""bubble"",""body"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"":""vertical"",""contents"": [{{""type"": 
+                           ""text"",""contents"": [],""size"": ""xl"",""wrap"": true,""color"": ""#ffffff"",""weight"": ""bold"",""text"": ""送出申請待審核""}}],""spacing"": ""sm""}}]}}],""paddingAll"": ""20px"",""backgroundColor"": ""#464F69""}},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": 
+                            [{{""type"": ""text"",""text"": ""假單編號:{dbLineyes.LeaveRequestID}\n申請時間:{dbLineyes.RequestTime}\n假別:{dbLineyes.LeaveType}\n開始時間:{dbLineyes.StartTime}\n結束時間:{dbLineyes.EndTime}\n事由:{dbLineyes.LeaveReason}"",""size"": ""md"",""margin"": ""lg"",""wrap"": true}}]}}}}}}]";
                             bot.PushMessageWithJSON(AdminUserId, returnLine);
                         }
 
@@ -673,73 +493,11 @@ namespace WebApplication5.Controllers
                     {
 
                         var starttime = Convert.ToDateTime(this.ReceivedMessage.events[0].postback.Params.datetime).ToString("yyyy-MM-dd HH:mm");
-                        var startjson = $@"[{{""type"": ""flex"",""altText"":""開始時間"",""contents"":{{
-  ""type"": ""bubble"",
-  ""body"": {{
-                            ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""box"",
-        ""layout"": ""vertical"",
-        ""contents"": [
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""contents"": [],
-                ""size"": ""xl"",
-                ""wrap"": true,
-                ""text"": ""開始時間"",
-                ""color"": ""#ffffff"",
-                ""weight"": ""bold""
-              }}
-            ],
-            ""spacing"": ""sm""
-          }},
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""box"",
-                ""layout"": ""vertical"",
-                ""contents"": [
-                  {{
-                    ""type"": ""text"",
-                    ""contents"": [],
-                    ""size"": ""sm"",
-                    ""wrap"": true,
-                    ""margin"": ""lg"",
-                    ""color"": ""#ffffffde"",
-                    ""text"": ""{starttime}""
-                  }}
-                ]
-              }}
-            ],
-            ""paddingAll"": ""13px"",
-            ""backgroundColor"": ""#ffffff1A"",
-            ""cornerRadius"": ""2px"",
-            ""margin"": ""xl""
-          }}
-        ]
-      }}
-    ],
-    ""paddingAll"": ""20px"",
-    ""backgroundColor"": ""#464F69""
-  }},
-  ""action"": {{
-    ""type"": ""message"",
-    ""label"": ""action"",
-    ""text"": ""hello""
-}}
-  }}
-}}]";
+                        var startjson = $@"[{{""type"": ""flex"",""altText"":""開始時間"",""contents"":{{""type"": ""bubble"",""body"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",
+                        ""contents"": [{{""type"": ""text"",""contents"": [],""size"": ""xl"",""wrap"": true,""text"": ""開始時間"",""color"": ""#ffffff"",""weight"": ""bold""}}],""spacing"": ""sm""}},{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",""contents"": [
+                        {{""type"": ""text"",""contents"": [],""size"": ""sm"",""wrap"": true,""margin"": ""lg"",""color"": ""#ffffffde"",""text"": ""{starttime}""}}]}}],""paddingAll"": ""13px"",""backgroundColor"": ""#ffffff1A"",""cornerRadius"": ""2px"",""margin"": ""xl""}}]}} ],""paddingAll"": ""20px"",
+                        ""backgroundColor"": ""#464F69""}},""action"": {{ ""type"": ""message"", ""label"": ""action"",""text"": ""hello""}}}}}}]";
 
-
-        
                         var bot5 = new Bot(channelAccessToken);
 
                         bot5.PushMessageWithJSON(AdminUserId, startjson);
@@ -759,7 +517,6 @@ namespace WebApplication5.Controllers
 
                             }
                         }
-
                     }
 
 
@@ -769,109 +526,11 @@ namespace WebApplication5.Controllers
                     if (LineEvent.postback.data == "data1")
                     {
                         var endtime = Convert.ToDateTime(this.ReceivedMessage.events[0].postback.Params.datetime).ToString("yyyy-MM-dd HH:mm");
-                        var endjson = $@"[{{""type"": ""flex"",""altText"":""結束時間"",""contents"":{{
-  ""type"": ""bubble"",
-  ""body"": {{
-                            ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""box"",
-        ""layout"": ""vertical"",
-        ""contents"": [
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""text"",
-                ""contents"": [],
-                ""size"": ""xl"",
-                ""wrap"": true,
-                ""text"": ""結束時間"",
-                ""color"": ""#ffffff"",
-                ""weight"": ""bold""
-              }}
-            ],
-            ""spacing"": ""sm""
-          }},
-          {{
-            ""type"": ""box"",
-            ""layout"": ""vertical"",
-            ""contents"": [
-              {{
-                ""type"": ""box"",
-                ""layout"": ""vertical"",
-                ""contents"": [
-                  {{
-                    ""type"": ""text"",
-                    ""contents"": [],
-                    ""size"": ""sm"",
-                    ""wrap"": true,
-                    ""margin"": ""lg"",
-                    ""color"": ""#ffffffde"",
-                    ""text"": ""{endtime}""
-                  }}
-                ]
-              }}
-            ],
-            ""paddingAll"": ""13px"",
-            ""backgroundColor"": ""#ffffff1A"",
-            ""cornerRadius"": ""2px"",
-            ""margin"": ""xl""
-          }}
-        ]
-      }},
-      {{
-        ""type"": ""text"",
-        ""text"": ""請確認以上輸入資料是否正確!"",
-        ""size"": ""lg"",
-        ""color"": ""#FFFFFF"",
-        ""margin"": ""lg""
-      }}
-    ],
-    ""paddingAll"": ""20px"",
-    ""backgroundColor"": ""#464F69""
-  }},
-  ""footer"": {{
-    ""type"": ""box"",
-    ""layout"": ""vertical"",
-    ""contents"": [
-      {{
-        ""type"": ""button"",
-        ""action"": {{
-          ""type"": ""message"",
-          ""label"": ""正確送出"",
-          ""text"": ""確認""
-        }},
-        ""style"": ""primary"",
-        ""color"": ""#81C7D4""
-      }},
-      {{
-        ""type"": ""button"",
-        ""action"": {{
-          ""type"": ""message"",
-          ""label"": ""取消"",
-          ""text"": ""取消""
-        }},
-        ""style"": ""primary"",
-        ""color"": ""#EEA9A9""
-      }},
-      {{
-        ""type"": ""button"",
-        ""action"": {{
-          ""type"": ""message"",
-          ""label"": ""重新申請"",
-          ""text"": ""我要請假""
-        }},
-        ""style"": ""primary"",
-        ""color"": ""#A8D8B9""
-      }}
-    ],
-    ""spacing"": ""sm""
-  }}
-}}
-}}]";
+                        var endjson = $@"[{{""type"": ""flex"",""altText"":""結束時間"",""contents"":{{""type"":""bubble"",""body"":{{""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""text"",""contents"":[],
+                        ""size"":""xl"",""wrap"":true,""text"":""結束時間"",""color"":""#ffffff"",""weight"":""bold""}}],""spacing"":""sm""}},{{""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""text"",""contents"":[],""size"":""sm"",""wrap"":true,""margin"":""lg"",
+                        ""color"":""#ffffffde"",""text"":""{endtime}""}}]}}],""paddingAll"":""13px"",""backgroundColor"":""#ffffff1A"",""cornerRadius"":""2px"",""margin"":""xl""}}]}},{{""type"":""text"",""text"":""請確認以上輸入資料是否正確!"",""size"":""lg"",""color"":""#FFFFFF"",""margin"":""lg""}}],""paddingAll"":""20px"",""backgroundColor"":""#464F69""
+                        }},""footer"":{{""type"":""box"",""layout"":""vertical"",""contents"":[{{""type"":""button"",""action"":{{""type"":""message"",""label"":""正確送出"",""text"":""確認""}},""style"":""primary"",""color"":""#81C7D4""}},{{""type"":""button"",""action"":{{""type"":""message"",""label"":""取消"",""text"":""取消""}},""style"":
+                        ""primary"",""color"":""#EEA9A9""}},{{""type"":""button"",""action"":{{""type"":""message"",""label"":""重新申請"",""text"":""我要請假""}},""style"":""primary"",""color"":""#A8D8B9""}}],""spacing"":""sm""}}}}}}]";
 
 
                         string end = $"結束時間:{this.ReceivedMessage.events[0].postback.Params.datetime}\n以上訊息確認無誤後請輸入確認，有誤請重新填寫";
@@ -892,20 +551,11 @@ namespace WebApplication5.Controllers
                             }
                         }
                     }
-
-
-
-
-
-
                 }
-
-
             }
             else//正
             {
                 this.ReplyMessage(LineEvent.replyToken, "請先綁定帳號!");
-
             }
             //response OK
          
