@@ -33,11 +33,11 @@ namespace AMS.Models
         public virtual DbSet<WorkingDaySchedule> WorkingDaySchedule { get; set; }
         public virtual DbSet<LeaveRequests> LeaveRequests { get; set; }
         public virtual DbSet<Employees> Employees { get; set; }
-        public virtual DbSet<Annouuncements> Annouuncements { get; set; }
         public virtual DbSet<Attendances> Attendances { get; set; }
-
-        public System.Data.Entity.DbSet<AMS.Models.AttendancesViewModel> AttendancesViewModels { get; set; }
-
-        public System.Data.Entity.DbSet<AMS.Models.ClockInApplyViewModel> ClockInApplyViewModels { get; set; }
+        public virtual DbSet<Annouuncements> Annouuncements { get; set; }
+        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
     }
 }

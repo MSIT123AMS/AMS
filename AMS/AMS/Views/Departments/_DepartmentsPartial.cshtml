@@ -27,13 +27,13 @@
                 @Html.DisplayFor(modelItem => item.Manager)
             </td>
             <td>
-                <button type="button" class="btn btn-sm" style="background-color:#787D7B;color:#FFFFFB">
+                <button type="button" class="btn btn-sm" style="background-color:#787D7B;color:#FFFFFB"onclick="DepartmentsEdit('@Url.Action("Edit", "Departments")/'+'@item.DepartmentID')">
                 
                     <i class="icon-pencil"></i><span>
                         <strong>編輯</strong>
                     </span>
                 </button>
-                <button type="button" class="btn btn-sm" style="background-color:#ff0000;color:#FFFFFB" onclick="ConfirmSweetAlert(a11)">
+                <button type="button" class="btn btn-sm" style="background-color:#ff0000;color:#FFFFFB" onclick="DeleteDepartments('@Url.Action("DeleteConfirmed", "Departments")/'+'@item.DepartmentID')">
                     <i class="icon-trash"></i><span>
                         <strong>刪除</strong>
                     </span>

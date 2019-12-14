@@ -123,7 +123,9 @@ namespace AMS.Controllers
             {
                 case SignInStatus.Success:
                     {
+                        var userid = db.AspNetUsers.Where(user=>user.UserName==model.UserName).FirstOrDefault().Id;
                         Session["UserFullName"] = db.Employees.Find(model.UserName).EmployeeName;
+                        Session["UserRole"] = db.AspNetUsers.Where(user => user.UserName == model.UserName).FirstOrDefault().AspNetRoles.FirstOrDefault().Name;
                         Session["UserName"] = model.UserName;
                         return RedirectToLocal(returnUrl);
                     }

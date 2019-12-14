@@ -312,6 +312,18 @@
     <Compile Include="Metadata\Announcement.cs" />
     <Compile Include="Metadata\AnnouncementMetadata.cs" />
     <Compile Include="Models\AnnouncementtViewModel.cs" />
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>AMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaims.cs">
+      <DependentUpon>AMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins.cs">
+      <DependentUpon>AMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>AMSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\calendar.cs" />
     <Compile Include="Controllers\ClockInApplyController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
@@ -1136,7 +1148,7 @@
     <Content Include="Views\Departments\_Create.cshtml" />
     <Content Include="Views\Departments\Delete.cshtml" />
     <Content Include="Views\Departments\Details.cshtml" />
-    <Content Include="Views\Departments\Edit.cshtml" />
+    <Content Include="Views\Departments\_Edit.cshtml" />
     <Content Include="Views\Departments\_Index.cshtml" />
     <Content Include="Views\Departments\_DepartmentsPartial.cshtml" />
     <Content Include="Views\Home\_DayDutyList.cshtml" />
