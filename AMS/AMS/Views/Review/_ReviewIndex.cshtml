@@ -1,32 +1,53 @@
-﻿@model IEnumerable<AMS.Models.LeaveReviewViewModels>
-
+﻿@*@model IEnumerable<AMS.Models.LeaveReviewViewModels>*@
 @{
     ViewBag.Title = "Index";
-
 }
-<p hidden id="ReviewStatus">@TempData["ReviewStatus"]</p>
+
 <div class="page-inner">
     <div style="background-color:#91989F">
         <h1>
-            <span class="badge" style="color:#FFFFFB">審核明細查詢</span>
+            <span hidden class="badge" style="color:#FFFFFB">審核明細查詢</span>@*|*@
+            <span hidden id="ReviewStatus">@TempData["ReviewStatus"]</span>@*reviewStatus|*@
+            <span hidden id="Month">@TempData["Month"]</span>@*Month|*@
+            <span hidden id="RequestType">@TempData["RequestType"]</span>@*requestType*@
+
+            <span  class="badge" style="color:#FFFFFB">
+                @if (@TempData["ReviewStatus"].ToString() == "1")
+                {
+                    <span>未審核明細</span>;
+                }
+                else
+                {
+                    <span>@TempData["Month"]月已審核明細</span>
+
+                }
+                @if (@TempData["RequestType"].ToString() == "1")
+                {
+                    <span> |休假</span>
+                }
+                else
+                {
+                    <span> |加班</span>
+                }
+           </span>
         </h1>
 
     </div>
 
-    <div id="ddlemp" class="col-sm-2">
+    <div id="ddlemp" class="col-sm-2">   </div>
 
-    </div>
 
-    @if (TempData["ReviewStatus"].ToString() == "2")
+
+    @if (@TempData["ReviewStatus"].ToString() == "2")
     {
         <div class="form-control " style="display: flex;width:100%;justify-content: space-between;font-size:20px">
             <span style="margin:10px">
                 <span>申請項目:</span>
-                <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked/><label for="1">休假</label>
+                <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked /><label for="1">休假</label>
                 <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
             </span>
             <span>
-                <button  id="prevMonth" style="background-color:#5DAC81;color:#FFFFFB;margin:10px">&laquo;上個月</button>
+                <button id="prevMonth" style="background-color:#5DAC81;color:#FFFFFB;margin:10px">&laquo;上個月</button>
                 <button id="nextMonth" style="background-color:#5DAC81;color:#FFFFFB;margin:10px">下個月&raquo;	</button>
             </span>
         </div>
@@ -38,10 +59,10 @@
         <div class="form-control " style="display: flex;width:100%;justify-content: space-between;font-size:20px">
             <span style="margin:10px">
                 <span>申請項目:</span>
-                <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked/><label for="1">休假</label>
+                <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked /><label for="1">休假</label>
                 <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
             </span>
-            <button type="submit" class="btn btn-search md-3" style="background-color:#5DAC81;color:#FFFFFB;margin-left:10px">
+            <button id="submit" class="btn btn-search md-3" style="background-color:#5DAC81;color:#FFFFFB;margin-left:10px">
                 <i class="icon-check"></i><span>
                     <strong>勾選核准</strong>
                 </span>
@@ -49,100 +70,87 @@
         </div>
     }
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card" id="mmmmmm">
-                <div class="card-header row form-group">
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive" id="Employeestable">
-                        @if (@TempData["RequestType"].ToString() == "1")
-                        {
-                            @Html.Partial("_LeavePartial", Model);
-                        }
-                        else if (TempData["RequestType"].ToString() == "3")
-                        {
-                            @Html.Partial("_OverTimePartial", Model);
-                        }
-
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>
-    $("input[name='RequestType']").change(Switch);
-    $("#CheckAll").click(cAll);
-    $("#prevMonth").click(movePrevMonth);
+    $("input[name='RequestType']").change(change_radioButton);
+    $("#CheckAll").click(checkAll_click);
+    $("#prevMonth").click(change_radioButton);
+    $("#nextMonth").click(change_radioButton);
+    $('#submit').click(submit_click);
+    $('a#approve').on('click', aprrove_click);
 
+    $('form').bind('ajax:complete', function () {
+        debugger;
+        //$('form').html(result);
+        //change_radioButton();
+        alert("更新成功");
+    });
 
-        $("a#detail").click(detailAjax);
-
-        function detailAjax() {
-            var table = $('table').DataTable();
-            var tr = $(this).closest('tr');
-            var queryID=tr.find('input').val();
-            console.log(queryID);
-            var row = table.row(tr);
-            $.get({ url: '@Url.Action("DetailsJson")/'+queryID, async: false })
-                .done(function (d) {
-                    var day = new Date(d.RequestTime);
-
-                   b=parseInt(d.RequestTime.substr(6)), 10;
-                   var c=new Date(b);
-                    var template = `<table style="margin:'center'">
-                        <tr><td>員工編號:${d.EmployeeID}</td></tr>
-                        <tr><td>申請時間:${c}</td></tr>
-                        <tr><td>事由:${d.LeaveReason}</td></tr>
-                        </table>`;
-                    if (row.child.isShown()) {
-                        row.child.hide();
-                    }
-                    else {
-                        row.child(template).show();
-                    }
-                })
+    if ($('#RequestType').text() == 1) {
+        $('input[type="radio"]').eq(0).attr('checked', 'checked');
+    } else {
+        $('input[type="radio"]').eq(1).attr('checked', 'checked');
     }
 
-    function movePrevMonth() {
-        var startDate = $('#basic-datatables>tbody>tr').eq(0).children().eq(3).text().trim();
-        var lastSlashPosition = startDate.lastIndexOf('/');
-        var monthNow = startDate.substring(5, lastSlashPosition);
+    function aprrove_click() {
+        debugger;
 
+        var a = $(this).parents('tr').children('td').eq(0).children('input');
+        a.attr('checked', true);
+        submit_click();
+    }
+
+    function submit_click() {
+        var checkCount = $("input[name='checkItem']:checked").length
+        if (checkCount > 1) {
+            swal({
+                title: "請確認??",
+                text: `您選取了${checkCount}項`,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((response) => {
+                if (response) {
+                    updateAlert();
+                    $('#form0').submit();
+                }
+            });
+        } else {
+            updateAlert();
+            $('form#form0').submit();
+        }
 
     }
 
-    function Switch() {
-         var selectedRadio = $("input[type='radio']:checked").val()
-         var reviewStatus =$('p#ReviewStatus').text();
 
-         switch (selectedRadio) {
-                case '1':
-                 typeUrl = "@Url.Action("AjaxLeave","Review")/"+reviewStatus
-                    break;
-                case '3':
-                 typeUrl = "@Url.Action("AjaxOverTime","Review")/" +reviewStatus
-                    break;
-                default:
-            }
+    function change_radioButton() {
+        var currentMonth = parseInt( $("#Month").text());
+        if ($(this).attr('id') == 'prevMonth') currentMonth=currentMonth-1
+        if ($(this).attr('id') == 'nextMonth') currentMonth = currentMonth + 1
+        debugger;
+        if (currentMonth > 12) {
+            swal("錯誤!", "已經是最新資料!!", "info");
+            return;
+        }
+        var selectedRadio = $("input[type='radio']:checked").val()
+         var reviewStatus =$('#ReviewStatus').text();
+        typeUrl = "@Url.Action("Index","Review")/" + selectedRadio + "/" + reviewStatus + "/" + currentMonth;
+         $("#Employeestable").load(typeUrl);
 
-        $("#Employeestable").load(typeUrl, () => {
-                changeT();
-                $("#CheckAll").click(cAll);
-            })
+    }
+    function updateAlert() {
+        swal("核准成功", "", "success");
     }
 
-    function cAll() {
+    function checkAll_click() {
+        debugger;
         if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
-            $("input[name='Checkboxxx']").each(function () {
+            $("input[name='checkItem']").each(function () {
                 $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
             })
         } else {
-            $("input[name='Checkboxxx']").each(function () {
+            $("input[name='checkItem']").each(function () {
                 $(this).prop("checked", false);//把所有的核方框的property都取消勾選
             })
         }

@@ -27,7 +27,7 @@
                             @*謝惠婷*@
                             @Session["UserFullName"]
                             @*<span class="user-level">@User.Identity.GetUserName()</span>*@
-                           
+
                             <span class="caret"></span>
                         </span>
                     </a>
@@ -119,12 +119,12 @@
                     <div class="collapse" id="sidebarLayout2">
                         <ul class="nav nav-collapse">
                             <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")/1/1","未審核")'>
+                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")/1/1/12" ,"未審核")'>
                                     <span class="sub-item" style="font-family:'Microsoft JhengHei'">未審核</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")/1/2","已審核")'>
+                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")/1/2/12","已審核")'>
                                     <span class="sub-item" style="font-family:'Microsoft JhengHei'">已審核</span>
                                 </a>
                             </li>
@@ -171,7 +171,7 @@
 
                                 </a>
                             </li>
-                       </ul>
+                        </ul>
                     </div>
                 </li>
             </ul>
@@ -246,7 +246,11 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
-<script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+
+
+    <script>
        //圖檔顯示
         function readURL(input) {
             if (input.files && input.files[0]) {
@@ -396,7 +400,7 @@
             paging: false,
             ordering: false,
             info: false,
-           
+
         });
         $("#basic-datatables_filter").hide();
         $('#basic-datatables').removeClass("table");
@@ -855,7 +859,7 @@
         dataType: "html",
     }).done(function (result) {
         $("#mmmmmm").html(result);
-    
+
     }).fail(function (e) { alert(e.responseText) });
 }
 
@@ -953,7 +957,7 @@ function UpdateEmployeesByDepartment() {
         $('#addModal').modal('show');
         $("#StartTime_wu_creat").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "17" + ":" + "00");
         $("#EndTime_wu_creat").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "19" + ":" + "00");
-        TimeErrorProof($("#StartTime_wu_creat"), $("#EndTime_wu_creat"));      
+        TimeErrorProof($("#StartTime_wu_creat"), $("#EndTime_wu_creat"));
 
     }).fail(function (e) { alert(e.responseText) });
         }
