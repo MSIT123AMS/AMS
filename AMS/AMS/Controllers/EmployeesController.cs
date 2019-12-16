@@ -831,7 +831,8 @@ namespace AMS.Controllers
                       {
                           EmployeeID = ot.EmployeeID,
                           RequestTime = ot.RequestTime,
-                          SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                          SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay,false),
+                          //ot.OverTimePay
                       }).ToList();
 
             var OT2 = OT.GroupBy(ot => ot.EmployeeID).Select(ot => new OverTimeHoursSumModel
