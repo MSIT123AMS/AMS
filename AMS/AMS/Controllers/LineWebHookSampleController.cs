@@ -21,7 +21,7 @@ namespace WebApplication5.Controllers
 {
     public class LineBotWebHookController : isRock.LineBot.LineWebHookControllerBase
     {
-        public const string channelAccessToken = @"FHrMW2H48qvfkn/Hxq0y6Sq4JBKJqWpqhQNtZ/hGEEPRUQrjVeT8T14q6s32iIoJuLIIb4t8oYC2ensry6ACSEEBt5lwpbfMkq4Fcevx7e0KxUYF68mJQqkPGkVBpPMwn5Qh25j6lmSte3Pp0yo0UQdB04t89/1O/w1cDnyilFU=";//@"ehC2bzsC2xmmwK5J59gcEK4ihHfRlYfb8kQFxVR2jn0B9vlAtMfvAwXXn5KfJfeQlC+5Higk86SmFJkwGn3bwDHH1uvL2X4vwahMbdMCeIFJttH9jNekMNBw6RHL0hJaQq2oEDSKKf0ocx3CQTFaO1GUYhWQfeY8sLGRXgo3xvw=";
+        public const string channelAccessToken = @"RtEJui2f/Ks+t6cbPart9XZFjRexoyPj4IctMkIzd0WFeRh6NTD7AKXbKewGdV5A1R44By3Ij5dTqHofyQA9Dg9KDEON893Isff3290QoewsiREGNVMbsgP8je5DbDKZb1DMWqyrkJEt/lcTZfENNgdB04t89/1O/w1cDnyilFU=";
         public string AdminUserId;
         public static string Lat;//緯度
         public static string Long;//經度

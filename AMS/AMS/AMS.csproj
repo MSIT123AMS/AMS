@@ -983,6 +983,7 @@
     <Content Include="App_Data\NationalHoliday.json" />
     <None Include="Properties\PublishProfiles\ams123 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\AMS20191108010909 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\msit123ams - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy1.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy2.pubxml" />

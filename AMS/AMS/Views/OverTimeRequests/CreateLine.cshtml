@@ -37,7 +37,7 @@
                 <div class="modal-body">
                     <form id="addForm">
                         @*<input type="hidden" name="ShipperID" id="ShipperID">*@
-                        <input type="text" name="Lineid"  id="Lineid" hidden  >
+                        <input type="text" name="Lineid"  id="Lineid"   >
                         <div class="form-group">
                             @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2", @style = "text-align:left" })
                             @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @id = "StartTime_wu_creat", @class = "form-control", @type = "datetime-local" } })
@@ -90,6 +90,11 @@
 @section Scripts1 {
     <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <script>
+        $(function () {
+            //init LIFF
+            liff.init(function (data) {
+                initializeApp(data);
+            });
         function initializeApp(data) {
             //取得QueryString
             //let urlParams = new URLSearchParams(window.location.search);
