@@ -549,7 +549,7 @@ namespace AMS.Controllers
                 }
 
                 //判斷是不是有申請過
-                if (db.LeaveRequests.Any(n=>(n.StartTime<=leaveRequests.StartTime&&n.EndTime>=leaveRequests.StartTime) ||(n.StartTime <= leaveRequests.EndTime && n.EndTime>= leaveRequests.EndTime)))
+                if (db.LeaveRequests.Any(n=>n.EmployeeID==User&&(n.LeaveRequestID=="2")&&((n.StartTime<=leaveRequests.StartTime&&n.EndTime>=leaveRequests.StartTime) ||(n.StartTime <= leaveRequests.EndTime && n.EndTime>= leaveRequests.EndTime))))
                 {
                     //Response.Write("<script>alert('此日期已申請過');</script>");
                     throw new Exception("此日期已申請過, 請先確認日期");
