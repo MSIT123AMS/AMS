@@ -440,12 +440,12 @@ namespace WebApplication5.Controllers
                                             record[count] = xxxx.Date.ToLongDateString().ToString();
                                             count++;
                                         };
-                                        var flextakefive = $@"[
-{{
+                                        var flextakefive = $@"[{{
+
  ""type"": ""flex"",
 ""altText"":""缺勤紀錄"",
 ""contents"":
-
+{{
   ""type"": ""bubble"",
   ""header"": {{
                                             ""type"": ""box"",
@@ -458,7 +458,7 @@ namespace WebApplication5.Controllers
         ""color"": ""#ffffff"",
         ""weight"": ""bold"",
         ""align"": ""center""
-      }}}}
+      }}
     ],
     ""backgroundColor"": ""#464F69""
   }},
@@ -578,7 +578,7 @@ namespace WebApplication5.Controllers
         ""action"": {{
           ""type"": ""uri"",
           ""label"": ""補打卡申請"",
-          ""uri"": ""line://app/1653574503-ljRK1nJ8""
+          ""uri"": ""line://app/1653604306-ZrGYQORp""
         }},
         ""style"": ""primary"",
         ""color"": ""#3A8FB7""
@@ -589,7 +589,10 @@ namespace WebApplication5.Controllers
   }}
 }}
 
+
+
 }}]";
+
                                         //var flextakefive = $@"[{{""type"": ""flex"",""altText"":""缺勤紀錄"",""contents"":{{""type"": ""bubble"",""header"": {{""type"": ""box"",""layout"": ""vertical"",
                                         //                   ""contents"": [{{""type"": ""text"",""text"": ""缺勤紀錄"",""size"": ""xxl"",""weight"": ""bold"",""align"": ""center"",""color"": ""#FFFFFB""
                                         //                   }}],""backgroundColor"": ""#464F69""}},""body"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",
