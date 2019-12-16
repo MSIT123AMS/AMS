@@ -457,6 +457,7 @@ namespace AMS.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult> LineIdBindView(LineIdBindViewModel model)
         {
             string ms = "";
