@@ -90,6 +90,12 @@
 @section Scripts1 {
     <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
     <script>
+        $(function () {
+            //init LIFF
+            liff.init(function (data) {
+                initializeApp(data);
+            });
+        });
         function initializeApp(data) {
             //取得QueryString
             //let urlParams = new URLSearchParams(window.location.search);
