@@ -165,7 +165,7 @@ namespace WebApplication5.Controllers
   }},
   ""hero"": {{
     ""type"": ""image"",
-    ""url"": ""https://1736ee02.ngrok.io/Img/linelocatiom.png"",
+    ""url"": ""https://msit123ams.azurewebsites.net/Img/linelocatiom.png"",
     ""size"": ""full"",
     ""aspectRatio"": ""20:13"",
     ""aspectMode"": ""cover"",
@@ -208,7 +208,7 @@ namespace WebApplication5.Controllers
                                     {
                                         var flex_check = $@"[{{
  ""type"": ""flex"",
-""altText"":""This is a Flex Message"",
+""altText"":""定位完成"",
 ""contents"":
 {{
   ""type"": ""bubble"",
@@ -440,18 +440,167 @@ namespace WebApplication5.Controllers
                                             record[count] = xxxx.Date.ToLongDateString().ToString();
                                             count++;
                                         };
+                                        var flextakefive = $@"[{{
+{{
+ ""type"": ""flex"",
+""altText"":""缺勤紀錄"",
+""contents"":
 
-                                        var flextakefive = $@"[{{""type"": ""flex"",""altText"":""缺勤紀錄"",""contents"":{{""type"": ""bubble"",""header"": {{""type"": ""box"",""layout"": ""vertical"",
-                                                           ""contents"": [{{""type"": ""text"",""text"": ""缺勤紀錄"",""size"": ""xxl"",""weight"": ""bold"",""align"": ""center"",""color"": ""#FFFFFB""
-                                                           }}],""backgroundColor"": ""#464F69""}},""body"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",
-                                                           ""margin"": ""xxl"",""spacing"": ""sm"",""contents"": [{{""type"": ""box"",""layout"": ""horizontal"",""contents"": [{{""type"": ""text"",""text"": ""未打卡紀錄(最近五筆)"",
-                                                           ""size"": ""lg"",""weight"": ""bold""}}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""horizontal"",""contents"": [{{""type"": ""text"",
-                                                           ""text"": ""{ record[0]}""}}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""text"": ""{record[1]}""
-                                                           }}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""text"": ""{record[2]}""}}]}},{{""type"": ""separator""
-                                                           }}, {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""text"": ""{record[3]} ""}}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""vertical"",
-                                                           ""contents"": [{{""type"": ""text"",""text"": ""{record[4]} ""}}]}}]}},{{""type"": ""separator""}}]}},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [
-                                                           {{""type"": ""button"",""action"": {{""type"": ""uri"",""label"": ""補打卡申請"",""uri"": ""line://app/1653574503-ljRK1nJ8""}},""height"": ""sm"",""style"": ""primary"",""color"": ""#D75455""
-                                                           }}]}},""styles"": {{""footer"": {{""separator"": true}}}}}}}}]";
+  ""type"": ""bubble"",
+  ""header"": {{
+                                            ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""text"",
+        ""text"": ""缺勤紀錄(近五筆)"",
+        ""size"": ""lg"",
+        ""color"": ""#ffffff"",
+        ""weight"": ""bold"",
+        ""align"": ""center""
+      }}}}
+    ],
+    ""backgroundColor"": ""#464F69""
+  }},
+  ""body"": {{
+    ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""box"",
+        ""layout"": ""horizontal"",
+        ""contents"": [
+          {{
+            ""type"": ""text"",
+            ""text"": ""第一筆:"",
+            ""size"": ""md"",
+            ""weight"": ""bold""
+          }},
+          {{
+            ""type"": ""text"",
+            ""text"": ""{ record[0]}"",
+            ""align"": ""start""
+          }}
+        ]
+      }},
+      {{
+        ""type"": ""separator"",
+        ""margin"": ""sm""
+      }},
+      {{
+        ""type"": ""box"",
+        ""layout"": ""horizontal"",
+        ""contents"": [
+          {{
+            ""type"": ""text"",
+            ""text"": ""第二筆:"",
+            ""size"": ""md"",
+            ""weight"": ""bold""
+          }},
+          {{
+            ""type"": ""text"",
+            ""text"": ""{ record[1]}""
+          }}
+        ]
+      }},
+      {{
+        ""type"": ""separator"",
+        ""margin"": ""sm""
+      }},
+      {{
+        ""type"": ""box"",
+        ""layout"": ""horizontal"",
+        ""contents"": [
+          {{
+            ""type"": ""text"",
+            ""text"": ""第三筆:"",
+            ""size"": ""md"",
+            ""weight"": ""bold""
+          }},
+          {{
+            ""type"": ""text"",
+            ""text"": ""{ record[2]}""
+          }}
+        ]
+      }},
+      {{
+        ""type"": ""separator"",
+        ""margin"": ""sm""
+      }},
+      {{
+        ""type"": ""box"",
+        ""layout"": ""horizontal"",
+        ""contents"": [
+          {{
+            ""type"": ""text"",
+            ""text"": ""第四筆:"",
+            ""size"": ""md"",
+            ""weight"": ""bold""
+          }},
+          {{
+            ""type"": ""text"",
+            ""text"": ""{ record[3]}""
+          }}
+        ]
+      }},
+      {{
+        ""type"": ""separator"",
+        ""margin"": ""sm""
+      }},
+      {{
+        ""type"": ""box"",
+        ""layout"": ""horizontal"",
+        ""contents"": [
+          {{
+            ""type"": ""text"",
+            ""text"": ""第五筆:"",
+            ""size"": ""md"",
+            ""weight"": ""bold""
+          }},
+          {{
+            ""type"": ""text"",
+            ""text"": ""{ record[4]}""
+          }}
+        ]
+      }},
+      {{
+        ""type"": ""separator"",
+        ""margin"": ""sm""
+      }}
+    ]
+  }},
+  ""footer"": {{
+    ""type"": ""box"",
+    ""layout"": ""vertical"",
+    ""contents"": [
+      {{
+        ""type"": ""button"",
+        ""action"": {{
+          ""type"": ""uri"",
+          ""label"": ""補打卡申請"",
+          ""uri"": ""line://app/1653574503-ljRK1nJ8""
+        }},
+        ""style"": ""primary"",
+        ""color"": ""#3A8FB7""
+      }}
+    ],
+    ""flex"": 0,
+    ""backgroundColor"": ""#464F69""
+  }}
+}}
+
+}}]";
+                                        //var flextakefive = $@"[{{""type"": ""flex"",""altText"":""缺勤紀錄"",""contents"":{{""type"": ""bubble"",""header"": {{""type"": ""box"",""layout"": ""vertical"",
+                                        //                   ""contents"": [{{""type"": ""text"",""text"": ""缺勤紀錄"",""size"": ""xxl"",""weight"": ""bold"",""align"": ""center"",""color"": ""#FFFFFB""
+                                        //                   }}],""backgroundColor"": ""#464F69""}},""body"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""box"",""layout"": ""vertical"",
+                                        //                   ""margin"": ""xxl"",""spacing"": ""sm"",""contents"": [{{""type"": ""box"",""layout"": ""horizontal"",""contents"": [{{""type"": ""text"",""text"": ""未打卡紀錄(最近五筆)"",
+                                        //                   ""size"": ""lg"",""weight"": ""bold""}}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""horizontal"",""contents"": [{{""type"": ""text"",
+                                        //                   ""text"": ""{ record[0]}""}}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""text"": ""{record[1]}""
+                                        //                   }}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""text"": ""{record[2]}""}}]}},{{""type"": ""separator""
+                                        //                   }}, {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""text"",""text"": ""{record[3]} ""}}]}},{{""type"": ""separator""}},{{""type"": ""box"",""layout"": ""vertical"",
+                                        //                   ""contents"": [{{""type"": ""text"",""text"": ""{record[4]} ""}}]}}]}},{{""type"": ""separator""}}]}},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [
+                                        //                   {{""type"": ""button"",""action"": {{""type"": ""uri"",""label"": ""補打卡申請"",""uri"": ""line://app/1653574503-ljRK1nJ8""}},""height"": ""sm"",""style"": ""primary"",""color"": ""#D75455""
+                                        //                   }}]}},""styles"": {{""footer"": {{""separator"": true}}}}}}}}]";
 
                                         bot1.ReplyMessageWithJSON(LineEvent.replyToken, flextakefive);
                                     }
