@@ -8,8 +8,14 @@
 
 <html>
 <head>
-    <meta name="viewport" content="width=device-width" />
-    <title>OverTimeViewMobile</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>加班申請</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU=" crossorigin="anonymous"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 </head>
 <body>
     <div data-role="header">
@@ -29,7 +35,7 @@
         </div>
     </div>
     <form method="post" action="@Url.Action("SubmitViewMobile","Review")">
-        <table id="tab" data-role="table" data-mode="columntoggle" class="ui-responsive  table table-striped">
+        <table id="tab" data-role="table" data-mode="columntoggle" class="ui-responsive  table table-striped" data-column-btn-text="更多">
             <thead>
                 <tr>
                     <th>
@@ -38,25 +44,19 @@
                     <th>
                         姓名
                     </th>
-                    @*<th>
-                        @Html.DisplayNameFor(model => model.OverTimePay)
-                    </th>*@
                     <th data-priority="1">
                         @Html.DisplayNameFor(model => model.StartTime)
                     </th>
-                    <th data-priority="1">
+                    <th data-priority="2">
                         @Html.DisplayNameFor(model => model.EndTime)
                     </th>
-                    <th data-priority="2">
+                    <th data-priority="3">
                         @Html.DisplayNameFor(model => model.RequestTime)
                     </th>
-                    <th data-priority="3">
+                    <th data-priority="4">
                         @Html.DisplayNameFor(model => model.OverTimeReason)
                     </th>
-                    @*<th>
-                        @Html.DisplayNameFor(model => model.ReviewStatusID)
-                    </th>*@
-                    <th data-priority="4 ">
+                    <th data-priority="5">
                         @Html.DisplayNameFor(model => model.ReviewStatus)
                     </th>
                 </tr>
@@ -71,9 +71,6 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.EmployeeName)
                         </td>
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.OverTimePay)
-                        </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.StartTime)
                         </td>
@@ -86,9 +83,6 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.OverTimeReason)
                         </td>
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.ReviewStatusID)
-                        </td>*@
                         <td>
                             @Html.DisplayFor(modelItem => item.ReviewStatus)
                         </td>
