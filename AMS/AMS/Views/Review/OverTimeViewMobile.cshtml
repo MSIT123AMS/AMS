@@ -1,0 +1,106 @@
+﻿
+@{
+    Layout = null;
+}
+@model IEnumerable<AMS.Models.OverTimeReviewViewModels>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>OverTimeViewMobile</title>
+</head>
+<body>
+    <div data-role="header">
+        <h1>線上核准</h1>
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="@Url.Action("LeaveViewMobile")">請假核准</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("OverTimeViewMobile")">加班核准</a>
+                </li>
+                <li>
+                    <a href="#">補打卡核准</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <form method="post" action="@Url.Action("SubmitViewMobile","Review")">
+        <table id="tab" data-role="table" data-mode="columntoggle" class="ui-responsive  table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        核准
+                    </th>
+                    <th>
+                        姓名
+                    </th>
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.OverTimePay)
+                    </th>*@
+                    <th data-priority="1">
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </th>
+                    <th data-priority="1">
+                        @Html.DisplayNameFor(model => model.EndTime)
+                    </th>
+                    <th data-priority="2">
+                        @Html.DisplayNameFor(model => model.RequestTime)
+                    </th>
+                    <th data-priority="3">
+                        @Html.DisplayNameFor(model => model.OverTimeReason)
+                    </th>
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.ReviewStatusID)
+                    </th>*@
+                    <th data-priority="4 ">
+                        @Html.DisplayNameFor(model => model.ReviewStatus)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.CheckBox("checkItem", false, new { value = item.OverTimeRequestID })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmployeeName)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.OverTimePay)
+                        </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RequestTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OverTimeReason)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.ReviewStatusID)
+                        </td>*@
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReviewStatus)
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <fieldset class="ui-grid-a">
+            <div class="ui-block-a"><input type="submit" value="勾選核准"></div>
+            <div class="ui-block-b"><input type="submit" value="全部核准"></div>
+        </fieldset>
+    </form>
+</body>
+</html>

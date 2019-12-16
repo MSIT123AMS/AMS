@@ -1098,10 +1098,7 @@
     <Content Include="Views\Attendances\Index.cshtml" />
     <Content Include="Views\Employees\_GetDdlandListempPartial.cshtml" />
     <Content Include="Views\Employees\_ListempPartial.cshtml" />
-    <Content Include="Views\Review\Create.cshtml" />
-    <Content Include="Views\Review\Delete.cshtml" />
     <Content Include="Views\Review\_ReviewDetails.cshtml" />
-    <Content Include="Views\Review\Edit.cshtml" />
     <Content Include="Views\Review\_ReviewIndex.cshtml" />
     <Content Include="Views\Employees\_SerchLeaveListPartial.cshtml" />
     <Content Include="Views\Employees\_SerchLeave.cshtml" />
@@ -1111,8 +1108,6 @@
     <Content Include="Views\Employees\_SerchAttendances.cshtml" />
     <Content Include="Views\Employees\_SerchAttendancesPartial.cshtml" />
     <Content Include="Views\LeaveRequests\LeaveIndexView.cshtml" />
-    <Content Include="Views\Review\Ajax.cshtml" />
-    <Content Include="Views\Review\Indexxx.cshtml" />
     <Content Include="Views\Review\_LeavePartial.cshtml" />
     <Content Include="Views\LeaveRequests\_LeaveIndexPartialView.cshtml" />
     <Content Include="Views\Employees\_ShowPhotoPartialDetailsemp.cshtml" />
@@ -1161,6 +1156,10 @@
     <Content Include="Views\Departments\_Edit.cshtml" />
     <Content Include="Views\Employees\_MonthlyStatistics.cshtml" />
     <Content Include="Views\Employees\_MonthlyStatisticsListPartial.cshtml" />
+    <Content Include="Views\Review\_ChartView.cshtml" />
+    <Content Include="Views\Review\LeaveViewMobile.cshtml" />
+    <Content Include="Views\Review\OverTimeViewMobile.cshtml" />
+    <Content Include="Views\Review\SubmitViewMobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

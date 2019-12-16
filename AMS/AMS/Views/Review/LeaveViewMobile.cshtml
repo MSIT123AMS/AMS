@@ -1,0 +1,101 @@
+﻿@model IEnumerable<AMS.Models.LeaveReviewViewModels>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+
+    <div data-role="header">
+        <h1>線上核准</h1>
+        <div data-role="navbar">
+            <ul>
+                <li>
+                    <a href="@Url.Action("LeaveViewMobile")">請假核准</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("OverTimeViewMobile")">加班核准</a>
+                </li>
+                <li>
+                    <a href="#">補打卡核准</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div role="main" class="ui-content">
+        <table id="tab" data-role="table" data-mode="columntoggle" class="ui-responsive table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        核准
+                    </th>
+                    <th>
+                        姓名
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LeaveType)
+                    </th>
+                    <th data-priority="1">
+                        @Html.DisplayNameFor(model => model.StartTime)
+                    </th>
+                    <th data-priority="2">
+                        @Html.DisplayNameFor(model => model.EndTime)
+                    </th>
+                    <th data-priority="3">
+                        @Html.DisplayNameFor(model => model.LeaveReason)
+                    </th>
+
+                    <th data-priority="4">
+                        @Html.DisplayNameFor(model => model.ReviewStatus)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.CheckBox("checkItem", false, new { value = item.LeaveRequestID })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EmployeeName)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LeaveType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LeaveReason)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReviewStatus)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <fieldset class="ui-grid-a">
+            <div class="ui-block-a"><input type="submit" value="勾選核准"></div>
+            <div class="ui-block-b"><input type="submit" value="全部核准"></div>
+        </fieldset>
+
+    </div>
+</body>
+</html>

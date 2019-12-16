@@ -1,201 +1,175 @@
-﻿@*@model IEnumerable<AMS.Controllers.EmployeesViewModel>*@
-@model IEnumerable<AMS.Models.LeaveReviewViewModels>
-
+﻿@*@model IEnumerable<AMS.Models.LeaveReviewViewModels>*@
 @{
     ViewBag.Title = "Index";
 }
-@*@Html.DropDownList("Customers", null, "-- 請選擇 --", new { @class = "col-sm-11 form-control" })*@
-@*<div id="Container"></div>*@
-
-
-
-<p>@TempData["Status"]</p>
 
 <div class="page-inner">
     <div style="background-color:#91989F">
-        <h1><span class="badge" style="color:#FFFFFB">個人刷卡明細查詢</span></h1>
+        <h1>
+            <span hidden class="badge" style="color:#FFFFFB">審核明細查詢</span>@*|*@
+            <span hidden id="ReviewStatus">@TempData["ReviewStatus"]</span>@*reviewStatus|*@
+            <span hidden id="Month">@TempData["Month"]</span>@*Month|*@
+            <span hidden id="RequestType">@TempData["RequestType"]</span>@*requestType*@
+
+            <span  class="badge" style="color:#FFFFFB">
+                @if (@TempData["ReviewStatus"].ToString() == "1")
+                {
+                    <span>未審核明細</span>;
+                }
+                else
+                {
+                    <span>@TempData["Month"]月已審核明細</span>
+
+                }
+                @if (@TempData["RequestType"].ToString() == "1")
+                {
+                    <span> |休假</span>
+                }
+                else
+                {
+                    <span> |加班</span>
+                }
+           </span>
+        </h1>
+
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card" id="mmmmmm">
-                <div class="card-header row form-group">
-                    @*<label class=" control-label" style="font-size:20px;margin-left:20px">部門:</label>*@
-                    @*<div class="col-sm-2">
-                        @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })
-                        @Html.DropDownList("Customers", null, "-請選擇-", new { @class = " form-control" })*@
 
-
-                    <label class=" control-label" style="font-size:20px;margin-left:20px">審核狀態:</label>
-                    <div class="col-sm-2">
-                        @Html.DropDownList("Customers", null, new { @class = " form-control" })
-                    </div>
-                    <label class=" control-label" style="font-size:20px;margin-left:20px">申請項目:</label>
-                    <div id="ddlemp" class="col-sm-2">
-                        @Html.DropDownList(
-                         "url",
-                         new SelectList(new[]
-                         {
-                             new SelectListItem { Text = "休假", Value ="1"},
-                             //new SelectListItem { Text = "補刷卡", Value ="2"},
-                             new SelectListItem { Text = "加班", Value = "3" },
-                         }, "Value", "Text"),
-
-                         new { id = "urlddl", @class = " form-control" }
-                        )
-
-                    </div>
-
-                    @*@Html.DropDownList(
-                         "url",
-                         new SelectList(new[]
-                         {
-                             new SelectListItem { Text = "休假", Value = Url.Action("Index", "Review",new{ id="1"}) },
-                             new SelectListItem { Text = "補刷卡", Value = Url.Action("Index", "Review",new{ id="2"}) },
-                             new SelectListItem { Text = "加班", Value = Url.Action("Index", "Review",new{ id="3"}) },
-                         }, "Value", "Text"),
-
-                         new { id = "urlddl", @class = " form-control" }
-                        )*@
+    <div id="ddlemp" class="col-sm-2">   </div>
 
 
 
-
-
-                    @*</div>*@
-                    @*<label class=" control-label" style="font-size:20px;margin-left:20px">員工:</label>
-                        <div id="ddlemp" class="col-sm-2">
-                            @Html.DropDownList("Employees", null, "-請選擇-", new { @class = " form-control" })
-                        </div>
-                        <div class="col-sm-2">
-                            <input id="Button1" type="button" value="新增員工" class="btn btn-outline-primary" />
-                        </div>*@
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive" id="Employeestable">
-                        @Html.Partial("_LeavePartial", Model);
-                        @*<div id="Content"></div>*@
-                        @*<p id="Content"></p>*@
-                    </div>
-                </div>
-            </div>
+    @if (@TempData["ReviewStatus"].ToString() == "2")
+    {
+        <div class="form-control " style="display: flex;width:100%;justify-content: space-between;font-size:20px">
+            <span style="margin:10px">
+                <span>申請項目:</span>
+                <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked /><label for="1">休假</label>
+                <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
+            </span>
+            <span>
+                <button id="prevMonth" style="background-color:#5DAC81;color:#FFFFFB;margin:10px">&laquo;上個月</button>
+                <button id="nextMonth" style="background-color:#5DAC81;color:#FFFFFB;margin:10px">下個月&raquo;	</button>
+            </span>
         </div>
-    </div>
+
+
+    }
+    else
+    {
+        <div class="form-control " style="display: flex;width:100%;justify-content: space-between;font-size:20px">
+            <span style="margin:10px">
+                <span>申請項目:</span>
+                <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked /><label for="1">休假</label>
+                <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
+            </span>
+            <button id="submit" class="btn btn-search md-3" style="background-color:#5DAC81;color:#FFFFFB;margin-left:10px">
+                <i class="icon-check"></i><span>
+                    <strong>勾選核准</strong>
+                </span>
+            </button>
+        </div>
+    }
+
 </div>
 
-@section scripts
-{
-    <script>
-        $(document).ready(function () {
-        
-            $("#Customers").bind("change", function () {
-                Switch();
+<script>
+    $("input[name='RequestType']").change(change_radioButton);
+    $("#CheckAll").click(checkAll_click);
+    $("#prevMonth").click(change_radioButton);
+    $("#nextMonth").click(change_radioButton);
+    $('#submit').click(submit_click);
+    $('a#approve').on('click', aprrove_click);
+
+    $('form').bind('ajax:complete', function () {
+        debugger;
+        //$('form').html(result);
+        //change_radioButton();
+        alert("更新成功");
+    });
+
+    if ($('#RequestType').text() == 1) {
+        $('input[type="radio"]').eq(0).attr('checked', 'checked');
+    } else {
+        $('input[type="radio"]').eq(1).attr('checked', 'checked');
+    }
+
+    function aprrove_click() {
+        debugger;
+
+        var a = $(this).parents('tr').children('td').eq(0).children('input');
+        a.attr('checked', true);
+        submit_click();
+    }
+
+    function submit_click() {
+        var checkCount = $("input[name='checkItem']:checked").length
+        if (checkCount > 1) {
+            swal({
+                title: "請確認??",
+                text: `您選取了${checkCount}項`,
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((response) => {
+                if (response) {
+                    updateAlert();
+                    $('#form0').submit();
+                }
             });
-
-            $("#ddlemp").bind("change", function () {
-                Switch();
-            });
-
-            @*if (@TempData["Status"]!="") {
-                timechange();
-            };*@
-
-            $('#basic-datatables').DataTable({});
-            $("#basic-datatables_filter").hide();
-            $("#CheckAll").click(cAll);
-
-        });
-
-        function cAll() {
-            if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
-                $("input[name='Checkboxxx']").each(function () {
-                    $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
-                })
-            } else {
-                $("input[name='Checkboxxx']").each(function () {
-                    $(this).prop("checked", false);//把所有的核方框的property都取消勾選
-                })
-            }
+        } else {
+            updateAlert();
+            $('form#form0').submit();
         }
 
-        function Switch() {
+    }
 
-            switch ($('#urlddl').val()) {
-                case '1':
-                   var u = "@Url.Action("AjaxLeave","Review")/"
-                    break;
-                case '2':
-                   var u = "@Url.Action("Ajax","Review")/"
-                    break;
-                case '3':
-                   var u = "@Url.Action("AjaxOverTime","Review")/"
-                    break;
 
-                default:
-            }
-
-            UpdateEmployeesByDepartment(u)
+    function change_radioButton() {
+        var currentMonth = parseInt( $("#Month").text());
+        if ($(this).attr('id') == 'prevMonth') currentMonth=currentMonth-1
+        if ($(this).attr('id') == 'nextMonth') currentMonth = currentMonth + 1
+        debugger;
+        if (currentMonth > 12) {
+            swal("錯誤!", "已經是最新資料!!", "info");
+            return;
         }
+        var selectedRadio = $("input[type='radio']:checked").val()
+         var reviewStatus =$('#ReviewStatus').text();
+        typeUrl = "@Url.Action("Index","Review")/" + selectedRadio + "/" + reviewStatus + "/" + currentMonth;
+         $("#Employeestable").load(typeUrl);
 
-          function UpdateEmployeesByDepartment(u) {
-            $.ajax({
-                type: "GET",
-                @*url: "@Url.RouteUrl("Default", new { controller = "Review", action = "Ajax" })/" + "null/" + Customers.value,*@
-               url: u+ Customers.value
-               }).done(function (result) {
-                    $("#Employeestable").html(result);
-                    $('#basic-datatables').DataTable({
-                    });
-                   $("#basic-datatables_filter").hide();
-                   $("#CheckAll").click(cAll);
-                  }).fail(function (e) { alert(e.responseText) });
+    }
+    function updateAlert() {
+        swal("核准成功", "", "success");
+    }
 
-              //$("#CheckAll").click(cAll);
-              //$("#CheckAll").click(a());
-              //$("#CheckAll").click(cAll);
+    function checkAll_click() {
+        debugger;
+        if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+            $("input[name='checkItem']").each(function () {
+                $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+            })
+        } else {
+            $("input[name='checkItem']").each(function () {
+                $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+            })
         }
-        function a() {
-            alert('a');
-        }
+    }
+    //function UpdateEmployeesByDepartment22(u) {
+    //    $.ajax({
+    //    type: "GET",
+    //    url: u + Customers.value
+    //}).done(function (result) {
+    //    $("#Employeestable").html(result);
+    //    changeT();
+    //    $("#CheckAll").click(cAll);
+    //}).fail(function (e) { alert(e.responseText) });
 
-        function UpdateSuccess() {
-            swal("審核完成", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
+    //    }
 
-        function UpdateOrders() {
-            @*$.ajax({
-                type: "Get",
-                url: "@Url.Action("Ajax","Review")/" + Customers.value
-                //url:"/Review/Index2/2"
-            }).done((result) => {
-                $("#Employeestable").html(result);
+    //function a() {
+    //    alert('a');
+    //}
 
+</script>
 
-            }).fail((e) => {
-                $("#Employeestable").html(e);
-
-            });*@
-        }
-
-        function timechange() {
-            swal("起始時間不可大於最後時間!", "", {
-                icon: "info",
-                buttons: {
-                confirm: { className: 'btn btn-info'}
-                },
-            });
-
-
-        }
-
-
-    </script>
-
-
-}
