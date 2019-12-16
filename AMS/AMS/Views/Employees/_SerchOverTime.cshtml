@@ -39,6 +39,19 @@
                         </div>
                     </div>
                 </form>
+                <div class="form-group noprint">
+
+                    <div class="float-left">
+
+                        <button type="button" onclick="EmployeePrint()" class="btn btn-search mb-3" style="background-color:#f1f0ed;color:#3A3226">
+                            <i class="icon-logout"></i> <span>
+                                <strong>轉換PDF</strong>
+                            </span>
+                        </button>
+                    </div>
+
+                    @*<input type="button" value="匯出Excel" onclick="Export()" class="btn btn-sm " style="background-color:#f1f0ed;color:#91989F" />*@
+                </div>
                 <div class="card-body">
                     <div class="table-responsive" id="Employeestable">
                         @Html.Partial("_SerchOverTimePartial", Model);

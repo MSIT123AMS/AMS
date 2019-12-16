@@ -200,7 +200,8 @@ namespace AMS.Controllers
         public byte[] Photo { get; set; }
 
         [Display(Name = "離職日")]
-        public System.DateTime Leaveday { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        public DateTime? Leaveday { get; set; }
         [Display(Name = "狀況")]
         public string JobStaus { get; set; }
     }
@@ -252,9 +253,9 @@ namespace AMS.Controllers
         public DateTime Hireday { get; set; }
         [Display(Name = "照片")]
         public HttpPostedFileBase Photo { get; set; }
-
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "離職日")]
-        public System.DateTime Leaveday { get; set; }
+        public System.DateTime? Leaveday { get; set; }
         [Display(Name = "狀況")]
         public string JobStaus { get; set; }
     }

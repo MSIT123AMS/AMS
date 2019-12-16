@@ -21,8 +21,15 @@
                         <div id="ddlemp" class="col-md-2 col-sm-4">
                             <input name="time2" id="time2" class="form-control" type="date" />
                         </div>*@
+                        <script>
+
+                            function Dailysearch(){
+
+                                $("#dchat").show();
+                            }
+                        </script>
                         <div class="col-md-2 col-sm-4 noprint">
-                            <button id="Button1" type="submit" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                            <button id="dailysearch" type="button" onclick="Dailysearch()" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
                                 <i class="fa fa-search fa-fw"></i><span>
                                     <strong>搜尋</strong>
                                 </span>
@@ -45,7 +52,7 @@
                     @*<input type="button" value="匯出Excel" onclick="Export()" class="btn btn-sm " style="background-color:#f1f0ed;color:#91989F" />*@
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row" id="dchat" >
                         <div class="col-lg-6 col-sm-8">
                             <canvas id="myChart" ></canvas>
 

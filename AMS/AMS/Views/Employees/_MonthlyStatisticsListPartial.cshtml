@@ -25,7 +25,7 @@
                 @Html.DisplayNameFor(model => model.AttendanceDayHours)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AttendanceRate)
+                @(Html.DisplayNameFor(model => model.AttendanceRate)+"%")
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.LeaveDayHours)
@@ -62,7 +62,7 @@
                     @Html.DisplayFor(modelItem => item.AttendanceDayHours)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AttendanceRate)
+                    @(Html.DisplayFor(modelItem => item.AttendanceRate) + "%")
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LeaveDayHours)

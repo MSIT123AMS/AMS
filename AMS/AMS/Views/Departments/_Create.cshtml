@@ -9,7 +9,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1>
-                        <span class="badge">新增部分</span>
+                        <span class="badge">新增部門</span>
                     </h1>
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -17,6 +17,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <button type="button" id="empcreatdemo" onclick="DepartmentCreatDemo()">DEMO</button>
                     <form id="addForm">
                         @*<input type="hidden" name="ShipperID" id="ShipperID">*@
                         <div class="form-group">
@@ -28,7 +29,7 @@
                             <label class="control-label col-md-2">經理</label>
                             @Html.EditorFor(model => model.Manager, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.Manager, "", new { @class = "text-danger" })
-                        </div>                    
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">

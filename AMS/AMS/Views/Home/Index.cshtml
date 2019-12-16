@@ -432,7 +432,8 @@
                     }
                 case '日期員工出勤統計':
                     {
-
+                        $('#time1').val("2019-12-17");
+                        $("#dchat").hide();
                         //SetTimePicker($("#time1"), $("#time2"));
                         GetDailyStatistics();
                         break;
@@ -472,6 +473,11 @@
 
     //window.addEventListener('resize', changeT);
        /////////////////////正///////////////////////////////////
+        function DepartmentCreatDemo() {
+            $('#DepartmentName').val('國際部');
+            $('#Manager').val('蔡志銘');
+
+        }
         function EmpCreatDemo() {
             $('#EmployeeID').val('MSIT1230040');
             $('#Password').val('MSIT123a@@');
@@ -783,6 +789,7 @@
             });
 
         }
+       
 
     /////////////////////正///////////////////////////////////
 

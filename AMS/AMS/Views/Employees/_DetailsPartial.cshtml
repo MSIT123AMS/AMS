@@ -143,6 +143,23 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+
+                <div class="form-group col-md-12  row ">
+                    @Html.LabelFor(model => model.JobStaus, htmlAttributes: new { @class = "control-label col-md-2 " })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.JobStaus, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                        @Html.ValidationMessageFor(model => model.JobStaus, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.Leaveday, htmlAttributes: new { @class = "control-label col-md-2 " })
+                    <div class="col-md-4">
+                        @Html.EditorFor(model => model.Leaveday, new { htmlAttributes = new { @class = "form-control", @style = "", @readonly = true } })
+                        @Html.ValidationMessageFor(model => model.Leaveday, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+            </div>
 
 
             <div class="row">
@@ -162,6 +179,7 @@
 
 
             </div>
+
 
             <div class="row">
                 <div class="form-group col-md-12 row">
