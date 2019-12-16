@@ -201,6 +201,7 @@ namespace AMS.Controllers
                 if(Query.Any(n=>n.StartTime.Date==overTimeRequest.StartTime.Date&&!(n.Review=="3")))
                 {
                     Response.StatusCode = 500;
+                    Response.TrySkipIisCustomErrors = true;
                     return Json(new { Success = false, Message = "今天已經申請過加班" },JsonRequestBehavior.AllowGet);
 
                 }
@@ -210,6 +211,9 @@ namespace AMS.Controllers
                 if ((MonthCount+(overTimeRequest.EndTime-overTimeRequest.StartTime).Hours)>=46)
                 {
                     Response.StatusCode = 500;
+                    //====加這行=====
+                    Response.TrySkipIisCustomErrors = true;
+                    //====加這行=====
                     return Json(new { Success = false, Message = "月加班超過46小時囉" }, JsonRequestBehavior.AllowGet);
 
                 }
@@ -217,6 +221,7 @@ namespace AMS.Controllers
                 if (LeaveQuery.Any(n=>n.StartTime== overTimeRequest.StartTime.Date &&!(n.ReviewStatusID==3)))
                 {
                     Response.StatusCode = 500;
+                    Response.TrySkipIisCustomErrors = true;
                     return Json(new { Success = false, Message = "今天已經申請過請假" }, JsonRequestBehavior.AllowGet);
                 }
 
