@@ -12,6 +12,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
+using System.Collections;
 namespace AMS.Controllers
 {
     public class EmployeesController : Controller
@@ -596,7 +597,7 @@ namespace AMS.Controllers
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EmployeeID,Password,EmployeeName,IDNumber,DeputyPhone,Deputy,Marital,Email,Birthday,Leaveday,Hireday,Address,DepartmentID,PositionID,Phone,Photo,JobStaus,JobTitle,EnglishName,gender,Notes,LineID,Education,DepartmentName,empFile")] EmployeesCreateViewModel emp)
         {
             if (ModelState.IsValid)
@@ -628,7 +629,7 @@ namespace AMS.Controllers
                     Phone = emp.Phone
 
                 };
-                if (Request.Files["Photo"].ContentLength != 0)
+                if (emp.Photo!=null && Request.Files["Photo"].ContentLength != 0)
                 {
                     byte[] data = null;
                     using (BinaryReader br = new BinaryReader(
@@ -820,6 +821,104 @@ namespace AMS.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public ActionResult MonthlyStatistics()
+        {
+            var OT = (from ot in db.OverTimeRequest.AsEnumerable().Where(ot => ot.ReviewStatusID == 2)
+                      join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                      select new
+                      {
+                          EmployeeID = ot.EmployeeID,
+                          RequestTime = ot.RequestTime,
+                          SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                      }).ToList();
+
+            var OT2 = OT.GroupBy(ot => ot.EmployeeID).Select(ot => new OverTimeHoursSumModel
+            {
+                EmployeeID = ot.Key,
+                Q = ot.Sum(o => double.Parse(o.SummaryTime))
+            }).ToList();
+
+            var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new
+            {
+                EmployeeID = e.EmployeeID,
+                EmployeeName = e.EmployeeName,
+                DepartmentName = d.DepartmentName,
+            }).ToList();
+            var query2 = (from e in query
+                          join d in OT2 on e.EmployeeID equals d.EmployeeID into ae
+                          from d in ae.DefaultIfEmpty()
+                              //where e.DepartmentID == id
+                          select new MonthlyStatisticsViewModel
+                          {
+                              EmployeeID = e.EmployeeID,
+                              EmployeeName = e.EmployeeName,
+                              DepartmentName = e.DepartmentName,
+                              WorkingDay = monthlyhours(),
+                              AttendanceDay = AttendanceDays(e.EmployeeID),
+                              WorkingDayHours = 0,
+                              AttendanceDayHours = 0,
+                              AttendanceRate = 0.00,
+                              LeaveDayHours = 0,
+                              //AllLeaveSun(e.EmployeeID)
+                              OverTimeHours = d == null ? null : d.Q,
+                          }).ToList();
+
+
+            //var query2 = query.Join(OT2, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new MonthlyStatisticsViewModel
+            //{
+            //    EmployeeID = e.EmployeeID,
+            //    EmployeeName = e.EmployeeName,
+            //    DepartmentName = e.DepartmentName,
+            //    WorkingDay = monthlyhours(),
+            //    AttendanceDay = AttendanceDays(e.EmployeeID),
+            //    WorkingDayHours = 0,
+            //    AttendanceDayHours = 0,
+            //    AttendanceRate = 0.00,
+            //    LeaveDayHours = 0,
+            //    //AllLeaveSun(e.EmployeeID)
+            //    OverTimeHours = d.Q,
+            //}).ToList();
+
+
+
+            foreach (var item in query2)
+            {
+                item.WorkingDayHours = item.WorkingDay * 8;
+                item.AttendanceDayHours = item.AttendanceDay * 8;
+                item.AttendanceRate = (item.AttendanceDay * 800) / (item.WorkingDay * 8);
+            }
+
+            return PartialView("_MonthlyStatistics", query2);
+        }
+
+
+        public int monthlyhours()////統計本月應到天數
+        {
+            string EmployeeID = Convert.ToString(Session["UserName"]);
+            DateTime FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);//////取每月第一天
+            DateTime LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);//////取每月最後一天
+            var monthly = db.WorkingDaySchedule.Where(p => p.Date >= FirstDay && p.Date <= LastDay && p.WorkingDay == "工作日");
+            var CountLeaveDays = db.LeaveRequests.Where(p => p.EmployeeID == EmployeeID && p.StartTime >= FirstDay && p.EndTime <= LastDay && p.ReviewStatusID == 2);
+            int sum = monthly.Count();
+            return sum;
+        }
+
+        public int AttendanceDays(string EmployeeID)////統計目前出勤天數
+        {
+
+            DateTime FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);//////取每月第一天
+            DateTime LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);//////取每月最後一天
+            var monthly = db.Attendances.Where(p => p.EmployeeID == EmployeeID && p.Date >= FirstDay && p.Date <= LastDay && p.station == null);
+            int sum = monthly.Count();
+            return sum;
+        }
+
+
+
+
+
 
         protected override void Dispose(bool disposing)
         {

@@ -4,6 +4,34 @@ using System.Web;
 
 namespace AMS.Controllers
 {
+    public class MonthlyStatisticsViewModel
+    {
+        [Display(Name = "員工編號")]
+        public string EmployeeID { get; set; }
+        [Display(Name = "姓名")]
+        public string EmployeeName { get; set; }
+        [Display(Name = "工作日")]
+        public string DepartmentName { get; set; }
+        public int WorkingDay { get; set; }
+        [Display(Name = "出勤日")]
+        public int AttendanceDay { get; set; }
+        [Display(Name = "工作時數")]
+        public int WorkingDayHours { get; set; }
+        [Display(Name = "出勤時數")]
+        public int AttendanceDayHours { get; set; }
+        [Display(Name = "出勤率")]
+        public double AttendanceRate { get; set; }
+        [Display(Name = "請假時數")]
+        public int LeaveDayHours { get; set; }
+        [Display(Name = "加班時數")]
+        public double? OverTimeHours { get; set; }
+    }
+
+    public class OverTimeHoursSumModel
+    {
+        public string EmployeeID { get; set; }
+        public double? Q { get; set; }
+    }
     public class Daily
     {
         public int 人數 { get; set; }

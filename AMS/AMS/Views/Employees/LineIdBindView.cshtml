@@ -10,11 +10,7 @@
     <script>
         //init LIFF
         function initializeApp(data) {
-            //取得QueryString
-            //let urlParams = new URLSearchParams(window.location.search);
-            //顯示QueryString
-            //$('#QueryString').val(urlParams.toString());
-            //顯示UserId
+
             $('#Lineid').val(data.context.userId);
 
         }
@@ -28,11 +24,12 @@
 
 
                 $.ajax({
-                    url: "@Url.Action("LineIdBindView", "Employees")",
+                    url: "@Url.Action("LineIdBindView", "Account")",
                     type: "POST",
                     dataType: "json",
                     data: {
                         "LineID": $('#Lineid').val(),
+                        "Password": $('#possword').val(),
                         "EmployeeID": $('#employeeid').val()
 
                     },
@@ -44,30 +41,7 @@
     }).fail(function (e) { alert(e.responseText) });
 
             });
-            ////ButtonGetProfile
-            //$('#ButtonGetProfile').click(function () {
-            //    //取得User Proile
-            //    liff.getProfile().then(
-            //        profile => {
-            //            //顯示在text box中
-            //            $('#UserInfo').val(profile.displayName);
-            //            //居然可以alert
-            //            alert('done');
-            //        }
-            //    );
-            //});
-            //ButtonSendMsg
-            //$('#ButtonSendMsg').click(function () {
-            //    liff.sendMessages([
-            //        {
-            //            type: 'text',
-            //            text: $('#msg').val()
-            //        }
-            //    ])
-            //        .then(() => {
-            //            alert('done');
-            //        })
-            //});
+          
         });
     </script>
 }

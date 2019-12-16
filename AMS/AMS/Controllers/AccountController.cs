@@ -9,9 +9,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using AMS.Models;
-
+using System.Data.Entity;
 namespace AMS.Controllers
 {
+
     [Authorize]
     public class AccountController : Controller
     {
@@ -123,7 +124,9 @@ namespace AMS.Controllers
             {
                 case SignInStatus.Success:
                     {
+                        var userid = db.AspNetUsers.Where(user => user.UserName == model.UserName).FirstOrDefault().Id;
                         Session["UserFullName"] = db.Employees.Find(model.UserName).EmployeeName;
+                        Session["UserRole"] = db.AspNetUsers.Where(user => user.UserName == model.UserName).FirstOrDefault().AspNetRoles.FirstOrDefault().Name;
                         Session["UserName"] = model.UserName;
                         return RedirectToLocal(returnUrl);
                     }
@@ -452,6 +455,34 @@ namespace AMS.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public async Task<ActionResult> LineIdBindView(LineIdBindViewModel model)
+        {
+            string ms = "";
+            var query = db.Employees.Find(model.EmployeeID);
+            var result = await SignInManager.PasswordSignInAsync(model.EmployeeID, model.Password, false, shouldLockout: false);
+            if (query.LineID != null)
+            {
+                return Json(new { msg = "此員工帳號已有綁定Line" }, JsonRequestBehavior.AllowGet);
+            }
+            if (result == SignInStatus.Success)
+            {
+                query.LineID = model.LineID;
+                db.Entry(query).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(new { msg = "成功綁定" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                ms = "帳號或密碼有誤";
+            }
+
+            return Json(new { msg = ms }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
 
         protected override void Dispose(bool disposing)
         {

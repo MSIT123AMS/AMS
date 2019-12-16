@@ -47,7 +47,7 @@ namespace AMS.Controllers
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "DepartmentID,Manager,DepartmentName")] Departments departments)
         {
             if (ModelState.IsValid)
@@ -72,14 +72,15 @@ namespace AMS.Controllers
             {
                 return HttpNotFound();
             }
-            return View(departments);
+            return PartialView("_Edit", departments);
+          
         }
 
         // POST: Departments/Edit/5
         // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "DepartmentID,Manager,DepartmentName")] Departments departments)
         {
             if (ModelState.IsValid)
@@ -108,7 +109,7 @@ namespace AMS.Controllers
 
         // POST: Departments/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Departments departments = db.Departments.Find(id);

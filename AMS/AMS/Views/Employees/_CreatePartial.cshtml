@@ -1,6 +1,7 @@
 ﻿@model AMS.Controllers.EmployeesCreateViewModel
 
 @*@using (Html.BeginForm("Create", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "FormData" }))*@
+<button type="button" id="empcreatdemo" onclick="EmpCreatDemo()">DEMO</button>
 <form id = "FormData"enctype="multipart/form-data" >
 
 @Html.AntiForgeryToken()
@@ -12,7 +13,7 @@
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-
+        
 
         <div class="row">
             <div class="form-group col-md-12 row">
@@ -50,7 +51,7 @@
             <div class="form-group col-md-12 row">
                 @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2 " })
                 <div class="col-md-4">
-                    @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control", @required = "required" , @type = "datetime-local" } })
+                    @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control", @required = "required" , @type = "date" } })
                     @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
                 </div>
                 @Html.LabelFor(model => model.IDNumber, htmlAttributes: new { @class = "control-label col-md-2 " })
@@ -66,7 +67,7 @@
                 @Html.LabelFor(model => model.gender, htmlAttributes: new { @class = "control-label col-md-2 " })
                 <div class="col-md-4">
                     <div class="checkbox">
-                        @Html.DropDownList("gender", null, "---請選擇---", new { @class = "form-control", @required = "required"  })
+                        @Html.DropDownList("gender", null, "---請選擇---", new { @class = "form-control", @required = "required",@id= "gender"})
                         @Html.ValidationMessageFor(model => model.gender, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -139,7 +140,7 @@
                 </div>
                 @Html.LabelFor(model => model.Hireday, htmlAttributes: new { @class = "control-label col-md-2 " })
                 <div class="col-md-4">
-                    @Html.EditorFor(model => model.Hireday, new { htmlAttributes = new { @class = "form-control", @required = "required" , @type = "datetime-local" } })
+                    @Html.EditorFor(model => model.Hireday, new { htmlAttributes = new { @class = "form-control", @required = "required" , @type = "date" } })
                     @Html.ValidationMessageFor(model => model.Hireday, "", new { @class = "text-danger" })
 
                 </div>
@@ -204,7 +205,7 @@
                             <strong>返回</strong>
                         </span>
                     </button>
-                    <button type="submit" class="btn btn-search" style="background-color:#787D7B;color:#FFFFFB;margin-right:50px" onclick="SaveFormDataUseAjaxPost('@Url.Action("Create","Employees")')">
+                    <button type="submit" class="btn btn-search" style="background-color:#787D7B;color:#FFFFFB;margin-right:50px" onclick="SaveFormDataUseAjaxPost3('@Url.Action("Create","Employees")')">
                         <i class="flaticon-add"></i><span>
                             <strong>新增</strong>
                         </span>

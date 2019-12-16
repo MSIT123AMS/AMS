@@ -312,6 +312,18 @@
     <Compile Include="Metadata\Announcement.cs" />
     <Compile Include="Metadata\AnnouncementMetadata.cs" />
     <Compile Include="Models\AnnouncementtViewModel.cs" />
+    <Compile Include="Models\AspNetRoles.cs">
+      <DependentUpon>AMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaims.cs">
+      <DependentUpon>AMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogins.cs">
+      <DependentUpon>AMSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUsers.cs">
+      <DependentUpon>AMSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\calendar.cs" />
     <Compile Include="Controllers\ClockInApplyController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
@@ -1146,6 +1158,9 @@
     <Content Include="Views\Annouuncements\Details.cshtml" />
     <Content Include="Views\OverTimeRequests\CreateLine.cshtml" />
     <Content Include="Views\Attendances\TakeFive_Uncheck.cshtml" />
+    <Content Include="Views\Departments\_Edit.cshtml" />
+    <Content Include="Views\Employees\_MonthlyStatistics.cshtml" />
+    <Content Include="Views\Employees\_MonthlyStatisticsListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

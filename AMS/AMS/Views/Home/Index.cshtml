@@ -57,13 +57,7 @@
                     </a>
                     <div class="collapse" id="base">
                         <ul class="nav nav-collapse" style="font-family:'Microsoft JhengHei'">
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">
-                                        個人出勤明細查詢
-                                    </span>
-                                </a>
-                            </li>
+
                             <li>
                                 <a href="#" onclick="funSerchAttendancest()" )>
                                     <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人刷卡明細查詢</span>
@@ -79,87 +73,83 @@
                                     <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人加班明細查詢</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">打卡申覆統計表</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人差勤統計查詢</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人月勤惰統計</span>
-                                </a>
-                            </li>
-
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#sidebarLayout2">
-                        <i class="fas fa-th-list"></i>
-                        <p style="font-family:'Microsoft JhengHei'">主管區</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="sidebarLayout2">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")","審核")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">審核</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#sidebarLayouts1">
-                        <i class="fas fa-users"></i>
-                        <p style="font-family:'Microsoft JhengHei'">人資區</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="sidebarLayouts1">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Employees")","員工管理")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">員工管理</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Departments")","部門管理")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">
-                                        部門管理
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("SerchAttendances", "Employees")","刷卡明細查詢")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">刷卡明細查詢</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("SerchLeave", "Employees")","差假明細查詢")'>
+                @if (Convert.ToString(Session["UserRole"]) == "Leader" || Convert.ToString(Session["UserRole"]) == "HRLeader")
+                {
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#sidebarLayout2">
+                            <i class="fas fa-th-list"></i>
+                            <p style="font-family:'Microsoft JhengHei'">主管區</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="sidebarLayout2">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")","審核")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">審核</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                }
+                @if (Convert.ToString(Session["UserRole"]) == "HR" || Convert.ToString(Session["UserRole"]) == "HRLeader")
+                {
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#sidebarLayouts1">
+                            <i class="fas fa-users"></i>
+                            <p style="font-family:'Microsoft JhengHei'">人資區</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="sidebarLayouts1">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("Index", "Employees")","員工管理")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">員工管理</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("Index", "Departments")","部門管理")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">
+                                            部門管理
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("SerchAttendances", "Employees")","刷卡明細查詢")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">刷卡明細查詢</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("SerchLeave", "Employees")","差假明細查詢")'>
 
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">差假明細查詢</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("SerchOverTime", "Employees")","加班明細查詢")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">加班明細查詢</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("DailyStatistics", "Employees")","日期員工出勤統計")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">差假明細查詢</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("SerchOverTime", "Employees")","加班明細查詢")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">加班明細查詢</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("DailyStatistics", "Employees")","日期員工出勤統計")'>
 
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">日期員工出勤統計</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">日期員工出勤統計</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("MonthlyStatistics", "Employees")","月出勤統計")'>
+
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">月出勤統計</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                }
+                </ul>
         </div>
     </div>
 </div>
@@ -361,12 +351,7 @@
             }
         });
     }
-    function a11() {
-        alert('asas');
-    }
-    function a22() {
-        alert('bbbfbfb');
-    }
+
     function getLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
@@ -440,6 +425,13 @@
                         GetDailyStatistics();
                         break;
                     }
+                case '月出勤統計':
+                    {
+                        changeT();
+                        //SetTimePicker($("#time1"), $("#time2"));
+
+                        break;
+                    }
                 default:
                     changeT();
                     SetTimePicker($("#time1"), $("#time2"));
@@ -468,6 +460,31 @@
 
     //window.addEventListener('resize', changeT);
        /////////////////////正///////////////////////////////////
+        function EmpCreatDemo() {
+            $('#EmployeeID').val('MSIT1230040');
+            $('#Password').val('MSIT123a@@');
+            $('#EmployeeName').val('郭智宇');
+            $('#EnglishName').val('SASUKE');
+            $('#Birthday').val("1990-12-01");
+            $('#IDNumber').val('A129574428');
+            $('#gender')[0].selectedIndex = 1;
+            $('#Marital').val('未婚');
+            $('#Email').val('SASUKE@gmail.com');
+            $('#Address').val('台北市大安區復興南路一段390號');
+            $('#Phone').val('0968775997');
+            $('#Education').val('台灣大學');
+            $('#JobTitle').val('員工');
+            $('#DepartmentName').val('人資部');
+            $('#Manager').val('楊毅賢');
+            $('#Hireday').val("2017-11-01");
+            $('#Deputy').val('火車煇');
+            $('#DeputyPhone').val('0978885667');
+            $('#Notes').val('無');
+
+
+        }
+
+
     function EmployeeDetailsToEdit() {
         $(":input").attr("readonly",false)//去除input元素的readonly屬性
     }
@@ -694,6 +711,60 @@
                         $('#addModal').modal('hide');
                     }).fail(function (e) { SweetAlert("此日期已申請過, 請先確認日期") }
                     );
+                } else {
+                    swal.close();
+                }
+            });
+
+        }
+
+
+        ///post
+        function SaveFormDataUseAjaxPost3(AjaxUrl) {
+            swal({
+                title: '確定要送出這筆資料嗎?',
+                //text: "You won't be able to revert this!",
+                type: 'warning',
+                buttons: {
+                    confirm: {
+                        text: '確定',
+                        className: 'btn btn-success'
+                    },
+                    cancel: {
+                        text: '取消',
+                        visible: true,
+                        className: 'btn btn-danger'
+                    }
+                }
+            }).then((Delete) => {
+                if (Delete) {
+                    let myForm = document.querySelector("#FormData");
+                    var validator = $("#FormData").validate({
+                        debug: true
+                    }
+                    );
+                    console.log(validator);
+                    let data = new FormData(myForm);
+                    //data.append("DepartmentID","2");
+                    let files = $("#empFile").get(0).files;
+                    if (files.length > 0) {
+                        data.append("Photo", files[0]);
+                    }
+                    $.ajax({
+                        url: AjaxUrl,
+                        type: "POST",
+                        contentType: false,         // 告诉jQuery不要去這置Content-Type
+                        processData: false,         // 告诉jQuery不要去處理發送的數據
+                        dataType: "html",
+                        data: data,
+                        //data: {"EmployeeID": EmployeeID.value,},
+                    }).done(function (result) {
+                        $("#mainpanel").html(result);
+                        IndexEventFunction();
+                        SuccessSweetAlert('成功');
+
+                    }).fail(function (e) { SweetAlert("驗證失敗") });
+
                 } else {
                     swal.close();
                 }
@@ -1230,6 +1301,81 @@ function UpdateEmployeesByDepartment() {
 
 }
 
+
+        function DepartmentsEdit(AjaxUrl) {
+    $.ajax({
+    type: "GET",
+    url: AjaxUrl,
+    dataType: "html",
+    }).done(function (result) {
+      
+        $("#aaaa").html(result);
+
+        $('#addModal').modal('show');      
+    }).fail(function (e) { alert(e.responseText) });
+        }
+
+
+        function PostDepartments() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Create", "Departments")/",
+                data: { "DepartmentName": DepartmentName.value, "Manager": Manager.value },
+                //dataType: 'html',
+            }).done(function (result) {
+                $("#mainpanel").html(result);
+                changeT();
+                $('#addModal').modal('hide');
+            }).fail(function (e) { alert(e.responseText) });
+        }
+        function PostDepartmentsEdit() {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Edit", "Departments")/",
+                data: { "DepartmentName": DepartmentName.value, "Manager": Manager.value, "DepartmentID": DepartmentID.value},
+                //dataType: 'html',
+            }).done(function (result) {
+                $("#mainpanel").html(result);
+                changeT();
+                $('#addModal').modal('hide');
+            }).fail(function (e) { alert(e.responseText) });
+        }
+
+        function DeleteDepartments(AjaxUrl) {
+            swal({
+                title: '確定要刪除資料嗎?',
+                //text: "You won't be able to revert this!",
+                type: 'warning',
+                buttons: {
+                    confirm: {
+                        text: '確定',
+                        className: 'btn btn-success'
+                    },
+                    cancel: {
+                        text: '取消',
+                        visible: true,
+                        className: 'btn btn-danger'
+                    }
+                }
+            }).then((Delete) => {
+                if (Delete) {
+
+                    $.ajax({
+                        type: "POST",
+                        url: AjaxUrl,
+
+                        dataType: 'html',
+                    }).done(function (result) {
+                        $("#mainpanel").html(result);
+                        changeT();
+                        $('#addModal').modal('hide');
+                    }).fail(function (e) { alert(e.responseText) });
+                } else {
+                    swal.close();
+                }
+            });
+        }
+
         /////////////////WU//////////////////
 
         function OverTimeIndex() {
@@ -1546,4 +1692,5 @@ function UpdateEmployeesByDepartment() {
     }
 
     </script>
+    
 }

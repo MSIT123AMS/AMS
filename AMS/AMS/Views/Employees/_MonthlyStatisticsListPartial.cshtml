@@ -1,0 +1,78 @@
+﻿@model IEnumerable<AMS.Controllers.MonthlyStatisticsViewModel>
+
+<table id="basic-datatables" class="display table table-striped table-hover">
+    <thead class="bg-primary text-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DepartmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkingDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AttendanceDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkingDayHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AttendanceDayHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AttendanceRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveDayHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OverTimeHours)
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DepartmentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkingDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AttendanceDay)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkingDayHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AttendanceDayHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AttendanceRate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveDayHours)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OverTimeHours)
+                </td>
+
+            </tr>
+        }
+    </tbody>
+
+</table>
