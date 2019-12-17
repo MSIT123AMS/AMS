@@ -720,8 +720,8 @@
                         //$("#mainpanel").html(result);
                         SuccessSweetAlert('送出申請，待主管審核');
                         funLeaveIndex()
-                        $('#addModal').modal('hide');
-                    }).fail(function (e) { SweetAlert("此日期已申請過, 請先確認日期") }
+                            $('#addModal').modal('hide');
+                        }).fail(function (e) { SweetAlert(e.responseJSON.msg); }
                     );
                 } else {
                     swal.close();
