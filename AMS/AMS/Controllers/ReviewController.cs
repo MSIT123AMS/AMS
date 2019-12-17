@@ -43,7 +43,7 @@ namespace AMS.Controllers
             var spread = (end - start);
             if (end.Date == start.Date)
             {
-               return(spread.Hours - 1);
+               return(spread.Hours );
             }
             else
             {

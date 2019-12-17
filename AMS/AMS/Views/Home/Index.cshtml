@@ -76,6 +76,11 @@
                                     <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人加班明細查詢</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="#" onclick="ClockInApplyView()">
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人補打卡紀錄查詢</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -490,6 +495,53 @@
     }).fail(function (e) { alert(e.responseText) });
 
 
+        }
+        function funSerchAttendancest() {
+
+      $.ajax({
+    url: "@Url.Action("SerchAttendances", "Attendances")",
+    type: "GET",
+    dataType: "html",
+
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+
+        //changeT();
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
+        SetTimePicker($("#time1"), $("#time2"));
+
+
+        $("#Button1").bind("click", function () {
+            AttendancesSave();
+        })
+
+    }).fail(function (e) { alert(e.responseText) });
+
+
+        }
+        function ClockInApplyView() {
+
+      $.ajax({
+    url: "@Url.Action("ClockInApplyView", "ClockInApply")",
+    type: "GET",
+    dataType: "html",
+
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+
+        //changeT();
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();    
+
+
+      
+
+    }).fail(function (e) { alert(e.responseText) });
+
+
     }
         /////////////////////////////////////////////////
         function funClockInApplyCreat() {
@@ -503,7 +555,7 @@
         $('#addModal').modal('show');
              d = new Date();
             $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
-            $("#OffDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
+            $("#OffDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "17" + ":" + "00");
             $("#RequestDate").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
         $("#OnDuty").bind("change", function () {
             var str = $("#OnDuty").val();
@@ -535,19 +587,22 @@
         //    var ele = $("input[name='inlineDefaultRadiosExample']:checked").val()
         //    sethours(ele * 60);
         //});
-        $("#defaultInline4").bind("change", function () {
-            $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
-            var ele = $("#defaultInline4").val()
+        
+        $("#defaultInline_08_12").bind("change", function () {
+            $("#OnDuty").val();
+            var ele = $("#defaultInline_08_12").val()
             sethours(ele * 60);
+        });      
+        
+        $("#defaultInline_13_17").bind("change", function () {
+            $("#OnDuty").val();
+            var ele = $("defaultInline_13_17").val()
+          
         });
-        $("#defaultInline8").bind("change", function () {
-            $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
-            var ele = $("#defaultInline8").val()
-            sethours(ele * 60);
-        });
-        $("#defaultInline7").bind("change", function () {
-            $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "13" + ":" + "00");
-            var ele = $("#defaultInline4").val()
+      
+        $("#defaultInline_08_17").bind("change", function () {
+            $("#OnDuty").val();
+            var ele = $("#defaultInline_08_17").val()
             sethours(ele * 60);
         });
         $("#submitButton").bind("click", function () {
@@ -569,16 +624,21 @@
     type: "POST",
     contentType: false,         // 告诉jQuery不要去這置Content-Type
     processData: false,         // 告诉jQuery不要去處理發送的數據
-    dataType: "html",
+    dataType: "JSon",
     data: data,
-
     //data: {"EmployeeID": EmployeeID.value,},
     //data: {"EmployeeID": EmployeeID.value,},
     }).done(function (result) {
         $("#mainpanel").html(result);
-        SuccessSweetAlert("成功");
-        $('#addModal').modal('hide');
-       value='@TempData["Message"]';
+        if (result.msg == "申請成功") {
+            SuccessSweetAlert(result.msg);
+        }
+        else
+        {
+            SweetAlert(result.msg);
+        }
+        
+       
 
 
 

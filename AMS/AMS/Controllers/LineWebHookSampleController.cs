@@ -124,24 +124,24 @@ namespace WebApplication5.Controllers
                                             var wholeday = day_uncheck.FirstOrDefault().Date;/////判定前日有無值
                                             var afternoon = day_uncheck.FirstOrDefault().EndTime;/////判定前日下班有無值
                                             var morning = day_uncheck.FirstOrDefault().StartTime;/////判定前日上班有無值
-                                            if (wholeday == null && workdays.FirstOrDefault().WorkingDay == "工作日" && judgeleave_yesterday.FirstOrDefault() == null)
-                                            {
-                                                a.EmployeeID = EmpID;
-                                                a.Date = today.AddDays(-1);
-                                                a.station = "整日未打卡";
-                                                a.savehours = 0;
-                                                d.Attendances.Add(a);
-                                                this.ReplyMessage(LineEvent.replyToken, $"前日全天未打卡");
-                                                d.SaveChanges();
-                                            }
-                                            if (morning != null && afternoon == null)
-                                            {
-                                                var check_yesterday = d.Attendances.Where(p => p.Date == yesterday && p.EmployeeID == EmpID);
-                                                check_yesterday.FirstOrDefault().station = "下午未打卡";
-                                                check_yesterday.FirstOrDefault().savehours = 4;
-                                                this.ReplyMessage(LineEvent.replyToken, $"前日下午未打卡");
-                                                d.SaveChanges();
-                                            }
+                                            //if (wholeday == null && workdays.FirstOrDefault().WorkingDay == "工作日" && judgeleave_yesterday.FirstOrDefault() == null)
+                                            //{
+                                            //    a.EmployeeID = EmpID;
+                                            //    a.Date = today.AddDays(-1);
+                                            //    a.station = "整日未打卡";
+                                            //    a.savehours = 0;
+                                            //    d.Attendances.Add(a);
+                                            //    this.ReplyMessage(LineEvent.replyToken, $"前日全天未打卡");
+                                            //    d.SaveChanges();
+                                            //}
+                                            //if (morning != null && afternoon == null)
+                                            //{
+                                            //    var check_yesterday = d.Attendances.Where(p => p.Date == yesterday && p.EmployeeID == EmpID);
+                                            //    check_yesterday.FirstOrDefault().station = "下午未打卡";
+                                            //    check_yesterday.FirstOrDefault().savehours = 4;
+                                            //    this.ReplyMessage(LineEvent.replyToken, $"前日下午未打卡");
+                                            //    d.SaveChanges();
+                                            //}
 
                                             var flex = $@"[{{
  ""type"": ""flex"",
@@ -208,46 +208,119 @@ namespace WebApplication5.Controllers
                                     {
                                         var flex_check = $@"[{{
  ""type"": ""flex"",
-""altText"":""定位完成"",
+""altText"":""簽到"",
 ""contents"":
+
 {{
   ""type"": ""bubble"",
-  ""header"": {{
-                                            ""type"": ""box"",
-    ""layout"": ""horizontal"",
+  ""body"": {{
+  ""type"": ""box"",
+    ""layout"": ""vertical"",
     ""contents"": [
       {{
-        ""type"": ""text"",
-        ""text"": ""目前時間:"",
-        ""color"": ""#FFFFFB"",
-        ""size"": ""md"",
-        ""weight"": ""bold""
+        ""type"": ""box"",
+        ""layout"": ""vertical"",
+        ""contents"": [
+          {{
+            ""type"": ""box"",
+            ""layout"": ""horizontal"",
+            ""contents"": [
+              {{
+                ""type"": ""text"",
+                ""contents"": [],
+                ""size"": ""md"",
+                ""wrap"": true,
+                ""text"": ""目前時間:"",
+                ""color"": ""#ffffff"",
+                ""weight"": ""bold""
+              }},
+              {{
+                ""type"": ""text"",
+                ""text"": ""{DateTime.Now.AddHours(8).ToShortTimeString().ToString()}"",
+                ""color"": ""#ffffff"",
+                ""size"": ""md"",
+                ""weight"": ""bold"",
+                ""align"": ""center""
+              }}
+            ],
+            ""spacing"": ""sm""
+          }},
+          {{
+            ""type"": ""box"",
+            ""layout"": ""vertical"",
+            ""contents"": [
+              {{
+                ""type"": ""box"",
+                ""layout"": ""horizontal"",
+                ""contents"": [
+                  {{
+                    ""type"": ""text"",
+                    ""contents"": [],
+                    ""size"": ""sm"",
+                    ""wrap"": true,
+                    ""margin"": ""lg"",
+                    ""color"": ""#ffffffde"",
+                    ""text"": ""最晚上班時間:""
+                  }},
+                  {{
+                    ""type"": ""text"",
+                    ""text"": ""{st1}"",
+                    ""margin"": ""lg"",
+                    ""size"": ""sm"",
+                    ""color"": ""#ffffffde"",
+                    ""wrap"": true
+                  }}
+                ]
+              }},
+              {{
+                ""type"": ""box"",
+                ""layout"": ""horizontal"",
+                ""contents"": [
+                  {{
+                    ""type"": ""text"",
+                    ""text"": ""最早下班時間"",
+                    ""color"": ""#ffffffde"",
+                    ""margin"": ""lg"",
+                    ""size"": ""sm"",
+                    ""wrap"": true
+                  }},
+                  {{
+                    ""type"": ""text"",
+                    ""text"": ""{st2}"",
+                    ""size"": ""sm"",
+                    ""color"": ""#ffffffde"",
+                    ""wrap"": true,
+                    ""margin"": ""lg""
+                  }}
+                ]
+              }}
+            ],
+            ""paddingAll"": ""13px"",
+            ""backgroundColor"": ""#ffffff1A"",
+            ""cornerRadius"": ""2px"",
+            ""margin"": ""xl""
+          }}
+        ]
       }},
       {{
-        ""type"": ""text"",
-        ""text"": ""{DateTime.Now.ToShortTimeString().ToString()}"",
-        ""size"": ""md"",
-        ""color"": ""#FFFFFB"",
-        ""weight"": ""bold"",
-        ""align"": ""start""
+        ""type"": ""separator""
       }}
     ],
+    ""paddingAll"": ""20px"",
     ""backgroundColor"": ""#464F69""
   }},
   ""footer"": {{
     ""type"": ""box"",
     ""layout"": ""vertical"",
-    ""spacing"": ""sm"",
     ""contents"": [
       {{
         ""type"": ""button"",
-        ""style"": ""primary"",
-        ""height"": ""md"",
         ""action"": {{
           ""type"": ""message"",
           ""label"": ""上班"",
           ""text"": ""上班""
         }},
+        ""style"": ""primary"",
         ""color"": ""#3A8FB7""
       }},
       {{
@@ -259,15 +332,12 @@ namespace WebApplication5.Controllers
         }},
         ""style"": ""primary"",
         ""margin"": ""md"",
-        ""height"": ""md"",
         ""color"": ""#5DAC81""
       }}
     ],
-    ""flex"": 0,
     ""backgroundColor"": ""#464F69""
   }}
 }}
-
 
 }}]";
  
@@ -277,6 +347,7 @@ namespace WebApplication5.Controllers
                                                                                 //                 }},""footer"": {{""type"": ""box"",""layout"": ""vertical"",""contents"": [{{""type"": ""button"",""style"": ""primary"",""color"": ""#3A8FB7"",""action"": {{""type"": ""message"",""label"": ""上班"",""text"": ""上班""
                                                                                 //                 }}}},{{""type"": ""button"",""action"": {{""type"": ""message"",""label"": ""下班"",""text"": ""下班""}},""style"": ""primary"",""color"": ""#5DAC81""}}],""spacing"": ""sm""}}}}}}]";
                                                                                 bot.PushMessageWithJSON(AdminUserId, flex_check);
+                                        
                                         break;
                                     }
                                 case "上班":
@@ -424,7 +495,8 @@ namespace WebApplication5.Controllers
                                         var bot1 = new Bot(channelAccessToken);
                                         int count = 0;
                                         string[] record = new string[5] { "無紀錄", "無紀錄", "無紀錄", "無紀錄", "無紀錄" };
-                                        var searchfive = d.Attendances.Where(p => p.EmployeeID == EmpID && p.station == "未打卡");
+                                        string[] record_station = new string[5] { " ", " ", " ", " ", " " };
+                                        var searchfive = d.Attendances.Where(p => p.EmployeeID == EmpID && (p.station == "上班未打卡"|| p.station == "下班未打卡"|| p.station == "整日未打卡")).OrderByDescending(p=>p.Date);
                                         int takefive;
 
                                         if (searchfive.Count() <= 5)
@@ -437,7 +509,8 @@ namespace WebApplication5.Controllers
                                         }
                                         foreach (var xxxx in searchfive.Take(takefive))
                                         {
-                                            record[count] = xxxx.Date.ToLongDateString().ToString();
+                                            record[count] = xxxx.Date.ToShortDateString().ToString();
+                                            record_station[count] = xxxx.station;
                                             count++;
                                         };
                                         var flextakefive = $@"[{{
@@ -479,7 +552,13 @@ namespace WebApplication5.Controllers
           {{
             ""type"": ""text"",
             ""text"": ""{ record[0]}"",
-            ""align"": ""start""
+            ""align"": ""start"",
+            ""size"": ""sm""
+          }},
+          {{
+            ""type"": ""text"",
+            ""text"": ""{record_station[0]}"",
+            ""size"": ""sm""
           }}
         ]
       }},
@@ -499,7 +578,13 @@ namespace WebApplication5.Controllers
           }},
           {{
             ""type"": ""text"",
-            ""text"": ""{ record[1]}""
+            ""text"": ""{ record[1]}"",
+            ""size"": ""sm""
+          }},
+          {{
+            ""type"": ""text"",
+            ""text"": ""{record_station[1]}"",
+            ""size"": ""sm""
           }}
         ]
       }},
@@ -519,7 +604,13 @@ namespace WebApplication5.Controllers
           }},
           {{
             ""type"": ""text"",
-            ""text"": ""{ record[2]}""
+            ""text"": ""{ record[2]}"",
+            ""size"": ""sm""
+          }},
+          {{
+            ""type"": ""text"",
+            ""text"": ""{record_station[2]}"",
+            ""size"": ""sm""
           }}
         ]
       }},
@@ -539,7 +630,13 @@ namespace WebApplication5.Controllers
           }},
           {{
             ""type"": ""text"",
-            ""text"": ""{ record[3]}""
+            ""text"": ""{ record[3]}"",
+            ""size"": ""sm""
+          }},
+          {{
+            ""type"": ""text"",
+            ""text"": ""{record_station[3]}"",
+            ""size"": ""sm""
           }}
         ]
       }},
@@ -559,7 +656,13 @@ namespace WebApplication5.Controllers
           }},
           {{
             ""type"": ""text"",
-            ""text"": ""{ record[4]}""
+            ""text"": ""{ record[4]}"",
+            ""size"": ""sm""
+          }},
+          {{
+            ""type"": ""text"",
+            ""text"": ""{record_station[4]}"",
+            ""size"": ""sm""
           }}
         ]
       }},
@@ -586,6 +689,11 @@ namespace WebApplication5.Controllers
     ],
     ""flex"": 0,
     ""backgroundColor"": ""#464F69""
+  }},
+  ""styles"": {{
+    ""body"": {{
+      ""separator"": true
+    }}
   }}
 }}
 

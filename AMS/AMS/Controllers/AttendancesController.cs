@@ -129,9 +129,10 @@ namespace AMS.Controllers
             }).Where(p => p.Date >= FirstDay && p.Date <= LastDay && (p.station == "上班未打卡" || p.station == "下班未打卡" || p.station == "整日未打卡"));
             ViewBag.show_uncheck = monthly_uncheck();
             ViewBag.show_dutyDays = AttendanceDays();
-
-
-
+            ViewData["show_uncheck"] = monthly_uncheck();
+            ViewData["show_dutyDays"] = AttendanceDays();
+            System.Web.HttpContext.Current.Session["show_uncheck"]= monthly_uncheck();
+            System.Web.HttpContext.Current.Session["show_dutyDays"] = AttendanceDays();
             return PartialView("_SerchAttendances", query);
 
             //return View();

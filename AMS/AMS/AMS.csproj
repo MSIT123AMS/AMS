@@ -309,6 +309,8 @@
     <Compile Include="Controllers\Class2.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\Position.cs" />
+    <Compile Include="Models\SerchAttendancesViewModel.cs" />
+    <Compile Include="Controllers\Serch_UncHeck.cs" />
     <Compile Include="Metadata\Announcement.cs" />
     <Compile Include="Metadata\AnnouncementMetadata.cs" />
     <Compile Include="Models\AnnouncementtViewModel.cs" />
@@ -340,7 +342,6 @@
     <Compile Include="Models\ClockInApplyViewModel.cs" />
     <Compile Include="Metadata\DownLoadHelper.cs" />
     <Compile Include="Models\LeaveIndexViewModel.cs" />
-    <Compile Include="Models\SerchAttendancesViewModel.cs" />
     <Compile Include="Models\SerchLeaveViewModel.cs" />
     <Compile Include="Controllers\TestLUISController.cs" />
     <Compile Include="Controllers\TestQnAController.cs" />
