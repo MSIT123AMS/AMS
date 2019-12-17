@@ -440,7 +440,7 @@ namespace WebApplication5.Controllers
                                             record[count] = xxxx.Date.ToLongDateString().ToString();
                                             count++;
                                         };
-                                        var flextakefive = $@"[{{
+                                        var flextakefive = $@"[
 {{
  ""type"": ""flex"",
 ""altText"":""缺勤紀錄"",
