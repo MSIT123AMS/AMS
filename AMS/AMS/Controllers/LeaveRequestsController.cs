@@ -548,13 +548,13 @@ namespace AMS.Controllers
                     leaveRequests.Attachment = data;
                 }
 
-                //判斷是不是有申請過
+                //判斷是不是有申請過()
                 if (db.LeaveRequests.Any(n=>n.EmployeeID==User&&(n.LeaveRequestID=="2")&&((n.StartTime<=leaveRequests.StartTime&&n.EndTime>=leaveRequests.StartTime) ||(n.StartTime <= leaveRequests.EndTime && n.EndTime>= leaveRequests.EndTime))))
                 {
                     //Response.Write("<script>alert('此日期已申請過');</script>");
                     throw new Exception("此日期已申請過, 請先確認日期");
-                    return Json(new { msg = "此日期已申請過, 請先確認日期" }, JsonRequestBehavior.AllowGet);
-                    return Content(("<script>alert('此日期已申請過,請先確認日期');window.location.href ='http://localhost:64643/Home/Index'</script>"));
+                    //return Json(new { msg = "此日期已申請過, 請先確認日期" }, JsonRequestBehavior.AllowGet);
+                    //return Content(("<script>alert('此日期已申請過,請先確認日期');window.location.href ='http://localhost:64643/Home/Index'</script>"));
                 
                 }
            
@@ -563,7 +563,7 @@ namespace AMS.Controllers
                 //return RedirectToAction("LeaveIndexView");
                 //return RedirectToAction("Index");
                 return Json(new { msg = "送出申請，待主管審核" }, JsonRequestBehavior.AllowGet);
-                return Content(("<script>alert();window.location.href ='http://localhost:64643/Home/Index'</script>"));
+                //return Content(("<script>alert();window.location.href ='http://localhost:64643/Home/Index'</script>"));
             }
 
             return View(leaveRequests);
