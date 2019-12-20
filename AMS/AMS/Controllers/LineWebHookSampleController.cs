@@ -91,8 +91,8 @@ namespace WebApplication5.Controllers
 
                         //取得用戶資訊
                         //string EmpId = "MSIT1230015";//測試用用戶
-                        string st1 = "22:00";//設定最晚打卡的上班時間(可以擺到人事) ///要再做每日統計上班時數功能  
-                        string st2 = "13:00";//設定最早打卡的下班時間(可以擺到人事) ///要再做每日統計上班時數功能  
+                        string st1 = "11:00";//設定最晚打卡的上班時間(可以擺到人事) ///要再做每日統計上班時數功能  
+                        string st2 = "18:00";//設定最早打卡的下班時間(可以擺到人事) ///要再做每日統計上班時數功能  
                         DateTime dt1 = Convert.ToDateTime(st1);
                         DateTime dt2 = Convert.ToDateTime(st2);
                         DateTime today = DateTime.Now.Date;//今天的日期  

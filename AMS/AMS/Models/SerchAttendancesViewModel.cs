@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WebApplication5.Controllers
+namespace AMS.Controllers
 {
     internal class SerchAttendancesViewModel
     {

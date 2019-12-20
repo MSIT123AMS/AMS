@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 
 using System.Collections;
+using WebApplication5.Controllers;
+
 namespace AMS.Controllers
 {
     public class EmployeesController : Controller
