@@ -126,6 +126,9 @@
                                                 <h4>@Session["UserFullName"]</h4>
                                             </div>
                                         </div>
+                                    </li>                                   
+                                    <li>
+                                        <a class="dropdown-item" id="a" @*href="@Url.Action("ChangePassword","Manage")"*@>修改密碼</a>
                                     </li>
                                     <li>
                                         <a class="dropdown-item" href="@Url.Action("Login","Account")">Logout</a>
@@ -290,6 +293,11 @@
                     mypush.server.send($('#sendmessage').val(),"剛剛發出一則公告，快去看吧");
                 });
             });
+
+            $('#a').click(function () {
+                $("#mainpanel").load('@Url.Action("ChangePassword","Manage")')
+            })
+
         });
         @* 公告通知 *@
         function ttt() {

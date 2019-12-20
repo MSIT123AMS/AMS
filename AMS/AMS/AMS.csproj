@@ -1162,6 +1162,7 @@
     <Content Include="Views\Review\LeaveViewMobile.cshtml" />
     <Content Include="Views\Review\OverTimeViewMobile.cshtml" />
     <Content Include="Views\Review\SubmitViewMobile.cshtml" />
+    <Content Include="Views\Manage\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
