@@ -86,6 +86,7 @@ namespace WebApplication5.Controllers
                     var q = d.Employees.Where(p => p.LineID == AdminUserId).First();
                     var EmpID = q.EmployeeID;//正
 
+
                     if (LineEvent.type == "message")
                     {
 
