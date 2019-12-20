@@ -359,6 +359,7 @@ namespace AMS.Controllers
 
         #endregion
 
+
         #region 算剩餘的特休天數(已審核)
         public int remleave()
         {
