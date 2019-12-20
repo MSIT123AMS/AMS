@@ -52,7 +52,7 @@ namespace AMS.Controllers
     public class ExecuteTaskServiceCallJob : IJob
     {
         internal Entities db = new Entities();
-        public const string channelAccessToken = @"ehC2bzsC2xmmwK5J59gcEK4ihHfRlYfb8kQFxVR2jn0B9vlAtMfvAwXXn5KfJfeQlC+5Higk86SmFJkwGn3bwDHH1uvL2X4vwahMbdMCeIFJttH9jNekMNBw6RHL0hJaQq2oEDSKKf0ocx3CQTFaO1GUYhWQfeY8sLGRXgo3xvw=";
+        public const string channelAccessToken = @"RtEJui2f/Ks+t6cbPart9XZFjRexoyPj4IctMkIzd0WFeRh6NTD7AKXbKewGdV5A1R44By3Ij5dTqHofyQA9Dg9KDEON893Isff3290QoewsiREGNVMbsgP8je5DbDKZb1DMWqyrkJEt/lcTZfENNgdB04t89/1O/w1cDnyilFU=";
         public static readonly string SchedulingStatus = ConfigurationManager.AppSettings["ExecuteTaskServiceCallSchedulingStatus"];
         LineBotWebHookController lineBot = new LineBotWebHookController();   
                      
@@ -73,45 +73,13 @@ namespace AMS.Controllers
                     var bot = new Bot(channelAccessToken);
                     try
                     {
-                        var day_uncheck = (from e in d.Employees.AsEnumerable()/////////判斷前有無打卡
-                                           join att in d.Attendances.AsEnumerable().Where(p => p.Date == yesterday) on e.EmployeeID equals att.EmployeeID into g
-                                           from att in g.DefaultIfEmpty()
-                                           select new SerchAttendancesViewModel
-                                           {
-                                               EmployeeName = e.EmployeeName,
-                                               Date = att == null ? null : att.Date.ToString("yyyy/MM/dd"),
-                                               StartTime = att == null ? null : att.OnDuty,
-                                               EndTime = att == null ? null : att.OffDuty,
-                                               LineID=e.LineID
-                                           });
-                        var fund_uncheck_emp = day_uncheck.Where(p => p.Date == null&&p.LineID!=null);
-                        foreach (var all_emp_uncheck in fund_uncheck_emp)
-                        {
-                            bot.PushMessage(all_emp_uncheck.LineID, "哈哈哈哈哈哈哈阿");
+                        
 
-                        }
-
-
-
-                        using (var message = new MailMessage("wingrovepank@gmail.com", "hauwei.pong@gmail.com"))
-                        {
-                            message.Subject = "未打卡通知信";
-                            //message.Body = $"你今天{},請申請補打卡";
-                            using (SmtpClient client = new SmtpClient
-                            {
-                                EnableSsl = true,
-                                Host = "smtp.gmail.com",
-                                Port = 587,
-                                Credentials = new NetworkCredential("wingrovepank@gmail.com", "sss22040")
-                            })
-                            {
-                                client.Send(message);
-                            }
-                        } //Do whatever stuff you want
+                     
                     }
                     catch (Exception ex)
                     {
-
+                        bot.PushMessage("Uc4c61b2e1e60a1dddbb5724258b9f359",ex.Message);
                     }
 
                 }
@@ -123,4 +91,5 @@ namespace AMS.Controllers
 
     }
 
+   
 }

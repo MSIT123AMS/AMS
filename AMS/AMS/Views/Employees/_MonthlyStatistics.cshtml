@@ -13,9 +13,53 @@
             <span class="badge" style="color:#FFFFFB">月出勤統計</span>
         </h1>
     </div>
+
+
     <div class="row">
         <div class="col-md-12">
+
             <div class="card" id="mmmmmm">
+
+                <form style="margin-left:10px;" method="post" action="/Employees/SerchLeave">
+                    <div class="card-header row form-group">
+                        <label class=" control-label" style="font-size:20px;margin-left:20px">查詢時間</label>
+                        <div class="col-md-2 col-sm-4">
+                            <select id="ComboBxMonth" class="form-control">
+                                <option value="2015">2015</option>
+                                <option value="2016">2016</option>
+                                <option value="2017">2017</option>
+                                <option value="2018">2018</option>
+                                <option value="2019" selected>2019</option>
+                            </select>
+                        </div>
+                        <label class=" control-label" style="font-size:20px;margin-left:20px">年</label>
+                        <div id="ddlemp" class="col-md-2 col-sm-4">
+                            <select id="ComboBxMonth" class="form-control">
+                                <option value="1">1月份</option>
+                                <option value="2" >2月份</option>
+                                <option value="3">3月份</option>
+                                <option value="4">4月份</option>
+                                <option value="5" >5月份</option>
+                                <option value="6">6月份</option>
+                                <option value="7">7月份</option>
+                                <option value="8" >8月份</option>
+                                <option value="9">9月份</option>
+                               <option value="10">10月份</option>
+                                <option value="11" >11月份</option>
+                                <option value="12" selected>12月份</option>
+                            </select>
+                        </div>
+                        <label class=" control-label" style="font-size:20px;margin-left:20px">月</label>
+                        <div class="col-md-2 col-sm-4 noprint">
+                            <button id="Button1" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                                <i class="fa fa-search fa-fw"></i><span>
+                                    <strong>搜尋</strong>
+                                </span>
+                            </button>
+
+                        </div>
+                    </div>
+                </form>
 
                 <div class="form-group noprint">
 

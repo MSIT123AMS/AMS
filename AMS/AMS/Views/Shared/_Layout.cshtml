@@ -15,30 +15,29 @@
             async defer></script>
 
     <script src="~/assets/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-        WebFont.load({
-            google: { "families": ["Lato:300,400,700,900"] },
-            custom: { "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],urls: ['@Url.Content("~/assets/css/fonts.min.css")'] },
-            active: function () {
-                sessionStorage.fonts = true;
-            }
-        });
-    </script>
+        <script>
+            WebFont.load({
+                google: { "families": ["Lato:300,400,700,900"] },
+                custom: { "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],urls: ['@Url.Content("~/assets/css/fonts.min.css")'] },
+                active: function () {
+                    sessionStorage.fonts = true;
+                }
+            });
+        </script>
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="~/assets/css/atlantis.min.css">
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="~/assets/css/demo.css">
-    <link href="~/Content/basictable.css" rel="stylesheet" />
     <link href="~/Content/phone.css" rel="stylesheet" />
+    <!-- basictable -->
+    @*<link href="~/Content/basictable.css" rel="stylesheet" />*@
+
 
 
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
 
 
-  
+
     @*行事曆*@
     <link href="~/Content/main.css" rel="stylesheet" />
     <link href="~/Content/daygrid-main.css" rel="stylesheet" />
@@ -87,25 +86,25 @@
                             </a>
                         </li>
 
-                            @*公告通知*@
-                        <li class="nav-item dropdown hidden-caret" >
+                        @*公告通知*@
+                        <li class="nav-item dropdown hidden-caret">
                             <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                                 <img src="~/assets/img/icons8-sugar-cube-40.png" ::before />
                                 <span class="notification" id="NotificationNum">0</span>
                             </a>
                             <ul class="dropdown-menu dropdown-user animated fadeIn">
-                                    <li>
-                                        <div class="user-box">
-                                            <div class="u-text">
-                                                <p>未讀公告</p>
-                                                <div id="newAnnonucementBox">
-                                                    @*<p>公告提醒</p>*@
-                                                </div>
-                                                <button type="button" class="btn btn-primary btn-lg btn-block" onclick="ClearAfterClick()">更多公告...</button>
-                                                <button hidden type="button" id="sendmessage" value="@Session["UserName"]"></button>
+                                <li>
+                                    <div class="user-box">
+                                        <div class="u-text">
+                                            <p>未讀公告</p>
+                                            <div id="newAnnonucementBox">
+                                                @*<p>公告提醒</p>*@
                                             </div>
+                                            <button type="button" class="btn btn-primary btn-lg btn-block" onclick="ClearAfterClick()">更多公告...</button>
+                                            <button hidden type="button" id="sendmessage" value="@Session["UserName"]"></button>
                                         </div>
-                                    </li>
+                                    </div>
+                                </li>
                             </ul>
                         </li>
                         @*公告通知*@
@@ -212,8 +211,8 @@
                 </div>
             </div>
             @*<div class="custom-toggle">
-                <i class="flaticon-settings"></i>
-            </div>*@
+                    <i class="flaticon-settings"></i>
+                </div>*@
         </div>
         <!-- End Custom template -->
     </div>
@@ -255,10 +254,8 @@
     <!-- Atlantis JS -->
     <script src="~/assets/js/atlantis.min.js"></script>
 
-    <!-- Atlantis DEMO methods, don't include it in your project! -->
-    <script src="~/assets/js/setting-demo.js"></script>
-    <script src="~/assets/js/demo.js"></script>
-    <script src="~/Scripts/jquery.basictable.min.js"></script>
+    <!-- basictable -->
+    @*<script src="~/Scripts/jquery.basictable.min.js"></script>*@
 
     <!-- 行事曆 -->
     <script src="~/Scripts/main.js"></script>
@@ -272,7 +269,7 @@
     <script src="~/Scripts/jquery.signalR-2.4.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
 
-   
+
     <script>
         @* 公告通知 *@
         $(function () {
@@ -283,7 +280,7 @@
             //    console.log(message);
             //};
             mypush.client.broadcastMessage = function (name, message) {
-                //SweetAlert(name + message);                
+                //SweetAlert(name + message);
                 $("#newAnnonucementBox").append(`<p>${name}有發布一則新公告喔<p>`)
                 $("#NotificationNum").text("!")
             };
@@ -303,112 +300,6 @@
             $("#newAnnonucementBox").empty();
             $("#NotificationNum").text("0");
         }
-
-
-
-        Circles.create({
-            id: 'circles-1',
-            radius: 45,
-            value: 60,
-            maxValue: 100,
-            width: 7,
-            text: 5,
-            colors: ['#f1f1f1', '#FF9E27'],
-            duration: 400,
-            wrpClass: 'circles-wrp',
-            textClass: 'circles-text',
-            styleWrapper: true,
-            styleText: true
-        })
-
-        Circles.create({
-            id: 'circles-2',
-            radius: 45,
-            value: 70,
-            maxValue: 100,
-            width: 7,
-            text: 36,
-            colors: ['#f1f1f1', '#2BB930'],
-            duration: 400,
-            wrpClass: 'circles-wrp',
-            textClass: 'circles-text',
-            styleWrapper: true,
-            styleText: true
-        })
-
-        Circles.create({
-            id: 'circles-3',
-            radius: 45,
-            value: 40,
-            maxValue: 100,
-            width: 7,
-            text: 12,
-            colors: ['#f1f1f1', '#F25961'],
-            duration: 400,
-            wrpClass: 'circles-wrp',
-            textClass: 'circles-text',
-            styleWrapper: true,
-            styleText: true
-        })
-
-        var totalIncomeChart = document.getElementById('totalIncomeChart').getContext('2d');
-
-        var mytotalIncomeChart = new Chart(totalIncomeChart, {
-            type: 'bar',
-            data: {
-                labels: ["S", "M", "T", "W", "T", "F", "S", "S", "M", "T"],
-                datasets: [{
-                    label: "Total Income",
-                    backgroundColor: '#ff9e27',
-                    borderColor: 'rgb(23, 125, 255)',
-                    data: [6, 4, 9, 5, 4, 6, 4, 3, 8, 10],
-                }],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: {
-                    display: false,
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            display: false //this will remove only the label
-                        },
-                        gridLines: {
-                            drawBorder: false,
-                            display: false
-                        }
-                    }],
-                    xAxes: [{
-                        gridLines: {
-                            drawBorder: false,
-                            display: false
-                        }
-                    }]
-                },
-            }
-        });
-
-        $('#lineChart').sparkline([105, 103, 123, 100, 95, 105, 115], {
-            type: 'line',
-            height: '70',
-            width: '100%',
-            lineWidth: '2',
-            lineColor: '#ffa534',
-            fillColor: 'rgba(255, 165, 52, .14)'
-        });
-
-
-
-
-
-
-
-
-
-
-
 
     </script>
 

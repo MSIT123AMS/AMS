@@ -38,7 +38,7 @@
                         <span style="font-family:'Microsoft JhengHei'">
                             @Session["UserFullName"]
                             @*<span class="user-level">@User.Identity.GetUserName()</span>*@
-                           
+
                             <span class="caret"></span>
                         </span>
                     </a>
@@ -76,80 +76,85 @@
                                     <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人加班明細查詢</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="#" onclick="ClockInApplyView()">
+                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">個人補打卡紀錄查詢</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
                 @if (Convert.ToString(Session["UserRole"]) == "Leader" || Convert.ToString(Session["UserRole"]) == "HRLeader")
                 {
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#sidebarLayout2">
-                        <i class="fas fa-th-list"></i>
-                        <p style="font-family:'Microsoft JhengHei'">主管區</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="sidebarLayout2">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")/1/1/12" ,"未審核")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">未審核</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")/1/2/12","已審核")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">已審核</span>
-                                </a>
-                            </li>
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#sidebarLayout2">
+                            <i class="fas fa-th-list"></i>
+                            <p style="font-family:'Microsoft JhengHei'">主管區</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="sidebarLayout2">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")/1/1/12" ,"未審核")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">未審核</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("Index", "Review")/1/2/12","已審核")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">已審核</span>
+                                    </a>
+                                </li>
 
-                        </ul>
-                    </div>
-                </li>
+                            </ul>
+                        </div>
+                    </li>
                 }
                 @if (Convert.ToString(Session["UserRole"]) == "HR" || Convert.ToString(Session["UserRole"]) == "HRLeader")
                 {
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#sidebarLayouts1">
-                        <i class="fas fa-users"></i>
-                        <p style="font-family:'Microsoft JhengHei'">人資區</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="sidebarLayouts1">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Employees")","員工管理")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">員工管理</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("Index", "Departments")","部門管理")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">
-                                        部門管理
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("SerchAttendances", "Employees")","刷卡明細查詢")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">刷卡明細查詢</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("SerchLeave", "Employees")","差假明細查詢")'>
+                    <li class="nav-item">
+                        <a data-toggle="collapse" href="#sidebarLayouts1">
+                            <i class="fas fa-users"></i>
+                            <p style="font-family:'Microsoft JhengHei'">人資區</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse" id="sidebarLayouts1">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("Index", "Employees")","員工管理")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">員工管理</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("Index", "Departments")","部門管理")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">
+                                            部門管理
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("SerchAttendances", "Employees")","刷卡明細查詢")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">刷卡明細查詢</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("SerchLeave", "Employees")","差假明細查詢")'>
 
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">差假明細查詢</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("SerchOverTime", "Employees")","加班明細查詢")'>
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">加班明細查詢</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("DailyStatistics", "Employees")","日期員工出勤統計")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">差假明細查詢</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("SerchOverTime", "Employees")","加班明細查詢")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">加班明細查詢</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("DailyStatistics", "Employees")","日期員工出勤統計")'>
 
-                                    <span class="sub-item" style="font-family:'Microsoft JhengHei'">日期員工出勤統計</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" onclick='PageAjax("@Url.Action("MonthlyStatistics", "Employees")","月出勤統計")'>
+                                        <span class="sub-item" style="font-family:'Microsoft JhengHei'">日期員工出勤統計</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onclick='PageAjax("@Url.Action("MonthlyStatistics", "Employees")","月出勤統計")'>
 
                                         <span class="sub-item" style="font-family:'Microsoft JhengHei'">月出勤統計</span>
                                     </a>
@@ -158,7 +163,7 @@
                         </div>
                     </li>
                 }
-                </ul>
+            </ul>
         </div>
     </div>
 </div>
@@ -177,7 +182,7 @@
                                     首頁
                                 </h1>
                             </div>
-                          
+
                         </div>
                     </div>
                 </div>
@@ -288,503 +293,13 @@
 @section scripts
 {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/homeindex")
     <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
 
 
 
     <script>
-       //圖檔顯示
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#imgPreview').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(input.files[0]);
-            }
-        }
 
-        function Datechange() {
-            SweetAlert("無法提交隔日後之申請");
-        }
-        function timechange1() {
-            SweetAlert("上班時間請在06:00-11:59之間設定");
-        }
-        function timechange() {
-            SweetAlert("起始時間不可大於最後時間!");
-        }
-        function UpdateSuccess() {
-            SweetAlert("審核完成");
-        }
-    function SweetAlert(alertstring) {
-            swal(alertstring, "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-       
-    }
-    function SuccessSweetAlert(alertstring) {
-        swal(alertstring, "", {
-            icon: "success",
-            buttons: {
-                confirm: {
-                    className: 'btn btn-info'
-                }
-            },
-        });
-
-    }
-    function ConfirmSweetAlert(funcB) {
-        swal({
-            title: '確定要送出這筆資料嗎?',
-            //text: "You won't be able to revert this!",
-            type: 'warning',
-            buttons: {
-                confirm: {
-                    text: '確定',
-                    className: 'btn btn-success'
-                },
-                cancel: {
-                    text: '取消',
-                    visible: true,
-                    className: 'btn btn-danger'
-                }
-            }
-        }).then((Delete) => {
-            if (Delete) {
-                var funcA = funcB;
-                funcA();
-            } else {
-                swal.close();
-            }
-        });
-    }
-
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
-        }
-    };
-
-
-        function zeroPadded(val) {
-            if (val >= 10)
-                return val;
-            else
-                return '0' + val;
-        }
-        //time1:初始,time2:結束
-        function TimeErrorProof(time1, time2) {
-            time1.bind("change",()=>{
-                if (time1.val() > time2.val()) {
-                    timechange();
-                    time1.val(time2.val());
-                }
-            });
-            time2.bind("change", ()=>{
-                if (time1.val() > time2.val()) {
-                    timechange();
-                    time2.val(time1.val());
-                }
-            });
-        }
-        //設定TimePicker起始值X/1~X/30
-        function SetTimePicker(time1, time2) {
-            d = new Date();
-            time1.val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-01");
-            time2.val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
-            TimeErrorProof(time1, time2)
-    }
-
-        function PageAjax(PageUrl, sta) {
-        $.ajax({
-            type: "GET",
-            url: PageUrl,
-            dataType: "html",
-        }).done(function (result) {
-            $("#mainpanel").html(result);
-
-            switch (sta) {
-                case '員工管理':
-                    IndexEventFunction();
-                    break;
-                case '未審核':
-                case '已審核':
-                    {
-                        changeT();
-                        //$("#Customers").bind("change", Switch);
-                        //$("#ddlemp").bind("change", Switch);
-                        //$("input[name*='Le']").bind("click", function () {
-                        //    Reviewfunbtndetails(event.target.name.substr(2));
-                        //});
-
-                        break;
-                    }
-                case '部門管理':
-                    {
-
-                        changeT();
-                        break;
-                    }
-                case '日期員工出勤統計':
-                    {
-
-                        //SetTimePicker($("#time1"), $("#time2"));
-                        GetDailyStatistics();
-                        break;
-                    }
-                case '月出勤統計':
-                    {
-                        changeT();
-                        //SetTimePicker($("#time1"), $("#time2"));
-
-                        break;
-                    }
-                default:
-                    changeT();
-                    SetTimePicker($("#time1"), $("#time2"));
-                    break;
-            }
-        }).fail(function (e) { alert(e.responseText) });
-        }
-    ////換Table樣式
-       
-    function changeT() {
-        $("#basic-datatables").addClass("compact");
-        //if (window.innerWidth >= 600) {
-
-            $('#basic-datatables').DataTable({
-                destroy: true,
-                responsive: true
-            });
-            $("#basic-datatables_filter").hide();
-        //}
-        //else {
-
-        //    $('#basic-datatables').basictable("destroy");
-        //    $('#basic-datatables').basictable({ breakpoint: 600 });
-        //}
-    }
-
-    //window.addEventListener('resize', changeT);
-       /////////////////////正///////////////////////////////////
-        function EmpCreatDemo() {
-            $('#EmployeeID').val('MSIT1230040');
-            $('#Password').val('MSIT123a@@');
-            $('#EmployeeName').val('郭智宇');
-            $('#EnglishName').val('SASUKE');
-            $('#Birthday').val("1990-12-01");
-            $('#IDNumber').val('A129574428');
-            $('#gender')[0].selectedIndex = 1;
-            $('#Marital').val('未婚');
-            $('#Email').val('SASUKE@gmail.com');
-            $('#Address').val('台北市大安區復興南路一段390號');
-            $('#Phone').val('0968775997');
-            $('#Education').val('台灣大學');
-            $('#JobTitle').val('員工');
-            $('#DepartmentName').val('人資部');
-            $('#Manager').val('楊毅賢');
-            $('#Hireday').val("2017-11-01");
-            $('#Deputy').val('火車煇');
-            $('#DeputyPhone').val('0978885667');
-            $('#Notes').val('無');
-
-
-        }
-
-
-    function EmployeeDetailsToEdit() {
-        $(":input").attr("readonly",false)//去除input元素的readonly屬性
-    }
-
-    function EmployeePrint() {
-        $('#basic-datatables').DataTable({
-            destroy: true,
-            paging: false,
-            ordering: false,
-            info: false,
-
-        });
-        $("#basic-datatables_filter").hide();
-        $('#basic-datatables').removeClass("table");
-        window.print();
-        changeT();
-        $('#basic-datatables').addClass("table");
-
-    }
-    function IndexEventFunction() {
-        changeT();
-
-
-        $("#Employees").bind("change", UpdateEmployeesByEmployee);
-        $("#Department").bind("change", function () {
-            UpdateEmployeesByDepartment();
-            Updateddl();
-        });
-    }
-    function GetDailyStatistics() {
-        $.ajax({
-            type: "GET",
-            url: "@Url.Action("GetDailyStatistics", "Employees")/",
-            dataType: "json",
-        }).done(function (datas) {
-            console.log(datas);
-
-            $("#statisticsnum1").text(`${datas[4].人數}`)
-            $("#statisticsnum2").text(`${datas[4].未到}`)
-            $("#statisticsnum3").text(`${datas[4].請假}`)
-
-
-
-
-            var ctx = document.getElementById('myChart');
-            var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['行銷部', '業務部', '會計部','資訊部','人資部','工程部','研發部'],
-                    datasets: [{
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                                'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 206, 86, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                             'rgba(255,99,132,1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)'
-                        ],
-                        borderWidth: 1,
-                        label: '出席率(%)',
-                        data: [Math.ceil(((datas[0].人數 - datas[0].未到) / datas[0].人數)* 100), Math.ceil(((datas[1].人數 - datas[1].未到) / datas[1].人數)* 100), Math.ceil(((datas[2].人數 - datas[2].未到) / datas[2].人數)* 100),
-                            Math.ceil(((datas[3].人數 - datas[3].未到) / datas[3].人數)* 100), Math.ceil(((datas[4].人數 - datas[4].未到) / datas[4].人數)* 100), Math.ceil(((datas[5].人數 - datas[5].未到) / datas[5].人數)* 100),
-                            Math.ceil(((datas[6].人數 - datas[6].未到) / datas[6].人數)* 100)]
-                    }]
-                },
-                options: {
-                    onClick: function (c, i) {
-                        e = i[0];
-                        console.log(e._index+1)
-                        var x_value = this.data.labels[e._index];
-                        var y_value = this.data.datasets[0].data[e._index];
-                        $("#StatisticsDepartmentName").text(x_value);
-                        console.log(y_value);
-                        GetDailyStatisticsDataByDepartment(e._index + 1)
-                        GetDailyStatisticsByDepartment(e._index + 1 );
-                    }
-                },
-
-            });
-
-
-
-        }).fail(function (e) { alert(e.responseText) });
-    }
-
-    function EmployeesPageAjax(PageUrl, sta) {
-        $.ajax({
-            type: "GET",
-            url: PageUrl,
-            dataType: "html",
-        }).done(function (result) {
-            $("#mmmmmm").html(result);
-
-            switch (sta) {
-                case 'creat':
-                    $("#empFile").bind("change", function () {
-                        readURL(this);
-                    });
-                    break;
-                case 'edit':
-                    {
-                        $("#empFile").bind("change", function () {
-                            readURL(this);
-                        });
-                        break;
-                    }
-                case 'details':
-                    {
-                        break;
-                    }
-                default:
-                    break;
-            }
-        }).fail(function (e) { alert(e.responseText) });
-    }
-     ///post
-    function SaveFormDataUseAjaxPost(AjaxUrl) {
-        swal({
-            title: '確定要送出這筆資料嗎?',
-            //text: "You won't be able to revert this!",
-            type: 'warning',
-            buttons: {
-                confirm: {
-                    text: '確定',
-                    className: 'btn btn-success'
-                },
-                cancel: {
-                    text: '取消',
-                    visible: true,
-                    className: 'btn btn-danger'
-                }
-            }
-        }).then((Delete) => {
-            if (Delete) {
-                let myForm = document.querySelector("#FormData");
-                var validator = $("#FormData").validate({
-                    debug: true
-                }
-                );
-                console.log(validator);
-                let data = new FormData(myForm);
-                //data.append("DepartmentID","2");
-                let files = $("#empFile").get(0).files;
-                if (files.length > 0) {
-                    data.append("Photo", files[0]);
-                }
-                $.ajax({
-                    url: AjaxUrl,
-                    type: "POST",
-                    contentType: false,         // 告诉jQuery不要去這置Content-Type
-                    processData: false,         // 告诉jQuery不要去處理發送的數據
-                    dataType: "html",
-                    data: data,
-                    //data: {"EmployeeID": EmployeeID.value,},
-                }).done(function (result) {
-                    $("#mainpanel").html(result);
-                    IndexEventFunction();
-                    SuccessSweetAlert('成功');
-
-                }).fail(function (e) { SweetAlert("驗證失敗") });
-            } else {
-                swal.close();
-            }
-        });
-       
-    }
-
-
-        ///post
-        function SaveFormDataUseAjaxPost2(AjaxUrl) {
-            swal({
-                title: '確定要送出這筆資料嗎?',
-                //text: "You won't be able to revert this!",
-                type: 'warning',
-                buttons: {
-                    confirm: {
-                        text: '確定',
-                        className: 'btn btn-success'
-                    },
-                    cancel: {
-                        text: '取消',
-                        visible: true,
-                        className: 'btn btn-danger'
-                    }
-                }
-            }).then((Delete) => {
-                if (Delete) {
-                    let myForm = document.querySelector("#FormData");
-                    var validator = $("#FormData").validate({
-                        debug: true
-                    }
-                    );
-                    console.log(validator);
-                    let data = new FormData(myForm);
-                    //data.append("DepartmentID","2");
-                    let files = $("#LeaveFile").get(0).files;
-                    if (files.length > 0) {
-                        data.append("Attachment", files[0]);
-                    }
-                    $.ajax({
-                        url: AjaxUrl,
-                        type: "POST",
-                        contentType: false,         // 告?jQuery不要去這置Content-Type
-                        processData: false,         // 告?jQuery不要去處理發送的數據
-                        dataType: "json",
-                        data: data,
-                        //data: {"EmployeeID": EmployeeID.value,},
-                    }).done(function (result) {
-
-                        //$("#mainpanel").html(result);
-                        SuccessSweetAlert('送出申請，待主管審核');
-                        funLeaveIndex()
-                            $('#addModal').modal('hide');
-                        }).fail(function (e) { SweetAlert(e.responseJSON.msg); }
-                    );
-                } else {
-                    swal.close();
-                }
-            });
-
-        }
-
-
-        ///post
-        function SaveFormDataUseAjaxPost3(AjaxUrl) {
-            swal({
-                title: '確定要送出這筆資料嗎?',
-                //text: "You won't be able to revert this!",
-                type: 'warning',
-                buttons: {
-                    confirm: {
-                        text: '確定',
-                        className: 'btn btn-success'
-                    },
-                    cancel: {
-                        text: '取消',
-                        visible: true,
-                        className: 'btn btn-danger'
-                    }
-                }
-            }).then((Delete) => {
-                if (Delete) {
-                    let myForm = document.querySelector("#FormData");
-                    var validator = $("#FormData").validate({
-                        debug: true
-                    }
-                    );
-                    console.log(validator);
-                    let data = new FormData(myForm);
-                    //data.append("DepartmentID","2");
-                    let files = $("#empFile").get(0).files;
-                    if (files.length > 0) {
-                        data.append("Photo", files[0]);
-                    }
-                    $.ajax({
-                        url: AjaxUrl,
-                        type: "POST",
-                        contentType: false,         // 告诉jQuery不要去這置Content-Type
-                        processData: false,         // 告诉jQuery不要去處理發送的數據
-                        dataType: "html",
-                        data: data,
-                        //data: {"EmployeeID": EmployeeID.value,},
-                    }).done(function (result) {
-                        $("#mainpanel").html(result);
-                        IndexEventFunction();
-                        SuccessSweetAlert('成功');
-
-                    }).fail(function (e) { SweetAlert("驗證失敗") });
-
-                } else {
-                    swal.close();
-                }
-            });
-
-        }
-
-    /////////////////////正///////////////////////////////////
 
 
 
@@ -835,11 +350,11 @@
     }).done(function (result) {
         $("#mainpanel").html(result);
         //changeT();
-        $(document).ready(function () { 
+        $(document).ready(function () {
         $('#basic-datatables').DataTable({
         });
         $("#basic-datatables_filter").hide();
-                //$('#example').DataTable();          
+                //$('#example').DataTable();
               //changeT();
             $("#CheckAll").click(cAll);                //全選功能
             $('#Search').bind("click",
@@ -965,7 +480,7 @@
 
     }).done(function (result) {
         $("#mainpanel").html(result);
-       
+
         //changeT();
         $('#basic-datatables').DataTable({
         });
@@ -976,6 +491,53 @@
         $("#Button1").bind("click", function () {
             AttendancesSave();
         })
+
+    }).fail(function (e) { alert(e.responseText) });
+
+
+        }
+        function funSerchAttendancest() {
+
+      $.ajax({
+    url: "@Url.Action("SerchAttendances", "Attendances")",
+    type: "GET",
+    dataType: "html",
+
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+
+        //changeT();
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();
+        SetTimePicker($("#time1"), $("#time2"));
+
+
+        $("#Button1").bind("click", function () {
+            AttendancesSave();
+        })
+
+    }).fail(function (e) { alert(e.responseText) });
+
+
+        }
+        function ClockInApplyView() {
+
+      $.ajax({
+    url: "@Url.Action("ClockInApplyView", "ClockInApply")",
+    type: "GET",
+    dataType: "html",
+
+    }).done(function (result) {
+        $("#mainpanel").html(result);
+
+        //changeT();
+        $('#basic-datatables').DataTable({
+        });
+        $("#basic-datatables_filter").hide();    
+
+
+      
 
     }).fail(function (e) { alert(e.responseText) });
 
@@ -993,7 +555,7 @@
         $('#addModal').modal('show');
              d = new Date();
             $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
-            $("#OffDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
+            $("#OffDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "17" + ":" + "00");
             $("#RequestDate").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()));
         $("#OnDuty").bind("change", function () {
             var str = $("#OnDuty").val();
@@ -1025,19 +587,22 @@
         //    var ele = $("input[name='inlineDefaultRadiosExample']:checked").val()
         //    sethours(ele * 60);
         //});
-        $("#defaultInline4").bind("change", function () {
-            $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
-            var ele = $("#defaultInline4").val()
+        
+        $("#defaultInline_08_12").bind("change", function () {
+            $("#OnDuty").val();
+            var ele = $("#defaultInline_08_12").val()
             sethours(ele * 60);
+        });      
+        
+        $("#defaultInline_13_17").bind("change", function () {
+            $("#OnDuty").val();
+            var ele = $("defaultInline_13_17").val()
+          
         });
-        $("#defaultInline8").bind("change", function () {
-            $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
-            var ele = $("#defaultInline8").val()
-            sethours(ele * 60);
-        });
-        $("#defaultInline7").bind("change", function () {
-            $("#OnDuty").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "13" + ":" + "00");
-            var ele = $("#defaultInline4").val()
+      
+        $("#defaultInline_08_17").bind("change", function () {
+            $("#OnDuty").val();
+            var ele = $("#defaultInline_08_17").val()
             sethours(ele * 60);
         });
         $("#submitButton").bind("click", function () {
@@ -1047,30 +612,35 @@
 
     }).fail(function (e) { alert(e.responseText) });
         }
-                
+
 
         function Clockinsave() {
             var data = new FormData();
             data.append("OnDuty", OnDuty.value);
             data.append("OffDuty", OffDuty.value);
-            data.append("RequestDate", RequestDate.value);           
+            data.append("RequestDate", RequestDate.value);
       $.ajax({
     url: "@Url.Action("ClockinApply", "ClockInApply")",
     type: "POST",
     contentType: false,         // 告诉jQuery不要去這置Content-Type
     processData: false,         // 告诉jQuery不要去處理發送的數據
-    dataType: "html",
+    dataType: "JSon",
     data: data,
-
     //data: {"EmployeeID": EmployeeID.value,},
     //data: {"EmployeeID": EmployeeID.value,},
     }).done(function (result) {
         $("#mainpanel").html(result);
-        SuccessSweetAlert("成功");
-        $('#addModal').modal('hide');
-       value='@TempData["Message"]';
+        if (result.msg == "申請成功") {
+            SuccessSweetAlert(result.msg);
+        }
+        else
+        {
+            SweetAlert(result.msg);
+        }
+        
+       
 
-      
+
 
 
 
@@ -1168,17 +738,85 @@
 
 
     ///////////////////////正//////////////////////
-    
+    function GetDailyStatistics() {
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetDailyStatistics", "Employees")/",
+            dataType: "json",
+        }).done(function (datas) {
+            console.log(datas);
+
+            $("#statisticsnum1").text(`${datas[4].人數}`)
+            $("#statisticsnum2").text(`${datas[4].未到}`)
+            $("#statisticsnum3").text(`${datas[4].請假}`)
+
+
+
+
+            var ctx = document.getElementById('myChart');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['行銷部', '業務部', '會計部','資訊部','人資部','工程部','研發部'],
+                    datasets: [{
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(255, 206, 86, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                             'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 1,
+                        label: '出席率(%)',
+                        data: [Math.ceil(((datas[0].人數 - datas[0].未到) / datas[0].人數)* 100), Math.ceil(((datas[1].人數 - datas[1].未到) / datas[1].人數)* 100), Math.ceil(((datas[2].人數 - datas[2].未到) / datas[2].人數)* 100),
+                            Math.ceil(((datas[3].人數 - datas[3].未到) / datas[3].人數)* 100), Math.ceil(((datas[4].人數 - datas[4].未到) / datas[4].人數)* 100), Math.ceil(((datas[5].人數 - datas[5].未到) / datas[5].人數)* 100),
+                            Math.ceil(((datas[6].人數 - datas[6].未到) / datas[6].人數)* 100)]
+                    }]
+                },
+                options: {
+                    onClick: function (c, i) {
+                        e = i[0];
+                        console.log(e._index+1)
+                        var x_value = this.data.labels[e._index];
+                        var y_value = this.data.datasets[0].data[e._index];
+                        $("#StatisticsDepartmentName").text(x_value);
+                        console.log(y_value);
+                        GetDailyStatisticsDataByDepartment(e._index + 1)
+                        GetDailyStatisticsByDepartment(e._index + 1 );
+                    }
+                },
+
+            });
+
+
+
+        }).fail(function (e) { alert(e.responseText) });
+    }
+
+
+
     function DepartmentsCreate() {
     $.ajax({
     type: "GET",
     url: "@Url.Action("Create", "Departments")",
     dataType: "html",
     }).done(function (result) {
-      
+
         $("#aaaa").html(result);
 
-        $('#addModal').modal('show');      
+        $('#addModal').modal('show');
     }).fail(function (e) { alert(e.responseText) });
         }
 
@@ -1276,10 +914,10 @@ function UpdateEmployeesByDepartment() {
     url: AjaxUrl,
     dataType: "html",
     }).done(function (result) {
-      
+
         $("#aaaa").html(result);
 
-        $('#addModal').modal('show');      
+        $('#addModal').modal('show');
     }).fail(function (e) { alert(e.responseText) });
         }
 
@@ -1660,5 +1298,5 @@ function UpdateEmployeesByDepartment() {
     }
 
     </script>
-    
+
 }

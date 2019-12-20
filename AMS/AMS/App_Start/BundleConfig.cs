@@ -33,8 +33,8 @@ namespace AMS
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
-            bundles.Add(new ScriptBundle("~/bundles/empview").Include(
-                        "~/Scripts/employeesview.js"));
+            bundles.Add(new ScriptBundle("~/bundles/homeindex").Include(
+                        "~/Scripts/homeindex.js"));
 
 
         }

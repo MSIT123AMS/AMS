@@ -32,12 +32,12 @@ namespace AMS.Controllers
                 }).Join(db.Employees, p => p.EmployeeID, z => z.EmployeeID, (p, z) => new ClockInApplyViewModel
                 {
                     EmployeeID = p.EmployeeID,
-                    EmployeeName=z.EmployeeName,
-                    OnDuty=p.OnDuty,
-                    OffDuty=p.OffDuty,
-                    RequestDate=p.RequestDate,
-                    ReviewStatus1=p.ReviewStatus1
-                }).Where(x=>x.EmployeeID== EmployeeID);
+                    EmployeeName = z.EmployeeName,
+                    OnDuty = p.OnDuty,
+                    OffDuty = p.OffDuty,
+                    RequestDate = p.RequestDate,
+                    ReviewStatus1 = p.ReviewStatus1
+                }).Where(x => x.EmployeeID == EmployeeID).OrderByDescending(p => p.RequestDate).OrderByDescending(x=>x.OnDuty);
             
             return PartialView("_ClockInApplyView", query);
         }
@@ -103,7 +103,7 @@ namespace AMS.Controllers
                     //};
                     //TempData["message"] = $"已經有{clockInApply.RequestDate.Value.ToString("yyyy年MM月dd日")}的申請紀錄!";
                     //return PartialView("_ClockInApplyView", clockInApply);
-                    return Json(new { msg = $"申請失敗:已經有{clockInApply.RequestDate.Value.ToString("yyyy年MM月dd日")}的申請紀錄!" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { msg = $"申請失敗:已經有{clockInApply.OnDuty.ToLongDateString().ToString()}的申請紀錄!"}, JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -115,8 +115,8 @@ namespace AMS.Controllers
                 db.ClockInApply.Add(clockInApply);
                 try
                 {
-                    db.SaveChanges();
-                    return RedirectToAction("ClockInApplyView", "ClockInApply");
+                    db.SaveChanges(); return Json(new { msg = "申請成功" }, JsonRequestBehavior.AllowGet);
+                    //return RedirectToAction("ClockInApplyView", "ClockInApply");
                     //return PartialView("_ClockInApplyView", clockInApply);
                 }
                 catch {
@@ -125,9 +125,10 @@ namespace AMS.Controllers
                     //{
                     //    OnSuccess = "onSuccess"
                     //};
-                    TempData["message"] = $"已經有{clockInApply.RequestDate.Value.ToString("yyyy年MM月dd日")}的申請紀錄!";
+                    //TempData["message"] = $"已經有{clockInApply.RequestDate.Value.ToString("yyyy年MM月dd日")}的申請紀錄!";
                     //return PartialView("_ClockInApplyView", clockInApply);
-                    return RedirectToAction("ClockInApplyView", "ClockInApply");
+                    return Json(new { msg = $"申請失敗:已經有{clockInApply.OnDuty.ToLongDateString().ToString()}的申請紀錄!" }, JsonRequestBehavior.AllowGet);
+
                 }
             }
             return RedirectToAction("ClockInApplyView", "ClockInApply");

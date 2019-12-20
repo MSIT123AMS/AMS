@@ -277,7 +277,9 @@
            
             aaaaa();
         });
-          function aaaaa() {
+        function aaaaa() {
+            $("#UserName").val('X');
+            $("#Password").val('X');
             var canvas = document.getElementById('snapshot');
             canvas.getContext('2d');
             pdata = canvas.toDataURL('image/png');
