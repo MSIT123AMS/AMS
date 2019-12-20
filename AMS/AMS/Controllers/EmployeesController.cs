@@ -863,26 +863,12 @@ namespace AMS.Controllers
                               WorkingDayHours = 0,
                               AttendanceDayHours = 0,
                               AttendanceRate = 0.00,
-                              LeaveDayHours = 0,
-                              //AllLeaveSun(e.EmployeeID)
+                              //LeaveDayHours = AllLeaveSun(e.EmployeeID),
+
                               OverTimeHours = d == null ? null : d.Q,
                           }).ToList();
 
 
-            //var query2 = query.Join(OT2, e => e.EmployeeID, d => d.EmployeeID, (e, d) => new MonthlyStatisticsViewModel
-            //{
-            //    EmployeeID = e.EmployeeID,
-            //    EmployeeName = e.EmployeeName,
-            //    DepartmentName = e.DepartmentName,
-            //    WorkingDay = monthlyhours(),
-            //    AttendanceDay = AttendanceDays(e.EmployeeID),
-            //    WorkingDayHours = 0,
-            //    AttendanceDayHours = 0,
-            //    AttendanceRate = 0.00,
-            //    LeaveDayHours = 0,
-            //    //AllLeaveSun(e.EmployeeID)
-            //    OverTimeHours = d.Q,
-            //}).ToList();
 
 
 
@@ -891,11 +877,8 @@ namespace AMS.Controllers
                 item.WorkingDayHours = item.WorkingDay * 8;
                 item.AttendanceDayHours = item.AttendanceDay * 8;
                 item.AttendanceRate = (item.AttendanceDay * 800) / (item.WorkingDay * 8);
-                if (item.EmployeeID == "MSIT1230001" || item.EmployeeID == "MSIT1230002" || item.EmployeeID == "MSIT1230006")
-                {
-                    item.LeaveDayHours = AllLeaveSun(item.EmployeeID);
-                }
-                
+                item.LeaveDayHours = AllLeaveSun(item.EmployeeID);
+
             }
 
             return PartialView("_MonthlyStatistics", query2);
@@ -961,15 +944,15 @@ namespace AMS.Controllers
         public int AllLeaveSun(string User)
         {
           
-            LeaveRequests L = new LeaveRequests();
+            //LeaveRequests L = new LeaveRequests();
             //var dbLeave = db.LeaveRequests;
-            var dbseday = db.LeaveRequests.AsEnumerable().ToList().Where(n => n.EmployeeID == User && ((n.StartTime.Month == DateTime.Now.Month) || (n.EndTime.Month == DateTime.Now.Month))).Sum(n => AllMonth(n.StartTime, n.EndTime));
+            //var dbseday = db.LeaveRequests.AsEnumerable().ToList().Where(n => n.EmployeeID == User && ((n.StartTime.Month == DateTime.Now.Month) || (n.EndTime.Month == DateTime.Now.Month))).Sum(n => AllMonth(n.StartTime, n.EndTime));
 
-            //var All = dbLeave.Where(n => n.EmployeeID == User&&DateTime.Now.Year==n.StartTime);
+            ////var All = dbLeave.Where(n => n.EmployeeID == User&&DateTime.Now.Year==n.StartTime);
 
+            //dbseday = dbseday;
 
-
-            return dbseday;
+            return db.LeaveRequests.AsEnumerable().ToList().Where(n => n.EmployeeID == User && ((n.StartTime.Month == DateTime.Now.Month) || (n.EndTime.Month == DateTime.Now.Month))).Sum(n => AllMonth(n.StartTime, n.EndTime));
         }
         #endregion
 
@@ -986,7 +969,7 @@ namespace AMS.Controllers
             else if ((start.Month < DateTime.Now.Month) && (end.Month == DateTime.Now.Month))//開始時間小於當月份，結束時間等於當月
             {
                 var FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
-                var yesday = DateTime.Parse($"{FirstDay.Year}-{FirstDay.Month}-{FirstDay.Day} 08:00:00");
+                var yesday = DateTime.Parse($"{FirstDay.Year}-{FirstDay.Month}-{FirstDay.Day} 08:30:00");
                 var sum = GetLeaveDay(yesday, end);
                 return sum;
 
@@ -994,7 +977,7 @@ namespace AMS.Controllers
             else if ((start.Month == DateTime.Now.Month) && (end.Month > DateTime.Now.Month))//開始時間等於當月，結束時間大於當月份
             {
                 var LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);
-                var yesday = DateTime.Parse($"{LastDay.Year}-{LastDay.Month}-{LastDay.Day} 17:00:00");
+                var yesday = DateTime.Parse($"{LastDay.Year}-{LastDay.Month}-{LastDay.Day} 17:30:00");
                 var sum = GetLeaveDay(end, yesday);
 
                 return sum;
@@ -1103,11 +1086,11 @@ namespace AMS.Controllers
             {
                 while (dtStart < dtEnd) //正確繼續做  因為請假開始晚於當天下班所以new一個隔天新的隔天8點開始請假
                 {
-                    dtStart = new DateTime(dtStart.AddDays(1).Year, dtStart.AddDays(1).Month, dtStart.AddDays(1).Day, 08, 00, 00);    //隔日的早上八點開始上班=請假時間重上班開始算
+                    dtStart = new DateTime(dtStart.AddDays(1).Year, dtStart.AddDays(1).Month, dtStart.AddDays(1).Day, 08, 30, 00);    //隔日的早上八點開始上班=請假時間重上班開始算
                     if (IsWorkDay(dtStart))
                     {
-                        dtFirstDayGoToWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 08, 00, 00);//請假第一天的上班时间
-                        dtFirstDayGoOffWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 17, 00, 00);//請假第一天的下班时间
+                        dtFirstDayGoToWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 08, 30, 00);//請假第一天的上班时间
+                        dtFirstDayGoOffWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 17, 30, 00);//請假第一天的下班时间
                         dtFirstDayRestStart = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 12, 00, 00);//請假第一天的午休开始时间
                         dtFirstDayRestEnd = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 13, 00, 00);//請假第一天的午休结束时间
 
@@ -1124,11 +1107,11 @@ namespace AMS.Controllers
             {
                 while (dtEnd > dtStart) //正確直接執行以下
                 {
-                    dtEnd = new DateTime(dtEnd.AddDays(-1).Year, dtEnd.AddDays(-1).Month, dtEnd.AddDays(-1).Day, 17, 00, 00);  //因為結束時間早於上班時間,所以要用前一天的下班時間來做計算
+                    dtEnd = new DateTime(dtEnd.AddDays(-1).Year, dtEnd.AddDays(-1).Month, dtEnd.AddDays(-1).Day, 17, 30, 00);  //因為結束時間早於上班時間,所以要用前一天的下班時間來做計算
                     if (IsWorkDay(dtEnd))
                     {
-                        dtLastDayGoToWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 08, 00, 0);//請假最後一天的上班時間
-                        dtLastDayGoOffWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 17, 00, 0);//請假最後一天的下班時間
+                        dtLastDayGoToWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 08, 30, 0);//請假最後一天的上班時間
+                        dtLastDayGoOffWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 17, 30, 0);//請假最後一天的下班時間
                         dtLastDayRestStart = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 12, 00, 0);//請假最後一天的午休開始時間
                         dtLastDayRestEnd = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 13, 00, 0);//請假最後一天的午休結束時間
                         break;
