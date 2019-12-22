@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AMS.Controllers.SerchLeaveViewModel >
+﻿@model IEnumerable<AMS.Controllers.SerchLeaveViewModel>
 
 @{
     ViewBag.Title = "SerchLeave";
@@ -11,29 +11,49 @@
         <h1>
             <span class="badge" style="color:#FFFFFB">差假明細查詢</span>
         </h1>
-        
+
     </div>
     <div class="row">
         <div class="col-md-12">
             <div class="card" id="mmmmmm">
                 <form style="margin-left:10px;" method="post" action="/Employees/SerchLeave">
                     <div class="card-header row form-group">
-                        <label class=" control-label" style="font-size:20px;margin-left:20px">查詢起始時間</label>
-                        <div class="col-md-2 col-sm-4">
-                            <input name="time1" id="time1" class="form-control" type="date" />
+                        <div class="row col-md-12">
+                            <div class="col-md-1 col-sm-1">
+                                <label class=" control-label" style="font-size:20px;margin-left:20px">起始時間</label>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <input name="time1" id="time1" class="form-control" type="date" />
 
-                        </div>
-                        <label class=" control-label" style="font-size:20px;margin-left:20px">到</label>
-                        <div id="ddlemp" class="col-md-2 col-sm-4">
-                            <input name="time2" id="time2" class="form-control" type="date" />
-                        </div>
-                        <div class="col-md-2 col-sm-4 noprint">
-                            <button id="Button1" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB" onclick="GetSerchList('@Url.Action("SerchAttendances", "Employees")')">
-                                <i class="fa fa-search fa-fw"></i><span>
-                                    <strong>搜尋</strong>
-                                </span>
-                            </button>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label class=" control-label" style="font-size:20px;margin-left:20px">到</label>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                <input name="time2" id="time2" class="form-control" type="date" />
+                            </div>
+                            <div class="col-md-2 col-sm-4 noprint">
+                                <button id="Button1" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB" onclick="GetSerchList('@Url.Action("SerchAttendances", "Employees")')">
+                                    <i class="fa fa-search fa-fw"></i><span>
+                                        <strong>搜尋</strong>
+                                    </span>
+                                </button>
 
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="col-md-1 col-sm-1">
+                                <label class=" control-label" style="font-size:20px;margin-left:20px">部門      </label>
+                            </div>
+                            <div class="col-md-2 col-sm-4">
+                                @Html.DropDownList("Department", null, "-請選擇-", new { @class = " form-control", @onclick = "SearchUpdateddl()" })
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                <label class=" control-label" style="font-size:20px;margin-left:20px">員工      </label>
+                            </div>
+                            <div id="ddlemp" class="col-md-2 col-sm-4">
+                                @Html.DropDownList("Employees", null, "-請選擇-", new { @class = " form-control" })
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -51,70 +71,20 @@
                     @*<input type="button" value="匯出Excel" onclick="Export()" class="btn btn-sm " style="background-color:#f1f0ed;color:#91989F" />*@
                 </div>
                 <div class="card-body">
-                    @Html.Partial("_SerchLeaveListPartial", Model);
+                    <div class="table-responsive" id="Employeestable">
+                        @Html.Partial("_SerchLeaveListPartial", Model);
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
+</div>
 </div>
 
 
 @section scripts
 {
 
-    <script>
-        function zeroPadded(val) {
-            if (val >= 10)
-                return val;
-            else
-                return '0' + val;
-        }
 
-
-        $(document).ready(function () {
-            $('#basic-datatables').DataTable({
-            });
-            $("#basic-datatables_filter").hide();
-            d = new Date();          
-            $("#time1").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
-            $("#time2").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate() + 2));
-    
-            
-          
-           
-        });
-        $("#time1").bind("change", function () {
-            if ($("#time1").val() > $("#time2").val()) {
-                timechange();
-                $("#time1").val($("#time2").val()) ;
-            }
-           
-        });
-
-
-
-        function timechange() {
-            swal("起始時間不可大於最後時間!", "", {
-                icon: "info",
-                buttons: {
-                    confirm: {
-                        className: 'btn btn-info'
-                    }
-                },
-            });
-        }
-
-        $("#time2").bind("change", function () {
-            if ($("#time2").val() < $("#time1").val()) {
-                timechange();
-                $("#time2").val($("#time1").val());
-            }
-
-        });
-      
-
-
-    </script>
 
 
 }

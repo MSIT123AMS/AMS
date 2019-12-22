@@ -921,7 +921,7 @@
     $.ajax({
         type: "POST",
         url:SerchUrl ,
-        data: { "time1": time1.value, "time2": time2.value },
+        data: { "time1": time1.value, "time2": time2.value, "DepartmentID": Department.value, "EmployeeID": Employees.value},
         dataType: 'html',
     }).done(function (result) {
         $("#Employeestable").html(result);
@@ -951,6 +951,15 @@ function Updateddl() {
         $("#Employees").bind("change", function () {
             UpdateEmployeesByEmployee();
         });
+        }).fail(function (e) { SweetAlert(e.responseText) });
+        }
+function SearchUpdateddl() {
+    $.ajax({
+        type: "GET",
+        url: "@Url.Action("GetDdlandListemp","Employees")/" + Department.value,
+    }).done(function (result) {
+        $("#ddlemp").html(result);
+
         }).fail(function (e) { SweetAlert(e.responseText) });
 }
 

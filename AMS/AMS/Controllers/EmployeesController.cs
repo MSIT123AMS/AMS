@@ -290,7 +290,9 @@ namespace AMS.Controllers
                              ReviewTime = ot.ReviewTime
                          });
 
-
+            Entities dc = new Entities();
+            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
 
 
             return PartialView("_SerchOverTime", query);
@@ -298,10 +300,34 @@ namespace AMS.Controllers
             //return View();
         }
         [HttpPost]
-        public ActionResult SerchOverTime(DateTime time1, DateTime time2)
+        public ActionResult SerchOverTime(DateTime time1, DateTime time2, int DepartmentID, string EmployeeID)
         {
-            var query = (from ot in db.OverTimeRequest.AsEnumerable().Where(q => q.RequestTime >= time1 && q.RequestTime <= time2)
-                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+            IEnumerable<OverTimeViewModel> query;
+            if (EmployeeID == "")
+            {
+              query = (from ot in db.OverTimeRequest.AsEnumerable().Where(q => q.RequestTime >= time1 && q.RequestTime <= time2)
+                             join emp in db.Employees.AsEnumerable().Where(emp => emp.DepartmentID == DepartmentID) on ot.EmployeeID equals emp.EmployeeID
+                             join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                             join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                             select new OverTimeViewModel
+                             {
+                                 RequestID = ot.OverTimeRequestID,
+                                 EmployeeName = emp.EmployeeName,
+                                 RequestTime = ot.RequestTime,
+                                 StartTime = ot.StartTime,
+                                 EndTime = ot.EndTime,
+                                 PayorOFF = OvertimeObj.PayorOff(ot.OverTimePay),
+                                 OTDateType = date.WorkingDay,
+                                 SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, ot.OverTimePay),
+                                 Reason = ot.OverTimeReason,
+                                 Review = rev.ReviewStatus1,
+                                 ReviewTime = ot.ReviewTime
+                             });
+            }
+            else
+            {
+                query = (from ot in db.OverTimeRequest.AsEnumerable().Where(q => q.RequestTime >= time1 && q.RequestTime <= time2)
+                         join emp in db.Employees.AsEnumerable().Where(emp => emp.EmployeeID == EmployeeID) on ot.EmployeeID equals emp.EmployeeID
                          join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
                          join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
                          select new OverTimeViewModel
@@ -318,7 +344,8 @@ namespace AMS.Controllers
                              Review = rev.ReviewStatus1,
                              ReviewTime = ot.ReviewTime
                          });
-
+             
+            }
 
 
 
@@ -348,17 +375,22 @@ namespace AMS.Controllers
             //                 StartTime = a == null ? null : a.OnDuty,
             //                 EndTime = a == null ? null : a.OffDuty,
             //             });
-
+            Entities dc = new Entities();
+            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
             return PartialView("_SerchAttendances", query);
     
 
             //return View();
         }
         [HttpPost]
-        public ActionResult SerchAttendances(DateTime time1, DateTime time2)
+        public ActionResult SerchAttendances(DateTime time1, DateTime time2,int DepartmentID,string EmployeeID)
         {
-            var query = (from ot in db.Attendances.AsEnumerable().Where(q => q.Date >= time1 && q.Date <= time2)
-                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+            IEnumerable<SerchAttendancesViewModel> query;
+            if (EmployeeID=="")
+            {
+                query = (from ot in db.Attendances.AsEnumerable().Where(q => q.Date >= time1 && q.Date <= time2)
+                         join emp in db.Employees.AsEnumerable().Where(emp=>emp.DepartmentID== DepartmentID) on ot.EmployeeID equals emp.EmployeeID
                          select new SerchAttendancesViewModel
                          {
                              EmployeeName = emp.EmployeeName,
@@ -366,6 +398,22 @@ namespace AMS.Controllers
                              StartTime = ot.OnDuty,
                              EndTime = ot.OffDuty,
                          });
+            }
+            else
+            {
+                query = (from ot in db.Attendances.AsEnumerable().Where(q => q.Date >= time1 && q.Date <= time2)
+                         join emp in db.Employees.AsEnumerable().Where(emp => emp.EmployeeID== EmployeeID) on ot.EmployeeID equals emp.EmployeeID
+                         select new SerchAttendancesViewModel
+                         {
+                             EmployeeName = emp.EmployeeName,
+                             Date = ot.Date.ToString("yyyy/MM/dd"),
+                             StartTime = ot.OnDuty,
+                             EndTime = ot.OffDuty,
+                         });
+            }
+
+
+           
 
             return PartialView("_SerchAttendancesPartial", query);
 
@@ -389,15 +437,20 @@ namespace AMS.Controllers
                                    });
 
             Entities dc = new Entities();
-           
+            ViewBag.Employees = new SelectList(dc.Employees, "EmployeeID", "EmployeeName");
+            ViewBag.Department = new SelectList(dc.Departments, "DepartmentID", "DepartmentName");
+
             return PartialView("_SerchLeave", query);
             //return View();
         }
         [HttpPost]
-        public ActionResult SerchLeave(DateTime time1, DateTime time2)
+        public ActionResult SerchLeave(DateTime time1, DateTime time2, int DepartmentID, string EmployeeID)
         {
-            var query = (from ot in db.LeaveRequests.AsEnumerable().Where(q => q.RequestTime >= time1 && q.RequestTime <= time2)
-                         join emp in db.Employees.AsEnumerable() on ot.EmployeeID equals emp.EmployeeID
+            IEnumerable<SerchLeaveViewModel> query;
+            if (EmployeeID == "")
+            {
+                query = (from ot in db.LeaveRequests.AsEnumerable().Where(q => q.RequestTime >= time1 && q.RequestTime <= time2)
+                         join emp in db.Employees.AsEnumerable().Where(emp => emp.DepartmentID == DepartmentID) on ot.EmployeeID equals emp.EmployeeID
                          join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
                          select new SerchLeaveViewModel
                          {
@@ -410,6 +463,27 @@ namespace AMS.Controllers
                              Review = rev.ReviewStatus1
 
                          });
+
+            }
+            else
+            {
+                query = (from ot in db.LeaveRequests.AsEnumerable().Where(q => q.RequestTime >= time1 && q.RequestTime <= time2)
+                         join emp in db.Employees.AsEnumerable().Where(emp => emp.EmployeeID == EmployeeID) on ot.EmployeeID equals emp.EmployeeID
+                         join rev in db.ReviewStatus.AsEnumerable() on ot.ReviewStatusID equals rev.ReviewStatusID
+                         select new SerchLeaveViewModel
+                         {
+                             LeaveRequestID = ot.LeaveRequestID,
+                             EmployeeName = emp.EmployeeName,
+                             LeaveType = ot.LeaveType,
+                             RequestTime = ot.RequestTime,
+                             StartTime = ot.StartTime,
+                             EndTime = ot.EndTime,
+                             Review = rev.ReviewStatus1
+
+                         });
+            }
+
+
 
             return PartialView("_SerchLeaveListPartial", query);
 
