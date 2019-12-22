@@ -164,7 +164,7 @@ namespace AMS.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EmployeeID,StartTime,EndTime,OverTimePay,OverTimeReason")] OverTimeRequest overTimeRequest)
         {
-            DateTime today = DateTime.Now;
+            DateTime today = DateTime.Now.AddHours(8);
             string User = Convert.ToString(Session["UserName"]);
             if (overTimeRequest.EmployeeID != null)
             {
@@ -231,7 +231,7 @@ namespace AMS.Controllers
 
 
                 overTimeRequest.EmployeeID = User;
-                overTimeRequest.RequestTime = DateTime.Now;
+                overTimeRequest.RequestTime = DateTime.Now.AddHours(8);
                 overTimeRequest.ReviewStatusID = 1;
                 
                 db.OverTimeRequest.Add(overTimeRequest);

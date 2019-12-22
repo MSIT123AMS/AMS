@@ -85,7 +85,7 @@ namespace AMS.Controllers
             {
             string User = Convert.ToString(Session["UserName"]);
             Annouuncements NewAnno = new Annouuncements();
-                NewAnno.AnnounceTime = DateTime.Now;
+                NewAnno.AnnounceTime = DateTime.Now.AddHours(8);
                 NewAnno.Detail = annouuncements.Detail;
                 NewAnno.EmployeeID = User;
                 NewAnno.Importance = annouuncements.Importance;

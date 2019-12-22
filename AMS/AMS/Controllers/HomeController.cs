@@ -408,7 +408,7 @@ namespace AMS.Controllers
         {
             string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
             //string User = "MSIT1230016";
-            DateTime today = DateTime.Now;
+            DateTime today = DateTime.Now.AddHours(8);
             
             //抓員工出缺勤
             var query = db.Attendances.AsEnumerable().Where(att => att.EmployeeID == User);

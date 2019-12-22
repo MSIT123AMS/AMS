@@ -742,7 +742,7 @@ namespace WebApplication5.Controllers
                             {
                                 LeaveLine.LeaveRequestID = d.LeaveRequests.Count().ToString();
                                 LeaveLine.EmployeeID = EmpID;
-                                LeaveLine.RequestTime = DateTime.Now;
+                                LeaveLine.RequestTime = DateTime.Now.AddHours(8);
                                 LeaveLine.StartTime = DateTime.Parse("1888/01/01T00:00:00");
                                 LeaveLine.EndTime = DateTime.Parse("1888/01/01T00:00:00");
                                 LeaveLine.LeaveType = "事假";

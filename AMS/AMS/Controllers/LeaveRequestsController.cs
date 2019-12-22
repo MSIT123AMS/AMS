@@ -192,24 +192,6 @@ namespace AMS.Controllers
         }
         #endregion
 
-        #region 算剩餘的補修時數 目前沒用到
-        public int removertime()
-        {
-            var a = DateTime.Parse("2019/12/04 08:00:00");
-            var a1 = DateTime.Parse("2019/12/09 18:00:00");
-            var aa1 = GetLeaveDay(a, a1);
-            var a2 = DateTime.Parse("2019/12/04 18:30:00");
-            var a22 = DateTime.Parse("2019/12/04 12:00:00");
-            var aa22 = a - a1;
-            LeaveRequests l = new LeaveRequests();
-            /*db.LeaveRequests.AsEnumerable().Where(n=>n*/
-            var x = (DateTime.Now - DateTime.Parse($"{DateTime.Now.Year}/{DateTime.Now.Month}/{DateTime.Now.Day} 12:00:00")).Hours;
-
-
-            return x;
-        }
-        #endregion
-
 
         #region 判斷是否為補休假
         public int SumLeave()
@@ -257,11 +239,11 @@ namespace AMS.Controllers
         public int GetLeaveDay(DateTime dtStart, DateTime dtEnd)
         {
 
-            DateTime dtFirstDayGoToWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 08, 00, 0);//請假第一天的上班時間
-            DateTime dtFirstDayGoOffWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 17, 00, 0);//請假第一天的下班時間
+            DateTime dtFirstDayGoToWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 08, 30, 0);//請假第一天的上班時間
+            DateTime dtFirstDayGoOffWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 17, 30, 0);//請假第一天的下班時間
 
-            DateTime dtLastDayGoToWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 08, 00, 0);//請假最後一天的上班時間
-            DateTime dtLastDayGoOffWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 17, 00, 0);//請假最後一天的下班時間
+            DateTime dtLastDayGoToWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 08, 30, 0);//請假最後一天的上班時間
+            DateTime dtLastDayGoOffWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 17, 30, 0);//請假最後一天的下班時間
 
             DateTime dtFirstDayRestStart = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 12, 00, 0);//請假第一天的午休開始時間
             DateTime dtFirstDayRestEnd = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 13, 00, 0);//請假第一天的午休結束時間
@@ -285,11 +267,11 @@ namespace AMS.Controllers
             {
                 while (dtStart < dtEnd) //正確繼續做  因為請假開始晚於當天下班所以new一個隔天新的隔天8點開始請假
                 {
-                    dtStart = new DateTime(dtStart.AddDays(1).Year, dtStart.AddDays(1).Month, dtStart.AddDays(1).Day, 08, 00, 00);    //隔日的早上八點開始上班=請假時間重上班開始算
+                    dtStart = new DateTime(dtStart.AddDays(1).Year, dtStart.AddDays(1).Month, dtStart.AddDays(1).Day, 08, 30, 00);    //隔日的早上八點開始上班=請假時間重上班開始算
                     if (IsWorkDay(dtStart))
                     {
-                        dtFirstDayGoToWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 08, 00, 00);//請假第一天的上班时间
-                        dtFirstDayGoOffWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 17, 00, 00);//請假第一天的下班时间
+                        dtFirstDayGoToWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 08, 30, 00);//請假第一天的上班时间
+                        dtFirstDayGoOffWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 17, 30, 00);//請假第一天的下班时间
                         dtFirstDayRestStart = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 12, 00, 00);//請假第一天的午休开始时间
                         dtFirstDayRestEnd = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 13, 00, 00);//請假第一天的午休结束时间
 
@@ -306,11 +288,11 @@ namespace AMS.Controllers
             {
                 while (dtEnd > dtStart) //正確直接執行以下
                 {
-                    dtEnd = new DateTime(dtEnd.AddDays(-1).Year, dtEnd.AddDays(-1).Month, dtEnd.AddDays(-1).Day, 17, 00, 00);  //因為結束時間早於上班時間,所以要用前一天的下班時間來做計算
+                    dtEnd = new DateTime(dtEnd.AddDays(-1).Year, dtEnd.AddDays(-1).Month, dtEnd.AddDays(-1).Day, 17, 30, 00);  //因為結束時間早於上班時間,所以要用前一天的下班時間來做計算
                     if (IsWorkDay(dtEnd))
                     {
-                        dtLastDayGoToWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 08, 00, 0);//請假最後一天的上班時間
-                        dtLastDayGoOffWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 17, 00, 0);//請假最後一天的下班時間
+                        dtLastDayGoToWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 08, 30, 0);//請假最後一天的上班時間
+                        dtLastDayGoOffWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 17, 30, 0);//請假最後一天的下班時間
                         dtLastDayRestStart = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 12, 00, 0);//請假最後一天的午休開始時間
                         dtLastDayRestEnd = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 13, 00, 0);//請假最後一天的午休結束時間
                         break;
@@ -387,8 +369,8 @@ namespace AMS.Controllers
             var dd = db.Employees.Find(User).Hireday.Day;
             DateTime t1 = DateTime.Parse($"{t}-{dm}-{dd}");
             DateTime t2 = DateTime.Parse($"{t + 1}-{dm}-{dd}");
-            var a = (db.LeaveRequests.AsEnumerable().Where(n => (n.StartTime >= t1 && n.EndTime <= t2 && n.EmployeeID == User && n.LeaveType == "特休假"&&n.ReviewStatusID==2)).Sum(x => (x.EndTime.Date - x.StartTime.Date).Days - 1));
-            int Remain = Days() + a;
+            var a = (db.LeaveRequests.AsEnumerable().Where(n => (n.StartTime >= t1 && n.EndTime <= t2 && n.EmployeeID == User && n.LeaveType == "特休假"&&n.ReviewStatusID==2)).Sum(x => (x.EndTime.Date - x.StartTime.Date).Days));
+            int Remain = Days() - a;
             return Remain;
         }
         #endregion
@@ -526,7 +508,7 @@ namespace AMS.Controllers
                 string User = Convert.ToString(Session["UserName"]);  //從Session抓UserID
                 leaveRequests.LeaveRequestID = db.LeaveRequests.Count().ToString();
                 leaveRequests.EmployeeID = User;
-                leaveRequests.RequestTime = DateTime.Now;
+                leaveRequests.RequestTime = DateTime.Now.AddHours(8);
                 leaveRequests.ReviewStatusID = 1;
                 leaveRequests.LeaveReason = leaveR.LeaveReason;
 

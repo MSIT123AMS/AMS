@@ -513,13 +513,13 @@
 
         $(document).ready(function () {
             d = new Date();
-            $("#StartTime_leave_create").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "00");
+            $("#StartTime_leave_create").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "08" + ":" + "30");
         });
 
 
         $(document).ready(function () {
             d = new Date();
-            $("#EndTime_leave_create").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "18" + ":" + "00");
+            $("#EndTime_leave_create").val(d.getFullYear() + "-" + zeroPadded(d.getMonth() + 1) + "-" + zeroPadded(d.getDate()) + "T" + "17" + ":" + "30");
         });
         //////////以下是時間防呆
         TimeErrorProof($("#StartTime_leave_create"), $("#EndTime_leave_create"));

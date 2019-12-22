@@ -51,7 +51,7 @@ namespace AMS.Controllers
                 OnDuty = Attendances.OnDuty,
                 OffDuty = Attendances.OffDuty,
                 station = Attendances.station
-            });
+            }).OrderByDescending(p=>p.Date);
             int takefive;
 
             if (searchall.Count() <= 5)
@@ -79,7 +79,7 @@ namespace AMS.Controllers
             string EmployeeID = Convert.ToString(Session["UserName"]);
             DateTime FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);//////取每月第一天
             DateTime LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);//////取每月最後一天
-            var monthly_uncheck = db.Attendances.Where(p => p.Date >= FirstDay && p.Date <= LastDay && (p.station=="上班未打卡"||p.station=="下班未打卡"||p.station=="整日未打卡"));
+            var monthly_uncheck = db.Attendances.Where(p => p.Date >= FirstDay && p.Date <= LastDay && (p.station!=null)&&p.EmployeeID==EmployeeID);
             //var CountLeaveDays = db.LeaveRequests.Where(p => p.EmployeeID == EmployeeID && p.StartTime >= FirstDay && p.EndTime <= LastDay && p.ReviewStatusID == 2);
             int sum = monthly_uncheck.Count();
             return sum;
@@ -126,11 +126,8 @@ namespace AMS.Controllers
                 OnDuty = Attendances.OnDuty,
                 OffDuty = Attendances.OffDuty,
                 station = Attendances.station
-            }).Where(p => p.Date >= FirstDay && p.Date <= LastDay && (p.station == "上班未打卡" || p.station == "下班未打卡" || p.station == "整日未打卡"));
-            ViewBag.show_uncheck = monthly_uncheck();
-            ViewBag.show_dutyDays = AttendanceDays();
-            ViewData["show_uncheck"] = monthly_uncheck();
-            ViewData["show_dutyDays"] = AttendanceDays();
+            }).Where(p => p.Date >= FirstDay && p.Date <= LastDay && (p.station == "上班未打卡" || p.station == "下班未打卡" || p.station == "整日未打卡")).OrderByDescending(p=>p.Date);         
+         
             System.Web.HttpContext.Current.Session["show_uncheck"]= monthly_uncheck();
             System.Web.HttpContext.Current.Session["show_dutyDays"] = AttendanceDays();
             return PartialView("_SerchAttendances", query);
