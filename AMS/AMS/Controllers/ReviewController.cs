@@ -293,9 +293,9 @@ namespace AMS.Controllers
                 {
                     LeaveRequests leaveRequests = db.LeaveRequests.Find(item);
                     leaveRequests.ReviewStatusID = 2;
-                    leaveRequests.ReviewTime = DateTime.Now;
+                    leaveRequests.ReviewTime = DateTime.Now.AddHours(8);
                     db.SaveChanges();
-                }
+                } 
             }
             TempData["Status"] ="UpdateSuccess";
             return RedirectToAction("Index","Review",new { type = 1, status = 1,month=-1 });
@@ -310,7 +310,7 @@ namespace AMS.Controllers
                 {
                     OverTimeRequest overTimeRequests = db.OverTimeRequest.Find(item);
                     overTimeRequests.ReviewStatusID = 2;
-                    overTimeRequests.ReviewTime = DateTime.Now;
+                    overTimeRequests.ReviewTime = DateTime.Now.AddHours(8);
                     db.SaveChanges();
                 }
             }
