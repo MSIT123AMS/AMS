@@ -797,6 +797,17 @@
 
 
     ///////////////////////正//////////////////////
+        function GetMonthStatisticsByMonth() {
+    $.ajax({
+        type: "GET",
+        url: "@Url.Action("GetMonthStatisticsByMonth", "Employees")/" + $('#ComboBxMonth').val(),
+    }).done(function (result) {
+        $("#Employeestable").html(result);
+        changeT();
+
+        }).fail(function (e) { SweetAlert(e.responseText) });
+
+}
     function GetDailyStatistics() {
         $.ajax({
             type: "GET",

@@ -996,6 +996,7 @@
     <Content Include="App_Data\NationalHoliday.json" />
     <None Include="Properties\PublishProfiles\ams123 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\AMS20191108010909 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\HYAMSMSIT - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\msit123ams - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\MSITAMS123 - Web Deploy1.pubxml" />
@@ -1162,6 +1163,7 @@
     <Content Include="Views\Review\LeaveViewMobile.cshtml" />
     <Content Include="Views\Review\OverTimeViewMobile.cshtml" />
     <Content Include="Views\Review\SubmitViewMobile.cshtml" />
+    <Content Include="Views\Manage\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -204,7 +204,7 @@
                     @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
 
 
-                    <input type="file" name="empFile" id="empFile" accept="image/*" />
+                    <input type="file" name="empFile" id="empFile" accept="image/*" onchange="readURL(this)" />
 
                 </div>
 

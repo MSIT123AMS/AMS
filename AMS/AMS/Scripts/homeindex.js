@@ -200,8 +200,6 @@ function EmpCreatDemo() {
     $('#DepartmentName').val('人資部');
     $('#Manager').val('楊毅賢');
     $('#Hireday').val("2017-11-01");
-    $('#Deputy').val('火車煇');
-    $('#DeputyPhone').val('0978885667');
     $('#Notes').val('無');
 
 
@@ -249,15 +247,15 @@ function EmployeesPageAjax(PageUrl, sta) {
 
         switch (sta) {
             case 'creat':
-                $("#empFile").bind("change", function () {
-                    readURL(this);
-                });
+                //$("#empFile").bind("change", function () {
+                //    readURL(this);
+                //});
                 break;
             case 'edit':
                 {
-                    $("#empFile").bind("change", function () {
-                        readURL(this);
-                    });
+                    //$("#empFile").bind("change", function () {
+                    //    readURL(this);
+                    //});
                     break;
                 }
             case 'details':
@@ -379,32 +377,80 @@ function SaveFormDataUseAjaxPost2(AjaxUrl) {
 
 ///post
 function SaveFormDataUseAjaxPost3(AjaxUrl) {
-    let myForm = document.querySelector("#FormData");
-    var validator = $("#FormData").validate({
-        debug: true
-    }
-    );
-    console.log(validator);
-    let data = new FormData(myForm);
-    //data.append("DepartmentID","2");
-    let files = $("#empFile").get(0).files;
-    if (files.length > 0) {
-        data.append("Photo", files[0]);
-    }
-    $.ajax({
-        url: AjaxUrl,
-        type: "POST",
-        contentType: false,         // 告诉jQuery不要去這置Content-Type
-        processData: false,         // 告诉jQuery不要去處理發送的數據
-        dataType: "html",
-        data: data,
-        //data: {"EmployeeID": EmployeeID.value,},
-    }).done(function (result) {
-        $("#mainpanel").html(result);
-        IndexEventFunction();
-        SuccessSweetAlert('成功');
+    swal({
+        title: '確定要送出這筆資料嗎?',
+        //text: "You won't be able to revert this!",
+        type: 'warning',
+        buttons: {
+            confirm: {
+                text: '確定',
+                className: 'btn btn-success'
+            },
+            cancel: {
+                text: '取消',
+                visible: true,
+                className: 'btn btn-danger'
+            }
+        }
+    }).then((Delete) => {
+        if (Delete) {
+            let myForm = document.querySelector("#FormData");
+            var validator = $("#FormData").validate({
+                debug: true
+            }
+            );
+            console.log(validator);
+            let data = new FormData(myForm);
+            //data.append("DepartmentID","2");
+            let files = $("#LeaveFile").get(0).files;
+            if (files.length > 0) {
+                data.append("Attachment", files[0]);
+            }
+            $.ajax({
+                url: AjaxUrl,
+                type: "POST",
+                contentType: false,         // 告?jQuery不要去這置Content-Type
+                processData: false,         // 告?jQuery不要去處理發送的數據
+                dataType: "json",
+                data: data,
+                //data: {"EmployeeID": EmployeeID.value,},
+            }).done(function (result) {
 
-    }).fail(function (e) { SweetAlert("驗證失敗") });
+
+                let myForm = document.querySelector("#FormData");
+                var validator = $("#FormData").validate({
+                    debug: true
+                }
+                );
+                console.log(validator);
+                let data = new FormData(myForm);
+                //data.append("DepartmentID","2");
+                let files = $("#empFile").get(0).files;
+                if (files.length > 0) {
+                    data.append("Photo", files[0]);
+                }
+                $.ajax({
+                    url: AjaxUrl,
+                    type: "POST",
+                    contentType: false,         // 告诉jQuery不要去這置Content-Type
+                    processData: false,         // 告诉jQuery不要去處理發送的數據
+                    dataType: "html",
+                    data: data,
+                    //data: {"EmployeeID": EmployeeID.value,},
+                }).done(function (result) {
+                    $("#mainpanel").html(result);
+                    IndexEventFunction();
+                    SuccessSweetAlert('成功');
+
+                }).fail(function (e) { SweetAlert("驗證失敗") });
+            }).fail(function (e) { SweetAlert("此日期已申請過, 請先確認日期") }
+            );
+        } else {
+            swal.close();
+        }
+    });
+
+
 
 }
 
