@@ -3,7 +3,7 @@
     ViewBag.Title = "Index";
 }
 
-<div class="page-inner">
+
     <div style="background-color:#91989F">
         <h1>
             <span hidden class="badge" style="color:#FFFFFB">審核明細查詢</span>@*|*@
@@ -11,7 +11,7 @@
             <span hidden id="Month">@TempData["Month"]</span>@*Month|*@
             <span hidden id="RequestType">@TempData["RequestType"]</span>@*requestType*@
 
-            <span  class="badge" style="color:#FFFFFB">
+            <span class="badge" style="color:#FFFFFB">
                 @if (@TempData["ReviewStatus"].ToString() == "1")
                 {
                     <span>未審核明細</span>;
@@ -29,50 +29,49 @@
                 {
                     <span> |加班</span>
                 }
-           </span>
+            </span>
         </h1>
 
     </div>
 
     <div id="ddlemp" class="col-sm-2">   </div>
+    <div class="card-header">
 
 
-
-    @if (@TempData["ReviewStatus"].ToString() == "2")
-    {
-        <div class="form-control " style="display: flex;width:100%;justify-content: space-between;font-size:20px">
-            <span style="margin:10px">
-                <span>申請項目:</span>
-                <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked /><label for="1">休假</label>
-                <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
-            </span>
-            <span>
-                <button id="prevMonth" style="background-color:#5DAC81;color:#FFFFFB;margin:10px">&laquo;上個月</button>
-                <button id="nextMonth" style="background-color:#5DAC81;color:#FFFFFB;margin:10px">下個月&raquo;	</button>
-            </span>
-        </div>
-
-
-    }
-    else
-    {
-        <div class="form-control " style="display: flex;width:100%;justify-content: space-between;font-size:20px">
-            <span style="margin:10px">
-                <span>申請項目:</span>
-                <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked /><label for="1">休假</label>
-                <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
-            </span>
-            <button id="submit" class="btn btn-search md-3" style="background-color:#5DAC81;color:#FFFFFB;margin-left:10px">
-                <i class="icon-check"></i><span>
-                    <strong>勾選核准</strong>
+        @if (@TempData["ReviewStatus"].ToString() == "2")
+        {
+            <div @*class="form-control "*@ style="display: flex;width:100%;justify-content: space-between;font-size:20px">
+                <span style="margin:10px">
+                    <span>申請項目:</span>
+                    <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked /><label for="1">休假</label>
+                    <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
                 </span>
-            </button>
-        </div>
-    }
+                <span>
+                        <button id="prevMonth" class="btn btn-search md-3" style="background-color:#5DAC81;color:#FFFFFB;margin-left:10px">&laquo;上個月</button>
+                        <button id="nextMonth" class="btn btn-search md-3" style="background-color:#5DAC81;color:#FFFFFB;margin-left:10px">下個月&raquo;	</button>
+                </span>
+            </div>
 
-</div>
 
-<script>
+        }
+        else
+        {
+            <div @*class="form-control "*@ style="display: flex;width:100%;justify-content: space-between;font-size:20px">
+                <span style="margin:10px">
+                    <span>申請項目:</span>
+                    <input style="margin:5px" type="radio" name="RequestType" value="1" id="1" checked /><label for="1">休假</label>
+                    <input style="margin:5px" type="radio" name="RequestType" value="3" id="3" /><label for="3">加班</label>
+                </span>
+                <button id="submit" class="btn btn-search md-3" style="background-color:#5DAC81;color:#FFFFFB;margin-left:10px">
+                    <i class="icon-check"></i><span>
+                        <strong>勾選核准</strong>
+                    </span>
+                </button>
+            </div>
+        }
+
+    </div>
+    <script>
     $("input[name='RequestType']").change(change_radioButton);
     $("#CheckAll").click(checkAll_click);
     $("#prevMonth").click(change_radioButton);
@@ -171,5 +170,5 @@
     //    alert('a');
     //}
 
-</script>
+    </script>
 

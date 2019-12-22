@@ -293,7 +293,7 @@ namespace AMS.Controllers
                 {
                     LeaveRequests leaveRequests = db.LeaveRequests.Find(item);
                     leaveRequests.ReviewStatusID = 2;
-                    leaveRequests.ReviewTime = DateTime.Now;
+                    leaveRequests.ReviewTime = DateTime.Now.AddHours(8);
                     db.SaveChanges();
                 }
             }
@@ -310,7 +310,7 @@ namespace AMS.Controllers
                 {
                     OverTimeRequest overTimeRequests = db.OverTimeRequest.Find(item);
                     overTimeRequests.ReviewStatusID = 2;
-                    overTimeRequests.ReviewTime = DateTime.Now;
+                    overTimeRequests.ReviewTime = DateTime.Now.AddHours(8);
                     db.SaveChanges();
                 }
             }
