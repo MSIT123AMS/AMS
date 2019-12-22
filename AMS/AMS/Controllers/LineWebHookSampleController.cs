@@ -166,7 +166,7 @@ namespace WebApplication5.Controllers
   }},
   ""hero"": {{
     ""type"": ""image"",
-    ""url"": ""https://msit123ams.azurewebsites.net/Img/linelocatiom.png"",
+    ""url"": ""https://hyamsmsit.azurewebsites.net/Img/linelocatiom.png"",
     ""size"": ""full"",
     ""aspectRatio"": ""20:13"",
     ""aspectMode"": ""cover"",

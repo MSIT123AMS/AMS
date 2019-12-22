@@ -19,11 +19,11 @@ namespace AMS.Controllers
     {
 
         // Replace <Subscription Key> with your valid subscription key.
-        const string subscriptionKey = "f942adb1d3be496385c3bb82e9224c7d";
+        const string subscriptionKey = "96e819cdb80b4a61b90ed5c5a3b54924";
 
         // replace <myresourcename> with the string found in your endpoint URL
         const string uriBase =
-            "https://msitamsfaceapi.cognitiveservices.azure.com/face/v1.0/detect";
+            "https://hyamsface.cognitiveservices.azure.com/face/v1.0/detect";
 
         //static void Main(string[] args)
         //{
@@ -200,7 +200,7 @@ namespace AMS.Controllers
             // Request headers
             client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", subscriptionKey);
 
-            var uri = "https://msitamsfaceapi.cognitiveservices.azure.com/face/v1.0/verify?";
+            var uri = "https://hyamsface.cognitiveservices.azure.com/face/v1.0/verify?";
 
             HttpResponseMessage response;
 
