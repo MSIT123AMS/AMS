@@ -295,7 +295,7 @@ namespace AMS.Controllers
                     leaveRequests.ReviewStatusID = 2;
                     leaveRequests.ReviewTime = DateTime.Now.AddHours(8);
                     db.SaveChanges();
-                }
+                } 
             }
             TempData["Status"] ="UpdateSuccess";
             return RedirectToAction("Index","Review",new { type = 1, status = 1,month=-1 });
