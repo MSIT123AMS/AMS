@@ -341,7 +341,6 @@
           <EntitySet Name="WorkingDaySchedule" EntityType="Self.WorkingDaySchedule" />
           <EntitySet Name="LeaveRequests" EntityType="Model.LeaveRequests" />
           <EntitySet Name="Employees" EntityType="Model.Employees" />
-          <EntitySet Name="Attendances" EntityType="Model.Attendances" />
           <EntitySet Name="Annouuncements" EntityType="Model.Annouuncements" />
           <EntitySet Name="AspNetRoles" EntityType="Model.AspNetRoles" />
           <EntitySet Name="AspNetUserClaims" EntityType="Model.AspNetUserClaims" />
@@ -359,6 +358,7 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Attendances" EntityType="Model.Attendances" />
         </EntityContainer>
         <EntityType Name="LeaveRequests">
           <Key>
@@ -412,18 +412,6 @@
           <Property Name="Detail" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Importance" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="AnnounceTime" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="Attendances">
-          <Key>
-            <PropertyRef Name="EmployeeID" />
-            <PropertyRef Name="Date" />
-          </Key>
-          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="OnDuty" Type="DateTime" Precision="3" />
-          <Property Name="station" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="OffDuty" Type="DateTime" Precision="3" />
-          <Property Name="savehours" Type="Int32" />
         </EntityType>
         <EntityType Name="AspNetRoles">
           <Key>
@@ -506,6 +494,18 @@
           <End Type="Model.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
           <End Type="Model.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
         </Association>
+        <EntityType Name="Attendances">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="EmployeeID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OnDuty" Type="DateTime" Precision="3" />
+          <Property Name="station" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="OffDuty" Type="DateTime" Precision="3" />
+          <Property Name="savehours" Type="Int32" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -632,18 +632,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Attendances">
-            <EntityTypeMapping TypeName="Model.Attendances">
-              <MappingFragment StoreEntitySet="Attendances">
-                <ScalarProperty Name="savehours" ColumnName="savehours" />
-                <ScalarProperty Name="OffDuty" ColumnName="OffDuty" />
-                <ScalarProperty Name="station" ColumnName="station" />
-                <ScalarProperty Name="OnDuty" ColumnName="OnDuty" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="Model.AspNetRoles">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -697,6 +685,18 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="Model.Attendances">
+              <MappingFragment StoreEntitySet="Attendances">
+                <ScalarProperty Name="savehours" ColumnName="savehours" />
+                <ScalarProperty Name="OffDuty" ColumnName="OffDuty" />
+                <ScalarProperty Name="station" ColumnName="station" />
+                <ScalarProperty Name="OnDuty" ColumnName="OnDuty" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

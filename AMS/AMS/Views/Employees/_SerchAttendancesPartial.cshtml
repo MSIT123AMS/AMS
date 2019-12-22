@@ -21,32 +21,32 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmployeeName)
-            </td>
-            @if (item.Date =="沒打卡")
-            {
-                <td class = "text-danger" >
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-            }
-            else
-            {
+            <tr class="table-light">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
                 </td>
-            }
+                @if (item.Date == "沒打卡")
+                {
+                    <td class="text-danger">
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date)
+                    </td>
+                }
 
-            <td>
-                @Html.DisplayFor(modelItem => item.StartTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndTime)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
 
 
-        </tr>
+            </tr>
         }
     </tbody>
 </table>

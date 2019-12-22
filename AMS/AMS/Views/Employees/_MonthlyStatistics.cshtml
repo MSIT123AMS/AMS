@@ -24,7 +24,7 @@
                     <div class="card-header row form-group">
                         <label class=" control-label" style="font-size:20px;margin-left:20px">查詢時間</label>
                         <div class="col-md-2 col-sm-4">
-                            <select id="ComboBxMonth" class="form-control">
+                            <select id="ComboBxYear" class="form-control">
                                 <option value="2015">2015</option>
                                 <option value="2016">2016</option>
                                 <option value="2017">2017</option>
@@ -34,7 +34,7 @@
                         </div>
                         <label class=" control-label" style="font-size:20px;margin-left:20px">年</label>
                         <div id="ddlemp" class="col-md-2 col-sm-4">
-                            <select id="ComboBxMonth" class="form-control">
+                            <select id="ComboBxMonth" class="form-control" >
                                 <option value="1">1月份</option>
                                 <option value="2" >2月份</option>
                                 <option value="3">3月份</option>
@@ -51,7 +51,7 @@
                         </div>
                         <label class=" control-label" style="font-size:20px;margin-left:20px">月</label>
                         <div class="col-md-2 col-sm-4 noprint">
-                            <button id="Button1" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB">
+                            <button id="Button1" type="button" class="btn btn-search" style="background-color:#787D7B;font-family:'Microsoft JhengHei';color:#FFFFFB" onclick="GetMonthStatisticsByMonth()">
                                 <i class="fa fa-search fa-fw"></i><span>
                                     <strong>搜尋</strong>
                                 </span>

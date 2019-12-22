@@ -189,7 +189,7 @@
                 @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
 
 
-                <input type="file" name="empFile" id="empFile" accept="image/*" multiple="multiple" />
+                <input type="file" name="empFile" id="empFile" accept="image/*" multiple="multiple" onchange="readURL(this)" />
             </div>
 
         </div>
@@ -205,7 +205,7 @@
                             <strong>返回</strong>
                         </span>
                     </button>
-                    <button type="submit" class="btn btn-search" style="background-color:#787D7B;color:#FFFFFB;margin-right:50px" onclick="SaveFormDataUseAjaxPost3('@Url.Action("Create","Employees")')">
+                    <button type="button" class="btn btn-search" style="background-color:#787D7B;color:#FFFFFB;margin-right:50px" onclick="SaveFormDataUseAjaxPost('@Url.Action("Create","Employees")')">
                         <i class="flaticon-add"></i><span>
                             <strong>新增</strong>
                         </span>
