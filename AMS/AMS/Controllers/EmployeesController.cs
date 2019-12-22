@@ -14,6 +14,7 @@ using System.Diagnostics;
 
 using System.Collections;
 using WebApplication5.Controllers;
+using NPOI.SS.Formula.Functions;
 
 namespace AMS.Controllers
 {
@@ -825,14 +826,13 @@ namespace AMS.Controllers
         }
 
         [HttpGet]
-        public ActionResult MonthlyStatistics()
+        public async Task<ActionResult> MonthlyStatistics()
         {
-            var OT = (from ot in db.OverTimeRequest.AsEnumerable().Where(ot => ot.ReviewStatusID == 2)
+            var OT = (from ot in db.OverTimeRequest.AsEnumerable().Where(ot => ot.ReviewStatusID == 2 && ot.RequestTime.Month ==12)
                       join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
                       select new
                       {
                           EmployeeID = ot.EmployeeID,
-                          RequestTime = ot.RequestTime,
                           SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay,false),
                           //ot.OverTimePay
                       }).ToList();
@@ -858,8 +858,8 @@ namespace AMS.Controllers
                               EmployeeID = e.EmployeeID,
                               EmployeeName = e.EmployeeName,
                               DepartmentName = e.DepartmentName,
-                              WorkingDay = monthlyhours(),
-                              AttendanceDay = AttendanceDays(e.EmployeeID),
+                              WorkingDay = monthlyhours(DateTime.Now),
+                              AttendanceDay = AttendanceDays(e.EmployeeID, DateTime.Now),
                               WorkingDayHours = 0,
                               AttendanceDayHours = 0,
                               AttendanceRate = 0.00,
@@ -877,30 +877,88 @@ namespace AMS.Controllers
                 item.WorkingDayHours = item.WorkingDay * 8;
                 item.AttendanceDayHours = item.AttendanceDay * 8;
                 item.AttendanceRate = (item.AttendanceDay * 800) / (item.WorkingDay * 8);
-                item.LeaveDayHours = AllLeaveSun(item.EmployeeID);
+                item.LeaveDayHours = await AllLeaveSun(item.EmployeeID, DateTime.Now);
 
             }
 
             return PartialView("_MonthlyStatistics", query2);
         }
 
+        [HttpGet]
+        public async Task<ActionResult> GetMonthStatisticsByMonth(int id)
+        {
+            var OT = (from ot in db.OverTimeRequest.AsEnumerable().Where(ot => ot.ReviewStatusID == 2 && ot.RequestTime.Month==id)
+                      join date in db.WorkingDaySchedule.AsEnumerable() on ot.StartTime.Date equals date.Date
+                      select new
+                      {
+                          EmployeeID = ot.EmployeeID,
+                          SummaryTime = OvertimeObj.Summary(ot.StartTime, ot.EndTime, date.WorkingDay, false),
+                          //ot.OverTimePay
+                      }).ToList();
 
-        public int monthlyhours()////統計本月應到天數
+            var OT2 = OT.GroupBy(ot => ot.EmployeeID).Select(ot => new OverTimeHoursSumModel
+            {
+                EmployeeID = ot.Key,
+                Q = ot.Sum(o => double.Parse(o.SummaryTime))
+            }).ToList();
+
+            var query = db.Employees.AsEnumerable().Join(db.Departments, e => e.DepartmentID, d => d.DepartmentID, (e, d) => new
+            {
+                EmployeeID = e.EmployeeID,
+                EmployeeName = e.EmployeeName,
+                DepartmentName = d.DepartmentName,
+            }).ToList();
+            var query2 = (from e in query
+                          join d in OT2 on e.EmployeeID equals d.EmployeeID into ae
+                          from d in ae.DefaultIfEmpty()
+                              //where e.DepartmentID == id
+                          select new MonthlyStatisticsViewModel
+                          {
+                              EmployeeID = e.EmployeeID,
+                              EmployeeName = e.EmployeeName,
+                              DepartmentName = e.DepartmentName,
+                              WorkingDay = monthlyhours(new DateTime(2019, id, 01)),
+                              AttendanceDay = AttendanceDays(e.EmployeeID, new DateTime(2019, id, 01)),
+                              WorkingDayHours = 0,
+                              AttendanceDayHours = 0,
+                              AttendanceRate = 0.00,
+                              //LeaveDayHours = AllLeaveSun(e.EmployeeID),
+
+                              OverTimeHours = d == null ? null : d.Q,
+                          }).ToList();
+
+
+
+
+
+            foreach (var item in query2)
+            {
+                item.WorkingDayHours = item.WorkingDay * 8;
+                item.AttendanceDayHours = item.AttendanceDay * 8;
+                item.AttendanceRate = (item.AttendanceDay * 800) / (item.WorkingDay * 8);
+                item.LeaveDayHours = await AllLeaveSun(item.EmployeeID, new DateTime(2019, id, 01)); 
+            }
+
+            return PartialView("_MonthlyStatisticsListPartial", query2);
+        }
+
+
+        public int monthlyhours(DateTime month)////統計本月應到天數
         {
             string EmployeeID = Convert.ToString(Session["UserName"]);
-            DateTime FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);//////取每月第一天
-            DateTime LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);//////取每月最後一天
+            DateTime FirstDay = month.AddDays(-month.Day + 1);//////取每月第一天
+            DateTime LastDay = month.AddMonths(1).AddDays(-month.AddMonths(1).Day);//////取每月最後一天
             var monthly = db.WorkingDaySchedule.Where(p => p.Date >= FirstDay && p.Date <= LastDay && p.WorkingDay == "工作日");
             var CountLeaveDays = db.LeaveRequests.Where(p => p.EmployeeID == EmployeeID && p.StartTime >= FirstDay && p.EndTime <= LastDay && p.ReviewStatusID == 2);
             int sum = monthly.Count();
             return sum;
         }
 
-        public int AttendanceDays(string EmployeeID)////統計目前出勤天數
+        public int AttendanceDays(string EmployeeID, DateTime month)////統計目前出勤天數
         {
 
-            DateTime FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);//////取每月第一天
-            DateTime LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);//////取每月最後一天
+            DateTime FirstDay = month.AddDays(-month.Day + 1);//////取每月第一天
+            DateTime LastDay = month.AddMonths(1).AddDays(-month.AddMonths(1).Day);//////取每月最後一天
             var monthly = db.Attendances.Where(p => p.EmployeeID == EmployeeID && p.Date >= FirstDay && p.Date <= LastDay && p.station == null);
             int sum = monthly.Count();
             return sum;
@@ -941,44 +999,48 @@ namespace AMS.Controllers
         #endregion
 
         #region 算當月請假時數總和
-        public int AllLeaveSun(string User)
+        public async Task<int>  AllLeaveSun(string User, DateTime month)
         {
-          
+            
             //LeaveRequests L = new LeaveRequests();
             //var dbLeave = db.LeaveRequests;
             //var dbseday = db.LeaveRequests.AsEnumerable().ToList().Where(n => n.EmployeeID == User && ((n.StartTime.Month == DateTime.Now.Month) || (n.EndTime.Month == DateTime.Now.Month))).Sum(n => AllMonth(n.StartTime, n.EndTime));
 
             ////var All = dbLeave.Where(n => n.EmployeeID == User&&DateTime.Now.Year==n.StartTime);
+            int sum = 0;
+            var dbseday = db.LeaveRequests.AsEnumerable().Where(n => ((n.StartTime.Month == month.Month) || (n.EndTime.Month == month.Month)) && n.EmployeeID == User ).ToList();
+            foreach (var n in dbseday)
+            {
+                sum+= await AllMonth(n.StartTime, n.EndTime, month);
+            }
 
-            //dbseday = dbseday;
-
-            return db.LeaveRequests.AsEnumerable().ToList().Where(n => n.EmployeeID == User && ((n.StartTime.Month == DateTime.Now.Month) || (n.EndTime.Month == DateTime.Now.Month))).Sum(n => AllMonth(n.StartTime, n.EndTime));
+            return sum;
         }
         #endregion
 
         #region 算當月請假時數總和
-        public int AllMonth(DateTime start, DateTime end)
+        public async Task<int> AllMonth(DateTime start, DateTime end, DateTime month)
         {
 
-            if ((start.Month == DateTime.Now.Month) && (end.Month == DateTime.Now.Month))  //開始時間和結束時間的月份都等於當月份
+            if ((start.Month == month.Month) && (end.Month == month.Month))  //開始時間和結束時間的月份都等於當月份
             {
-                var sum = GetLeaveDay(start, end);
+                var sum = await GetLeaveDay(start, end);
                 return sum;
 
             }
-            else if ((start.Month < DateTime.Now.Month) && (end.Month == DateTime.Now.Month))//開始時間小於當月份，結束時間等於當月
+            else if ((start.Month <month.Month) && (end.Month ==month.Month))//開始時間小於當月份，結束時間等於當月
             {
-                var FirstDay = DateTime.Now.AddDays(-DateTime.Now.Day + 1);
+                var FirstDay =month.AddDays(-month.Day + 1);
                 var yesday = DateTime.Parse($"{FirstDay.Year}-{FirstDay.Month}-{FirstDay.Day} 08:30:00");
-                var sum = GetLeaveDay(yesday, end);
+                var sum = await GetLeaveDay(yesday, end);
                 return sum;
 
             }
-            else if ((start.Month == DateTime.Now.Month) && (end.Month > DateTime.Now.Month))//開始時間等於當月，結束時間大於當月份
+            else if ((start.Month ==month.Month) && (end.Month >month.Month))//開始時間等於當月，結束時間大於當月份
             {
-                var LastDay = DateTime.Now.AddMonths(1).AddDays(-DateTime.Now.AddMonths(1).Day);
+                var LastDay =month.AddMonths(1).AddDays(-month.AddMonths(1).Day);
                 var yesday = DateTime.Parse($"{LastDay.Year}-{LastDay.Month}-{LastDay.Day} 17:30:00");
-                var sum = GetLeaveDay(end, yesday);
+                var sum = await GetLeaveDay(end, yesday);
 
                 return sum;
             }
@@ -1013,18 +1075,23 @@ namespace AMS.Controllers
 
 
         #region 判斷是否為補休假
-        public int SumLeave()
+        public async Task<int> SumLeaveAsync()
         {
             string User = Convert.ToString(Session["UserName"]);
 
-
-            var aa = db.LeaveRequests.AsEnumerable().Where(n => n.EmployeeID == User && n.LeaveType == "補休假").ToList().Sum(n => GetLeaveDay(n.StartTime, n.EndTime));
+            int sum = 0;
+            var aa = db.LeaveRequests.AsEnumerable().Where(n => n.EmployeeID == User && n.LeaveType == "補休假").ToList();
+  
+            foreach (var n in aa)
+            {
+                sum += await GetLeaveDay(n.StartTime, n.EndTime);
+            }
             //foreach(var item in aa)
             //{
             //    sumleave+=GetLeaveDay(item.StartTime, item.EndTime);
 
             //}
-            return aa;
+            return sum;
         }
         #endregion
 
@@ -1034,7 +1101,7 @@ namespace AMS.Controllers
         /// </summary>
         /// <param name="date">時間</param>
         /// <returns>true：工作 | flase:休息</returns>
-        public bool IsWorkDay(DateTime date)
+        public async Task< bool> IsWorkDay(DateTime date)
         {
 
             var Workday = db.WorkingDaySchedule.AsEnumerable().Where(n => n.Date == date).Select(n => n.WorkingDay).FirstOrDefault();//今年的工作假期table
@@ -1055,7 +1122,7 @@ namespace AMS.Controllers
         ///上班時間 08:00~17:00
         ///中午時間 12:00~13:00
 
-        public int GetLeaveDay(DateTime dtStart, DateTime dtEnd)
+        public async Task<int>GetLeaveDay(DateTime dtStart, DateTime dtEnd)
         {
 
             DateTime dtFirstDayGoToWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 08, 00, 0);//請假第一天的上班時間
@@ -1087,7 +1154,7 @@ namespace AMS.Controllers
                 while (dtStart < dtEnd) //正確繼續做  因為請假開始晚於當天下班所以new一個隔天新的隔天8點開始請假
                 {
                     dtStart = new DateTime(dtStart.AddDays(1).Year, dtStart.AddDays(1).Month, dtStart.AddDays(1).Day, 08, 30, 00);    //隔日的早上八點開始上班=請假時間重上班開始算
-                    if (IsWorkDay(dtStart))
+                    if (await IsWorkDay(dtStart))
                     {
                         dtFirstDayGoToWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 08, 30, 00);//請假第一天的上班时间
                         dtFirstDayGoOffWork = new DateTime(dtStart.Year, dtStart.Month, dtStart.Day, 17, 30, 00);//請假第一天的下班时间
@@ -1108,7 +1175,7 @@ namespace AMS.Controllers
                 while (dtEnd > dtStart) //正確直接執行以下
                 {
                     dtEnd = new DateTime(dtEnd.AddDays(-1).Year, dtEnd.AddDays(-1).Month, dtEnd.AddDays(-1).Day, 17, 30, 00);  //因為結束時間早於上班時間,所以要用前一天的下班時間來做計算
-                    if (IsWorkDay(dtEnd))
+                    if (await IsWorkDay(dtEnd))
                     {
                         dtLastDayGoToWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 08, 30, 0);//請假最後一天的上班時間
                         dtLastDayGoOffWork = new DateTime(dtEnd.Year, dtEnd.Month, dtEnd.Day, 17, 30, 0);//請假最後一天的下班時間
@@ -1155,8 +1222,8 @@ namespace AMS.Controllers
             for (int i = 0; i < countday; i++)
             {
                 DateTime tempdt = dtStart.Date.AddDays(i);
-                bool a = IsWorkDay(tempdt);
-                if (IsWorkDay(tempdt))
+                bool a = await IsWorkDay(tempdt);
+                if (await IsWorkDay(tempdt))
                     leaveday++;
             }
 

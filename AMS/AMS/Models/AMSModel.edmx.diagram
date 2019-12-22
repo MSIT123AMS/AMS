@@ -14,7 +14,6 @@
         <EntityTypeShape EntityType="Model.LeaveRequests" Width="1.5" PointX="8" PointY="0.75" />
         <EntityTypeShape EntityType="Model.Employees" Width="1.5" PointX="5" PointY="0.625" />
         <EntityTypeShape EntityType="Model.Annouuncements" Width="1.5" PointX="1.875" PointY="0.875" />
-        <EntityTypeShape EntityType="Model.Attendances" Width="1.5" PointX="7.375" PointY="7.75" />
         <EntityTypeShape EntityType="Model.AspNetRoles" Width="1.5" PointX="9.375" PointY="6.5" />
         <EntityTypeShape EntityType="Model.AspNetUserClaims" Width="1.5" PointX="13.875" PointY="5" />
         <EntityTypeShape EntityType="Model.AspNetUserLogins" Width="1.5" PointX="13.875" PointY="7.75" />
@@ -22,6 +21,7 @@
         <AssociationConnector Association="Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="Model.AspNetUserRoles" />
+        <EntityTypeShape EntityType="Model.Attendances" Width="1.5" PointX="7.375" PointY="9.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

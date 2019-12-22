@@ -10,8 +10,9 @@ namespace AMS.Controllers
         public string EmployeeID { get; set; }
         [Display(Name = "姓名")]
         public string EmployeeName { get; set; }
-        [Display(Name = "工作日")]
+        [Display(Name = "部門")]
         public string DepartmentName { get; set; }
+        [Display(Name = "工作日")]
         public int WorkingDay { get; set; }
         [Display(Name = "出勤日")]
         public int AttendanceDay { get; set; }

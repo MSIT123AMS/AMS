@@ -3,7 +3,7 @@
 
 <table id="basic-datatables" class="display table table-striped table-hover">
     <thead class="bg-primary text-light">
-        <tr>
+        <tr >
             <th>
                 @Html.DisplayNameFor(model => model.EmployeeName)
             </th>
@@ -22,7 +22,7 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="table-light">
                 <td>
                     @Html.DisplayFor(modelItem => item.EmployeeName)
                 </td>
