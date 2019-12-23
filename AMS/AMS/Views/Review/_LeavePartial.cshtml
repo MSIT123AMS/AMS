@@ -3,13 +3,13 @@
     <div class="page-inner">
         <div class="card">
 
-            @Html.Partial("_ReviewIndex");
+            @Html.Partial("_ReviewIndex")
 
 
             <div class="card-body">
                 @if (TempData["ReviewStatus"].ToString() == "2")
                 {
-                    @Html.Partial("_ChartView");
+                    @Html.Partial("_ChartView")
                 }
 
                 @*@ @using (Html.BeginForm("EditLeave", "Review"))*@
@@ -49,9 +49,26 @@
                                 </th>
 
                                 @*<th>
-                                    @Html.DisplayNameFor(model => model.ReviewStatus)
-                                </th>*@
-                                <th></th>
+                                        @Html.DisplayNameFor(model => model.ReviewStatus)
+                                    </th>*@
+                                @if (@TempData["ReviewStatus"].ToString() == "1")
+                                {
+                                    <th>
+                                        核准
+                                    </th>
+                                    <th>
+                                        駁回
+                                    </th>
+                                    <th>
+                                        明細
+                                    </th>
+                                }
+                                else
+                                {
+                                    <th>
+                                        明細
+                                    </th>
+                                }
                             </tr>
                         </thead>
                         <tbody>
@@ -84,23 +101,31 @@
                                         @Html.DisplayFor(modelItem => item.LeaveReason)
                                     </td>
                                     @*<td>
-                                        @Html.DisplayFor(modelItem => item.ReviewStatusID)
-                                    </td>*@
+                                            @Html.DisplayFor(modelItem => item.ReviewStatusID)
+                                        </td>*@
                                     @*<td>
-                                        @Html.DisplayFor(modelItem => item.ReviewStatus)
-                                    </td>*@
-                                    <td style="white-space:nowrap">
-                                        @if (@TempData["ReviewStatus"].ToString() == "1")
-                                        {
+                                            @Html.DisplayFor(modelItem => item.ReviewStatus)
+                                        </td>*@
+
+                                    @if (@TempData["ReviewStatus"].ToString() == "1")
+                                    {
+                                        <td style="white-space:nowrap">
                                             <a id="approve" style="margin: 10px"><i style="color:#71BF50" class="far fa-check-circle fa-2x"></i></a>
+                                        </td>
+                                        <td style="white-space:nowrap">
                                             <a id="reject" style="margin: 10px" href="@Url.Action("Reject", new { id = item.LeaveRequestID })"><i style="color:#D46934" class="far fa-times-circle fa-2x"></i></a>
+                                        </td>
+                                        <td style="white-space:nowrap">
                                             <a id="detail" style="margin: 10px" value=item.LeaveRequestID><i class="far fa-list-alt fa-2x"></i></a>
-                                        }
-                                        else
-                                        {
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td style="white-space:nowrap">
                                             <a id="detail" style="margin: 10px" value=item.LeaveRequestID><i class="far fa-list-alt fa-2x"></i></a>
-                                        }
-                                    </td>
+                                        </td>
+                                    }
+
                                 </tr>
                             }
                         </tbody>
@@ -110,5 +135,5 @@
         </div>
     </div>
 
-    </div>
+</div>
 

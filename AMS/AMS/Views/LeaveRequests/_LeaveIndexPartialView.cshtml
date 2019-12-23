@@ -7,11 +7,6 @@
         <thead class="text-light">
             <tr>
                 <th>
-                    <span>
-                        <strong>明細</strong>
-                    </span>
-                </th>
-                <th>
                     @Html.DisplayNameFor(model => model.LeaveRequestID)
                 </th>
                 <th>
@@ -31,8 +26,8 @@
                 </th>
 
                 @*<th>
-                        @Html.DisplayNameFor(model => model.LeaveReason)
-                    </th>*@
+            @Html.DisplayNameFor(model => model.LeaveReason)
+        </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Review)
                 </th>
@@ -40,56 +35,58 @@
                     @Html.DisplayNameFor(model => model.ReviewTime)
                 </th>
                 @*<th>
-                        @Html.DisplayNameFor(model => model.Attachment)
-                    </th>*@
-
+            @Html.DisplayNameFor(model => model.Attachment)
+        </th>*@
+                <th>
+                    <span>
+                        <strong>明細</strong>
+                    </span>
+                </th>
 
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="table-light">
-                    <td>
+            <tr class="table-light">
 
-                        <button type="button" class="btn btn-sm" style="background-color:#DAC9A6;color:#3A3226" onclick="LeaveDetails(@item.LeaveRequestID)">
-                            <i class="icon-list"></i><span>
-                                <strong>明細</strong>
-                            </span>
-                        </button>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LeaveRequestID)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EmployeeName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LeaveType)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RequestTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.StartTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.EndTime)
-                    </td>
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.LeaveReason)
-                        </td>*@
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Review)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ReviewTime)
-                    </td>
-                    @*<td>
-                            @Html.Partial("_ShowPhotoPartial", item)
-                        </td>*@
-
-                </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveRequestID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequestTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndTime)
+                </td>
+                @*<td>
+            @Html.DisplayFor(modelItem => item.LeaveReason)
+        </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReviewTime)
+                </td>
+                @*<td>
+            @Html.Partial("_ShowPhotoPartial", item)
+        </td>*@
+                <td>
+                    <a id="detail" style="margin: 10px" value=item.LeaveRequestID  onclick="LeaveDetails(@item.LeaveRequestID)"><i class="far fa-list-alt fa-2x"></i></a>
+                    @*<button type="button" class="btn btn-sm" onclick="LeaveDetails(@item.LeaveRequestID)">
+                        <i class="far fa-list-alt fa-2x"></i>
+                    </button>*@
+                </td>
+            </tr>
             }
         </tbody>
     </table>

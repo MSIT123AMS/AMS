@@ -2,106 +2,139 @@
 
 
 <div id="Employeestable">
-    @Html.Partial("_ReviewIndex");
-    @if (@TempData["ReviewStatus"].ToString() == "2")
-    {
-        @Html.Partial("_ChartView");
-    }
-    @*@using (Html.BeginForm("EditOverTime", "Review"))*@
-    @using (Ajax.BeginForm("EditOverTime", "Review",new AjaxOptions {UpdateTargetId= "Employeestable" }))
-    {
-        <p hidden id="type"></p>
-        <table id="basic-datatables" class="display table table-striped table-hover">
+    <div class="page-inner">
+        <div class="card">
 
-            <thead class="bg-primary text-light">
-                <tr>
-                    @if (@TempData["ReviewStatus"].ToString() == "1")
-                    {
-                        <th>
-                            @Html.CheckBox("CheckBox", false, new { id = "CheckAll" })
-                            <span>
-                                <strong>全選</strong>
-                            </span>
-                        </th>
-                    }
-                        <th>
-                            @Html.DisplayNameFor(model => model.EmployeeName)
-                        </th>
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.OverTimePay)
-                        </th>*@
-                        <th>
-                            @Html.DisplayNameFor(model => model.StartTime)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.EndTime)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.RequestTime)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.OverTimeReason)
-                        </th>
-                        @*<th>
-                @Html.DisplayNameFor(model => model.ReviewStatusID)
-            </th>*@
-                        @*<th>
-                            @Html.DisplayNameFor(model => model.ReviewStatus)
-                        </th>*@
-                        <th></th>
-                    </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
+            @Html.Partial("_ReviewIndex")
+            <div class="card-body">
+                @if (@TempData["ReviewStatus"].ToString() == "2")
                 {
-                <tr class="table-light">
-                    @if (@TempData["ReviewStatus"].ToString() == "1")
-                    {
-                        <td>
-                            @Html.CheckBox("checkItem", false, new { value = item.OverTimeRequestID })
-                        </td>
-                    }
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EmployeeName)
-                        </td>
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.OverTimePay)
-                        </td>*@
-                        <td>
-                            @Html.DisplayFor(modelItem => item.StartTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.EndTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.RequestTime)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.OverTimeReason)
-                        </td>
-                        @*<td>
-                @Html.DisplayFor(modelItem => item.ReviewStatusID)
-            </td>*@
-                        @*<td>
-                            @Html.DisplayFor(modelItem => item.ReviewStatus)
-                        </td>*@
-                        <td style="white-space:nowrap">
-                            @if (@TempData["ReviewStatus"].ToString() == "1")
-                            {
-
-                                <a id="approve" style="margin: 10px"><i style="color:#71BF50" class="far fa-check-circle fa-2x"></i></a>
-                                <a id="reject" style="margin: 10px" href="@Url.Action("Reject",new { id = item.OverTimeRequestID })"><i style="color:#D46934" class="far fa-times-circle fa-2x"></i></a>
-                                <a id="detail" style="margin: 10px" value=item.LeaveRequestID><i class="far fa-list-alt fa-2x"></i></a>
-                            }
-                            else
-                            {
-                                <a id="detail" style="margin: 10px" value=item.LeaveRequestID><i class="far fa-list-alt fa-2x"></i></a>
-                            }
-                        </td>
-                    </tr>
+                    @Html.Partial("_ChartView")
                 }
-            </tbody>
-        </table>
-    }
+                @*@using (Html.BeginForm("EditOverTime", "Review"))*@
+                @using (Ajax.BeginForm("EditOverTime", "Review", new AjaxOptions { UpdateTargetId = "Employeestable" }))
+                {
+                    <p hidden id="type"></p>
+                    <table id="basic-datatables" class="display table table-striped table-hover">
 
+                        <thead class="bg-primary text-light">
+                            <tr>
+                                @if (@TempData["ReviewStatus"].ToString() == "1")
+                                {
+                                    <th>
+                                        @Html.CheckBox("CheckBox", false, new { id = "CheckAll" })
+                                        <span>
+                                            <strong>全選</strong>
+                                        </span>
+                                    </th>
+                                }
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EmployeeName)
+                                </th>
+                                @*<th>
+            @Html.DisplayNameFor(model => model.OverTimePay)
+        </th>*@
+                                <th>
+                                    @Html.DisplayNameFor(model => model.StartTime)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.EndTime)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.RequestTime)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OverTimeReason)
+                                </th>
+                                @*<th>
+            @Html.DisplayNameFor(model => model.ReviewStatusID)
+        </th>*@
+                                @*<th>
+            @Html.DisplayNameFor(model => model.ReviewStatus)
+        </th>*@
+
+                                @if (@TempData["ReviewStatus"].ToString() == "1")
+                                {
+                                    <th>
+                                        核准
+                                    </th>
+                                    <th>
+                                        駁回
+                                    </th>
+                                    <th>
+                                        明細
+                                    </th>
+                                }
+                                else
+                                {
+                                    <th>
+                                        明細
+                                    </th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="table-light">
+                                    @if (@TempData["ReviewStatus"].ToString() == "1")
+                                    {
+                                        <td>
+                                            @Html.CheckBox("checkItem", false, new { value = item.OverTimeRequestID })
+                                        </td>
+                                    }
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EmployeeName)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.OverTimePay)
+                                        </td>*@
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.StartTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EndTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RequestTime)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OverTimeReason)
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.ReviewStatusID)
+                                        </td>*@
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.ReviewStatus)
+                                        </td>*@
+
+                                    @if (@TempData["ReviewStatus"].ToString() == "1")
+                                    {
+                                        <td style="white-space:nowrap">
+                                            <a id="approve" style="margin: 10px"><i style="color:#71BF50" class="far fa-check-circle fa-2x"></i></a>
+                                        </td>
+                                        <td style="white-space:nowrap">
+                                            <a id="reject" style="margin: 10px" href="@Url.Action("Reject",new { id = item.OverTimeRequestID })"><i style="color:#D46934" class="far fa-times-circle fa-2x"></i></a>
+                                        </td>
+                                        <td style="white-space:nowrap">
+                                            <a id="detail" style="margin: 10px" value=item.LeaveRequestID><i class="far fa-list-alt fa-2x"></i></a>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td style="white-space:nowrap">
+                                            <a id="detail" style="margin: 10px" value=item.LeaveRequestID><i class="far fa-list-alt fa-2x"></i></a>
+                                        </td>
+                                    }
+
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+
+            </div>
+        </div>
+    </div>
 </div>
