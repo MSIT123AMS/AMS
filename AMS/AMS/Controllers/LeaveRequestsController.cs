@@ -90,6 +90,7 @@ namespace AMS.Controllers
 
          
         }
+
       // GET: LeaveRequests/Details/5
         public ActionResult Details(string id)
         {
