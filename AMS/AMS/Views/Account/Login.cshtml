@@ -117,11 +117,13 @@
 
                                                 <li>
                                                     <input class="styled-checkbox" id="styled-checkbox-2" type="checkbox" value="value2">
-                                                    <label for="styled-checkbox-2">remember password</label>
+                                                    <label for="styled-checkbox-2">記住密碼</label>
                                                 </li>
 
                                                 <li>
-                                                    <a href="#">Forgot email or password ?</a>
+                                                    
+                                                        <button type="button" id="empcreatdemo" onclick="LoginDemo()">DEMO</button>
+                                                    
                                                 </li>
 
                                             </ul>
@@ -135,11 +137,8 @@
 
                                         <input type="submit" value="登入" class="btn signin_btn">
 
+                                        
 
-                                        <p>
-                                            Don’t have an Account ?
-                                            <a href="signup.html">register</a>
-                                        </p>
                                     </div><!--/.signin-footer -->
                                 </div><!--/.col-->
                             </div><!--/.row -->
@@ -157,10 +156,7 @@
                                         <input id="btnlogin" type="button" value="登入" class="btn signin_btn">
 
 
-                                        <p>
-                                            Don’t have an Account ?
-                                            <a href="signup.html">register</a>
-                                        </p>
+                                       
                                     </div><!--/.signin-footer -->
                                 </div><!--/.col-->
                             </div><!--/.row -->
@@ -277,6 +273,13 @@
            
             aaaaa();
         });
+        function LoginDemo() {
+    $('#UserName').val('MSIT1230001');
+    $('#Password').val('MSIT123a@@');
+  
+
+
+}
         function aaaaa() {
             $("#UserName").val('X');
             $("#Password").val('X');

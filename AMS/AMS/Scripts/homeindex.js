@@ -186,16 +186,16 @@ function DepartmentCreatDemo() {
 function EmpCreatDemo() {
     $('#EmployeeID').val('MSIT1230040');
     $('#Password').val('MSIT123a@@');
-    $('#EmployeeName').val('郭智宇');
-    $('#EnglishName').val('SASUKE');
+    $('#EmployeeName').val('陳毅正');
+    $('#EnglishName').val('YiCheng');
     $('#Birthday').val("1990-12-01");
     $('#IDNumber').val('A129574428');
     $('#gender')[0].selectedIndex = 1;
     $('#Marital').val('未婚');
-    $('#Email').val('SASUKE@gmail.com');
+    $('#Email').val('SSSSS@gmail.com');
     $('#Address').val('台北市大安區復興南路一段390號');
     $('#Phone').val('0968775997');
-    $('#Education').val('台灣大學');
+    $('#Education').val('勤益科技大學');
     $('#JobTitle').val('員工');
     $('#DepartmentName').val('人資部');
     $('#Manager').val('楊毅賢');
@@ -204,6 +204,7 @@ function EmpCreatDemo() {
 
 
 }
+
 
 
 function EmployeeDetailsToEdit() {
