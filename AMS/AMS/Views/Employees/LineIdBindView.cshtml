@@ -43,6 +43,13 @@
             });
           
         });
+        function Linedemo() {
+            $('#employeeid').val('MSIT1230001');
+            $('#possword').val('MSIT123a@@');
+
+
+
+        }
     </script>
 }
 <body>
@@ -56,15 +63,16 @@
             <label>密碼:</label>
             <input class="form-control" type="text" id="possword" /><br />
             <button class="btn btn-primary" id="BtnSend">送出</button>
+            <button type="button" id="Linedemo" onclick="Linedemo()">DEMO</button>
 
 
             @*<label>QueryString:</label>
-                <input class="form-control" type="text" id="QueryString" /><br />
-                <button class="btn btn-primary" id="ButtonGetProfile">Get Profile</button>
-                <input class="form-control" type="text" id="UserInfo" /><br />
-                <label>要傳送的訊息:</label>*@
+        <input class="form-control" type="text" id="QueryString" /><br />
+        <button class="btn btn-primary" id="ButtonGetProfile">Get Profile</button>
+        <input class="form-control" type="text" id="UserInfo" /><br />
+        <label>要傳送的訊息:</label>*@
             @*<input class="form-control" type="text" id="msg" value="測試" /><br />
-                <button class="btn btn-primary" id="ButtonSendMsg">要傳送的訊息</button>*@
+        <button class="btn btn-primary" id="ButtonSendMsg">要傳送的訊息</button>*@
         </div>
     </div>
 </body>
