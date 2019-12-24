@@ -36,14 +36,23 @@ namespace AMS.Controllers
                 }
             }
 
-            //if (!await class1.MakeRequest())
-            //{
-            //    Debug.WriteLine("XXXX");
+            return Json("", JsonRequestBehavior.AllowGet);
 
-            //}
+        }
+
+        public async Task<ActionResult> GetFaceapiByEmployeeID(string EmployeeID)
+        {
+            //var q = db.Employees.Select(emp => new { emp.EmployeeID, emp.Photo });
+            var Photo = db.Employees.Where(emp =>  emp.EmployeeID== EmployeeID).FirstOrDefault().Photo;
 
 
-            return Json("",JsonRequestBehavior.AllowGet);
+           await class1.MakeAnalysisRequest(Photo, EmployeeID);
+
+
+
+
+
+            return RedirectToAction("Index");
         }
 
         //public async Task<ActionResult> GetFaceapiVerify(string id)
@@ -60,7 +69,7 @@ namespace AMS.Controllers
         //    }
 
 
-            
+
         //}
         [HttpPost]
         public async Task<ActionResult> LoginFace(string imageData)
@@ -790,6 +799,7 @@ namespace AMS.Controllers
             employees.DepartmentName = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().DepartmentName;
             employees.Manager = db.Departments.Where(e => e.DepartmentID == emp.DepartmentID).First().Manager;
 
+
             return PartialView("_EditPartial", employees);
        
 
@@ -866,9 +876,11 @@ namespace AMS.Controllers
 
                 db.Entry(employees).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("GetFaceapiByEmployeeID", "Employees", new { EmployeeID = emp.EmployeeID });
+             
 
             }
+            return RedirectToAction("Index");
             return View(emp);
 
         }
